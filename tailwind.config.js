@@ -5,13 +5,7 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {
-      colors: {
-        primary: "#E51937",
-        secondary: "#191919",
-        white: "#F8F8F8"
-      }
-    },
+    extend: {},
     container: {
       padding: {
         xs: "20px",
