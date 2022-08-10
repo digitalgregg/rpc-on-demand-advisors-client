@@ -46,7 +46,7 @@ function TourPage() {
                             </p>
 
                             <div className="flex gap-5 mb-[52px] justify-center">
-                                <button className="text-sm font-semibold text-center w-[158px] h-[44px] bg-[#E51937] border border-[#E51937] leading-[19.07px] rounded-[4px] sm:w-[154px]">
+                                <button className="text-sm font-semibold text-center w-[158px] h-[44px] bg-primary border border-primary leading-[19.07px] rounded-[4px] sm:w-[154px]">
                                     Try for Free
                                 </button>
                                 <button className="text-sm font-semibold text-center w-[158px] h-[44px] border border-white leading-[19.07px] rounded-[4px] sm:w-[183px]">
@@ -141,7 +141,7 @@ function TourPage() {
                                             >
                                                 {v.text}
                                                 {heroDropdownState == i && (
-                                                    <div className="absolute bottom-[-2px] z-10 w-full h-[3px] sm:bg-[#E51937]"></div>
+                                                    <div className="absolute bottom-[-2px] z-10 w-full h-[3px] sm:bg-primary"></div>
                                                 )}
                                             </div>
                                         ))}

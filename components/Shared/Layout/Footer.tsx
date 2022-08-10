@@ -123,7 +123,7 @@ const FooterIcon = () => {
                         type="text"
                         placeholder="Youremail@gmail.com"
                     />
-                    <button className=" ml-[3px] text-[#ffffff] text-sm leading-[19px] py-[10px] px-[11px] hover:bg-[#e51938e5] bg-[#e51937] rounded">
+                    <button className=" ml-[3px] text-[#ffffff] text-sm leading-[19px] py-[10px] px-[11px] hover:bg-[#e51938e5] bg-primary rounded">
                         Subscribe
                     </button>
                 </div>
@@ -137,22 +137,22 @@ const Footer = () => {
     const [dropDownMenuTwo, setDropDownMenuTwo] = useState(false);
     const [dropDownMenuThree, setDropDownMenuThree] = useState(false);
     const router = useRouter();
-    const dropDownMenuHandler = (index:number) => {
-        if(index === 1){
+    const dropDownMenuHandler = (index: number) => {
+        if (index === 1) {
             setDropDownMenuOne(!dropDownMenuOne);
             setDropDownMenuTwo(false);
             setDropDownMenuThree(false);
-        } 
-        if(index === 2){
+        }
+        if (index === 2) {
             setDropDownMenuTwo(!dropDownMenuTwo);
             setDropDownMenuThree(false);
             setDropDownMenuOne(false);
-        } 
-        if(index === 3){
+        }
+        if (index === 3) {
             setDropDownMenuThree(!dropDownMenuThree);
             setDropDownMenuTwo(false);
             setDropDownMenuOne(false);
-        } 
+        }
     };
     return (
         <div className=" bg-[#191919] text-white py-[80px]">
@@ -167,7 +167,7 @@ const Footer = () => {
                         </div>
                         <div className="flex flex-col lg:gap-6 gap-3 lg:w-fit w-full">
                             <div
-                               onClick={()=> dropDownMenuHandler(1)}
+                                onClick={() => dropDownMenuHandler(1)}
                                 className=" lg:w-fit w-full flex justify-between items-center flex-row"
                             >
                                 <label className=" text-2xl font-semibold leading-[33px] text-[#ffffff]">
@@ -184,7 +184,7 @@ const Footer = () => {
                                         layout="responsive"
                                         width={18}
                                         height={10}
-                                        src="/Images/darrow.svg"
+                                        src="/assets/resurces-demo/darrow.svg"
                                         alt="icon"
                                     />
                                 </div>
@@ -192,7 +192,9 @@ const Footer = () => {
                             <hr className=" lg:hidden bg-[#ffffff] opacity-25" />
                             <div
                                 className={`${
-                                    dropDownMenuOne === true ? "block" : "hidden"
+                                    dropDownMenuOne === true
+                                        ? "block"
+                                        : "hidden"
                                 } lg:block`}
                             >
                                 <ul className="flex flex-col gap-4">
@@ -217,7 +219,7 @@ const Footer = () => {
                         </div>
                         <div className="flex flex-col lg:gap-6 gap-3 lg:w-fit w-full">
                             <div
-                                onClick={()=> dropDownMenuHandler(2)}
+                                onClick={() => dropDownMenuHandler(2)}
                                 className=" lg:w-fit w-full flex justify-between items-center flex-row"
                             >
                                 <label className=" text-2xl font-semibold leading-[33px] text-[#ffffff]">
@@ -234,7 +236,7 @@ const Footer = () => {
                                         layout="responsive"
                                         width={18}
                                         height={10}
-                                        src="/Images/darrow.svg"
+                                        src="/assets/resurces-demo/darrow.svg"
                                         alt="icon"
                                     />
                                 </div>
@@ -242,7 +244,9 @@ const Footer = () => {
                             <hr className=" lg:hidden bg-[#ffffff] opacity-25" />
                             <div
                                 className={`${
-                                    dropDownMenuTwo === true ? "block" : "hidden"
+                                    dropDownMenuTwo === true
+                                        ? "block"
+                                        : "hidden"
                                 } lg:block`}
                             >
                                 <ul className="flex flex-col gap-4">
@@ -267,7 +271,7 @@ const Footer = () => {
                         </div>
                         <div className="flex flex-col lg:gap-6 gap-3 lg:w-fit w-full">
                             <div
-                                onClick={()=> dropDownMenuHandler(3)}
+                                onClick={() => dropDownMenuHandler(3)}
                                 className=" lg:w-fit w-full flex justify-between items-center flex-row"
                             >
                                 <label className=" text-2xl font-semibold leading-[33px] text-[#ffffff]">
@@ -284,7 +288,7 @@ const Footer = () => {
                                         layout="responsive"
                                         width={18}
                                         height={10}
-                                        src="/Images/darrow.svg"
+                                        src="/assets/resurces-demo/darrow.svg"
                                         alt="icon"
                                     />
                                 </div>
@@ -292,7 +296,9 @@ const Footer = () => {
                             <hr className=" lg:hidden bg-[#ffffff] opacity-25" />
                             <div
                                 className={`${
-                                    dropDownMenuThree === true ? "block" : "hidden"
+                                    dropDownMenuThree === true
+                                        ? "block"
+                                        : "hidden"
                                 } lg:block`}
                             >
                                 <ul className="flex flex-col gap-4">
@@ -316,6 +322,14 @@ const Footer = () => {
                             </div>
                         </div>
                     </div>
+                </div>
+                <div>
+                <hr className="my-[40px] bg-[#ffffff] opacity-25 hidden lg:block " />
+                <div className="mt-[40px] lg:mt-0">
+                    <p className=" text-center">
+                        © 2022 ODA Center, Inc., All rights reserved
+                    </p>
+                </div>
                 </div>
             </div>
         </div>
