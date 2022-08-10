@@ -20,7 +20,7 @@ const NavList = ({ title, url }: NavLinksType) => {
                 <a
                     className={` ${
                         router.asPath === url
-                            ? "!text-[#E51937] !font-bold"
+                            ? "!text-primary !font-bold"
                             : ""
                     } text-[#ffffff]  font-semibold text-[18px] leading-[25px] lg:w-fit w-[272px]`}
                 >
@@ -73,7 +73,7 @@ const NavMenuItem = () => {
                         ${
                             router.asPath === "/demo" ||
                             router.asPath === "/contactUs"
-                                ? "!text-[#E51937] !font-bold"
+                                ? "!text-primary !font-bold"
                                 : ""
                         } text-[#ffffff] lg:p-[10px] pr-3 font-semibold text-[18px] leading-[25px]
                         `}
@@ -91,7 +91,7 @@ const NavMenuItem = () => {
                                     layout="responsive"
                                     width={18}
                                     height={10}
-                                    src="/Images/darrow.svg"
+                                    src="/assets/resurces-demo/darrow.svg"
                                     alt="icon"
                                 />
                             </div>
@@ -109,7 +109,7 @@ const NavMenuItem = () => {
                             pera={
                                 "Watch a quick demo or schedule time with us."
                             }
-                            url={"/demo"}
+                            url={"/resources/demo"}
                         />
                         <SubNavList
                             title={"Contact Us"}
@@ -122,11 +122,11 @@ const NavMenuItem = () => {
                 </li>
                 <NavList title={"Pricing"} url={"/pricing"} />
             </ul>
-            <div className="lg:w-fit w-full mt-[20vh] lg:flex-none flex gap-5 lg:gap-0 flex-col lg:flex-row">
+            <div className="lg:w-fit w-full lg:mt-0 mt-[20vh] lg:flex-none flex gap-5 lg:gap-0 flex-col lg:flex-row">
                 <button className=" lg:w-fit lg:mx-5 w-full py-[11px] px-[19.5px] lg:border-none border-[#F8F8F8] border-solid border-[1px] text-base font-semibold rounded text-[#fff]">
                     Login
                 </button>
-                <button className=" lg:w-fit w-full py-[11px] px-[20px] bg-[#E51937] text-base font-semibold rounded text-[#fff]">
+                <button className=" lg:w-fit w-full py-[11px] px-[20px] bg-primary text-base font-semibold rounded text-[#fff]">
                     Sign up
                 </button>
             </div>
@@ -190,7 +190,7 @@ const Header = () => {
                     <div
                         className={`${
                             dropDownMenu === true ? "block" : "hidden"
-                        } z-50 shadow w-full sm:py-[40px] py-5 sm:px-[50px] px-[30px] rounded bg-[#242424] absolute md:top-[100px] top-[68px] right-0 h-[88vh]`}
+                        } z-50 shadow w-full sm:py-[40px] py-5 sm:px-[50px] px-[30px] rounded bg-[#242424] absolute md:top-[100px] top-[68px] right-0 h-[90vh]`}
                     >
                         <NavMenuItem />
                     </div>

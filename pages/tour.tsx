@@ -1,7 +1,7 @@
-import Layout from "../components/Shared/HeaderFooter/Layout";
 /* eslint-disable @next/next/no-img-element */
 import Image from "next/image";
 import { useState } from "react";
+import Layout from "../components/Shared/Layout/Layout";
 function TourPage() {
     const [heroDropdownState, setHeroDropdown] = useState(0);
     const [dropdownOpen, setDropdownOpen] = useState(false);
