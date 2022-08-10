@@ -1,7 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import Layout from '../components/Shared/HeaderFooter/Layout'
 
 const Home: NextPage = () => {
   return (
@@ -13,15 +12,10 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <Layout>
-        <h1 className="text-red-500 ">Landing Page</h1>
-        </Layout>
-      
+       <h1 className="text-red-500 ">Landing Page</h1>
       </main>
-
-      
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
