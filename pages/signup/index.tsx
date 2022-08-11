@@ -59,7 +59,7 @@ const Signup = () => {
               }}
             />
             <button
-              className="bg-[#E51937] text-[#FFFFFF] text-[16px] my-[30px] font-bold xs:w-[335px] sm:w-[500px] md:w-[568px] lg:w-[620px] xl:w-[480px] 2xl:w-[513px] 3xl:w-[610px] 4xl:w-[663px] h-[58px] rounded flex justify-center items-center"
+              className="bg-[#E51937] text-[#FFFFFF] text-[16px] my-[30px] font-bold xs:w-[335px] sm:w-[500px] md:w-[568px] h-[58px] rounded flex justify-center items-center"
               style={{ boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
             >
               Sign in
@@ -68,7 +68,7 @@ const Signup = () => {
           <h3 className="font-normal text-[14px] xs:mb-[82px] sm:mb-[280px] md:mb-[280px] lg:mb-[260px] xl:mb-[260px] 2xl:mb-[294px] 3xl:mb-[220px]">
             I already have an account.{" "}
             <Link href="/login">
-              <span className="text-[#E51937] cursor-pointer">Log in</span>
+              <span className="cursor-pointer text-primary">Log in</span>
             </Link>
           </h3>
         </div>
