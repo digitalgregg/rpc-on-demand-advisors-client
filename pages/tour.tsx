@@ -2,37 +2,53 @@
 import Image from "next/image";
 import { useState } from "react";
 import Layout from "../components/Shared/Layout/Layout";
+import SectionContent from "../components/Shared/SectionContent";
+import SectionTab from "../components/Shared/SectionTab";
+
+const expandContentData = [
+    {
+        title: "Advanced search built for sales and marketing",
+        description:
+            "Finding that buried asset can be frustrating. For new team members, it can be impossible.<br/><br/>Discover how ODA Center advanced search and organization by funnel stage, content type, and more enable users to find what they’re looking for fast. All organized for sales and marketing wins.",
+        videoUrl: "/assets/videos/test-video.mp4",
+    },
+    {
+        title: "Turn sales collateral into sites that convert",
+        description:
+            "Finding that buried asset can be frustrating. For new team members, it can be impossible.<br/><br/>Discover how ODA Center advanced search and organization by funnel stage, content type, and more enable users to find what they’re looking for fast. All organized for sales and marketing wins.",
+        videoUrl: "/assets/videos/test-video.mp4",
+    },
+    {
+        title: "(Content) Details that matter",
+        description:
+            "Finding that buried asset can be frustrating. For new team members, it can be impossible.<br/><br/>Discover how ODA Center advanced search and organization by funnel stage, content type, and more enable users to find what they’re looking for fast. All organized for sales and marketing wins.",
+        videoUrl: "/assets/videos/test-video.mp4",
+    },
+    {
+        title: "Content feedback for informed decisions",
+        description:
+            "Finding that buried asset can be frustrating. For new team members, it can be impossible.<br/><br/>Discover how ODA Center advanced search and organization by funnel stage, content type, and more enable users to find what they’re looking for fast. All organized for sales and marketing wins.",
+        videoUrl: "/assets/videos/test-video.mp4",
+    },
+    {
+        title: "Closed-loop feedback with sales requests",
+        description:
+            "Finding that buried asset can be frustrating. For new team members, it can be impossible.<br/><br/>Discover how ODA Center advanced search and organization by funnel stage, content type, and more enable users to find what they’re looking for fast. All organized for sales and marketing wins.",
+        videoUrl: "/assets/videos/test-video.mp4",
+    },
+    {
+        title: "Advanced search built for sales and marketing",
+        description:
+            "Finding that buried asset can be frustrating. For new team members, it can be impossible.<br/><br/>Discover how ODA Center advanced search and organization by funnel stage, content type, and more enable users to find what they’re looking for fast. All organized for sales and marketing wins.",
+        videoUrl: "/assets/videos/test-video.mp4",
+    },
+];
+
 function TourPage() {
-    const [heroDropdownState, setHeroDropdown] = useState(0);
-    const [dropdownOpen, setDropdownOpen] = useState(false);
-
-    const heroDropdown = [
-        {
-            id: 0,
-            text: "Content Management",
-        },
-        {
-            id: 1,
-            text: "Share and Track Content",
-        },
-        {
-            id: 2,
-            text: "Buyer Experiences",
-        },
-    ];
-
-    const handleDropdownOpen = () => {
-        setDropdownOpen(!dropdownOpen);
-    };
-
-    const handleDropdownTab = (id: number) => {
-        setHeroDropdown(id);
-        setDropdownOpen(!dropdownOpen);
-    };
-
+    const [expandContent, setExpandContent] = useState(0);
     return (
         <Layout>
-            <div>
+            <div className="bg-[#fff]">
                 {/* Hero Section  */}
                 <div className="bg-[#191919]">
                     <div className="container mx-auto">
@@ -111,106 +127,8 @@ function TourPage() {
                                 <br />
                                 Everything you need for sales success
                             </h3>
-
-                            <div>
-                                <div className=" px-[18px] sm:px-0  text-[#fff]">
-                                    <div className="mt-[40px] sm:mt-[14.71px] md:mt-[40px] 2xl:mt-[41px]"></div>
-                                    <div className="p-[14px] sm:p-0 text-sm w-full rounded-[4px] bg-[#252525] sm:[background:none]">
-                                        <div
-                                            className="flex justify-between h-[24px] items-center sm:!hidden font-semibold"
-                                            onClick={handleDropdownOpen}
-                                        >
-                                            <span>
-                                                {
-                                                    heroDropdown[
-                                                        heroDropdownState
-                                                    ].text
-                                                }
-                                            </span>
-                                            <span>
-                                                <img
-                                                    src="/assets/tour-page/dropdown-arrow.svg"
-                                                    alt="dropdown arrow"
-                                                />
-                                            </span>
-                                        </div>
-                                        {dropdownOpen && (
-                                            <div className="pb-[12.5px] sm:hidden border-b border-[rgba(255,255,255,.1)]"></div>
-                                        )}
-
-                                        <div
-                                            className={`${
-                                                !dropdownOpen && "hidden"
-                                            } sm:flex lg:px-[102px] xl:px-[177px] 2xl:px-[117px] 3xl:px-[271px] 4xl:px-[352px]`}
-                                        >
-                                            {heroDropdown.map((v, i) => (
-                                                <div
-                                                    key={v.id}
-                                                    className={`mt-[10px] sm:mt-0 relative md:text-base sm:w-1/3 sm:pb-[19px] md:pb-[16px] lg:pb-[13px] 2xl:pb-[16.23px] lg:text-lg sm:border-b sm:leading-[19.07px] sm:border-[#676767] font-semibold ${
-                                                        (i == 1 &&
-                                                            "sm:text-center") ||
-                                                        (i == 2 &&
-                                                            "sm:text-right")
-                                                    } `}
-                                                    onClick={() =>
-                                                        handleDropdownTab(v.id)
-                                                    }
-                                                >
-                                                    {v.text}
-                                                    {heroDropdownState == i && (
-                                                        <div className="absolute bottom-[-2px] z-10 w-full h-[3px] sm:bg-[#E51937]"></div>
-                                                    )}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="flex flex-col justify-between text-sm px-[18px] bg-[#252525]"></div>
-                            </div>
-                            <div className=" mt-[30px] sm:mt-[20px] lg:mt-[30px] 2xl:mt-[41px]"></div>
-
-                            <p className="text-sm leading-[21px] sm:leading-[19.07px] text-center font-normal font-primary text-[rgba(255,255,255,.8)] sm:text-[#fff] lg:text-base lg:leading-[21.79px] lg:mx-[123px] xl:mx-[198px] 2xl:mx-[178px] 3xl:mx-[298px] 4xl:mx-[358px]">
-                                Rethink your Google Drive, Dropbox or pricey
-                                legacy sales content portal with easy to rollout
-                                and easy to adopt marketing and sales content
-                                management tools. Organize marketing collateral
-                                for sales success by setting funnel stages,
-                                content types, and tags.
-                            </p>
-                            <div className=" mb-[30px] sm:mb-[23px] md:mb-[29px] lg:mb-[30.5px] xl:mb-[40px] 2xl:mb-[41.15px] "></div>
-
-                            <div className="flex justify-center flex-col sm:flex-row items-center gap-y-[10px] sm:gap-x-[40px] text-[#fff]">
-                                <div className="text-lg sm:text-sm sm:leading-[19.07px] font-bold flex items-center gap-x-[10px] xl:text-lg xl:leading-[24.51px] md:text-base md:leading-[21.79px]">
-                                    <span>
-                                        <img
-                                            className="w-4 h-4 md:w-6 md:h-6"
-                                            src="/assets/tour-page/check.svg"
-                                            alt="check icon"
-                                        />
-                                    </span>
-                                    <span>Advanced search</span>
-                                </div>
-                                <div className="text-lg sm:text-sm sm:leading-[19.07px] font-bold flex items-center gap-x-[10px] leading-[24.51px] md:text-base md:leading-[21.79px]">
-                                    <span>
-                                        <img
-                                            className="w-4 h-4 md:w-6 md:h-6"
-                                            src="/assets/tour-page/check.svg"
-                                            alt="check icon"
-                                        />
-                                    </span>
-                                    <span>Organized for Sales</span>
-                                </div>
-                                <div className="text-lg sm:text-sm sm:leading-[19.07px] font-bold flex items-center gap-x-[10px] leading-[24.51px] md:text-base md:leading-[21.79px]">
-                                    <span>
-                                        <img
-                                            className="w-4 h-4 md:w-6 md:h-6"
-                                            src="/assets/tour-page/check.svg"
-                                            alt="check icon"
-                                        />
-                                    </span>
-                                    <span>Integrated</span>
-                                </div>
-                            </div>
+                            <div className="mt-[40px] sm:mt-[14.71px] md:mt-[40px] 2xl:mt-[41px]"></div>
+                            <SectionTab />
                         </div>
                         <div>
                             <div className="h-[188px] sm:h-[245.29px] md:h-[274.61px] lg:h-[368.5px] xl:h-[412px] 2xl:h-[418px] 3xl:h-[508.55px]">
@@ -280,6 +198,78 @@ function TourPage() {
                             </button>
                         </div>
                         <div className="pb-[38px] sm:pb-[120px] md:pb-[90px] lg:pb-[120px] xl:pb-[160px]"></div>
+                    </div>
+                </div>
+                {/* Content Section  */}
+                <div className="bg-[#fff]">
+                    <div className="container mx-auto">
+                        {expandContentData.map((v, i) => (
+                            <SectionContent
+                                key={i}
+                                count={"0" + (i + 1)}
+                                title={v.title}
+                                description={v.description}
+                                isExpand={expandContent == i ? true : false}
+                                border={
+                                    expandContentData.length == i + 1
+                                        ? false
+                                        : true
+                                }
+                                onClick={() =>
+                                    setExpandContent(
+                                        expandContent == i ? -1 : i
+                                    )
+                                }
+                            />
+                        ))}
+                    </div>
+                </div>
+
+                {/* Section Two  */}
+
+                <div className="bg-[#191919]">
+                    <div className="container mx-auto">
+                        <div className="flex items-center flex-col py-5 sm:py-[60px] sm:my-[45px] lg:my-[60px] xl:my-[30px]">
+                            <h3 className="text-[#fff] text-center text-2xl leading-[30px] font-semibold sm:text-[30px] sm:leading-[40px] sm:px-[10%] xl:text-[32px]">
+                                Start streamlining your sales today
+                            </h3>
+                            <div className="mb-5 lg:mb-[30px]"></div>
+                            <div className="text-[#9E9E9E] text-center text-sm leading-[20px] sm:text-[#FAFAFA] sm:leading-[21px] lg:px-[157px] lg:text-base xl:leading-[28px] 4xl:px-[434px] 3xl:px-[373px] 2xl:px-[291px] xl:px-[231px] ">
+                                Easy to set up. Easy to roll out. Instant
+                                adoption across Sales and Marketing. Discover
+                                how ODA Center can help you drive more value
+                                from your content and close deals faster.
+                            </div>
+                            <div className="mb-5 md:mb-[30px] lg:mb-[40px]"></div>
+                            <button className="text-xs leading-[16.34px] font-semibold p-[13px_24px] bg-[#E51937] text-center rounder-[3px]">
+                                Get started
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Content Section  */}
+                <div className="bg-[#fff]">
+                    <div className="container mx-auto">
+                        {expandContentData.map((v, i) => (
+                            <SectionContent
+                                key={i}
+                                count={"0" + (i + 1)}
+                                title={v.title}
+                                description={v.description}
+                                isExpand={expandContent == i ? true : false}
+                                border={
+                                    expandContentData.length == i + 1
+                                        ? false
+                                        : true
+                                }
+                                onClick={() =>
+                                    setExpandContent(
+                                        expandContent == i ? -1 : i
+                                    )
+                                }
+                            />
+                        ))}
                     </div>
                 </div>
             </div>
