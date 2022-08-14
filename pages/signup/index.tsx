@@ -6,13 +6,13 @@ const Signup = () => {
   const label =
     "font-semibold text-[14px] lg:text-[16px] leading-[19.07px] lg:leading-[21.79px] text-[#101010]";
   const input =
-    "xs:w-[335px] sm:w-[500px] md:w-[568px] lg:w-[620px] xl:w-[480px] 2xl:w-[513px] 3xl:w-[610px] 4xl:w-[663px] h-[55px] text-[#6D6D6D] text-[14px] font-normal border border-[#E0E0E0] rounded mt-[10px] px-[20px] mb-[20px]";
+    "xs:w-[335px] sm:w-[500px] md:w-[568px] lg:w-[620px] xl:w-[480px] 2xl:w-[513px] 3xl:w-[610px] 4xl:w-[663px] h-[55px] text-[#6D6D6D] text-[14px] font-normal rounded border border-[#E0E0E0] rounded mt-[10px] px-[20px] py-[18px] mb-[20px]";
   const listItemStyle = "flex xl:mb-[16px] xl:last:mb-0";
   const listTitleStyle =
     "ml-[10px] font-semibold text-[24px] leading-[32.68px]";
   return (
     <div className="xl:flex xl:flex-row">
-      <div className="flex justify-center xs:px-[20px] sm:px-[90px] md:px-[100px] lg:px-[202px] xl:px-[60px] 2xl:pl-[120px] 2xl:pr-[88px] 3xl:pl-[120px] 3xl:pr-[110px] 4xl:pl-[180px] 4xl:pr-[117px]">
+      <div className="w-[100%] flex justify-center xs:px-[20px] sm:px-[90px] md:px-[100px] lg:px-[202px] xl:px-[60px] 2xl:pl-[120px] 2xl:pr-[88px] 3xl:pl-[120px] 3xl:pr-[110px] 4xl:pl-[180px] 4xl:pr-[117px]">
         <div className="xs:w-[335px] sm:w-[500px] md:w-[568px] lg:w-[620px] xl:w-[480px] 2xl:w-[513px] 3xl:w-[610px] 4xl:w-[663px]">
           <div className="xs:w-[198px] sm:w-[230px] xs:mt-[20px] xs:mb-[60px] sm:mt-[40px] sm:mb-[105px] 3xl:mb-[145px]">
             <Image src="/img/logo.svg" alt="logo" width={230} height={35} />
@@ -59,7 +59,7 @@ const Signup = () => {
               }}
             />
             <button
-              className="bg-[#E51937] text-[#FFFFFF] text-[16px] my-[30px] font-bold xs:w-[335px] sm:w-[500px] md:w-[568px] h-[58px] rounded flex justify-center items-center"
+              className="bg-[#E51937] text-[#FFFFFF] text-[16px] my-[30px] font-bold xs:w-[335px] sm:w-[500px] md:w-[568px] xl:w-[480px] lg:w-[620px] 2xl:w-[513px] 3xl:w-[610px] 4xl:w-[663px] h-[58px] rounded flex justify-center items-center"
               style={{ boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
             >
               Sign in
@@ -73,8 +73,8 @@ const Signup = () => {
           </h3>
         </div>
       </div>
-      <div className=" xl:w-[600px] 2xl:w-[720px] 3xl:w-[840px] 4xl:w-[960px] h-[100%] fixed top-0 right-0 bg-[#191919] hidden xl:flex xl:items-center">
-        <div className=" xl:px-[60px] mt-[180px] xl:mb-[241px] 2xl:pl-[34px] 2xl:pr-[122px] 2xl:mb-[262px] 3xl:pl-[80px] 3xl:pr-[120px] 3xl:mb-[241px] 4xl:pl-[140px] 4xl:pr-[180px] 4xl-mb-[208px]">
+      <div className="w-[100%] top-0 right-0 bg-[#191919] hidden xl:flex xl:items-center justify-center">
+        <div className="xl:w-[600px] 2xl:w-[720px] 3xl:w-[840px] 4xl:w-[960px] xl:px-[60px] mt-[180px] xl:mb-[241px] 2xl:pl-[34px] 2xl:pr-[122px] 2xl:mb-[262px] 3xl:pl-[80px] 3xl:pr-[120px] 3xl:mb-[241px] 4xl:pl-[140px] 4xl:pr-[180px] 4xl-mb-[208px]">
           <img
             src="/img/signup-demo.svg"
             alt="signup thumbnail"
