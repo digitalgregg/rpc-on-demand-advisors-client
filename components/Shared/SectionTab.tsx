@@ -106,7 +106,7 @@ function SectionTab({ data }: { data: SectionTabDataType[] }) {
             </p>
             <div className=" mb-[30px] sm:mb-[23px] md:mb-[29px] lg:mb-[30.5px] xl:mb-[40px] 2xl:mb-[41.15px] "></div>
 
-            <div className="flex justify-center flex-col sm:flex-row items-center gap-y-[10px] sm:gap-x-[40px] text-[#fff]">
+            <div className="flex justify-center flex-col sm:flex-row ml-[75px] sm:ml-0  gap-y-[10px] sm:gap-x-[50px] text-[#fff] md:gap-x-[60px] lg:gap-x-[55px]">
                 {data[sectionTab].data.list.map((v, i) => (
                     <div
                         key={i}
