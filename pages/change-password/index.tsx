@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 
-const Signup = () => {
+const ChangePassword = () => {
   const items = [
     {
       id: 0,
@@ -25,9 +25,9 @@ const Signup = () => {
     },
   ];
   const label =
-    "font-semibold text-[14px] leading-[19.07px] lg:text-[16px] lg:leading-[22px] text-[#101010]";
+    "text-[#101010] font-semibold xs:text-[14px] xs:leading-[19.07px] lg:text-[16px] lg:leading-[21.79px]";
   const input =
-    "w-[100%] h-[55px] text-[#6D6D6D] text-[14px] font-normal border border-[#E0E0E0] rounded mt-[10px] px-[20px] py-[18px] mb-[20px]";
+    "w-[100%] text-[#6D6D6D] text-[14px] font-normal border border-[#E0E0E0] h-[55px] mt-[10px] mb-[20px] px-[20px] py-[18px]";
   return (
     <div className="w-[100%] flex">
       <div className="w-[100%] xl:w-[50%] h-[1080px]">
@@ -38,47 +38,27 @@ const Signup = () => {
             className="w-[230px] xs:w-[198px] xs:mt-[19.93px] xs:mb-[59.97px] mt-[40px] mb-[105px] 3xl:mb-[145px]"
           />
           <h2 className="text-[24px] font-semibold leading-[32.68px] md:text-[18px] md:leading-[25px]">
-            Hi There We’re happy to see you
+            Create new password
           </h2>
           <p className="text-[14px] mt-[10px] mb-[30px] leading-[22px]">
-            Sign up now with email
+            Your new password must be different from previous used passwords.
           </p>
           <form action="">
-            <label className={label} htmlFor="name">
-              Full name
+            <label className={label} htmlFor="password">
+              Old Password
             </label>
             <br />
             <input
               className={input}
-              type="text"
-              name="name"
-              placeholder="Enter name"
-              style={{ boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
-            />
-            <label className={label} htmlFor="companyName">
-              Company name
-            </label>
-            <br />
-            <input
-              className={input}
-              type="text"
-              name="companyName"
-              placeholder="Enter company name"
-              style={{ boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
-            />
-            <label className={label} htmlFor="email">
-              Email
-            </label>
-            <br />
-            <input
-              className={input}
-              type="email"
-              name="email"
-              placeholder="Enter email"
-              style={{ boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
+              type="password"
+              name="password"
+              placeholder="Enter password"
+              style={{
+                boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
+              }}
             />
             <label className={label} htmlFor="password">
-              Password
+              New Password
             </label>
             <br />
             <input
@@ -92,18 +72,12 @@ const Signup = () => {
               }}
             />
             <button
-              className="w-[100%] h-[58px] bg-[#E51937] text-[#FFFFFF] rounded font-bold text-[16px] my-[30px]"
+              className="w-[100%] h-[58px] bg-[#E51937] text-[#FFFFFF] rounded font-bold text-[16px] mt-[30px]"
               style={{ boxShadow: "inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
             >
-              Sign up
+              Reset Password
             </button>
           </form>
-          <h3 className="font-normal text-[14px] leading-[19.07px]">
-            I already have an account {""}
-            <Link href="/login">
-              <span className="text-[#E51937] cursor-pointer">Log in.</span>
-            </Link>
-          </h3>
         </div>
       </div>
       {/* second section   */}
@@ -140,4 +114,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default ChangePassword;
