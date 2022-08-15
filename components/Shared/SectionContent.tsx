@@ -25,7 +25,9 @@ function SectionContent({
         <div
             className={`py-[30px] sm:py-[15px] md:py-[10px] lg:py-[20px] xl:py-[50px] ${
                 border && "border-b"
-            }  border-[#9E9E9E] `}
+            }  border-[#9E9E9E] ${
+                isExpand && "max-sm:border-none max-sm:pb-0"
+            }`}
         >
             <div
                 className="flex justify-between items-center cursor-pointer"
