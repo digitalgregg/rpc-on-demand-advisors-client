@@ -1,7 +1,8 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
-const Signup = () => {
+const ForgotPassword = () => {
   const items = [
     {
       id: 0,
@@ -25,9 +26,9 @@ const Signup = () => {
     },
   ];
   const label =
-    "font-semibold text-[14px] leading-[19.07px] lg:text-[16px] lg:leading-[22px] text-[#101010]";
+    "text-[#101010] font-semibold xs:text-[14px] xs:leading-[19.07px] lg:text-[16px] lg:leading-[21.79px]";
   const input =
-    "w-[100%] h-[55px] text-[#6D6D6D] text-[14px] font-normal border border-[#E0E0E0] rounded mt-[10px] px-[20px] py-[18px] mb-[20px]";
+    "w-[100%] text-[#6D6D6D] text-[14px] font-normal border border-[#E0E0E0] h-[55px] mb-[20px] my-[10px] px-[20px] py-[18px]";
   return (
     <div className="w-[100%] flex">
       <div className="w-[100%] xl:w-[50%] h-[1080px]">
@@ -38,34 +39,12 @@ const Signup = () => {
             className="w-[230px] xs:w-[198px] xs:mt-[19.93px] xs:mb-[59.97px] mt-[40px] mb-[105px] 3xl:mb-[145px]"
           />
           <h2 className="text-[24px] font-semibold leading-[32.68px] md:text-[18px] md:leading-[25px]">
-            Hi There We’re happy to see you
+            Forgot Password
           </h2>
           <p className="text-[14px] mt-[10px] mb-[30px] leading-[22px]">
-            Sign up now with email
+            Enter your Email and we’ll send a link to reset your Password
           </p>
           <form action="">
-            <label className={label} htmlFor="name">
-              Full name
-            </label>
-            <br />
-            <input
-              className={input}
-              type="text"
-              name="name"
-              placeholder="Enter name"
-              style={{ boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
-            />
-            <label className={label} htmlFor="companyName">
-              Company name
-            </label>
-            <br />
-            <input
-              className={input}
-              type="text"
-              name="companyName"
-              placeholder="Enter company name"
-              style={{ boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
-            />
             <label className={label} htmlFor="email">
               Email
             </label>
@@ -77,33 +56,24 @@ const Signup = () => {
               placeholder="Enter email"
               style={{ boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
             />
-            <label className={label} htmlFor="password">
-              Password
-            </label>
-            <br />
-            <input
-              className={input}
-              type="password"
-              name="password"
-              placeholder="Enter password"
-              style={{
-                boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
-                marginBottom: "0px",
-              }}
-            />
+            <h3 className="font-normal text-[14px] leading-[19px] text-[#E51937] mb-[20px]">
+              We can not find your account.
+            </h3>
             <button
-              className="w-[100%] h-[58px] bg-[#E51937] text-[#FFFFFF] rounded font-bold text-[16px] my-[30px]"
+              className="w-[100%] h-[58px] bg-[#E51937] text-[#FFFFFF] rounded font-bold text-[16px] mb-[20px]"
               style={{ boxShadow: "inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
             >
-              Sign up
+              Submit
             </button>
           </form>
-          <h3 className="font-normal text-[14px] leading-[19.07px]">
-            I already have an account {""}
+          <div className="flex items-center">
+            <Image src="/icon/back-icon.svg" alt="logo" width={9} height={12} />
             <Link href="/login">
-              <span className="text-[#E51937] cursor-pointer">Log in.</span>
+              <span className="text-[#000000] cursor-pointer font-normal text-[14px] leading-[19px] ml-[18.49px]">
+                Back to Log In.
+              </span>
             </Link>
-          </h3>
+          </div>
         </div>
       </div>
       {/* second section   */}
@@ -140,4 +110,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default ForgotPassword;
