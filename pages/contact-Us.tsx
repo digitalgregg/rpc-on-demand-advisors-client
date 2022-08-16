@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import Layout from "../components/Shared/Layout/Layout";
@@ -7,6 +7,7 @@ import Button from "../components/Shared/Button";
 import TextField from "../components/Shared/TextField/TextField";
 import FormikSelect from "../components/Shared/FormikSelect";
 import Textarea from "../components/Shared/Textarea";
+import { Modals } from "../components/modal/contactPageModal/modal";
 const validationSchema = Yup.object({
     yourname: Yup.string()
         .min(2, "Must be 2 characters or less")
@@ -14,14 +15,24 @@ const validationSchema = Yup.object({
     email: Yup.string()
         .min(2, "Must be 2 characters or less")
         .required("Last Name is required"),
-    select: Yup.string(),
-    subject: Yup.string(),
+    select: Yup.string().required("Topic is required"),
+    subject: Yup.string().required("Subject is required"),
     description: Yup.string(),
 });
 
 const ContactUs = () => {
+    const [modalIsOpen, setIsOpen] = useState(false);
+
+    function openModal() {
+        setIsOpen(true);
+    }
+
+    function closeModal() {
+        setIsOpen(false);
+    }
     return (
         <Layout>
+            <Modals closeModal={closeModal} modalIsOpen={modalIsOpen} />
             <div className="bg-black_secondary ">
                 <div className="container mx-auto ">
                     <div className="h-[170px] lg:h-[375px] flex items-center">
@@ -87,23 +98,28 @@ const ContactUs = () => {
                                                     name="select"
                                                     disabledErrorMessage
                                                 >
-                                                    <option value="">
+                                                    <option
+                                                        value=""
+                                                    >
                                                         Select a Topic
                                                     </option>
-                                                    <option value="man">
-                                                        Man
+                                                    <option value="billing-issue">
+                                                        Billing issue
                                                     </option>
-                                                    <option value="woman">
-                                                        Woman
+                                                    <option value="pricing">
+                                                        Pricing
                                                     </option>
-                                                    <option value="transgender">
-                                                        Transgender
+                                                    <option value="feature">
+                                                        Feature
                                                     </option>
-                                                    <option value="non-binary/non-conforming">
-                                                        Non-binary/non-conforming
+                                                    <option value="bug-report">
+                                                        Bug report
                                                     </option>
-                                                    <option value="prefer-not-to-respond">
-                                                        Prefer not to respond
+                                                    <option value="enterprise">
+                                                        Enterprise
+                                                    </option>
+                                                    <option value="enterprise">
+                                                        Others
                                                     </option>
                                                 </FormikSelect>
                                                 <TextField
@@ -134,9 +150,11 @@ const ContactUs = () => {
                                                     placeholder="Text here..."
                                                 />
                                             </div>
+
                                             <Button
+                                                onClick={openModal}
                                                 type="submit"
-                                                className="!w-full !mt-[40px] !rounded !px-0 !text-[18px] "
+                                                className="!w-full !mt-[40px] !font-medium !rounded !px-0 !text-[18px] "
                                             >
                                                 Send Request
                                             </Button>
