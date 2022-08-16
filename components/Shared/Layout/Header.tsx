@@ -190,7 +190,7 @@ const Header = () => {
                     <div
                         className={`${
                             dropDownMenu === true ? "block" : "hidden"
-                        } z-50 shadow w-full sm:py-[40px] py-5 sm:px-[50px] px-[30px] rounded bg-[#242424] absolute md:top-[100px] top-[68px] right-0 h-[90vh]`}
+                        } z-50 shadow w-full sm:py-[40px] py-5 sm:px-[50px] px-[30px] rounded bg-[#242424] absolute md:top-[100px] top-[68px] right-0 h-fit`}
                     >
                         <NavMenuItem />
                     </div>
