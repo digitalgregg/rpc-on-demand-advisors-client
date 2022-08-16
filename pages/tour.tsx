@@ -326,7 +326,7 @@ function TourPage() {
                                 from your content and close deals faster.
                             </div>
                             <div className="mb-5 md:mb-[30px] lg:mb-[40px]"></div>
-                            <button className="text-xs leading-[16.34px] font-semibold p-[13px_24px] bg-[#E51937] text-center rounder-[3px]">
+                            <button className="text-xs leading-[16.34px] font-semibold p-[13px_24px] lg:p-[17px_32px] bg-[#E51937] text-center rounder-[3px] lg:text-base lg:leading-[21.79px] text-[#fff] rounded-[4px]">
                                 Get started
                             </button>
                         </div>

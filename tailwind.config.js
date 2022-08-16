@@ -25,6 +25,7 @@ module.exports = {
             },
         },
         container: {
+            center: true,
             padding: {
                 xs: "20px",
                 sm: "40px",
@@ -55,4 +56,23 @@ module.exports = {
             "max-4xl": { max: "1919px" },
         },
     },
+    plugins: [
+        function ({ addComponents }) {
+            addComponents({
+                ".dashboard-container": {
+                    padding: "0 20px",
+                    "@screen sm": {
+                        padding: "0 25px",
+                    },
+                    "@screen lg": {
+                        padding: "0 35px",
+                    },
+                },
+            });
+        },
+        function ({ addVariant }) {
+            addVariant("child", "& > *");
+            addVariant("child-hover", "& > *:hover");
+        },
+    ],
 };
