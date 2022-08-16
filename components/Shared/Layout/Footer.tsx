@@ -154,6 +154,8 @@ const Footer = () => {
             setDropDownMenuOne(false);
         }
     };
+    const footerMenuHeader =
+        "text-[18px] leading-[25px] font-semibold lg:text-[24px] lg:leading-[33px] text-[#ffffff]";
     return (
         <div className=" bg-[#191919] text-white py-[80px]">
             <div className="container mx-auto ">
@@ -170,7 +172,7 @@ const Footer = () => {
                                 onClick={() => dropDownMenuHandler(1)}
                                 className=" lg:w-fit w-full flex justify-between items-center flex-row"
                             >
-                                <label className=" text-2xl font-semibold leading-[33px] text-[#ffffff]">
+                                <label className={`${footerMenuHeader}`}>
                                     Sales Enablement
                                 </label>
                                 <div
@@ -222,7 +224,7 @@ const Footer = () => {
                                 onClick={() => dropDownMenuHandler(2)}
                                 className=" lg:w-fit w-full flex justify-between items-center flex-row"
                             >
-                                <label className=" text-2xl font-semibold leading-[33px] text-[#ffffff]">
+                                <label className={`${footerMenuHeader}`}>
                                     Product
                                 </label>
                                 <div
@@ -274,7 +276,7 @@ const Footer = () => {
                                 onClick={() => dropDownMenuHandler(3)}
                                 className=" lg:w-fit w-full flex justify-between items-center flex-row"
                             >
-                                <label className=" text-2xl font-semibold leading-[33px] text-[#ffffff]">
+                                <label className={`${footerMenuHeader}`}>
                                     Company
                                 </label>
                                 <div
@@ -324,12 +326,12 @@ const Footer = () => {
                     </div>
                 </div>
                 <div>
-                <hr className="my-[40px] bg-[#ffffff] opacity-25 hidden lg:block " />
-                <div className="mt-[40px] lg:mt-0">
-                    <p className=" text-center">
-                        © 2022 ODA Center, Inc., All rights reserved
-                    </p>
-                </div>
+                    <hr className="my-[40px] bg-[#ffffff] opacity-25 hidden lg:block " />
+                    <div className="mt-[40px] lg:mt-0">
+                        <p className=" text-center">
+                            © 2022 ODA Center, Inc., All rights reserved
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
