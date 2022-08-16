@@ -1,75 +1,140 @@
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 
 const Signup = () => {
-  const label = "font-semibold text-[14px] leading-[19.07px] text-[#101010]";
+  const items = [
+    {
+      id: 0,
+      title: "Get the most from your content",
+    },
+    {
+      id: 1,
+      title: "Get started today",
+    },
+    {
+      id: 2,
+      title: "No contracts",
+    },
+    {
+      id: 3,
+      title: "No set up fee",
+    },
+    {
+      id: 4,
+      title: "Free trial",
+    },
+  ];
+  const label =
+    "font-semibold text-[14px] leading-[19.07px] lg:text-[16px] lg:leading-[22px] text-[#101010]";
   const input =
-    "xs:w-[335px] xs:h-[55px] text-[#6D6D6D] text-[14px] font-normal border border-[#E0E0E0] rounded xs:mt-[10px] xs:px-[20px] xs:mb-[20px]";
+    "w-[100%] h-[55px] text-[#6D6D6D] text-[14px] font-normal border border-[#E0E0E0] rounded mt-[10px] px-[20px] py-[18px] mb-[20px]";
   return (
-    <div className="xs:max-w-[375px] xs:px-[20px] mx-auto">
-      <div className="xs:w-[335px]">
-        <div className="xs:mt-[19.93px] xs:mb-[60px]">
+    <div className="w-[100%] flex">
+      <div className="w-[100%] xl:w-[50%] h-[1080px]">
+        <div className="4xl:ml-[180px] 4xl:mr-[117px]  3xl:ml-[120px] 3xl:mr-[110px] 2xl:ml-[120px] 2xl:mr-[88px] xl:ml-[60px] xl:mr-[60px] lg:mr-[202px] lg:ml-[202px] md:mr-[100px] md:ml-[100px] sm:mr-[90px] sm:ml-[90px] xs:mr-[20px] xs:ml-[20px]">
           <img
             src="/img/logo.svg"
             alt="logo"
-            className="xs:w-[198px] xs:h-[30.19px]"
+            className="w-[230px] xs:w-[198px] xs:mt-[19.93px] xs:mb-[59.97px] mt-[40px] mb-[105px] 3xl:mb-[145px]"
           />
+          <h2 className="text-[24px] font-semibold leading-[32.68px] md:text-[18px] md:leading-[25px]">
+            Hi There We’re happy to see you
+          </h2>
+          <p className="text-[14px] mt-[10px] mb-[30px] leading-[22px]">
+            Sign up now with email
+          </p>
+          <form action="">
+            <label className={label} htmlFor="name">
+              Full name
+            </label>
+            <br />
+            <input
+              className={input}
+              type="text"
+              name="name"
+              placeholder="Enter name"
+              style={{ boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
+            />
+            <label className={label} htmlFor="companyName">
+              Company name
+            </label>
+            <br />
+            <input
+              className={input}
+              type="text"
+              name="companyName"
+              placeholder="Enter company name"
+              style={{ boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
+            />
+            <label className={label} htmlFor="email">
+              Email
+            </label>
+            <br />
+            <input
+              className={input}
+              type="email"
+              name="email"
+              placeholder="Enter email"
+              style={{ boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
+            />
+            <label className={label} htmlFor="password">
+              Password
+            </label>
+            <br />
+            <input
+              className={input}
+              type="password"
+              name="password"
+              placeholder="Enter password"
+              style={{
+                boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
+                marginBottom: "0px",
+              }}
+            />
+            <button
+              className="w-[100%] h-[58px] bg-[#E51937] text-[#FFFFFF] rounded font-bold text-[16px] my-[30px]"
+              style={{ boxShadow: "inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
+            >
+              Sign up
+            </button>
+          </form>
+          <h3 className="font-normal text-[14px] leading-[19.07px]">
+            I already have an account {""}
+            <Link href="/login">
+              <span className="text-[#E51937] cursor-pointer">Log in.</span>
+            </Link>
+          </h3>
         </div>
-        <h2 className="text-[#101010] font-semibold text-[18px] leading-[24.51px] xs:mb-[10px]">
-          Hi There we&apos;re happy to see you.
-        </h2>
-        <h3 className="text-[#101010] font-normal text-[14px] leading-[19.07px] xs:mb-[30px]">
-          signup now with email
-        </h3>
-        <form>
-          <label className={label}>Full name</label>
-          <input
-            type="text"
-            name="name"
-            className={input}
-            style={{ boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
-          />
-
-          <label className={label}>Company name</label>
-          <input
-            type="text"
-            name="companyName"
-            className={input}
-            style={{ boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
-          />
-
-          <label className={label}>Email</label>
-          <input
-            type="email"
-            name="email"
-            className={input}
-            style={{ boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
-          />
-
-          <label className={label}>Password</label>
-          <input
-            type="password"
-            name="password"
-            className={input}
-            style={{
-              boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
-              marginBottom: "30px",
-            }}
-          />
-          <button
-            className="bg-[#E51937] text-[#FFFFFF] xs:text-[16px] xs:mb-[30px] xs:font-bold xs:w-[335px] xs:h-[58px] rounded flex justify-center items-center"
-            style={{ boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
-          >
-            Sign in
-          </button>
-        </form>
-        <h3 className="xs:font-normal xs:text-[14px] xs:mb-[82px]">
-          I already have an account.{" "}
-          <Link href="/login">
-            <span className="text-[#E51937] cursor-pointer">Log in</span>
-          </Link>
-        </h3>
+      </div>
+      {/* second section   */}
+      <div className="w-[50%] h-[1080px] bg-[#191919] hidden xl:flex">
+        <div className="w-[100%]">
+          <div className="4xl:mr-[180px] 4xl:ml-[140px] 3xl:ml-[80px] 3xl:mr-[120px] 2xl:ml-[35px] 2xl:mr-[120px] xl:px-[60px]">
+            <img
+              src="/img/signupThumb.png"
+              alt="signup thumnail"
+              className="xl:w-[480px] 2xl:w-[565px] 3xl:w-[640px] h-[390px] mt-[180px] mx-auto"
+            />
+            <div className="xl:mt-[40px] 4xl:mt-[73px] 3xl:w-[640px] 2xl:w-[565px] xl:w-[480px] mx-auto">
+              <ul className="text-[#FFFFFF] text-[24px] font-semibold">
+                {items.map((item: any) => (
+                  <div key={item} className="mb-[16px] last:mb-0 mx-auto">
+                    <li className="flex gap-[10px] leading-[32.68px]">
+                      <span>
+                        <img
+                          src="/img/check-mark.svg"
+                          alt="circle checked"
+                          className="w-[30px] h-[30px]"
+                        />
+                      </span>
+                      <span>{item.title}</span>
+                    </li>
+                  </div>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
