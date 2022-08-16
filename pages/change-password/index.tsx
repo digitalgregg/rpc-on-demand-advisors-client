@@ -92,7 +92,7 @@ const ChangePassword = () => {
             <div className="xl:mt-[40px] 4xl:mt-[73px] 3xl:w-[640px] 2xl:w-[565px] xl:w-[480px] mx-auto">
               <ul className="text-[#FFFFFF] text-[24px] font-semibold">
                 {items.map((item: any) => (
-                  <div key={item} className="mb-[16px] last:mb-0 mx-auto">
+                  <div key={item.id} className="mb-[16px] last:mb-0 mx-auto">
                     <li className="flex gap-[10px] leading-[32.68px]">
                       <span>
                         <img
