@@ -16,11 +16,12 @@ module.exports = {
     },
     },
     container: {
+      center: true,
       padding: {
         xs: "20px",
         sm: "40px",
         md: "50px",
-        lg: "47px",
+        lg: "4        7px",
         xl: "60px",
         "2xl": "120px",
         "3xl": "120px",
