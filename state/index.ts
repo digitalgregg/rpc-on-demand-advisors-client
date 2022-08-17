@@ -5,12 +5,7 @@ export const signupState = atom({
     name: "",
     companyName: "",
     email: "",
-    password: "",
+    // password: "",
+    _id:"",
 });
 
-export const loginState = atom({
-    name: "",
-    companyName: "",
-    email: "",
-    password: "",
-});
