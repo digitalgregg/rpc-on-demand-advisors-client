@@ -6,8 +6,33 @@ import { useAtom } from "jotai";
 import { signupState } from "./../../state/index";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { setLocal } from "../../utils/localStorage";
+
+const items = [
+  {
+    id: 0,
+    title: "Get the most from your content",
+  },
+  {
+    id: 1,
+    title: "Get started today",
+  },
+  {
+    id: 2,
+    title: "No contracts",
+  },
+  {
+    id: 3,
+    title: "No set up fee",
+  },
+  {
+    id: 4,
+    title: "Free trial",
+  },
+];
 
 const Signup = () => {
+  const router = useRouter();
   const [signupData, setSignupData] = useAtom(signupState);
   const [error, setError] = useState("");
   const splitError = error.split(" ");
@@ -17,15 +42,20 @@ const Signup = () => {
     formState: { errors },
     handleSubmit,
   } = useForm();
-  const router = useRouter();
+
+  const label =
+    "font-semibold text-[14px] leading-[19.07px] lg:text-[16px] lg:leading-[22px] text-[#101010]";
+  const input =
+    "w-[100%] h-[55px] text-[#6D6D6D] text-[14px] font-normal border border-[#E0E0E0] rounded mt-[10px] px-[20px] py-[18px] mb-[10px]";
 
   const onSubmit = (data: any) => {
     setSignupData(data);
     setError("");
     api
-      .post("https://oda-center.herokuapp.com/api/signup", data)
+      .post("http://localhost:8080/api/signup", data)
       .then((res) => {
         if (res.status === 201) {
+          setLocal("user", res.data.data);
           toast.success(res.data.message);
           setTimeout(() => {
             router.push("/");
@@ -37,32 +67,6 @@ const Signup = () => {
       });
   };
 
-  const items = [
-    {
-      id: 0,
-      title: "Get the most from your content",
-    },
-    {
-      id: 1,
-      title: "Get started today",
-    },
-    {
-      id: 2,
-      title: "No contracts",
-    },
-    {
-      id: 3,
-      title: "No set up fee",
-    },
-    {
-      id: 4,
-      title: "Free trial",
-    },
-  ];
-  const label =
-    "font-semibold text-[14px] leading-[19.07px] lg:text-[16px] lg:leading-[22px] text-[#101010]";
-  const input =
-    "w-[100%] h-[55px] text-[#6D6D6D] text-[14px] font-normal border border-[#E0E0E0] rounded mt-[10px] px-[20px] py-[18px] mb-[10px]";
   return (
     <div className="w-[100%] flex">
       <div className="w-[100%] xl:w-[50%] h-[1080px]">
@@ -88,8 +92,8 @@ const Signup = () => {
               style={{
                 boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
                 border:
-                  (errorIndex === '"Full Name"' && "1px solid red") ||
-                  (errors.name && "1px solid red"),
+                  (errorIndex === '"Full Name"' && "1px solid #E51937") ||
+                  (errors.name && "1px solid #E51937"),
               }}
             />
             <br />
@@ -107,8 +111,8 @@ const Signup = () => {
               style={{
                 boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
                 border:
-                  (errorIndex === '"Company Name"' && "1px solid red") ||
-                  (errors.companyName && "1px solid red"),
+                  (errorIndex === '"Company Name"' && "1px solid #E51937") ||
+                  (errors.companyName && "1px solid #E51937"),
               }}
             />
             <br />
@@ -126,8 +130,8 @@ const Signup = () => {
               style={{
                 boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
                 border:
-                  (errorIndex === '"Email"' && "1px solid red") ||
-                  (errors.email && "1px solid red"),
+                  (errorIndex === '"Email"' && "1px solid #E51937") ||
+                  (errors.email && "1px solid #E51937"),
               }}
             />
             <br />
@@ -146,8 +150,8 @@ const Signup = () => {
                 boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
                 marginBottom: "0px",
                 border:
-                  (errorIndex === '"Password"' && "1px solid red") ||
-                  (errors.password && "1px solid red"),
+                  (errorIndex === '"Password"' && "1px solid #E51937") ||
+                  (errors.password && "1px solid #E51937"),
               }}
             />
             <br />
@@ -156,17 +160,20 @@ const Signup = () => {
                 Password is required
               </h3>
             )}
-            <br />
-            {error && <h3 className="text-[#E51937] text-[12px]">{error}</h3>}
-            <input
+            {error && (
+              <h3 className="text-[#E51937] text-[12px] mt-[10px]">{error}</h3>
+            )}
+            <button
               type="submit"
               className="w-[100%] h-[58px] bg-[#E51937] text-[#FFFFFF] rounded font-bold text-[16px] my-[30px]"
               style={{ boxShadow: "inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
-            />
+            >
+              Sign up
+            </button>
           </form>
           <h3 className="font-normal text-[14px] leading-[19.07px]">
             I already have an account {""}
-            <Link href="/login">
+            <Link href="/signin">
               <span className="text-[#E51937] cursor-pointer">Log in.</span>
             </Link>
           </h3>

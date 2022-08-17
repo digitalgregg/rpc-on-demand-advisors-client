@@ -1,9 +1,8 @@
-import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import api from "../../api";
+import { useRouter } from "next/router";
 import { toast } from "react-toastify";
-import { getLocal } from "../../utils/localStorage";
+import api from "../../../api";
 
 const items = [
   {
@@ -28,12 +27,13 @@ const items = [
   },
 ];
 
-const ChangePassword = () => {
+const ResetPassword = () => {
   const router = useRouter();
+  const path = router.asPath.split("/");
+  const token = path[2];
   const [error, setError] = useState("");
   const splitError = error.split(" ");
   const errorIndex = splitError[0];
-  const user = getLocal("user");
   const {
     register,
     formState: { errors },
@@ -48,7 +48,7 @@ const ChangePassword = () => {
     setError("");
     api
       .put(
-        `https://oda-center.herokuapp.com/api/user/change-password/${user._id}`,
+        `https://oda-center.herokuapp.com/api/user/password-reset/${token}`,
         data
       )
       .then((res) => {
@@ -73,44 +73,26 @@ const ChangePassword = () => {
             className="w-[230px] xs:w-[198px] xs:mt-[19.93px] xs:mb-[59.97px] mt-[40px] mb-[105px] 3xl:mb-[145px]"
           />
           <h2 className="text-[24px] font-semibold leading-[32.68px] md:text-[18px] md:leading-[25px]">
-            Create new password
+            Reset Password
           </h2>
           <p className="text-[14px] mt-[10px] mb-[30px] leading-[22px]">
-            Your new password must be different from previous used passwords.
+            Enter your new password.
           </p>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <label className={label} htmlFor="old_password">
-              Current Password
+            <label className={label} htmlFor="password">
+              Password
             </label>
             <input
-              {...register("old_password", { required: true })}
+              {...register("password", { required: true })}
               className={input}
               style={{
                 boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
                 border:
-                  (errorIndex === '"old_password"' && "1px solid #E51937") ||
-                  (errors.old_password && "1px solid #E51937"),
+                  (errorIndex === '"Password"' && "1px solid #E51937") ||
+                  (errors.password && "1px solid #E51937"),
               }}
             />
-            {errors.old_password && (
-              <h3 className="text-[#E51937] mb-[20px] text-[12px]">
-                Password is required
-              </h3>
-            )}
-            <label className={label} htmlFor="new_password">
-              New Password
-            </label>
-            <input
-              {...register("new_password", { required: true })}
-              className={input}
-              style={{
-                boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
-                border:
-                  (errorIndex === '"new_password"' && "1px solid #E51937") ||
-                  (errors.new_password && "1px solid #E51937"),
-              }}
-            />
-            {errors.new_password && (
+            {errors.password && (
               <h3 className="text-[#E51937] mb-[20px] text-[12px]">
                 Password is required
               </h3>
@@ -128,41 +110,6 @@ const ChangePassword = () => {
               Reset Password
             </button>
           </form>
-          {/* <form action="">
-            <label className={label} htmlFor="password">
-              Old Password
-            </label>
-            <br />
-            <input
-              className={input}
-              type="password"
-              name="password"
-              placeholder="Enter password"
-              style={{
-                boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
-              }}
-            />
-            <label className={label} htmlFor="password">
-              New Password
-            </label>
-            <br />
-            <input
-              className={input}
-              type="password"
-              name="password"
-              placeholder="Enter password"
-              style={{
-                boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
-                marginBottom: "0px",
-              }}
-            />
-            <button
-              className="w-[100%] h-[58px] bg-[#E51937] text-[#FFFFFF] rounded font-bold text-[16px] mt-[30px]"
-              style={{ boxShadow: "inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
-            >
-              Reset Password
-            </button>
-          </form> */}
         </div>
       </div>
       {/* second section   */}
@@ -199,4 +146,4 @@ const ChangePassword = () => {
   );
 };
 
-export default ChangePassword;
+export default ResetPassword;
