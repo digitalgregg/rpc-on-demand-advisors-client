@@ -1,9 +1,9 @@
 import Image from "next/image";
 import React from "react";
-
-const hero = () => {
+import  SalesSuccess  from "../salesSuccess/SalesSuccess";
+const Hero = () => {
     return (
-        <div className=" bg-[#101010] py-[100px]">
+        <div className=" bg-[#101010] pt-[100px]">
             <div className="container mx-auto">
                 <div className="flex justify-center flex-col">
                     <h1 className=" text-center text-White">
@@ -15,15 +15,15 @@ const hero = () => {
                         and close deals faster.
                     </p>
                     <div className=" flex sm:flex-row flex-col gap-[22px] 2xl:gap-[46px] w-fit mx-auto">
-                        <button className=" py-[17px] px-8 text-sm sm:text-base leading-[22px] font-semibold text-White rounded bg-primary">
+                        <button className=" h-[56px] px-8 text-sm sm:text-base leading-[22px] font-semibold text-White rounded bg-primary">
                             Try for Free
                         </button>
-                        <button className=" py-[17px] px-8 text-sm sm:text-base leading-[22px] font-semibold text-White rounded border-inherit border-[1px] border-solid border-White">
+                        <button className=" h-[56px] px-8 text-sm sm:text-base leading-[22px] font-semibold text-White rounded border-inherit border-[1px] border-solid border-White">
                             Schedule Demo
                         </button>
                     </div>
                 </div>
-                <div className=" md:relative mt-[40px] sm:mt-[54px] md:mt-[60px] lg:mt-[80px]">
+                <div className="md:relative mt-[40px] sm:mt-[54px] md:mt-[60px] lg:mt-[80px]">
                     <div className="md:block hidden absolute -top-24 lg:-top-28 -left-12 lg:left-0 3xl:-left-5 4xl:left-0 max-w-[50px] lg:max-w-[120px]">
                         <Image
                             width={80}
@@ -49,9 +49,12 @@ const hero = () => {
                         />
                     </div>
                 </div>
+                <div className="mt-[40px] lg:mt-[95px]">
+                    <SalesSuccess />
+                </div>
             </div>
         </div>
     );
 };
 
-export default hero;
+export default Hero;

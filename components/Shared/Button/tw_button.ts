@@ -23,5 +23,5 @@ export const tw_button = (options = {} as UseTwButtonProps): string => {
                 'bg-btn-gray text-white ring-btn-gray hover:bg-gray';
 
 
-    return `${buttonColor} ${buttonSize} flex items-center justify-center font-semibold mx-auto rounded-full focus:ring-2 ring-offset-2 outline-none duration-150 disabled:opacity-50 disabled:pointer-events-none`;
+    return `${buttonColor} ${buttonSize} flex items-center justify-center font-semibold mx-auto rounded-full outline-none duration-150 disabled:opacity-50 disabled:pointer-events-none`;
 }

@@ -135,7 +135,7 @@ function TourPage() {
                                     management
                                 </h1>
 
-                                <div className="mt-[30px] sm:mt-[20px]  lg:mt-[20px] xl:mt-[30px] 2xl:mt-[35px] 4xl:mt-[35px]"></div>
+                                <div className="mt-[30px] sm:mt-[20px] lg:mt-[20px] xl:mt-[30px] 2xl:mt-[35px] 4xl:mt-[35px]"></div>
 
                                 <p className="text-sm sm:leading-[19.07px] leading-[21px] md:leading-[21.79px] md:text-base  text-center text-[#dedede] sm:mx-[40.42px]  md:mx-[79px] ">
                                     Take control of your Google Drive, Dropbox,

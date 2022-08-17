@@ -1,7 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import api from "../../api";
+import { useAtom } from "jotai";
+import { signupState } from "./../../state/index";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const Signup = () => {
+  const [signupData, setSignupData] = useAtom(signupState);
+  const [error, setError] = useState("");
+  const splitError = error.split(" ");
+  const errorIndex = splitError[0];
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+  const router = useRouter();
+
+  const onSubmit = (data: any) => {
+    setSignupData(data);
+    setError("");
+    api
+      .post("https://oda-center.herokuapp.com/api/signup", data)
+      .then((res) => {
+        if (res.status === 201) {
+          toast.success(res.data.message);
+          setTimeout(() => {
+            router.push("/");
+          }, 4000);
+        }
+      })
+      .catch((err) => {
+        setError(err?.response.data.message);
+      });
+  };
+
   const items = [
     {
       id: 0,
@@ -27,7 +62,7 @@ const Signup = () => {
   const label =
     "font-semibold text-[14px] leading-[19.07px] lg:text-[16px] lg:leading-[22px] text-[#101010]";
   const input =
-    "w-[100%] h-[55px] text-[#6D6D6D] text-[14px] font-normal border border-[#E0E0E0] rounded mt-[10px] px-[20px] py-[18px] mb-[20px]";
+    "w-[100%] h-[55px] text-[#6D6D6D] text-[14px] font-normal border border-[#E0E0E0] rounded mt-[10px] px-[20px] py-[18px] mb-[10px]";
   return (
     <div className="w-[100%] flex">
       <div className="w-[100%] xl:w-[50%] h-[1080px]">
@@ -43,60 +78,91 @@ const Signup = () => {
           <p className="text-[14px] mt-[10px] mb-[30px] leading-[22px]">
             Sign up now with email
           </p>
-          <form action="">
+          <form onSubmit={handleSubmit(onSubmit)}>
             <label className={label} htmlFor="name">
               Full name
             </label>
-            <br />
             <input
+              {...register("name", { required: true })}
               className={input}
-              type="text"
-              name="name"
-              placeholder="Enter name"
-              style={{ boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
+              style={{
+                boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
+                border:
+                  (errorIndex === '"Full Name"' && "1px solid red") ||
+                  (errors.name && "1px solid red"),
+              }}
             />
+            <br />
+            {errors.name && (
+              <h3 className="text-[#E51937] mb-[10px] text-[12px]">
+                Full name is required
+              </h3>
+            )}
             <label className={label} htmlFor="companyName">
               Company name
             </label>
-            <br />
             <input
+              {...register("companyName", { required: true })}
               className={input}
-              type="text"
-              name="companyName"
-              placeholder="Enter company name"
-              style={{ boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
+              style={{
+                boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
+                border:
+                  (errorIndex === '"Company Name"' && "1px solid red") ||
+                  (errors.companyName && "1px solid red"),
+              }}
             />
+            <br />
+            {errors.companyName && (
+              <h3 className="text-[#E51937] mb-[10px] text-[12px]">
+                Company name is required
+              </h3>
+            )}
             <label className={label} htmlFor="email">
               Email
             </label>
-            <br />
             <input
+              {...register("email", { required: true })}
               className={input}
-              type="email"
-              name="email"
-              placeholder="Enter email"
-              style={{ boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
+              style={{
+                boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
+                border:
+                  (errorIndex === '"Email"' && "1px solid red") ||
+                  (errors.email && "1px solid red"),
+              }}
             />
+            <br />
+            {errors.email && (
+              <h3 className="text-[#E51937] mb-[10px] text-[12px]">
+                Email is required
+              </h3>
+            )}
             <label className={label} htmlFor="password">
               Password
             </label>
-            <br />
             <input
+              {...register("password", { required: true })}
               className={input}
-              type="password"
-              name="password"
-              placeholder="Enter password"
               style={{
                 boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
                 marginBottom: "0px",
+                border:
+                  (errorIndex === '"Password"' && "1px solid red") ||
+                  (errors.password && "1px solid red"),
               }}
             />
-            <button
+            <br />
+            {errors.password && (
+              <h3 className="text-[#E51937] mt-[10px] text-[12px]">
+                Password is required
+              </h3>
+            )}
+            <br />
+            {error && <h3 className="text-[#E51937] text-[12px]">{error}</h3>}
+            <input
+              type="submit"
               className="w-[100%] h-[58px] bg-[#E51937] text-[#FFFFFF] rounded font-bold text-[16px] my-[30px]"
               style={{ boxShadow: "inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
-            >
-              Sign up
-            </button>
+            />
           </form>
           <h3 className="font-normal text-[14px] leading-[19.07px]">
             I already have an account {""}
@@ -118,7 +184,7 @@ const Signup = () => {
             <div className="xl:mt-[40px] 4xl:mt-[73px] 3xl:w-[640px] 2xl:w-[565px] xl:w-[480px] mx-auto">
               <ul className="text-[#FFFFFF] text-[24px] font-semibold">
                 {items.map((item: any) => (
-                  <div key={item} className="mb-[16px] last:mb-0 mx-auto">
+                  <div key={item.id} className="mb-[16px] last:mb-0 mx-auto">
                     <li className="flex gap-[10px] leading-[32.68px]">
                       <span>
                         <img
