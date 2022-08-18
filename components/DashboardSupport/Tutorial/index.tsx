@@ -10,7 +10,7 @@ const Tutorial = () => {
                 </h1>
             </div>
 
-            <div className=" flex flex-wrap gap-[21px]">
+            <div className=" flex flex-wrap justify-center gap-[21px]">
               {
                 [1,2,3].map((i)=>(
                   <Card key={i} />

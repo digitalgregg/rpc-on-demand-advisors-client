@@ -9,7 +9,7 @@ const Howto = () => {
     return (
         <div>
             <div className=" flex flex-col gap-[5px] 2xl:gap-[10px] truncate">
-                <h3 className=" text-[32px] leading-[44px] font-bold text-[#101010]">
+                <h3 className="truncate text-[32px] leading-[44px] font-bold text-[#101010]">
                     How does search work in On Demand Advisors ?
                 </h3>
             </div>

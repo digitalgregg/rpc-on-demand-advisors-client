@@ -20,7 +20,7 @@ const Card = ({ pre }: CardItemType) => {
                             />
                         </div>
 
-                        <p className="pt-[10px] max-w-[403.33px] text-sm leading-[19px] font-semibold text-black_primary">
+                        <p className="text-line-clamp pt-[10px] max-w-[403.33px] text-sm leading-[19px] font-semibold text-black_primary">
                             {pre}
                         </p>
                     </div>

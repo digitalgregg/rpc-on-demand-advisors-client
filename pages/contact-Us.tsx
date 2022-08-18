@@ -4,9 +4,9 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import Layout from "../components/Shared/Layout/Layout";
 import Button from "../components/Shared/Button";
-import TextField from "../components/Shared/TextField/TextField";
+import {TextField} from "../components/Shared/TextField/TextField";
 import FormikSelect from "../components/Shared/FormikSelect";
-import Textarea from "../components/Shared/Textarea";
+import {TeaxArea} from "../components/Shared/TeaxArea";
 import { Modals } from "../components/modal/contactPageModal/modal";
 const validationSchema = Yup.object({
   yourname: Yup.string()
@@ -117,8 +117,8 @@ const ContactUs = () => {
                           type="text"
                           placeholder={"Readme..."}
                         />
-                        <Textarea
-                          className={"mt-[10px]"}
+                        <TeaxArea
+                          className={"mt-[10px] "}
                           label="Description"
                           name="description"
                           placeholder="Text here..."

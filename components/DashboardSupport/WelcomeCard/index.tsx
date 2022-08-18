@@ -3,7 +3,7 @@ import React, { ReactNode } from "react";
 
 const WelcomeCard = ({ children }: { children: ReactNode }) => {
     return (
-        <div className="my-[30px] flex flex-col xl:flex-row gap-[30px]">
+        <div className="my-[30px] flex flex-col xl:flex-row gap-[10px] sm:gap-[20px] md:gap-[30px]">
             <div className="w-full xl:max-w-[966px] h-fit bg-White p-[30px] rounded">
                 {children}
             </div>

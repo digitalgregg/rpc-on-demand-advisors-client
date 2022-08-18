@@ -8,10 +8,10 @@ const Support = () => {
   return (
     <div>
     <div className=" flex flex-col gap-[5px] 2xl:gap-[10px]">
-        <h3 className=" text-[32px] leading-[44px] font-bold text-[#101010]">
+        <h3 className="truncate text-[32px] leading-[44px] font-bold text-[#101010]">
             Welcome
         </h3>
-        <p className=" font-normal text-sm 2xl:text-base leading-[19.07px] 2xl:leading-[22px] text-[#676767]">
+        <p className="truncate font-normal text-sm 2xl:text-base leading-[19.07px] 2xl:leading-[22px] text-[#676767]">
             Get started with ODA Center
         </p>
     </div>

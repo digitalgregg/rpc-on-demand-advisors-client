@@ -29,9 +29,9 @@ const FileShare = () => {
                         <HeaderContent />
                         <div className=" max-w-[1200px] mx-auto mt-[30px]">
                             <div className=" bg-White rounded w-full px-[30px] md:px-[40px] lg:px-[80px] xl:px-[110px] py-[49px]">
-                                <div className=" grid md:grid-flow-col grid-flow-row gap-[20px] xl:gap-[40px]">
+                                <div className=" grid md:grid-flow-col grid-flow-row gap-[20px] justify-center xl:gap-[40px]">
                                     {FakeData?.map((v: any, id: any) => (
-                                        <Card key={id} pre={v.title} />
+                                        <Card key={id} pre={v.p1} />
                                     ))}
                                 </div>
                             </div>
