@@ -11,8 +11,8 @@ function WishList() {
     };
     return (
         <DashboardLayout>
-            <div className="bg-[#fff] sm:bg-[#F8F8F8]">
-                <div className="dashboard-container min-h-screen">
+            <div className="">
+                <div className=" min-h-screen">
                     <div className="flex justify-between items-center">
                         <div className="text-[24px] leading-[32.68px] text-[#000] font-semibold">
                             Wishlist

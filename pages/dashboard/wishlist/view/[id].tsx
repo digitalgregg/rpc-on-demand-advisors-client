@@ -19,8 +19,8 @@ const updateWishSchema = Yup.object({
 function ViewWish() {
     return (
         <DashboardLayout>
-            <div className="bg-[#F8F8F8] min-h-screen">
-                <div className="dashboard-container">
+            <div className=" min-h-screen">
+                <div className="">
                     <div className="flex flex-col gap-4 sm:gap-5 xl:gap-[30px] lg:flex-row ">
                         <div className="lg:basis-[56%]">
                             <WhiteCard>

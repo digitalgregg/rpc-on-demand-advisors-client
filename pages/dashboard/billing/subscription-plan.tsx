@@ -12,8 +12,8 @@ function SubscriptionPlan() {
     const [isAnnual, setToggle] = useState<boolean>(false);
     return (
         <PricingLayout>
-            <div className="bg-[#fff] sm:bg-[#F8F8F8]">
-                <div className="dashboard-container">
+            <div className="">
+                <div className="">
                     <div className="pt-[50px]"></div>
                     <div>
                         <div className="flex justify-center items-center gap-[30px]">

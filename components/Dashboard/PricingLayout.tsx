@@ -7,8 +7,8 @@ import { NavLinkComponent } from "./NavLink";
 function PricingLayout({ children }: { children: ReactNode }) {
     return (
         <DashboardLayout>
-            <div className="bg-[#fff] sm:bg-[#F8F8F8]">
-                <div className="dashboard-container">
+            <div className="">
+                <div className="">
                     <div className="flex flex-col sm:flex-row gap-5">
                         <PricingTabItem
                             href="/dashboard/billing/subscription-plan"

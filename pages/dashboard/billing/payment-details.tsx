@@ -13,8 +13,8 @@ function PaymentDetails() {
     return (
         <>
             <PricingLayout>
-                <div className="bg-[#fff] sm:bg-[#F8F8F8]">
-                    <div className="dashboard-container">
+                <div className="">
+                    <div className="">
                         <div className="pt-[35px]"></div>
                         <div className="text-[24px] sm:text-left leading-[32.68px] font-semibold text-[#101010] text-center">
                             Update your Current Plan & Payment Method
