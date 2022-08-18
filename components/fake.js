@@ -1,14 +1,66 @@
 export const FakeData = [
     {
-        id:1,
-        title:"In publishing and graphic design, Lorem ipsum may be used as a placeholder before final copy is available."
+        id: 1,
+        qa: "What makes good product positioning?",
+        p1: "In publishing and graphic design, Lorem ipsum may be used as a placeholder before final copy is available.",
+        p2: "publishing and graphic design, Lorem ipsum may be used as a placeholder before final copy is available.",
     },
     {
-        id:2,
-        title:"In publishing and graphic design, Lorem ipsum is a placeholder text."
+        id: 2,
+        qa: "What makes good product positioning and develpoing?",
+        p1: "In publishing and graphic design, Lorem ipsum is a placeholder text.Lorem ipsum is a placeholder text commonly used to demonstrate.",
+        p2: "Good product positioning clearly communicates to your buying audience what your product is, who it’s for, what problems it addresses, how it’s differentiated from the competition, and how you uniquely deliver the solution to the buyer’s problem. It’s important that your positioning document enables other teams within Sales and Marketing to accurately generate new content and assets.",
     },
     {
-        id:3,
-        title:"Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content."
-    }
-]
+        id: 3,
+        qa: "What makes good product positioning?",
+        p1: " the visual form of a document or a typeface without relying on meaningful content.",
+        p2: "Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content.",
+    },
+];
+export const HowToData = [
+    {
+        id: 1,
+        images: "/assets/DashboardSupport/greggmorning.svg",
+        p1: "In publishing and graphic design, Lorem ipsum may be used as a placeholder before final copy is available.",
+    },
+    {
+        id: 2,
+        images: "/assets/DashboardSupport/greggmorning.svg",
+        p1: "Search. Find. Share. That's what drives the interactions in Content Camel, and we want to make search the best experience that we can for you and your team.",
+    },
+    {
+        id: 3,
+        images: "/assets/DashboardSupport/greggmorning.svg",
+        p1: " the visual form of a document or a typeface without relying on meaningful content.",
+    },
+];
+export const SupportData = [
+    {
+        id: 1,
+        p1: "Hi there! 👋 We've put together some resources, so it's easier to get started with ODA Center.",
+        p2: "ODA Center is a sales content management solution that enables sales, marketing, business development, and customer success to find, share, track, and understand engagement with your best content.",
+        p3: "Instead of losing valuable content in messy Google Drives, Dropbox folders, Sharepoint, or random spreadsheets, you can organize your content for use by prospect-facing and customer-facing teams.",
+        p4: "It's easy to get started with ODA Center by quickly importing the content you already have today.",
+        p5: "Interested in our roadmap? There's a lot we're working on and improving all the time, and we'd love your feedback.",
+        p6: "Need help with something specific? Get in touch and we'll be happy to help.",
+    },
+    {
+        id: 2,
+        p1: "Hi there! 👋 We've put together some resources, so it's easier to get started with ODA Center.",
+        p2: "Interested in our roadmap? There's a lot we're working on and improving all the time, and we'd love your feedback. ",
+        p3: "Instead of losing valuable content in messy Google Drives, Dropbox folders, Sharepoint, or random spreadsheets, you can organize your content for use by prospect-facing and customer-facing teams.",
+        p4: "Need help with something specific? Get in touch and we'll be happy to help.",
+        p5: "ODA Center is a sales content management solution that enables sales, marketing, business development, and customer success to find, share, track, and understand engagement with your best content.",
+        p6: " It's easy to get started with ODA Center by quickly importing the content you already have today.",
+    },
+    {
+        id: 3,
+        p1: "Hi there! 👋 We've put together some resources, so it's easier to get started with ODA Center.",
+        p2: "Need help with something specific? Get in touch and we'll be happy to help. ",
+        p3: " It's easy to get started with ODA Center by quickly importing the content you already have today.",
+        p4: " Instead of losing valuable content in messy Google Drives, Dropbox folders, Sharepoint, or random spreadsheets, you can organize your content for use by prospect-facing and customer-facing teams.",
+        p5: "Interested in our roadmap? There's a lot we're working on and improving all the time, and we'd love your feedback.",
+        p6: " ODA Center is a sales content management solution that enables sales, marketing, business development, and customer success to find, share, track, and understand engagement with your best content.",
+    },
+];
