@@ -41,8 +41,8 @@ const paymentMethodSchema = Yup.object({
 function Payment() {
     return (
         <DashboardLayout>
-            <div className="bg-[#fff] sm:bg-[#F8F8F8]">
-                <div className="dashboard-container">
+            <div className="">
+                <div className="">
                     <div className="text-[24px] sm:text-left sm:px-0 leading-[32.68px] text-[#101010] text-center px-[45px] font-bold">
                         Billing Information & Payment
                     </div>
