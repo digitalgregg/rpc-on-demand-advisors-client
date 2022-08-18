@@ -3,6 +3,9 @@ import { useField, Formik, Form, FieldHookConfig, ErrorMessage } from "formik";
 import DashboardLayout from "../../../components/Dashboard/DashboardLayout";
 import * as Yup from "yup";
 
+import InputField from "../../../components/Shared/InputField";
+import PaymentInfoDialog from "../../../components/Dashboard/BillingPage/PaymentInfoDialog";
+
 const initialBillingInfo = {
     email: "",
     country: "",
@@ -38,8 +41,8 @@ const paymentMethodSchema = Yup.object({
 function Payment() {
     return (
         <DashboardLayout>
-            <div className="bg-[#fff] sm:bg-[#F8F8F8]">
-                <div className="dashboard-container">
+            <div className="">
+                <div className="">
                     <div className="text-[24px] sm:text-left sm:px-0 leading-[32.68px] text-[#101010] text-center px-[45px] font-bold">
                         Billing Information & Payment
                     </div>
@@ -183,40 +186,13 @@ function Payment() {
                     </div>
                 </div>
             </div>
+            <div>
+                <PaymentInfoDialog
+                    modalOpen={false}
+                    handleModal={() => console.log("")}
+                />
+            </div>
         </DashboardLayout>
-    );
-}
-
-interface InputFieldType {
-    label?: string;
-}
-
-function InputField(props: InputFieldType & FieldHookConfig<string>) {
-    const [field, meta] = useField(props);
-    return (
-        <div className={props.className}>
-            <label
-                className="text-base text-[#000000] leading-[21.79px] font-semibold block"
-                htmlFor={props.label}
-            >
-                {props.label}
-            </label>
-            {props.label && <div className="pt-[10px]"></div>}
-            <input
-                id={props.label}
-                {...field}
-                type={props.type}
-                className={` ${
-                    meta.touched && meta.error && "!border-error"
-                } w-full bg-[#fff] text-sm placeholder:text-[#6D6D6D] border border-[#E0E0E0] h-[55px] focus:outline-none px-4 text-black rounded-[4px]`}
-                placeholder={props.placeholder}
-            />
-            <ErrorMessage
-                component="div"
-                className=" text-error text-[14px]"
-                name={field.name}
-            />
-        </div>
     );
 }
 
@@ -229,10 +205,6 @@ function ButtonField({ text }: { text: string }) {
             {text}
         </button>
     );
-}
-
-function SelectField() {
-    return <div></div>;
 }
 
 function ShadowCard({
