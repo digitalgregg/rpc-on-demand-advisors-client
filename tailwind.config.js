@@ -74,5 +74,53 @@ module.exports = {
             addVariant("child", "& > *");
             addVariant("child-hover", "& > *:hover");
         },
+        function ({ addUtilities }) {
+            addUtilities(
+                {
+                    ".scrollbar-hide": {
+                        "-ms-overflow-style": "none",
+                        "scrollbar-width": "none",
+                        "&::-webkit-scrollbar": {
+                            display: "none",
+                        },
+                    },
+
+                    ".scrollbar-default": {
+                        "-ms-overflow-style": "auto",
+                        "scrollbar-width": "auto",
+                        "&::-webkit-scrollbar": {
+                            display: "block",
+                        },
+                    },
+                },
+                ["responsive"]
+            );
+        },
+        function ({ addUtilities }) {
+            addUtilities(
+                {
+                    ".modal-scrollbar": {
+                        "&::-webkit-scrollbar": {
+                            width: "4px",
+                        },
+                        "&::-webkit-scrollbar-track": {
+                            // "box-shadow": "inset 0 0 5px grey",
+                            // "border-radius": "10px",
+                            background: "#f1f1f1",
+                        },
+                        "&::-webkit-scrollbar-thumb": {
+                            background: "#adadad",
+                            "border-radius": "1px",
+                        },
+                    },
+                    ".scrollbar-width": {
+                        "&::-webkit-scrollbar": {
+                            width: "5px",
+                        },
+                    },
+                },
+                ["responsive"]
+            );
+        },
     ],
 };
