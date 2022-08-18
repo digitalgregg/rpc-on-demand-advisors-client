@@ -1,34 +1,63 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+import api from "../../api";
+import { toast } from "react-toastify";
+
+const items = [
+  {
+    id: 0,
+    title: "Get the most from your content",
+  },
+  {
+    id: 1,
+    title: "Get started today",
+  },
+  {
+    id: 2,
+    title: "No contracts",
+  },
+  {
+    id: 3,
+    title: "No set up fee",
+  },
+  {
+    id: 4,
+    title: "Free trial",
+  },
+];
 
 const ForgotPassword = () => {
-  const items = [
-    {
-      id: 0,
-      title: "Get the most from your content",
-    },
-    {
-      id: 1,
-      title: "Get started today",
-    },
-    {
-      id: 2,
-      title: "No contracts",
-    },
-    {
-      id: 3,
-      title: "No set up fee",
-    },
-    {
-      id: 4,
-      title: "Free trial",
-    },
-  ];
+  const router = useRouter();
+  const [error, setError] = useState("");
+  const splitError = error.split(" ");
+  const errorIndex = splitError[0];
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
   const label =
     "text-[#101010] font-semibold xs:text-[14px] xs:leading-[19.07px] lg:text-[16px] lg:leading-[21.79px]";
   const input =
-    "w-[100%] text-[#6D6D6D] text-[14px] font-normal border border-[#E0E0E0] h-[55px] mb-[20px] my-[10px] px-[20px] py-[18px]";
+    "w-[100%] text-[#6D6D6D] text-[14px] font-normal border border-[#E0E0E0] h-[55px] mb-[20px] mt-[10px] px-[20px] py-[18px]";
+
+  const onSubmit = (data: any) => {
+    setError("");
+    api
+      .post("https://oda-center.herokuapp.com/api/user/forgot-password", data)
+      .then((res) => {
+        if (res.status === 200) {
+          toast.success(res.data.message);
+        }
+      })
+      .catch((err) => {
+        setError(err?.response.data.message);
+      });
+  };
+
   return (
     <div className="w-[100%] flex">
       <div className="w-[100%] xl:w-[50%] h-[1080px]">
@@ -44,22 +73,32 @@ const ForgotPassword = () => {
           <p className="text-[14px] mt-[10px] mb-[30px] leading-[22px]">
             Enter your Email and we’ll send a link to reset your Password
           </p>
-          <form action="">
+          <form onSubmit={handleSubmit(onSubmit)}>
             <label className={label} htmlFor="email">
               Email
             </label>
-            <br />
             <input
+              {...register("email", { required: true })}
               className={input}
-              type="email"
-              name="email"
-              placeholder="Enter email"
-              style={{ boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
+              style={{
+                boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
+                border:
+                  (errorIndex === '"Email"' && "1px solid #E51937") ||
+                  (errors.email && "1px solid #E51937"),
+              }}
             />
-            <h3 className="font-normal text-[14px] leading-[19px] text-[#E51937] mb-[20px]">
-              We can not find your account.
-            </h3>
+            {errors.email && (
+              <h3 className="text-[#E51937] mb-[20px] text-[12px]">
+                Email is required
+              </h3>
+            )}
+            {error && (
+              <h3 className="font-normal text-[14px] leading-[19px] text-[#E51937] mb-[20px]">
+                {error}
+              </h3>
+            )}
             <button
+              type="submit"
               className="w-[100%] h-[58px] bg-[#E51937] text-[#FFFFFF] rounded font-bold text-[16px] mb-[20px]"
               style={{ boxShadow: "inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
             >
@@ -68,7 +107,7 @@ const ForgotPassword = () => {
           </form>
           <div className="flex items-center">
             <Image src="/icon/back-icon.svg" alt="logo" width={9} height={12} />
-            <Link href="/login">
+            <Link href="/signin">
               <span className="text-[#000000] cursor-pointer font-normal text-[14px] leading-[19px] ml-[18.49px]">
                 Back to Log In.
               </span>
@@ -88,7 +127,7 @@ const ForgotPassword = () => {
             <div className="xl:mt-[40px] 4xl:mt-[73px] 3xl:w-[640px] 2xl:w-[565px] xl:w-[480px] mx-auto">
               <ul className="text-[#FFFFFF] text-[24px] font-semibold">
                 {items.map((item: any) => (
-                  <div key={item} className="mb-[16px] last:mb-0 mx-auto">
+                  <div key={item.id} className="mb-[16px] last:mb-0 mx-auto">
                     <li className="flex gap-[10px] leading-[32.68px]">
                       <span>
                         <img

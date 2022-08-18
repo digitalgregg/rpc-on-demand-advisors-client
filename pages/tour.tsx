@@ -135,7 +135,7 @@ function TourPage() {
                                     management
                                 </h1>
 
-                                <div className="mt-[30px] sm:mt-[20px]  lg:mt-[20px] xl:mt-[30px] 2xl:mt-[35px] 4xl:mt-[35px]"></div>
+                                <div className="mt-[30px] sm:mt-[20px] lg:mt-[20px] xl:mt-[30px] 2xl:mt-[35px] 4xl:mt-[35px]"></div>
 
                                 <p className="text-sm sm:leading-[19.07px] leading-[21px] md:leading-[21.79px] md:text-base  text-center text-[#dedede] sm:mx-[40.42px]  md:mx-[79px] ">
                                     Take control of your Google Drive, Dropbox,
@@ -326,7 +326,7 @@ function TourPage() {
                                 from your content and close deals faster.
                             </div>
                             <div className="mb-5 md:mb-[30px] lg:mb-[40px]"></div>
-                            <button className="text-xs leading-[16.34px] font-semibold p-[13px_24px] bg-[#E51937] text-center rounder-[3px]">
+                            <button className="text-xs leading-[16.34px] font-semibold p-[13px_24px] lg:p-[17px_32px] bg-[#E51937] text-center rounder-[3px] lg:text-base lg:leading-[21.79px] text-[#fff] rounded-[4px]">
                                 Get started
                             </button>
                         </div>

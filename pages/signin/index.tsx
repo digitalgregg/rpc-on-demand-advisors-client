@@ -1,33 +1,68 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+import api from "../../api";
+import { toast } from "react-toastify";
+import { setLocal } from "../../utils/localStorage";
+import { useAtom } from "jotai";
+
+const items = [
+  {
+    id: 0,
+    title: "Get the most from your content",
+  },
+  {
+    id: 1,
+    title: "Get started today",
+  },
+  {
+    id: 2,
+    title: "No contracts",
+  },
+  {
+    id: 3,
+    title: "No set up fee",
+  },
+  {
+    id: 4,
+    title: "Free trial",
+  },
+];
 
 const Signin = () => {
-  const items = [
-    {
-      id: 0,
-      title: "Get the most from your content",
-    },
-    {
-      id: 1,
-      title: "Get started today",
-    },
-    {
-      id: 2,
-      title: "No contracts",
-    },
-    {
-      id: 3,
-      title: "No set up fee",
-    },
-    {
-      id: 4,
-      title: "Free trial",
-    },
-  ];
+  const [error, setError] = useState("");
+  const splitError = error.split(" ");
+  const errorIndex = splitError[0];
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+  const router = useRouter();
+
+  const onSubmit = (data: any) => {
+    setError("");
+    api
+      .post("https://oda-center.herokuapp.com/api/signin", data)
+      .then((res) => {
+        if (res.status === 200) {
+          setLocal("token", res.data.data);
+          toast.success(res.data.message);
+          setTimeout(() => {
+            router.push("/");
+          }, 4000);
+        }
+      })
+      .catch((err) => {
+        setError(err?.response.data.message);
+      });
+  };
+
   const label =
     "text-[#101010] font-semibold xs:text-[14px] xs:leading-[19.07px] lg:text-[16px] lg:leading-[21.79px]";
   const input =
-    "w-[100%] text-[#6D6D6D] text-[14px] font-normal border border-[#E0E0E0] h-[55px] mb-[20px] mt-[10px] px-[20px] py-[18px]";
+    "w-[100%] text-[#6D6D6D] text-[14px] font-normal border border-[#E0E0E0] h-[55px] mb-[10px] mt-[10px] px-[20px] py-[18px]";
   return (
     <div className="w-[100%] flex">
       <div className="w-[100%] xl:w-[50%] h-[1080px]">
@@ -43,34 +78,49 @@ const Signin = () => {
           <p className="text-[14px] mt-[10px] mb-[30px] leading-[22px]">
             Log in now with email
           </p>
-          <form action="">
+          <form onSubmit={handleSubmit(onSubmit)}>
             <label className={label} htmlFor="email">
               Email
             </label>
-            <br />
             <input
+              {...register("email", { required: true })}
               className={input}
-              type="email"
-              name="email"
-              placeholder="Enter email"
-              style={{ boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
+              style={{
+                boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
+                border:
+                  (errorIndex === '"Email"' && "1px solid #E51937") ||
+                  (errors.email && "1px solid #E51937"),
+              }}
             />
+            {errors.email && (
+              <h3 className="text-[#E51937] mb-[10px] text-[12px]">
+                Email is required
+              </h3>
+            )}
             <label className={label} htmlFor="password">
               Password
             </label>
-            <br />
             <input
+              {...register("password", { required: true })}
               className={input}
-              type="password"
-              name="password"
-              placeholder="Enter password"
               style={{
                 boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
                 marginBottom: "0px",
+                border:
+                  (errorIndex === '"Password"' && "1px solid #E51937") ||
+                  (errors.email && "1px solid #E51937"),
               }}
             />
-
+            {errors.password && (
+              <h3 className="text-[#E51937] mt-[10px] text-[12px]">
+                Password is required
+              </h3>
+            )}
+            {error && (
+              <h3 className="text-[#E51937] text-[12px] mt-[10px]">{error}</h3>
+            )}
             <button
+              type="submit"
               className="w-[100%] h-[58px] bg-[#E51937] text-[#FFFFFF] rounded font-bold text-[16px] my-[30px]"
               style={{ boxShadow: "inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
             >
@@ -99,7 +149,7 @@ const Signin = () => {
             <div className="xl:mt-[40px] 4xl:mt-[73px] 3xl:w-[640px] 2xl:w-[565px] xl:w-[480px] mx-auto">
               <ul className="text-[#FFFFFF] text-[24px] font-semibold">
                 {items.map((item: any) => (
-                  <div key={item} className="mb-[16px] last:mb-0 mx-auto">
+                  <div key={item.id} className="mb-[16px] last:mb-0 mx-auto">
                     <li className="flex gap-[10px] leading-[32.68px]">
                       <span>
                         <img

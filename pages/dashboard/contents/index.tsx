@@ -1,9 +1,11 @@
 import React from "react";
 import DashboardLayout from "../../../components/Dashboard/DashboardLayout";
+import TopNav from './../../../components/Dashboard/TopNav';
 
 function Contents() {
     return (
         <DashboardLayout>
+            <TopNav />
             <h1>My Contents Page</h1>
 
             <div>

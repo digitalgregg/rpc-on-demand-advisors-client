@@ -39,3 +39,22 @@ function NavLink({
 }
 
 export default NavLink;
+
+type NavLinkComponentType = {
+    href: string;
+    exact: boolean;
+    component: (isActive: boolean) => ReactNode;
+};
+
+function NavLinkComponent({ href, exact, component }: NavLinkComponentType) {
+    const { asPath } = useRouter();
+    const isActive = exact ? asPath === href : asPath.startsWith(href);
+
+    return <Link href={href}>{component(isActive)}</Link>;
+}
+
+NavLinkComponent.defaultProps = {
+    exact: false,
+};
+
+export { NavLinkComponent };
