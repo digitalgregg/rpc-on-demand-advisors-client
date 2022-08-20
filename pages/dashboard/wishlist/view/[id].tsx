@@ -3,6 +3,7 @@ import React from "react";
 import { ReactNode } from "react";
 import * as Yup from "yup";
 import DashboardLayout from "../../../../components/Dashboard/DashboardLayout";
+import PasswordField from "../../../../components/Playground/PasswordField";
 import SelectField from "../../../../components/Shared/SelectField";
 import TextAreaField from "../../../../components/Shared/TextAreaField";
 
@@ -94,6 +95,7 @@ function ViewWish() {
                                                         Inprogress
                                                     </option>
                                                 </SelectField>
+                                                <PasswordField />
                                                 <div className="pt-4 sm:pt-5"></div>
                                                 <TextAreaField
                                                     name="note"
