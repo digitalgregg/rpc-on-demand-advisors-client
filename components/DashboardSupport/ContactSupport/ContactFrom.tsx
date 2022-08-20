@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Formik, Form } from "formik";
-import TextField from "./TextField";
-import TeaxArea from "./TeaxArea";
+import  InputField  from "../../Shared/InputField";
+import { TeaxArea } from "../../Shared/TeaxArea";
 import * as Yup from "yup";
 import Select from "react-select";
-import {selectCustomStyles} from "../../../utils/helpers"
+import { selectCustomStyles } from "../../../utils/helpers";
 
 const validate = Yup.object({
     yourName: Yup.string()
@@ -33,8 +33,6 @@ const flavourOptions = [
         titile: "orenge",
     },
 ];
-
-
 
 const ContactFrom: React.FC<{}> = () => {
     const [selectedOption, setSelectedOption] = useState(null);
@@ -66,9 +64,7 @@ const ContactFrom: React.FC<{}> = () => {
                     <Form>
                         <Select
                             placeholder="Select a Topic"
-                            onChange={(e: any) =>
-                                setSelectedOption(e.value)
-                            }
+                            onChange={(e: any) => setSelectedOption(e.value)}
                             options={flavourOptions}
                             styles={selectCustomStyles}
                             components={{
@@ -76,13 +72,17 @@ const ContactFrom: React.FC<{}> = () => {
                                 IndicatorSeparator: () => null,
                             }}
                         />
-                        <TextField
+                        <InputField
                             label="Your Name"
                             name="yourName"
                             type="text"
                         />
-                        <TextField label="Email" name="email" type="email" />
-                        <TextField label="Subject" name="subject" type="text" />
+                        <InputField label="Email" name="email" type="email" />
+                        <InputField
+                            label="Subject"
+                            name="subject"
+                            type="text"
+                        />
                         <TeaxArea
                             label="Description"
                             name="description"

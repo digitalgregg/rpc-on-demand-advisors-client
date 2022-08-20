@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useField, ErrorMessage, Formik, useFormik } from "formik";
-const TextField = ({ className, label, placeholder, ...props }) => {
+// {...Formik.getFieldProps(props.name)}
+export const TextField = (props:any) => {
     const [field, meta] = useField(props);
     return (
         <div className=" w-full flex flex-col">
@@ -8,7 +9,7 @@ const TextField = ({ className, label, placeholder, ...props }) => {
                 htmlFor={field.name}
                 className="text-base text-black_primary leading-[22px] font-semibold"
             >
-                {label}
+                {props.label}
             </label>
             <input
                 autoComplete="off"
@@ -17,10 +18,10 @@ const TextField = ({ className, label, placeholder, ...props }) => {
                 className={` ${
                     meta.touched && meta.error && "!border-rose-400"
                 } ${
-                    className === "" ? "" : className
+                    props.className === "" ? "" : props.className
                 } rounded w-full mt-[10px] outline-none bg-White h-[55px] px-[15px] text-[#9E9E9E] border-[1px] border-solid  border-[#9E9E9E]`}
                 type="text"
-                placeholder={placeholder}
+                placeholder={props.placeholder}
             />
             <ErrorMessage
                 component="div"
@@ -30,4 +31,3 @@ const TextField = ({ className, label, placeholder, ...props }) => {
         </div>
     );
 };
-export default TextField;

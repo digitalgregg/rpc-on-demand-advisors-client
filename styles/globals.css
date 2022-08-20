@@ -54,3 +54,15 @@ a {
     padding-right: 20px;
 }
 .drawer ::-webkit-scrollbar {display:none;}
+.text-line-clamp {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: hidden;
+  }
+.text-line-clamp-1 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+  }
