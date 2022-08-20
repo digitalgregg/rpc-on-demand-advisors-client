@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Formik, Form } from "formik";
-import { InputField } from "../../InputField";
+import  InputField  from "../../Shared/InputField";
 import { TeaxArea } from "../../Shared/TeaxArea";
 import * as Yup from "yup";
 import Select from "react-select";

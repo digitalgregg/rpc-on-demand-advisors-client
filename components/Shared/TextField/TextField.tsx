@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
-import { useField, ErrorMessage,Formik } from "formik";
-export const TextField = ({ ...props }) => {
-    const [field, meta] = useField({props});
+import { useField, ErrorMessage, Formik, useFormik } from "formik";
+// {...Formik.getFieldProps(props.name)}
+export const TextField = (props:any) => {
+    const [field, meta] = useField(props);
     return (
         <div className=" w-full flex flex-col">
             <label
@@ -11,7 +12,6 @@ export const TextField = ({ ...props }) => {
                 {props.label}
             </label>
             <input
-            {...formik.getFieldProps(props.name)}
                 autoComplete="off"
                 {...field}
                 {...props}
