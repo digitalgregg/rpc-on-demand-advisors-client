@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modals } from "../components/modal/ContactSupportModal";
+import { Modals } from "../components/modal/ContactSupportFeedBackModal";
 
 const Test = () => {
     const [modalIsOpen, setIsOpen] = useState(false);

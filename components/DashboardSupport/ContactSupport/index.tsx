@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ContactFrom from "./ContactFrom";
-import { Modals } from "../../modal/ContactSupportModal";
+import { Modals } from "../../modal/contactPageModal/modal";
+import CustomModal from "../../CustomUtils/CustomModal";
 const stypes =
     "text-[16px] leading-[22px] text-[$000000] font-normal mb-[20px]";
 
@@ -8,15 +9,19 @@ const ContactSupport = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
 
     function openModal() {
-      setIsOpen(true);
+        setIsOpen(true);
     }
-  
+
     function closeModal() {
-      setIsOpen(false);
+        setIsOpen(false);
     }
     return (
         <>
-            <Modals closeModal={closeModal} modalIsOpen={modalIsOpen} />
+            <CustomModal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                className="bg-[#fff] rounded-[4px] w-fit"
+            />
             <div className=" flex flex-col lg:flex-row ">
                 <div>
                     <h1 className=" text-2xl leading-[33px] font-semibold text-[#000000] mb-[20px]">
@@ -44,7 +49,7 @@ const ContactSupport = () => {
                     </p>
                 </div>
                 <div className=" w-full lg:max-w-[600px] lg:w-[600px] bg-White rounded py-[50px] px-[40px]">
-                    <ContactFrom  />
+                    <ContactFrom />
                 </div>
             </div>
         </>

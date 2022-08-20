@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { Formik, Form } from "formik";
-import  InputField  from "../../Shared/InputField";
+import InputField from "../../Shared/InputField";
 import { TeaxArea } from "../../Shared/TeaxArea";
 import * as Yup from "yup";
-import Select from "react-select";
-import { selectCustomStyles } from "../../../utils/helpers";
 
 const validate = Yup.object({
     yourName: Yup.string()
@@ -19,20 +17,6 @@ interface MyFormValues {
     email: string;
     description: string;
 }
-const flavourOptions = [
-    {
-        titile: "red",
-    },
-    {
-        titile: "blue",
-    },
-    {
-        titile: "black",
-    },
-    {
-        titile: "orenge",
-    },
-];
 
 const ContactFrom: React.FC<{}> = () => {
     const [selectedOption, setSelectedOption] = useState(null);
@@ -49,7 +33,7 @@ const ContactFrom: React.FC<{}> = () => {
             validationSchema={validate}
             onSubmit={(valus) => console.log(valus)}
         >
-            {(formik) => (
+            {() => (
                 <div className=" w-full">
                     {/* {console.log(formik.values)} */}
                     <div className=" mb-[30px]">
@@ -62,16 +46,6 @@ const ContactFrom: React.FC<{}> = () => {
                     </div>
 
                     <Form>
-                        <Select
-                            placeholder="Select a Topic"
-                            onChange={(e: any) => setSelectedOption(e.value)}
-                            options={flavourOptions}
-                            styles={selectCustomStyles}
-                            components={{
-                                DropdownIndicator: () => null,
-                                IndicatorSeparator: () => null,
-                            }}
-                        />
                         <InputField
                             label="Your Name"
                             name="yourName"

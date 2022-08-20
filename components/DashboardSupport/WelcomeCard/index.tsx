@@ -7,7 +7,7 @@ const WelcomeCard = ({ children }: { children: ReactNode }) => {
             <div className="w-full xl:max-w-[966px] h-fit bg-White p-[30px] rounded">
                 {children}
             </div>
-            <div className=" w-full xl:max-w-[514px] px-[30px] py-[40px] bg-White rounded">
+            <div className=" h-fit w-full xl:max-w-[514px] px-[30px] py-[40px] bg-White rounded">
                 <span className="text-[18px] xl:text-base 2xl:text-[18px] leading-[25px] xl:leading-[21.79px] 2xl:leading-[25px] font-bold text-[#000]">
                     Welcome
                 </span>

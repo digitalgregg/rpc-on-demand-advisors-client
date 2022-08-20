@@ -12,7 +12,6 @@ export const VideoControls = () => {
         }
     };
 
-
     return (
         <div className="h-full w-full relative rounded-[2.4px]">
             <video className="w-full h-full" ref={videoRef} controls>
@@ -20,22 +19,29 @@ export const VideoControls = () => {
             </video>
             {!isPlay && (
                 <>
-                    <div className="h-full z-10 w-full absolute top-0 left-0">
+                    <div className=" relative w-[35px] h-[35px]">
                         <Image
                             layout="fill"
                             src="/assets/DashboardSupport/videobg.png"
-                            alt=""
+                            alt="icons"
                             onClick={handlePlay}
                         />
                     </div>
-                    <div className="absolute z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:w-[60px] lg:h-[60px]">
-                        <div className=" relative lg:w-[60px] lg:h-[60px]">
-                            <Image
-                                layout="fill"
-                                src="/assets/DashboardSupport/videoPlay.png"
-                                alt=""
-                                onClick={handlePlay}
-                            />
+                    <div className="absolute z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:w-full lg:h-full">
+                        <div
+                            onClick={handlePlay}
+                            className=" cursor-pointer flex flex-col justify-center items-center gap-[10px] lg:w-full lg:h-full"
+                        >
+                            <div className=" relative lg:w-[60px] lg:h-[60px]">
+                                <Image
+                                    layout="fill"
+                                    src="/assets/DashboardSupport/videoPlay.svg"
+                                    alt=""
+                                />
+                            </div>
+                            <p className=" font-semibold leading-[19px] text-White text-sm">
+                                Watch How
+                            </p>
                         </div>
                     </div>
                 </>
