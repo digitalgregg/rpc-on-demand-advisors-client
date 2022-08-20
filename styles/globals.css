@@ -40,3 +40,13 @@ a {
         background: black;
     }
 }
+
+@media only screen and (min-width: 1200px) {
+    .success-bg{
+        background-image: url("/img/success-bg.svg");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        background-position: center;
+    }
+}
