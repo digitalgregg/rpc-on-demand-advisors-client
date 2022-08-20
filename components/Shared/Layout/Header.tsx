@@ -72,7 +72,7 @@ const NavMenuItem = () => {
                                 className={`
                         ${
                             router.asPath === "/resources/demo" ||
-                            router.asPath === "/contact-Us"
+                            router.asPath === "/contact-us"
                                 ? "!text-primary !font-bold"
                                 : ""
                         } text-[#ffffff] lg:p-[10px] pr-3 font-semibold text-[18px] leading-[25px]
@@ -116,7 +116,7 @@ const NavMenuItem = () => {
                             pera={
                                 "Watch a quick demo or schedule time with us."
                             }
-                            url={"/contact-Us"}
+                            url={"/contact-us"}
                         />
                     </ul>
                 </li>
