@@ -51,6 +51,9 @@ const ForgotPassword = () => {
       .then((res) => {
         if (res.status === 200) {
           toast.success(res.data.message);
+          setTimeout(() => {
+            router.push("/");
+          }, 4000);
         }
       })
       .catch((err) => {

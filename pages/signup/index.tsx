@@ -52,10 +52,16 @@ const Signup = () => {
     setSignupData(data);
     setError("");
     api
-      .post("http://localhost:8080/api/signup", data)
+      .post("https://oda-center.herokuapp.com/api/signup", data)
       .then((res) => {
         if (res.status === 201) {
-          setLocal("user", res.data.data);
+          const userInfo = {
+            _id: res.data.data._id,
+            name: res.data.data.name,
+            email: res.data.data.email,
+            companyName: res.data.data.companyName,
+          };
+          setLocal("user", userInfo);
           toast.success(res.data.message);
           setTimeout(() => {
             router.push("/");
