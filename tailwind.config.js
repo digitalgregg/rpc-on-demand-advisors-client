@@ -57,6 +57,7 @@ module.exports = {
         },
     },
     plugins: [
+        require("@tailwindcss/line-clamp"),
         function ({ addComponents }) {
             addComponents({
                 ".dashboard-container": {

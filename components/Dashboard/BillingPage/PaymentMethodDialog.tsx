@@ -79,7 +79,7 @@ function PaymentMethodDialog({
                                         />
                                     </div>
                                     <div className="pt-4"></div>
-                                    <CountrySelect className="[&>label]:!text-[14px] [&>div>select]:!h-[44px] " />
+                                    <CountrySelect />
                                     <div className="pt-[25.59px]"></div>
                                     <div className="text-xs text-[#4F4F4F] leading-[#4F4F4F] font-normal">
                                         By providing your card information, you
