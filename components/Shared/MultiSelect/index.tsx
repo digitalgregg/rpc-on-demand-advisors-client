@@ -1,18 +1,21 @@
 /* eslint-disable @next/next/no-img-element */
 import { useField, FieldHookConfig, ErrorMessage } from "formik";
 import { FC, ReactElement } from "react";
+import CustomSelect from "./CustomSelect";
 
-interface InputFieldType {
+interface MultiSelectType {
     label?: string;
-    inputImg?: FC;
-    height: string;
+    height?: string;
+    options: object[];
     labelClass?: string;
     inputClass?: string;
+    type: "multi" | "single";
+    valueChange?: (v: any) => void;
 }
 
-function InputField(props: InputFieldType & FieldHookConfig<string>) {
-    const [field, meta] = useField(props);
-    const id = props.label ? props.label.replace(" ", "-") : props.name;
+function MultiSelect(props: MultiSelectType & FieldHookConfig<string>) {
+    const [field, meta, helpers] = useField(props);
+
     return (
         <div className={props.className}>
             <label
@@ -21,25 +24,26 @@ function InputField(props: InputFieldType & FieldHookConfig<string>) {
                     " " +
                     props.labelClass
                 }
-                htmlFor={id}
             >
                 {props.label}
             </label>
             {props.label && <div className="pt-[10px]"></div>}
             <div className="relative">
-                <input
-                    id={id}
-                    {...field}
-                    type={props.type}
+                <CustomSelect
+                    options={props.options}
+                    onChange={(v) => {
+                        props.valueChange && props.valueChange(v);
+
+                        helpers.setValue(v);
+                    }}
                     className={` ${
                         meta.touched && meta.error && "!border-error"
-                    } w-full input bg-[#fff] text-sm placeholder:text-[#6D6D6D] border border-[#E0E0E0]  ${
+                    } w-full input text-sm placeholder:text-[#6D6D6D] border border-[#676767]  ${
                         props.inputClass
-                    } focus:outline-none px-4 text-black rounded-[4px]`}
+                    } focus:outline-none  text-black rounded-[4px]`}
                     placeholder={props.placeholder}
-                    style={{ height: props.height }}
+                    type={props.type}
                 />
-                {props.inputImg && <props.inputImg />}
             </div>
             <ErrorMessage
                 component="div"
@@ -50,8 +54,8 @@ function InputField(props: InputFieldType & FieldHookConfig<string>) {
     );
 }
 
-InputField.defaultProps = {
+MultiSelect.defaultProps = {
     height: "55px",
 };
 
-export default InputField;
+export default MultiSelect;
