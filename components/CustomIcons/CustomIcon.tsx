@@ -1,8 +1,8 @@
 import React, { ReactNode } from "react";
 
 export type IconType = {
-    height?: number;
-    width?: number;
+    height?: number | string;
+    width?: number | string;
     color?: string;
 };
 
@@ -13,8 +13,8 @@ function CustomIcon({
     svg,
 }: {
     svg: ({ width, height, color }: IconType) => ReactNode;
-    height: number;
-    width: number;
+    height: number | string;
+    width: number | string;
     color: string;
 }) {
     return <>{svg({ width, height, color })}</>;

@@ -37,6 +37,11 @@ const PricingPage = () => {
                                 Monthly Plans
                             </p>
                             <ToggleButton
+                                // className={
+                                //     toggle
+                                //         ? "!bg-[#DEDEDE] !shadow-[0px_2px_4px_rgba(0,0,0,0.25)]"
+                                //         : ""
+                                // }
                                 toggle={toggle}
                                 handleToggle={handleToggle}
                             />
