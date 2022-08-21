@@ -43,7 +43,6 @@ export const Modals = ({ modalIsOpen, closeModal }: any) => {
                                     " !text-[#E51937]"
                                 )}
                             >
-                                {" "}
                                 Help Center
                             </a>
                         </Link>
@@ -55,7 +54,6 @@ export const Modals = ({ modalIsOpen, closeModal }: any) => {
                                     " !text-[#E51937]"
                                 )}
                             >
-                                {" "}
                                 Resources.
                             </a>
                         </Link>
