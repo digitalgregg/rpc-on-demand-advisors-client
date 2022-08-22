@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import FilterPopup from "../FilterPopup";
 import MoboDraer from "../MoboDraer";
-import UserSettingsDropdown from './../UserSettingsDropdown/index';
-import RecentActivityStatus from './../RecentActivityStatus/index';
-
+import UserSettingsDropdown from "./../UserSettingsDropdown/index";
+import RecentActivityStatus from "./../RecentActivityStatus/index";
 
 const NavLeftItem = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,12 +14,12 @@ const NavLeftItem = () => {
   };
 
   const handleDropDown = () => {
-    setOpenDropdown(!openDropdown)
+    setOpenDropdown(!openDropdown);
   };
 
   const handleRecentActivity = () => {
-    setOpenActivity(!openActivity)
-  }
+    setOpenActivity(!openActivity);
+  };
 
   return (
     <div className="flex gap-[20px] items-center">
@@ -36,9 +35,11 @@ const NavLeftItem = () => {
         alt="recent activity"
         className="xs:w-[18px] xs:h-[18px] sm:w-[24px] sm:h-[24px] cursor-pointer"
       />
-      {
-        openActivity && <div className="absolute top-[70px] right-[40px]   sm:top-[60px] sm:right-[205px]"><RecentActivityStatus /></div>
-      }
+      {openActivity && (
+        <div className="absolute top-[70px] right-[40px] z-50  sm:top-[60px] sm:right-[205px]">
+          <RecentActivityStatus />
+        </div>
+      )}
       <div className="flex gap-[15px]">
         <h3 className="text-[16px] xs:hidden sm:flex font-semibold text-[#222222] flex items-center relative">
           Gregg{" "}
@@ -51,9 +52,11 @@ const NavLeftItem = () => {
             />
           </span>{" "}
         </h3>
-     {openDropdown &&    <div className="absolute  top-[65px] right-[35px] xl:top-[65px] xl:right-[120px]">
-          <UserSettingsDropdown />
-        </div>}
+        {openDropdown && (
+          <div className="absolute z-50 top-[65px] right-[35px] xl:top-[65px] xl:right-[120px]">
+            <UserSettingsDropdown />
+          </div>
+        )}
         <img
           src="/img/avater.svg"
           alt="avater"
@@ -67,7 +70,10 @@ const NavLeftItem = () => {
           className="w-[30px] h-[20px] cursor-pointer sm:hidden"
         />
       </div>
-        <FilterPopup modalOpen={modalOpen} onClose={() => setModalOpen(!modalOpen)} />
+      <FilterPopup
+        modalOpen={modalOpen}
+        onClose={() => setModalOpen(!modalOpen)}
+      />
       <MoboDraer isOpen={isOpen} toggleDrawer={toggleDrawer} />
     </div>
   );
