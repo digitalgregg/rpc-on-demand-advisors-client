@@ -128,41 +128,6 @@ const ChangePassword = () => {
               Reset Password
             </button>
           </form>
-          {/* <form action="">
-            <label className={label} htmlFor="password">
-              Old Password
-            </label>
-            <br />
-            <input
-              className={input}
-              type="password"
-              name="password"
-              placeholder="Enter password"
-              style={{
-                boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
-              }}
-            />
-            <label className={label} htmlFor="password">
-              New Password
-            </label>
-            <br />
-            <input
-              className={input}
-              type="password"
-              name="password"
-              placeholder="Enter password"
-              style={{
-                boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
-                marginBottom: "0px",
-              }}
-            />
-            <button
-              className="w-[100%] h-[58px] bg-[#E51937] text-[#FFFFFF] rounded font-bold text-[16px] mt-[30px]"
-              style={{ boxShadow: "inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
-            >
-              Reset Password
-            </button>
-          </form> */}
         </div>
       </div>
       {/* second section   */}
