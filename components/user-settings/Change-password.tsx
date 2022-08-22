@@ -48,7 +48,7 @@ const ChangePassword = () => {
                         isHiddenOldPassword ? "invisible.svg" : "visible.svg"
                       }`}
                       alt="icon"
-                      className="absolute top-[10px] right-[10px]"
+                      className="absolute top-[14px] right-[10px]"
                     />
                   );
                 }}
@@ -72,12 +72,12 @@ const ChangePassword = () => {
                         isHiddenNewPassword ? "invisible.svg" : "visible.svg"
                       }`}
                       alt="icon"
-                      className="absolute top-[10px] right-[10px]"
+                      className="absolute top-[14px] right-[10px]"
                     />
                   );
                 }}
               />
-              <button className="xs:w-[100%] sm:w-[241.56px] md:w-[279.24px] lg:w-[328.52px] xl:w-[186px] 2xl:w-[216px] 3xl:w-[209.14px] 4xl:w-[250.29px] h-[45px] border border-[#E51937] rounded font-semibold text-[14px] leading-[19px] text-[#E51937]">
+              <button className="xs:w-[100%] sm:w-[240px] md:w-[279px] lg:w-[144px] xl:w-[144px] 2xl:w-[187px] 3xl:w-[278.06px] 4xl:w-[278.06px] h-[45px] border border-[#E51937] rounded-[4px] font-semibold text-[14px] leading-[19px] text-[#E51937]">
                 Update password
               </button>
             </div>

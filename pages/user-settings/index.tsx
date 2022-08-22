@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import DashboardLayout from "../../components/Dashboard/DashboardLayout";
-import InputField from "../../components/Shared/InputField";
-import ToggleButton from "../../components/Shared/ToggleButton";
 import AccountInfo from "./../../components/user-settings/Account-info";
 import ChangeEmail from "./../../components/user-settings/Change-email";
 import ProfilePhoto from "./../../components/user-settings/Profile-photo";
