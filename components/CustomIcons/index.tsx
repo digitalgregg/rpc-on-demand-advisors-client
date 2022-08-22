@@ -7,6 +7,8 @@ import SmileIcon from "./SmileIcon";
 import IgnorIcon from "./IgnorIcon";
 import MeetIcon from './MeetIcon';
 import MeetCalander from './MeetCalander';
+import EditIcon from './EditIcon';
+import DeleteIcon from './DeleteIcon';
 
 export {
     PaymentIcon,
@@ -17,5 +19,7 @@ export {
     SmileIcon,
     IgnorIcon,
     MeetIcon,
-    MeetCalander
+    MeetCalander,
+    EditIcon,
+    DeleteIcon
 };
