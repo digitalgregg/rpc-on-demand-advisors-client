@@ -65,7 +65,7 @@ const ContentCard = ({
               alt="3 dot line"
               className="w-[14px] h-[14px] cursor-pointer"
             />
-            <div className="absolute right-[5px] top-[20px] z-50"><EditDropdown mapIndex={mapIndex} clickedId={clickedId} isOpen={isOpen}/></div>
+            <div className="absolute right-[5px] top-[20px] z-10"><EditDropdown mapIndex={mapIndex} clickedId={clickedId} isOpen={isOpen}/></div>
           </div>
           {/* TAG SECTION START  */}
           <div className="flex flex-wrap h-auto gap-[2px] mb-[15.33px] 4xl:mb-[13px]">
