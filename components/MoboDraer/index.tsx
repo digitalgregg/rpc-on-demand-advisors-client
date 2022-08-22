@@ -58,11 +58,19 @@ const menuItems = [
     url: "",
   },
   {
-    id: 0,
+    id: 9,
+    title: "Account Settings",
+    img: "/img/accountSettingWh.svg",
+    url: "",
+  },
+  {
+    id: 10,
     title: "Logout",
     img: "/img/logout.svg",
     url: "",
   },
+  
+  
 ];
 
 const MoboDraer = ({ toggleDrawer, isOpen }: any) => {
