@@ -115,3 +115,43 @@ export const RecentActivities = [
     description: "Your wishlist has been added",
   },
 ];
+
+
+export const activityFakeData = [
+  {
+      id: 0,
+      title: "Title here",
+      date: "28 july 2022",
+      status: "Your wishlist has been added"
+  },
+  {
+      id: 1,
+      title: "Title here",
+      date: "28 july 2022",
+      status: "Your wishlist has been added"
+  },
+  {
+      id: 2,
+      title: "Title here",
+      date: "28 july 2022",
+      status: "Your wishlist has been added"
+  },
+  {
+      id: 3,
+      title: "Title here",
+      date: "28 july 2022",
+      status: "Your wishlist has been added"
+  },
+  {
+      id: 4,
+      title: "Title here",
+      date: "28 july 2022",
+      status: "Your wishlist has been added"
+  },
+  {
+      id: 5,
+      title: "Title here",
+      date: "28 july 2022",
+      status: "Your wishlist has been added"
+  },
+]
