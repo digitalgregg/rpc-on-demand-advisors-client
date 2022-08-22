@@ -40,7 +40,6 @@ const item = [
 ]
 const EditDropdown = ({ mapIndex, clickedId,isOpen }: DropdownProps) => {
     
-  console.log(mapIndex, "map index inside edit dorpdown", clickedId, "clicked Id");
   return (
     <>
       {(clickedId === mapIndex) && isOpen && (

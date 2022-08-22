@@ -37,7 +37,7 @@ const NavLeftItem = () => {
         className="xs:w-[18px] xs:h-[18px] sm:w-[24px] sm:h-[24px] cursor-pointer"
       />
       {
-        openActivity && <div className="absolute top-[70px] right-[40px]   sm:top-[60px] sm:right-[205px]"><RecentActivityStatus /></div>
+        openActivity && <div className="absolute z-50 top-[70px] right-[40px]   sm:top-[60px] sm:right-[205px]"><RecentActivityStatus /></div>
       }
       <div className="flex gap-[15px]">
         <h3 className="text-[16px] xs:hidden sm:flex font-semibold text-[#222222] flex items-center relative">
@@ -51,7 +51,7 @@ const NavLeftItem = () => {
             />
           </span>{" "}
         </h3>
-     {openDropdown &&    <div className="absolute  top-[65px] right-[35px] xl:top-[65px] xl:right-[120px]">
+     {openDropdown &&    <div className="absolute z-50  top-[65px] right-[35px] xl:top-[65px] xl:right-[120px]">
           <UserSettingsDropdown />
         </div>}
         <img

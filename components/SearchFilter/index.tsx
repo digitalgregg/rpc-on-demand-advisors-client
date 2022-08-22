@@ -31,7 +31,7 @@ const SearchFilter = () => {
             boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
             display: filterBoxOpen === true ? "block" : "none",
           }}
-          className="xs:w-full sm:w-[460px] md:w-[460px] lg:w-[530px] h-auto absolute left-0 top-[39px] rounded-[4px] bg-white "
+          className="xs:w-full z-50 sm:w-[460px] md:w-[460px] lg:w-[530px] h-auto absolute left-0 top-[39px] rounded-[4px] bg-white "
         >
           <div className=" px-[40px] py-[30px]">
             <FilterBox />
