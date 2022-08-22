@@ -75,3 +75,35 @@ a {
     -webkit-line-clamp: 1;
     overflow: hidden;
   }
+
+  .modal-scroll {
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+    overflow-y: scroll;
+  }
+  .modal-scroll::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+  }
+
+  .arrow{
+    position: relative;
+    width:240px;
+    background: #FFFFFF;
+    height:61px;
+    text-align:center;
+    color:#fff;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
+    z-index: 999;
+    border-radius: 4px;
+  }
+  .arrow-top:before{
+    position: absolute;
+    top: -10px;
+    left:85%;
+    margin-left: -10px;
+    content:"";
+    display:block;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #FFFFFF; 
+  }

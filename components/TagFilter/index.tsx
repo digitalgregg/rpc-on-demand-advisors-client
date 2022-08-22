@@ -2,7 +2,7 @@ import React from "react";
 import Select from "react-select";
 import TagBadges from "./../CustomIcons/TagBadges";
 
-const TagsSelect = () => {
+const TagFilter = () => {
   const labelStyle = "flex items-center gap-[8px]";
   const label = "text-[16px] font-semibold text-[#000805]";
   const options = [
@@ -45,6 +45,7 @@ const TagsSelect = () => {
       ...base,
       border: "1px solid #9E9E9E",
       boxShadow: "none",
+      minHeight: "55px",
     }),
     // indicatorsContainer: (provided:any) => ({
     //     border: "none"
@@ -55,9 +56,9 @@ const TagsSelect = () => {
   }
   return (
     <>
-      <div className="mb-[10px] mt-[30px] text-#000805">
+      {/* <div className="mb-[10px] mt-[30px] text-#000805">
         <label className={label}>Tags</label>
-      </div>
+      </div> */}
       <Select
         // defaultValue={[colourOptions[2], colourOptions[3]]}
         onChange={handleChange}
@@ -73,4 +74,4 @@ const TagsSelect = () => {
   );
 };
 
-export default TagsSelect;
+export default TagFilter;
