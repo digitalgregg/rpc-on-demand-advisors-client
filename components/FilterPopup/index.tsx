@@ -15,7 +15,8 @@ const FilterPopup = ({ modalOpen, onClose }: ModalProps) => {
         isOpen={modalOpen}
         onRequestClose={onClose}
         style={searchModalCustomS}
-        contentLabel="Example Modal"
+        contentLabel="Filter"
+        preventScroll
       >
         <section className="text-white w-[100%] h-[100%] bg-white xs:px-[20px] sm:px-[30px] pt-[30px]">
         <div className="text-red-500 h-[90%] container1 drawer">

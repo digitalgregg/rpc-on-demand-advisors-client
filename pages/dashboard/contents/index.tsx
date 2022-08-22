@@ -2,13 +2,11 @@ import React from "react";
 import DashboardLayout from "../../../components/Dashboard/DashboardLayout";
 import TopNav from "./../../../components/Dashboard/TopNav";
 import ContentCard from "./../../../components/ContentCard/index";
-import EditDropdown from './../../../components/EditDropdown/index';
 
 function Contents() {
   const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
   return (
     <DashboardLayout>
-      <TopNav />
       <div className="pt-[35px]">
         <div className="flex flex-col items-center justify-between sm:flex-row pb-[30px] sm:w-[530px] md:w-[608px] lg:w-[724px] xl:w-[880px] 2xl:w-[1100px] mx-auto 3xl:w-[1330px] 4xl:w-[1570px]">
           <h3 className="text-[16px] md:text-[18px] lg:text-[24px] 2xl:text-[32px]  font-bold">
