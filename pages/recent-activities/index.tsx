@@ -3,12 +3,12 @@ import DashboardLayout from "./../../components/Dashboard/DashboardLayout";
 import { RecentActivities } from "../../components/fake";
 
 export default function Index() {
-  const [isOpen,setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [selectNum, setSelectNum] = useState(null);
-  
+
   const handleMenu = (id: any) => {
     setSelectNum(id);
-    setIsOpen(!open)
+    setIsOpen(!isOpen);
   };
   return (
     <DashboardLayout>
@@ -42,7 +42,7 @@ export default function Index() {
                 />
               </div>
               {/* drop down items  */}
-              
+
               {index === selectNum && isOpen && (
                 <div
                   className="w-[92px] h-[92px] bg-[#ffffff] rounded px-[8px] py-[8px] absolute top-[40px]  right-[25px] z-50"
@@ -55,7 +55,6 @@ export default function Index() {
                   </ul>
                 </div>
               )}
-              
             </div>
           );
         })}
