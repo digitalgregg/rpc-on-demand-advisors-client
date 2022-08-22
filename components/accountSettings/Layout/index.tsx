@@ -4,24 +4,28 @@ import { ReactNode } from "react";
 
 const subNev = [
     {
-        titile: "Tutorial",
-        url: "/dashboard/tutorial",
+        titile: "Application Settings",
+        url: "/account-settings/application-settings",
     },
     {
-        titile: "How-to",
-        url: "/dashboard/howto",
+        titile: "User Management",
+        url: "/account-settings/user-management",
     },
     {
-        titile: "Resources",
-        url: "/dashboard/resources",
+        titile: "Branding",
+        url: "/account-settings/branding",
     },
     {
-        titile: "Feedback",
-        url: "/dashboard/feedback",
+        titile: "Import",
+        url: "/account-settings/import",
     },
     {
-        titile: "Contact support",
-        url: "/dashboard/contact-support",
+        titile: "Trackers",
+        url: "/account-settings/trackers",
+    },
+    {
+        titile: "Notification",
+        url: "/account-settings/notification",
     },
 ];
 

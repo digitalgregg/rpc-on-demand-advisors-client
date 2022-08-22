@@ -5,15 +5,15 @@ import { MeetIcon, MeetCalander } from "../../../CustomIcons";
 const subNev = [
     {
         titile: "Reschedule",
-        url: "/dashboard/contactSupport/reschedule",
+        url: "/dashboard/contact-support/reschedule",
     },
     {
         titile: "Edit your details",
-        url: "/dashboard/contactSupport/update-details",
+        url: "/dashboard/contact-support/update-details",
     },
     {
         titile: "Cancel meeting",
-        url: "/dashboard/contactSupport/cancel-meeting",
+        url: "/dashboard/contact-support/cancel-meeting",
     },
 ];
 
