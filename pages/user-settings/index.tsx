@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import DashboardLayout from "../../components/Dashboard/DashboardLayout";
-import AccountInfo from "./../../components/user-settings/Account-info";
-import ChangeEmail from "./../../components/user-settings/Change-email";
-import ProfilePhoto from "./../../components/user-settings/Profile-photo";
-import ChangePassword from "./../../components/user-settings/Change-password";
-import NotificationSettings from "../../components/user-settings/Notification-settings";
+import AccountInfo from "../../components/UserSettings/AccountInfo";
+import ChangeEmail from "../../components/UserSettings/ChangeEmail";
+import ProfilePhoto from "../../components/UserSettings/ProfilePhoto";
+import ChangePassword from "../../components/UserSettings/ChangePassword";
+import NotificationSettings from "../../components/UserSettings/NotificationSettings";
 
 const Index = () => {
   return (
