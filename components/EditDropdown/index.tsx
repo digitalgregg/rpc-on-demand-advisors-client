@@ -21,7 +21,7 @@ const item = [
     {
         id:1,
         title: "Edit",
-        img: <EditIcon stroke="#222222" />
+        img: <EditIcon stroke="#222222" width="12px" height="12px" />
     },
     {
         id:2,
@@ -36,7 +36,7 @@ const item = [
     {
         id:4,
         title: "Delete",
-        img: <DeleteIcon stroke="#222222" />
+        img: <DeleteIcon stroke="#222222" width="12px" height="12px" />
     },
 ]
 const EditDropdown = ({ mapIndex, clickedId,isOpen }: DropdownProps) => {
@@ -54,8 +54,8 @@ const EditDropdown = ({ mapIndex, clickedId,isOpen }: DropdownProps) => {
         >
             {item.map((list:any) => (
                 <div key={list.id} className="">
-                <ul className="rounded-[4px] hover:bg-[#E51937]">
-                <li onClick={() => handleIconClick(list.title)} className="flex gap-[12px] cursor-pointer py-2 group px-[10px] text-[16px] items-center  text-[#222222]">{list.img} <span className=" text-[16px] text-[#222222] group-hover:text-[#FFFFFF]">{list.title}</span> </li>
+                <ul className="rounded-[4px] hover:bg-[rgba(229,25,55,0.1)]">
+                <li onClick={() => handleIconClick(list.title)} className="flex gap-[12px] cursor-pointer py-2 group px-[10px] text-[16px] items-center  text-[#222222]">{list.img} <span className=" text-[16px] text-[#222222] group-hover:text-primary group-hover:font-semibold	">{list.title}</span> </li>
             </ul>
                 </div>
             ))}
