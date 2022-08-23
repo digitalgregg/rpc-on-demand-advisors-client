@@ -12,7 +12,7 @@ const menuItems = [
   {
     id: 1,
     title: "My Collections",
-    img: "/img/collectionIcon.svg",
+    img: "/img/collectionIconWh.svg",
     url: "",
   },
   {

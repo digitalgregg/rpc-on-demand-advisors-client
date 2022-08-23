@@ -1,24 +1,27 @@
-import React, { useState } from "react";
-import { Modals } from "../components/modal/ContactSupportFeedBackModal";
+import React, { useRef, useEffect } from "react";
 
-const Test = () => {
-    const [modalIsOpen, setIsOpen] = useState(false);
 
-    function openModal() {
-        setIsOpen(true);
+function useOutsideAlerter(ref:any,) {
+  useEffect(() => {
+   
+    function handleClickOutside(event:any) {
+      if (ref.current && !ref.current.contains(event.target)) {
+        alert("You clicked outside of me!");
+      }
     }
+    // Bind the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
+}
 
-    function closeModal() {
-        setIsOpen(false);
-    }
-    return (
-        <>
-            <Modals  closeModal={closeModal} modalIsOpen={modalIsOpen} />{" "}
-            <button onClick={openModal} className=" text-4xl font-bold">
-                openModal
-            </button>
-        </>
-    );
-};
 
-export default Test;
+export default function OutsideAlerter(props:any) {
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef);
+
+  return <div ref={wrapperRef}>{props.children}</div>;
+}
