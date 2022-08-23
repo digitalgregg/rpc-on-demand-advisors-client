@@ -10,6 +10,9 @@ import CheckBox from "../../../../components/CustomIcons/CheckBox";
 import { Dropdown, DropdownItem } from "../../../../components/Shared/Dropdown";
 import CountrySelect from "../../../../components/Dashboard/BillingPage/CountrySelect";
 import TestField from "../../../../components/Playground/TestField";
+import Pagination from "../../../../components/Shared/Pagination";
+import YesNoModal from "../../../../components/Shared/YesNoModal";
+import { useEffect } from "react";
 const initialValues = {
     collection_title: "",
     share_with: "",
@@ -24,13 +27,33 @@ function CollectionsView() {
     const options = [
         { value: "all-team-members", label: "All Team Members" },
         { value: "no-team-members", label: "No Team Members" },
-        // { value: "62e101e037c8919737717187", label: "Rashed Iqbal" },
-        // { value: "62e101e037c8919737716187", label: "Rakib Islam" },
-        // { value: "62e101e037c8913737717187", label: "Asif Ahmed" },
+        { value: "62e101e037c8919ds737717187", label: "Rashed Iqbal" },
+        { value: "62e101e037c8919w757716187", label: "Rakib Islam" },
+        { value: "62e101e037c8913727f717187", label: "Asif 1Ahmed" },
+        { value: "62e101e037c89137s27717187", label: "Asif2 Ahmed" },
+        { value: "62e101e037c89137277c17187", label: "Asif 3Ahmed" },
+        { value: "62e101e037c8913f727717187", label: "Asif 4Ahmed" },
     ];
+
+    const [removeModal, setRemoveModal] = useState(false);
 
     const [selectedContent, setSelectedContent] = useState<any>();
     const [content, setContent] = useState([
+        {
+            title: "Give your blog the perfect",
+            type: "Blog",
+            img: "https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aW1nfGVufDB8fDB8fA%3D%3D&w=1000&q=80",
+        },
+        {
+            title: "Give your blog the perfect",
+            type: "Blog",
+            img: "https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aW1nfGVufDB8fDB8fA%3D%3D&w=1000&q=80",
+        },
+        {
+            title: "Give your blog the perfect",
+            type: "Blog",
+            img: "https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aW1nfGVufDB8fDB8fA%3D%3D&w=1000&q=80",
+        },
         {
             title: "Give your blog the perfect",
             type: "Blog",
@@ -99,7 +122,10 @@ function CollectionsView() {
                                 Selected Content
                             </div>
                             <div className="pl-5"></div>
-                            <div className="flex items-center gap-[7px]">
+                            <div
+                                className="flex items-center gap-[7px]"
+                                onClick={() => setRemoveModal(!removeModal)}
+                            >
                                 <img
                                     src="/assets/collections/delete.svg"
                                     alt=""
@@ -108,6 +134,17 @@ function CollectionsView() {
                                     REMOVE ALL
                                 </span>
                             </div>
+                            <YesNoModal
+                                isOpen={removeModal}
+                                handleModal={() => setRemoveModal(!removeModal)}
+                                header={"Remove all selected content?"}
+                                onYesClick={() => {
+                                    console.log("Check");
+                                }}
+                                description={
+                                    "Are you sure you want to remove all select content? This action cannot be undone"
+                                }
+                            />
                         </div>
                     </div>
                     <div className="pt-5"></div>
@@ -151,16 +188,25 @@ function CollectionsView() {
                         </div>
                     </div>
                     <div className="pt-5"></div>
-                    <div className="grid gap-[10px] sm:grid-cols-2">
-                        {content.map((v, i) => (
-                            <ContentCard key={i} isChecked={false} data={v} />
-                        ))}
-                        <div>
-                            <button className="h-[84px] font-semibold rounded-[4px] text-[#000] w-full leading-[84px] text-center bg-[#fff] border border-dashed border-[#9D9D9D]">
-                                Add New Content
-                            </button>
-                        </div>
-                    </div>
+                    <Pagination dataArr={content} itemsPerPage={5}>
+                        {(currentItems) => (
+                            <div className="grid gap-[10px] sm:grid-cols-2">
+                                {currentItems.map((v, i) => (
+                                    <ContentCard
+                                        key={i}
+                                        isChecked={false}
+                                        data={v}
+                                    />
+                                ))}
+                                <div>
+                                    <button className="h-[80px] sm:h-[84.45px] lg:h-[100px] font-semibold rounded-[4px] text-[#000] w-full leading-[84px] text-center bg-[#fff] border border-dashed border-[#9D9D9D]">
+                                        Add New Content
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </Pagination>
+                    <div className="pt-[100px]"></div>
                 </div>
             </div>
         </DashboardLayout>
@@ -168,17 +214,53 @@ function CollectionsView() {
 }
 
 const CollectionsSelect = ({ options }: { options: object[] }) => {
-    const [value, setValue] = useState<any>(false);
+    const [value, setValue] = useState<SelectResultType | SelectResultType[]>();
+    useEffect(() => {
+        const checkValue = value && checkSelectValue(value);
+        if (checkValue) {
+            if (typeof checkValue == "object") {
+                setValue(checkValue);
+            }
+        }
+    }, [value]);
+
     return (
         <MultiSelect
             options={options}
             name="share_with"
             className="basis-[40%]"
-            type={!value ? "single" : "multi"}
+            type={
+                value
+                    ? checkSelectValue(value)
+                        ? "single"
+                        : "multi"
+                    : "single"
+            }
             label="Share with"
-            onChange={(v: any) => {}}
+            value={value}
+            valueChange={(v) => {
+                setValue(v);
+            }}
         />
     );
+};
+
+type SelectResultType = {
+    label: string;
+    value: string;
+};
+
+const checkSelectValue = (value: SelectResultType[] | SelectResultType) => {
+    if (Array.isArray(value)) {
+        return value.find(
+            (v) => v.value == "all-team-members" || v.value == "no-team-members"
+        );
+    } else {
+        return (
+            value.value.includes("all-team-members") ||
+            value.value.includes("no-team-members")
+        );
+    }
 };
 
 const ContentCard = ({

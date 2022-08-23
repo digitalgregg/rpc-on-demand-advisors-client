@@ -8,6 +8,7 @@ interface MultiSelectType {
     height?: string;
     options: object[];
     labelClass?: string;
+    value?: string;
     inputClass?: string;
     type: "multi" | "single";
     valueChange?: (v: any) => void;
@@ -43,6 +44,7 @@ function MultiSelect(props: MultiSelectType & FieldHookConfig<string>) {
                     } focus:outline-none  text-black rounded-[4px]`}
                     placeholder={props.placeholder}
                     type={props.type}
+                    value={props.value}
                 />
             </div>
             <ErrorMessage
