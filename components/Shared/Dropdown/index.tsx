@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, {
     useEffect,
@@ -106,21 +107,23 @@ function Dropdown({
             </div>
 
             {isOpen && (
-                <div
-                    className="bg-[#fff] w-full absolute p-[10px] max-h-[260px] overflow-y-auto modal-scrollbar z-[1000] shadow-[0px_0px_20px_rgba(0,0,0,0.1)]"
-                    onClick={() => setOpen(true)}
-                >
-                    <DropDownContext.Provider
-                        value={{ setOpen, isOpen, setActive, active }}
+                <div className="bg-[#fff] w-full absolute py-[10px] shadow-[0px_0px_20px_rgba(0,0,0,0.1)]">
+                    <div
+                        className=" w-full  px-[10px] max-h-[260px] overflow-y-auto select-scrollbar z-[1000] "
+                        onClick={() => setOpen(true)}
                     >
-                        {React.Children.count(children) > 0 ? (
-                            children
-                        ) : (
-                            <div className="text-[#000] text-center text-sm">
-                                {noItemText || "Nothing here"}
-                            </div>
-                        )}
-                    </DropDownContext.Provider>
+                        <DropDownContext.Provider
+                            value={{ setOpen, isOpen, setActive, active }}
+                        >
+                            {React.Children.count(children) > 0 ? (
+                                children
+                            ) : (
+                                <div className="text-[#000] text-center text-sm">
+                                    {noItemText || "Nothing here"}
+                                </div>
+                            )}
+                        </DropDownContext.Provider>
+                    </div>
                 </div>
             )}
         </div>
