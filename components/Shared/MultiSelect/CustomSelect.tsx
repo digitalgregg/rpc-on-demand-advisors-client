@@ -25,9 +25,14 @@ function CustomSelect({
         multiValue: (styles: any) => {
             return {
                 ...styles,
-                backgroundColor: optionColor,
+                backgroundColor: "#E51937",
+                color: "#fff",
             };
         },
+        multiValueLabel: (styles) => ({
+            ...styles,
+            color: "#fff",
+        }),
         input: (styles) => ({
             ...styles,
             height: "53px",
@@ -52,8 +57,12 @@ function CustomSelect({
                 borderColor: "#676767",
             },
         }),
+        clearIndicator: (styles) => ({
+            ...styles,
+            display: "none",
+        }),
+
         option: (styles, state) => {
-            console.log(styles);
             return {
                 ...styles,
                 ":hover": {
