@@ -155,3 +155,54 @@ export const activityFakeData = [
       status: "Your wishlist has been added"
   },
 ]
+
+export const userManagementData = [
+  {
+    id:1,
+    name:"A.S. Piash",
+    email:"examample@gmailffffffffffffffffffffffffffffff.com",
+    userType : "admin",
+    onlineStatus: "offline",
+    img:"/img/user-avatar.svg"
+  },
+  {
+    id:2,
+    name:"A.S. Piash",
+    email:"examample@digitalgreeg.com",
+    userType : "admin",
+    onlineStatus: "offline",
+    img:"/img/user-avatar.svg"
+  },
+  {
+    id:3,
+    name:"A.S. Piash",
+    email:"examample@digitalgreeg.com",
+    userType : "admin",
+    onlineStatus: "offline",
+    img:"/img/user-avatar.svg"
+  },
+  {
+    id:4,
+    name:"A.S. Piash",
+    email:"examample@digitalgreeg.com",
+    userType : "admin",
+    onlineStatus: "offline",
+    img:"/img/user-avatar.svg"
+  },
+  {
+    id:5,
+    name:"A.S. Piash",
+    email:"examample@digitalgreeg.com",
+    userType : "admin",
+    onlineStatus: "offline",
+    img:"/img/user-avatar.svg"
+  },
+  {
+    id:6,
+    name:"A.S. Piash",
+    email:"examample@digitalgreeg.com",
+    userType : "admin",
+    onlineStatus: "offline",
+    img:"/img/user-avatar.svg"
+  }
+]
