@@ -1,10 +1,9 @@
 import React from "react";
-import Footer from "./footer";
-import Header from "./header";
+import TrackersEditor from "./TrackersEditor";
 
 const Trackers = () => {
     return (
-        <div className="">
+        <div className="overflow-hidden">
             <h4 className=" text-2xl leading-[33px] font-semibold text-black">
                 About Trackers
             </h4>
@@ -24,11 +23,32 @@ const Trackers = () => {
                 </p>
             </div>
             <div className=" flex flex-col md:flex-row gap-[30px]  w-full">
-                <div className="h-fit max-w-[770px] md:w-[770px]">
-                    <Header />
+                <div className="w-full">
+                    <h3 className=" capitalize text-2xl leading-[33px] font-semibold text-black">
+                        header
+                    </h3>
+                    <div className="pt-4"></div>
+                    <p className=" text-base leading-[22px] font-normal text-[#676767]">
+                        Add HTML and JavaScript snippets to the header of
+                        published collection site pages
+                    </p>
+                    <div className="pt-4"></div>
+
+                    <TrackersEditor />
                 </div>
-                <div className="h-fit max-w-[770px] md:w-[770px]">
-                    <Footer />
+                <div className="w-full">
+                    <h3 className=" capitalize text-2xl leading-[32.68px] font-semibold text-black">
+                        Footer
+                    </h3>
+                    <div className="pt-4"></div>
+
+                    <p className=" text-base leading-[21.79px] font-normal text-[#676767]">
+                        Add HTML and JavaScript snippets to the footer of
+                        published collection site pages
+                    </p>
+                    <div className="pt-4"></div>
+
+                    <TrackersEditor />
                 </div>
             </div>
         </div>
