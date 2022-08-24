@@ -1,5 +1,6 @@
 import React from "react";
-import Editor, { OnChange } from "@monaco-editor/react";
+import Editor, { OnChange, useMonaco } from "@monaco-editor/react";
+import { useEffect } from "react";
 
 type CodeEditorType = {
     isEditable?: boolean;
@@ -14,37 +15,50 @@ function CodeEditor({
     onChange,
     value,
 }: CodeEditorType) {
-    return (
-        <div className="border w-full h-[192px] bg-[white] border-[#9E9E9E] rounded-[4px] p-5 overflow-visible">
-            <Editor
-                defaultLanguage="html"
-                value={value}
-                defaultValue={defaultValue}
-                onChange={onChange}
-                options={{
-                    minimap: { enabled: false },
-                    readOnly: isEditable,
-                    folding: false,
-                    lineDecorationsWidth: 0,
-                    lineNumbersMinChars: 0,
-                    wordWrap: "on",
-                    bracketPairColorization: {
-                        enabled: true,
-                    },
+    const monaco = useMonaco();
+    useEffect(() => {
+        monaco?.editor.defineTheme("my-theme", {
+            base: "vs",
+            inherit: true,
+            rules: [],
+            colors: {
+                "editor.background": "#00000000",
+            },
+        });
+        return () => {};
+    }, [monaco]);
 
-                    roundedSelection: false,
-                    occurrencesHighlight: false,
-                    multiCursorMergeOverlapping: false,
-                    overviewRulerBorder: false,
-                    glyphMargin: false,
-                    scrollBeyondLastLine: false,
-                    autoClosingBrackets: "always",
-                    scrollbar: { verticalScrollbarSize: 4 },
-                    lineNumbers: "off",
-                    selectionHighlight: false,
-                }}
-            />
-        </div>
+    return (
+        <Editor
+            defaultLanguage="html"
+            value={value}
+            className="bg-[#F8F8F8]"
+            defaultValue={defaultValue}
+            onChange={onChange}
+            theme="my-theme"
+            options={{
+                minimap: { enabled: false },
+                readOnly: !isEditable,
+                folding: false,
+                lineDecorationsWidth: 0,
+                lineNumbersMinChars: 0,
+                wordWrap: "on",
+                bracketPairColorization: {
+                    enabled: true,
+                },
+
+                roundedSelection: false,
+                occurrencesHighlight: false,
+                multiCursorMergeOverlapping: false,
+                overviewRulerBorder: false,
+                glyphMargin: false,
+                scrollBeyondLastLine: false,
+                autoClosingBrackets: "always",
+                scrollbar: { verticalScrollbarSize: 4 },
+                lineNumbers: "off",
+                selectionHighlight: false,
+            }}
+        />
     );
 }
 
