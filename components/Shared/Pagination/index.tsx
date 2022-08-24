@@ -43,7 +43,7 @@ function Pagination({
                     onPageChange={handlePageClick}
                     pageRangeDisplayed={2}
                     className={
-                        "flex gap-4 font-semibold pt-[30px] w-full text-base leading-[21.79px] text-[#9E9E9E] justify-end items-center" +
+                        "flex gap-4 font-semibold w-full text-base leading-[21.79px] text-[#9E9E9E] justify-end items-center" +
                         " " +
                         className
                     }
