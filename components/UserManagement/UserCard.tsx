@@ -25,7 +25,7 @@ const UserManagementCard = () => {
             </div>
             <div className="px-[15px] w-[100%]">
               <div className="flex justify-between w-[100%]">
-                <div className="mt-[6px]">
+                <div className="mt-[6px] text-[#101010]">
                   <h4 className="font-normal text-[12px] leading-[16px] pb-[16px]">
                     Email
                   </h4>
@@ -36,7 +36,7 @@ const UserManagementCard = () => {
                     OnlineStatus
                   </h4>
                 </div>
-                <div className="">
+                <div className="text-[#101010]">
                   <p className="font-semibold text-[14px] leading-[19px] pb-[16px] truncate w-[200px]">
                     {user.email}
                   </p>
