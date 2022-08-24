@@ -75,6 +75,9 @@ module.exports = {
             addVariant("child", "& > *");
             addVariant("child-hover", "& > *:hover");
         },
+        function ({ addVariant }) {
+            addVariant("upload-button", "&::-webkit-file-upload-button");
+        },
         function ({ addUtilities }) {
             addUtilities(
                 {
@@ -136,6 +139,30 @@ module.exports = {
                 },
                 ["responsive"]
             );
+        },
+        function ({ addUtilities }) {
+            addUtilities(
+                {
+                    ".input-color-padding": {
+                        "&::-webkit-color-swatch-wrapper": {
+                            padding: 0,
+                        },
+                        "&::-webkit-color-swatch": {
+                            border: "none",
+                        },
+                    },
+                },
+                ["responsive"]
+            );
+        },
+        function ({ matchUtilities }) {
+            matchUtilities({
+                "input-color-rounded": (value) => ({
+                    "&::-webkit-color-swatch": {
+                        borderRadius: `${value}`,
+                    },
+                }),
+            });
         },
     ],
 };
