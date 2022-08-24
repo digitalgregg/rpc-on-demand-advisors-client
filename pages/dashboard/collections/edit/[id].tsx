@@ -81,6 +81,12 @@ function CollectionsView() {
         },
     ]);
 
+    const [fileUploadOpen, setFileUploadOpen] = useState(false);
+
+    const handleFileUploadModal = () => {
+        setFileUploadOpen(!fileUploadOpen);
+    };
+
     return (
         <DashboardLayout>
             <div className="min-h-screen">
@@ -188,7 +194,11 @@ function CollectionsView() {
                         </div>
                     </div>
                     <div className="pt-5"></div>
-                    <Pagination dataArr={content} itemsPerPage={5}>
+                    <Pagination
+                        dataArr={content}
+                        itemsPerPage={5}
+                        className="pt-[30px]"
+                    >
                         {(currentItems) => (
                             <div className="grid gap-[10px] sm:grid-cols-2">
                                 {currentItems.map((v, i) => (
@@ -199,7 +209,10 @@ function CollectionsView() {
                                     />
                                 ))}
                                 <div>
-                                    <button className="h-[80px] sm:h-[84.45px] lg:h-[100px] font-semibold rounded-[4px] text-[#000] w-full leading-[84px] text-center bg-[#fff] border border-dashed border-[#9D9D9D]">
+                                    <button
+                                        className="h-[80px] sm:h-[84.45px] lg:h-[100px] font-semibold rounded-[4px] text-[#000] w-full leading-[84px] text-center bg-[#fff] border border-dashed border-[#9D9D9D]"
+                                        onClick={handleFileUploadModal}
+                                    >
                                         Add New Content
                                     </button>
                                 </div>
