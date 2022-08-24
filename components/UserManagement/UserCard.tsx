@@ -15,7 +15,7 @@ const UserManagementCard = () => {
       {userManagementData.map((user) => {
         return (
           <div className="w-[100%] bg-[#FFFFFF] mb-[16px]" key={user.id}>
-            <div className="px-[15px] py-[10px] w-[100%] h-[58px] mb-[20px] bg-black text-[#FFFFFF] rounded-[4px_4px_0px_0px] flex items-center">
+            <div className="px-[15px] py-[10px] w-[100%] h-[58px] mb-[20px] bg-[#222222] text-[#FFFFFF] rounded-[4px_4px_0px_0px] flex items-center">
               <img
                 src="/img/girl.svg"
                 alt="girl"
