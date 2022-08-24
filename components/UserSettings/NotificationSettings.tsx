@@ -12,11 +12,11 @@ const NotificationSettings = () => {
         Notification Settings
       </h3>
       <div className="flex border border-[#9E9E9E] xs:px-[18px] xs:py-[16px] 3xl:px-[15px] 3xl:py-[24.5px] w-[100%] items-center mb-[26px] rounded-[8px]">
-        <h4 className="flex-1 font-normal text-[16px]">Web notification</h4>
+        <h4 className="flex-1 font-normal text-[16px] text-[#000000]">Web notification</h4>
         <ToggleButton toggle={toggle} handleToggle={handleToggle} className={`${!toggle && "bg-[#DEDEDE]"}`}/>
       </div>
       <div className="flex border border-[#9E9E9E] xs:px-[18px] xs:py-[16px] 3xl:px-[15px] 3xl:py-[24.5px] w-[100%] items-center rounded-[8px]">
-        <h4 className="flex-1 font-normal text-[16px]">Email notification</h4>
+        <h4 className="flex-1 font-normal text-[16px] text-[#000000]">Email notification</h4>
         <ToggleButton toggle={toggle2} handleToggle={handleToggle2} className={`${!toggle2 && "bg-[#DEDEDE]"}`}/>
       </div>
     </div>

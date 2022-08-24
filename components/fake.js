@@ -197,7 +197,7 @@ export const userManagementData = [
   {
     id:1,
     name:"A.S. Piash",
-    email:"examample@gmailffffffffffffffffffffffffffffff.com",
+    email:"examample@digitalgreeg.com",
     userType : "admin",
     onlineStatus: "offline",
     img:"/img/user-avatar.svg"
@@ -241,5 +241,43 @@ export const userManagementData = [
     userType : "admin",
     onlineStatus: "offline",
     img:"/img/user-avatar.svg"
+  }
+]
+
+export const notifications = [
+  {
+    id:0,
+    title : "Weekly Digests",
+    description : "Digest emails go out weekly to you and your team. Modify the distribution list here."
+  },
+  {
+    id:1,
+    title : "Weekly Digests",
+    description : "Digest emails go out weekly to you and your team. Modify the distribution list here."
+  },
+  {
+    id:2,
+    title : "Weekly Digests",
+    description : "Digest emails go out weekly to you and your team. Modify the distribution list here."
+  },
+  {
+    id:3,
+    title : "Weekly Digests",
+    description : "Digest emails go out weekly to you and your team. Modify the distribution list here."
+  },
+  {
+    id:4,
+    title : "Weekly Digests",
+    description : "Digest emails go out weekly to you and your team. Modify the distribution list here."
+  },
+  {
+    id:5,
+    title : "Weekly Digests",
+    description : "Digest emails go out weekly to you and your team. Modify the distribution list here."
+  },
+  {
+    id:6,
+    title : "Weekly Digests",
+    description : "Digest emails go out weekly to you and your team. Modify the distribution list here."
   }
 ]
