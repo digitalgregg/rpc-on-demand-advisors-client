@@ -3,11 +3,27 @@ import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import Layout from "../components/Shared/Layout/Layout";
-import Button from "../components/Shared/Button";
 import TextField from "../components/Shared/InputField";
-import FormikSelect from "../components/Shared/FormikSelect";
 import TeaxArea from "../components/Shared/TextAreaField";
 import { Modals } from "../components/modal/contactPageModal/modal";
+import DropdownField from "../components/Shared/DropdownField";
+import { DropdownItem, Dropdown } from "../components/Shared/Dropdown";
+
+const SelectaTopic = [
+    {
+        name: "Woman",
+    },
+    {
+        name: "Transgender",
+    },
+    {
+        name: "Non-binary/non-conforming",
+    },
+    {
+        name: "Prefer not to respond",
+    },
+];
+
 const validationSchema = Yup.object({
     yourname: Yup.string()
         .min(2, "Must be 2 characters or less")
@@ -35,7 +51,7 @@ const ContactUs = () => {
             <Modals closeModal={closeModal} modalIsOpen={modalIsOpen} />
             <div className="bg-black_secondary ">
                 <div className="container mx-auto ">
-                    <div className="h-[170px] lg:h-[375px] flex items-center">
+                    <div className="h-[170px] lg:h-[375px] flex items-center ">
                         <h1 className=" text-White">Contact Us</h1>
                     </div>
                 </div>
@@ -94,45 +110,41 @@ const ContactUs = () => {
                                     {() => (
                                         <Form>
                                             <div className=" flex flex-col gap-[16px]">
-                                                <FormikSelect
+                                                <DropdownField
+                                                    className="!border-[#e0e0e0]"
+                                                    height="44px"
+                                                    label="Select a Topic"
                                                     name="select"
-                                                    disabledErrorMessage
+                                                    placeholderClass="!text-sm"
+                                                    iconClass="!w-[12px]"
+                                                    labelClass="!text-sm"
+                                                    placeholder="Select a Topic"
                                                 >
-                                                    <option value="">
-                                                        Select a Topic
-                                                    </option>
-                                                    <option value="man">
-                                                        Man
-                                                    </option>
-                                                    <option value="woman">
-                                                        Woman
-                                                    </option>
-                                                    <option value="transgender">
-                                                        Transgender
-                                                    </option>
-                                                    <option value="non-binary/non-conforming">
-                                                        Non-binary/non-conforming
-                                                    </option>
-                                                    <option value="prefer-not-to-respond">
-                                                        Prefer not to respond
-                                                    </option>
-                                                </FormikSelect>
+                                                    {SelectaTopic.map(
+                                                        (v, i) => (
+                                                            <DropdownItem
+                                                                key={i}
+                                                                value={v.name}
+                                                            >
+                                                                {v.name}
+                                                            </DropdownItem>
+                                                        )
+                                                    )}
+                                                </DropdownField>
+
                                                 <TextField
-                                                    className={""}
                                                     label="Your Name"
                                                     name="yourname"
                                                     type="text"
                                                     placeholder={"Readme..."}
                                                 />
                                                 <TextField
-                                                    className={""}
                                                     label="Email"
                                                     name="email"
                                                     type="text"
                                                     placeholder={"Readme..."}
                                                 />
                                                 <TextField
-                                                    className={""}
                                                     label="Subject"
                                                     name="subject"
                                                     type="text"
@@ -145,12 +157,12 @@ const ContactUs = () => {
                                                     placeholder="Text here..."
                                                 />
                                             </div>
-                                            <Button
+                                            <button
                                                 type="submit"
-                                                className="!w-full !mt-[40px] !rounded !px-0 !text-[18px] "
+                                                className=" rounded w-full mt-[40px] h-[55px] bg-primary text-white"
                                             >
                                                 Send Request
-                                            </Button>
+                                            </button>
                                         </Form>
                                     )}
                                 </Formik>

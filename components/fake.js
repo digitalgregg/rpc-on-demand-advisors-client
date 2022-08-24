@@ -1,3 +1,40 @@
+export const applicationsettingsFakeData = [
+  {
+      id: 0,
+      name:"Cons",
+      colors:'#909'
+  },
+  {
+      id: 1,
+      name:"ideration",
+      colors:'#109'
+  },
+  {
+      id: 2,
+      name:"tion",
+      colors:'#509'
+  },
+  {
+      id: 3,
+      name:"Cration",
+      colors:'#921009'
+  },
+  {
+      id: 4,
+      name:"Con",
+      colors:'#909909'
+  },
+  {
+      id: 5,
+      name:"Cation",
+      colors:'#1909'
+  },
+  {
+      id: 6,
+      name:"sider",
+      colors:'#012909'
+  },
+];
 export const FakeData = [
   {
     id: 1,
