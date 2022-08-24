@@ -3,7 +3,7 @@ import { userManagementData } from "../fake";
 
 const UserManagementTable = () => {
   const thStyle =
-    "py-[13px] font-semibold sm:text-[12px] sm:leading-[16px] sm:text-[14px] sm:leading-[19px] xl:text-[16px] xl:leading-[22px]";
+    "py-[13px] font-semibold sm:text-[12px] sm:leading-[16px] md:text-[14px] md:leading-[19px] xl:text-[16px] xl:leading-[22px]";
   const tdStyle =
     "font-semibold sm:text-[12px] sm:leading-[16px] md:text-[14px] md:leading-[19px] text-[#222222] sm:pt-[13px] sm:pb-[15px] md:pb-[16.5px] md:pt-[12.5px] xl:pb-[20.5px] xl:pt-[14.5px]";
   return (
@@ -30,28 +30,28 @@ const UserManagementTable = () => {
             <th className={`${thStyle} flex justify-center`}>Action</th>
           </tr>
         </thead>
-        <tbody className="">
+        <tbody className="bg-[#FFFFFF]">
           {userManagementData.map((user) => {
             return (
               <tr key={user.id} className="border-b border-[#BDBDBD]">
-                <td className={`${thStyle} xl:pl-[20px] sm:pl-[10px]`}>
+                <td className={`${tdStyle} xl:pl-[20px] sm:pl-[10px]`}>
                   <div className="flex items-center">
                     <img
                       src={user.img}
                       alt="user-avatar"
                       className="w-[30px] h-[30px]"
                     />
-                    <h4 className="ml-[12px]">{user.name}</h4>
+                    <h3 className="ml-[12px]">{user.name}</h3>
                   </div>
                 </td>
                 <td className={tdStyle}>
-                  <h3 className="truncate  w-[100px]">{user.email}</h3>
+                  <h3 className="truncate w-[170px]">{user.email}</h3>
                 </td>
                 <td className={tdStyle}>{user.userType}</td>
-                <td className="lg:pb-[16.5px] lg:pt-[12.5px] xl:pb-[20.5px] xl:pt-[14.5px] font-normal sm:text-[12px] md:text-[14px] leading-[16px]">
+                <td className="font-normal">
                   {user.onlineStatus}
                 </td>
-                <td className={tdStyle}>
+                <td className="sm:pt-[13px] sm:pb-[15px] md:pb-[16.5px] md:pt-[12.5px] xl:pb-[20.5px] xl:pt-[14.5px]">
                   <div className="flex w-[100%] justify-center">
                     <img
                       src="/icon/edit.svg"

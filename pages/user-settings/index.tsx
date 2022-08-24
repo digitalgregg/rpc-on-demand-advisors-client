@@ -9,7 +9,7 @@ import NotificationSettings from "../../components/UserSettings/NotificationSett
 const Index = () => {
   return (
     <DashboardLayout>
-      <div className="w-[100%]">
+      <div className="w-[100%] pb-[20px]">
         <h2 className="hidden lg:flex font-semibold text-[24px] leading-[33px] text-[#000805] mb-[30px]">
           User Settings
         </h2>
