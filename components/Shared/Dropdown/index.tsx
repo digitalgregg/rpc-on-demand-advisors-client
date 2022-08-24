@@ -107,7 +107,7 @@ function Dropdown({
             </div>
 
             {isOpen && (
-                <div className="bg-[#fff] w-full absolute py-[10px] shadow-[0px_0px_20px_rgba(0,0,0,0.1)]">
+                <div className="bg-[#fff] !z-50  w-full absolute py-[10px] shadow-[0px_0px_20px_rgba(0,0,0,0.1)]">
                     <div
                         className=" w-full  px-[10px] max-h-[260px] overflow-y-auto select-scrollbar z-[1000] "
                         onClick={() => setOpen(true)}
