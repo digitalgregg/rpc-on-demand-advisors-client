@@ -41,11 +41,11 @@ const NavLeftItem = () => {
         </div>
       )}
       <div className="flex gap-[15px]">
-        <h3 className="text-[16px] xs:hidden sm:flex font-semibold text-[#222222] flex items-center relative">
+        <h3 onClick={handleDropDown} className="text-[16px] cursor-pointer xs:hidden sm:flex font-semibold text-[#222222] flex items-center relative">
           Gregg{" "}
           <span>
             <img
-              onClick={handleDropDown}
+              
               src="/img/dropdown.svg"
               alt="dropdown"
               className="w-[12px] h-[8px] ml-[10px] cursor-pointer"

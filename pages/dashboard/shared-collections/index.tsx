@@ -39,7 +39,7 @@ function Collections() {
           {[...Array(20)].map((collectionId: any, index) => (
             <div
               key={collectionId}
-              className="w-full  h-[121px] bg-[#FFFFFF] relative rounded-[4px]  shadow-[0px_2px_25px_rgba(0,0,0,0.06)] hover:shadow-[0px_2px_20px_rgba(229,25,55,0.2)] hover:border hover:border-[#E51937] px-[20px] py-[20px]"
+              className="w-full  h-[121px] bg-[#FFFFFF] relative rounded-[4px]  shadow-[0px_2px_25px_rgba(0,0,0,0.06)] hover:shadow-[0px_2px_20px_rgba(229,25,55,0.2)] hover:border border border-transparent  transition ease-in-out duration-200 hover:border-[#E51937] px-[20px] py-[20px]"
             >
               <img
                 onClick={() => handleEditIconDropdown(index)}
@@ -51,7 +51,7 @@ function Collections() {
               {index === selectedId && openDropdown && (
                 <div className="absolute top-[44px]  right-[31px] w-[111px] h-[70px] z-50 shadow-[4px_4px_8px_rgba(0,0,0,0.25)] bg-white  flex items-center justify-center px-[10px]">
                   <ul className="w-full group ">
-                    <li onClick={() => router.push(`/dashboard/shared-collections/view-contents/${collectionId}`)} className="flex gap-[18px] items-center mb-[12px] text-[14px] px-2 py-[2px] hover:bg-[rgba(229,25,55,0.1)] cursor-pointer ">
+                    <li onClick={() => router.push(`/dashboard/shared-collections/view-contents/${collectionId}`)} className="flex gap-[18px] items-center mb-[12px] text-[14px] px-2 py-[2px] transition ease-in-out duration-200 hover:bg-[rgba(229,25,55,0.1)] cursor-pointer ">
                       <img src="/img/editIcon.svg" alt="edit" />{" "}
                       <span className="group-hover:text-primary text-[#222222] ">
                         {" "}
@@ -59,7 +59,7 @@ function Collections() {
                       </span>{" "}
                     </li>
 
-                    <li className="flex gap-[18px] items-center text-[14px] hover:bg-[rgba(229,25,55,0.1)] px-2  py-[2px] cursor-pointer">
+                    <li className="flex gap-[18px] items-center text-[14px]  transition ease-in-out duration-200 hover:bg-[rgba(229,25,55,0.1)] px-2  py-[2px] cursor-pointer">
                       <DeleteIcon stroke="#E51937" width="12px" height="12px" />{" "}
                       <span className="group-hover:text-primary text-[#222222]">
                         {" "}

@@ -1,5 +1,5 @@
 import React from "react";
-import { userManagementData } from "../fake";
+import { userManagementData } from "../../fake";
 
 const UserManagementCard = () => {
   return (
