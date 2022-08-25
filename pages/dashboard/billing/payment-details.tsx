@@ -173,7 +173,7 @@ function HistoryItem({ data }: { data?: HistoryItemDataType }) {
                     July 30, 2022
                 </div>
             </div>
-            <button className="text-xs leading-[16.34px] font-bold text-[#E51937] p-[7px_23px] border-[#E51937] border rounded-[4px]">
+            <button className="transition ease-in-out duration-200 hover:bg-primary hover:text-White text-xs leading-[16.34px] font-bold text-[#E51937] p-[7px_23px] border-[#E51937] border rounded-[4px]">
                 Download
             </button>
         </div>
