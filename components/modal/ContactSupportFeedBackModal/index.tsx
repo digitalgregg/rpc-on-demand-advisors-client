@@ -10,7 +10,7 @@ import {
     SmileIcon,
     IgnorIcon,
 } from "../../CustomIcons";
-import CustomModal from "../../CustomUtils/CustomModal";
+import CustomModal from "../../Shared/CustomUtils/CustomModal";
 import InputField from "../../Shared/InputField";
 import TextAreaField from "../../Shared/TextAreaField";
 const imageUrl = [

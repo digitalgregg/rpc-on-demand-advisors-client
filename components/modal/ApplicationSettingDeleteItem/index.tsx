@@ -1,4 +1,4 @@
-import CustomModal from "../../CustomUtils/CustomModal";
+import CustomModal from "../../Shared/CustomUtils/CustomModal";
 import { motion } from "framer-motion";
 import RoundborderClose from "../../CustomIcons/RoundborderClose";
 import Image from "next/image";
