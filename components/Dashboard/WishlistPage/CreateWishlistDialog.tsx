@@ -1,7 +1,7 @@
 import { Form, Formik } from "formik";
 import React from "react";
 import * as Yup from "yup";
-import CustomModal from "../../CustomUtils/CustomModal";
+import CustomModal from "../../Shared/CustomUtils/CustomModal";
 import InputField from "../../Shared/InputField";
 import SelectField from "../../Shared/SelectField";
 import TextAreaField from "../../Shared/TextAreaField";

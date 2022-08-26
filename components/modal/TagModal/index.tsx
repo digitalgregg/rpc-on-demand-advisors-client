@@ -1,7 +1,7 @@
 import React from "react";
 import Modal, { Styles } from "react-modal";
-import { TagModalCustomStyle } from "../../utils/modalCustomStyle";
-import TagFilter from './../TagFilter/index';
+import { TagModalCustomStyle } from "../../../utils/modalCustomStyle";
+import TagFilter from '../../TagFilter/index';
 
 
 

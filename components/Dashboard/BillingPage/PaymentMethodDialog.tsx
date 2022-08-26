@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Form, Formik } from "formik";
 import React from "react";
-import CustomModal from "../../CustomUtils/CustomModal";
+import CustomModal from "../../Shared/CustomUtils/CustomModal";
 import * as Yup from "yup";
 import InputField from "../../Shared/InputField";
 import CountrySelect from "./CountrySelect";

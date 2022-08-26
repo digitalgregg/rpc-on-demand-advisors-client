@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import classnames from "classnames";
-import CustomModal from "../../CustomUtils/CustomModal";
+import CustomModal from "../../Shared/CustomUtils/CustomModal";
 
 const commonStyle = "text-base text-[#222222] leading-[22px] font-normal text-center";
 export const Modals = ({ modalIsOpen, closeModal }: any) => {

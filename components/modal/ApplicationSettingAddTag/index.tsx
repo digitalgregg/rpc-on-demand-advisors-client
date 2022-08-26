@@ -1,4 +1,4 @@
-import CustomModal from "../../CustomUtils/CustomModal";
+import CustomModal from "../../Shared/CustomUtils/CustomModal";
 import { motion } from "framer-motion";
 import { Formik, Form } from "formik";
 import InputField from "../../Shared/InputField";

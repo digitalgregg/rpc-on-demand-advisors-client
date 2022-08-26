@@ -3,7 +3,7 @@ import { Formik, Form } from "formik";
 import TextField from "../../Shared/InputField";
 import TeaxArea from "../../Shared/TextAreaField";
 import * as Yup from "yup";
-import CustomModal from "../../CustomUtils/CustomModal";
+import CustomModal from "../../Shared/CustomUtils/CustomModal";
 import DropdownField from "../../Shared/DropdownField";
 import { DropdownItem } from "../../Shared/Dropdown";
 const stypes =
