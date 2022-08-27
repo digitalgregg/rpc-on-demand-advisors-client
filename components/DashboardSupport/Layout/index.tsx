@@ -42,7 +42,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
                                         router.asPath === val.url
                                             ? "!bg-primary !font-bold border-primary text-White"
                                             : "border-[#9E9E9E]"
-                                    }   py-2 px-[20px] border border-solid rounded hover:bg-primary hover:text-White hover:border-primary`}
+                                    }   py-2 px-[20px] border border-solid rounded transition ease-in-out duration-200 hover:bg-primary hover:text-White hover:border-primary`}
                                 >
                                     {val.titile}
                                 </a>

@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
-import CustomModal from "../../CustomUtils/CustomModal";
+import CustomModal from "../../Shared/CustomUtils/CustomModal";
 
 type YesNoModalType = {
     isOpen: boolean;
@@ -38,7 +38,7 @@ function YesNoModal({
                 />
             </div>
             <div className="p-[30px] sm:p-[53px] 2xl:px-[98px]">
-                <div className="text-center font-bold leading-[21.79px] text-base text-[#E51937] ">
+                <div className="text-center font-bold leading-[21.79px] text-base text-primary ">
                     {header}
                 </div>
                 <div className="pt-[30px]"></div>
@@ -50,13 +50,13 @@ function YesNoModal({
                 <div className="flex gap-[14px] text-xs leading-[16.34px] font-bold">
                     <button
                         onClick={onYesClick}
-                        className="w-full h-[40px] border border-[#e51937] bg-[#e51937] text-white rounded-[4px]"
+                        className="w-full h-[40px] border border-primary bg-primary text-white rounded-[4px]"
                     >
                         Yes
                     </button>
                     <button
                         onClick={handleModal}
-                        className="w-full h-[40px] border border-[#e51937]  text-[#e51937]  rounded-[4px]"
+                        className="w-full h-[40px] border border-primary  text-primary  rounded-[4px]"
                     >
                         No
                     </button>

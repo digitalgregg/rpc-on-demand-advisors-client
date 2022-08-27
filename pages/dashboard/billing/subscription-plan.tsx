@@ -61,7 +61,7 @@ function SubscriptionPlan() {
                         >
                             Looking for more information? View all the details
                             here in our tour{" "}
-                            <a className="text-[#E51937]">Have a question?</a>{" "}
+                            <a className="text-primary">Have a question?</a>{" "}
                             Email us or schedule time with us.
                         </div>
                     </div>

@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Form, Formik } from "formik";
 import React from "react";
-import CustomModal from "../../CustomUtils/CustomModal";
+import CustomModal from "../../Shared/CustomUtils/CustomModal";
 import * as Yup from "yup";
 import InputField from "../../Shared/InputField";
 import CountrySelect from "./CountrySelect";
@@ -89,7 +89,7 @@ function PaymentMethodDialog({
                                     </div>
                                     <div className="pt-5"></div>
                                     <button
-                                        className="h-[44px] w-full text-[#fff] font-medium rounded-[4px]  text-base leading-[44px] bg-[#E51937]"
+                                        className="h-[44px] w-full text-[#fff] font-medium rounded-[4px]  text-base leading-[44px] bg-primary"
                                         type="submit"
                                     >
                                         Add
@@ -97,7 +97,7 @@ function PaymentMethodDialog({
                                     <div className="pt-3"></div>
 
                                     <button
-                                        className="h-[44px] text-[#E51937] w-full font-medium rounded-[4px] border-[#E51937] border text-base leading-[44px]"
+                                        className="h-[44px] text-primary w-full font-medium rounded-[4px] border-primary border text-base leading-[44px]"
                                         type="button"
                                         onClick={handleModal}
                                     >

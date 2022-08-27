@@ -31,6 +31,10 @@ a {
     box-sizing: border-box;
 }
 
+.hover-transition{
+    @apply  transition ease-in-out duration-200;
+}
+
 @media (prefers-color-scheme: dark) {
     html {
         color-scheme: dark;

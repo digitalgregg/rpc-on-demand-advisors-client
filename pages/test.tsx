@@ -1,27 +1,69 @@
-import React, { useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
+import { OutSideClick } from "../components/Shared/OutSideClick";
+
+import { NormalIcon } from "../components/CustomIcons";
+
+import {CustomIconHover} from "../components/Shared/CustomIconHover"
 
 
-function useOutsideAlerter(ref:any,) {
-  useEffect(() => {
-   
-    function handleClickOutside(event:any) {
-      if (ref.current && !ref.current.contains(event.target)) {
-        alert("You clicked outside of me!");
-      }
-    }
-    // Bind the event listener
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      // Unbind the event listener on clean up
-      document.removeEventListener("mousedown", handleClickOutside);
+const data = [
+    {
+        id: 1,
+        Icon: NormalIcon,
+    },
+    {
+        id: 2,
+        Icon: NormalIcon,
+    },
+    {
+        id: 3,
+        Icon: NormalIcon,
+    },
+    {
+        id: 4,
+        Icon: NormalIcon,
+    },
+];
+
+const Test = () => {
+    const [open, setOpen] = useState(false);
+  
+    const handleOpen = () => {
+        setOpen(!open);
     };
-  }, [ref]);
-}
+    
 
+    return (
+        <div className="min-h-screen flex justify-center items-center w-full bg-white">
+            <div className="relative">
+                <OutSideClick onOutSideClick={() => setOpen(false)}>
+                    <button
+                        onClick={handleOpen}
+                        className="p-[10px_40px] text-white bg-blue-500 border-blue-500 hover:bg-transparent hover:text-blue-500 font-semibold border transition-all duration-100"
+                    >
+                        Click Me
+                    </button>
+                    {data.map(({ id, Icon }: any) => (
+                        <div
+                            key={id}
+                          
+                            className=" w-[100px] m-4 h-[50px] rounded-md hover:bg-purple-700 bg-pink-600"
+                        >
+                            <CustomIconHover totalIcon={id} Icons={Icon} activeColor="#fff" changeColor="#000" />
+                        </div>
+                    ))}
 
-export default function OutsideAlerter(props:any) {
-  const wrapperRef = useRef(null);
-  useOutsideAlerter(wrapperRef);
-
-  return <div ref={wrapperRef}>{props.children}</div>;
-}
+                    {open && <Components />}
+                </OutSideClick>
+            </div>
+        </div>
+    );
+};
+const Components = () => {
+    return (
+        <div className="w-[200px] h-[100px] bg-blue-100 absolute">
+            <div>This is te</div>
+        </div>
+    );
+};
+export default Test;

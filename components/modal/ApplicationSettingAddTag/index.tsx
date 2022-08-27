@@ -1,4 +1,4 @@
-import CustomModal from "../../CustomUtils/CustomModal";
+import CustomModal from "../../Shared/CustomUtils/CustomModal";
 import { motion } from "framer-motion";
 import { Formik, Form } from "formik";
 import InputField from "../../Shared/InputField";
@@ -58,7 +58,7 @@ export const Modals = ({ modalIsOpen, closeModal, HTitle }: any) => {
                                 </div>
                                 <div className=" shadow !h-[44px] rounded overflow-hidden !p-0 !w-[153px] flex flex-row items-center gap-[10px] border border-solid border-[#DEDEDE] bg-White">
                                     <InputField
-                                        inputClass=" !w-[30px] !h-[44px] !p-0 !m-0 !border-none !text-[14px] !font-normal !leading-[19px] !text-[#676767] input-color-rounded-[4px] input-color-padding rounded-[4px] !outline-none !border-none"
+                                        inputClass=" !w-[30px] !h-[42px] !p-0 !mt-[6px] !border-none !text-[14px] !font-normal !leading-[19px] !text-[#676767] input-color-rounded-[4px] input-color-padding rounded-[4px] !outline-none !border-none"
                                         name="color"
                                         type="color"
                                         onChange={(val: any) =>

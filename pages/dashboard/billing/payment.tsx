@@ -173,7 +173,7 @@ function Payment() {
                                                     payments in accordance with
                                                     their terms. You can always
                                                     cancel your subscription.
-                                                    <span className="text-[#E51937]">
+                                                    <span className="text-primary">
                                                         Secure Payment Guarantee
                                                     </span>
                                                 </div>
@@ -200,7 +200,7 @@ function ButtonField({ text }: { text: string }) {
     return (
         <button
             type="submit"
-            className="h-[58px] bg-[#E51937] font-bold w-full rounded-[4px] text-[16px] leading-[58px] text-[#FFFFFF]"
+            className="h-[58px] bg-primary font-bold w-full rounded-[4px] text-[16px] leading-[58px] text-[#FFFFFF]"
         >
             {text}
         </button>

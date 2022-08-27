@@ -106,7 +106,7 @@ function ViewWish() {
                                                 />
                                                 <div className="pt-4 sm:pt-5 flex justify-end">
                                                     <button
-                                                        className="h-[45px] leading-[45px] rounded-[4px] bg-[#E51937] text-base text-[#fff] w-full sm:w-[129px]"
+                                                        className="h-[45px] leading-[45px] rounded-[4px] bg-primary text-base text-[#fff] w-full sm:w-[129px]"
                                                         type="submit"
                                                     >
                                                         Update

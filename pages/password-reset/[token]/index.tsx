@@ -93,18 +93,18 @@ const ResetPassword = () => {
               }}
             />
             {errors.password && (
-              <h3 className="text-[#E51937] mb-[20px] text-[12px]">
+              <h3 className="text-primary mb-[20px] text-[12px]">
                 Password is required
               </h3>
             )}
             {error && (
-              <h3 className="font-normal text-[14px] leading-[19px] text-[#E51937] mb-[20px]">
+              <h3 className="font-normal text-[14px] leading-[19px] text-primary mb-[20px]">
                 {error}
               </h3>
             )}
             <button
               type="submit"
-              className="w-[100%] h-[58px] bg-[#E51937] text-[#FFFFFF] rounded font-bold text-[16px] mb-[20px]"
+              className="w-[100%] h-[58px] bg-primary text-[#FFFFFF] rounded font-bold text-[16px] mb-[20px]"
               style={{ boxShadow: "inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
             >
               Reset Password

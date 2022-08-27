@@ -1,5 +1,5 @@
 import React from "react";
-import { userManagementData } from "../fake";
+import { userManagementData } from "../../fake";
 
 const UserManagementCard = () => {
   return (
@@ -8,7 +8,7 @@ const UserManagementCard = () => {
         <h3 className="flex-1 font-semibold text-[18px] leading-[25px] text-[#101010]">
           User Management
         </h3>
-        <button className="w-[132px] h-[39px] border border-[#E51937] rounded-[4px] font-normal sm:text-[14px] sm:leading-[19px] md:text-[16px] md:leading-[22px] text-[#E51937]">
+        <button className="w-[132px] h-[39px] border border-primary rounded-[4px] font-normal sm:text-[14px] sm:leading-[19px] md:text-[16px] md:leading-[22px] text-primary">
           Send Invite
         </button>
       </div>
@@ -50,10 +50,10 @@ const UserManagementCard = () => {
               </div>
             </div>
             <div className="px-[20px] pb-[20px] mt-[20px]">
-              <button className="w-[143px] h-[40px] rounded-[4px] bg-[#E51937] mr-[9px] cursor-pointer font-semibold text-[12px] leading-[16px] text-[#FFFFFF]">
+              <button className="w-[143px] h-[40px] rounded-[4px] bg-primary mr-[9px] cursor-pointer font-semibold text-[12px] leading-[16px] text-[#FFFFFF]">
                 Delete
               </button>
-              <button className="w-[143px] h-[40px] rounded-[4px] border border-[#E51937] cursor-pointer text-[#E51937] font-semibold text-[12px] leading-[16px]">
+              <button className="w-[143px] h-[40px] rounded-[4px] border border-primary cursor-pointer text-primary font-semibold text-[12px] leading-[16px]">
                 Edit
               </button>
             </div>

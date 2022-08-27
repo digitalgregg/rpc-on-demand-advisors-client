@@ -1,7 +1,7 @@
 import { Form, Formik } from "formik";
 import React from "react";
 import * as Yup from "yup";
-import CustomModal from "../../CustomUtils/CustomModal";
+import CustomModal from "../../Shared/CustomUtils/CustomModal";
 import InputField from "../../Shared/InputField";
 import SelectField from "../../Shared/SelectField";
 import TextAreaField from "../../Shared/TextAreaField";
@@ -98,13 +98,13 @@ function CreateWishlistDialog({
                                 <button
                                     type="button"
                                     onClick={handleModal}
-                                    className="basis-1/2 h-[45px] max-w-[152px] text-[16px] leading-[45px] text-center border border-[#E51937] text-[#E51937] rounded-[4px]"
+                                    className="basis-1/2 h-[45px] max-w-[152px] text-[16px] leading-[45px] text-center border border-primary text-primary rounded-[4px]"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="basis-1/2 h-[45px] max-w-[152px] text-[16px] leading-[45px] bg-[#E51937] text-[#fff] text-center border border-[#E51937] rounded-[4px]"
+                                    className="basis-1/2 h-[45px] max-w-[152px] text-[16px] leading-[45px] bg-primary text-[#fff] text-center border border-primary rounded-[4px]"
                                 >
                                     Add to wish
                                 </button>

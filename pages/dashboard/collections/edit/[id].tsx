@@ -11,7 +11,7 @@ import { Dropdown, DropdownItem } from "../../../../components/Shared/Dropdown";
 import CountrySelect from "../../../../components/Dashboard/BillingPage/CountrySelect";
 import TestField from "../../../../components/Playground/TestField";
 import Pagination from "../../../../components/Shared/Pagination";
-import YesNoModal from "../../../../components/Shared/YesNoModal";
+import YesNoModal from "../../../../components/modal/YesNoModal";
 import { useEffect } from "react";
 import FileUploadModal from "../../../../components/FileUploadModal";
 const initialValues = {

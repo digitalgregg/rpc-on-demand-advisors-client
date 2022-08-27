@@ -1,5 +1,5 @@
 import React from "react";
-import { userManagementData } from "../fake";
+import { userManagementData } from "../../fake";
 
 const UserManagementTable = () => {
   const thStyle =
@@ -12,7 +12,7 @@ const UserManagementTable = () => {
         <h3 className="flex-1 font-semibold text-[18px] leading-[25px] text-[#101010]">
           User Management
         </h3>
-        <button className="w-[132px] sm:h-[39px] md:h-[42px] border border-[#E51937] rounded-[4px] font-normal sm:text-[14px] sm:leading-[19px] md:text-[16px] md:leading-[22px] text-[#E51937]">
+        <button className="hover-transition hover:bg-primary hover:text-White w-[132px] sm:h-[39px] md:h-[42px] border border-primary rounded-[4px] font-normal sm:text-[14px] sm:leading-[19px] md:text-[16px] md:leading-[22px] text-primary">
           Send Invite
         </button>
       </div>
