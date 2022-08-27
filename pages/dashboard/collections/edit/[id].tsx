@@ -111,7 +111,7 @@ function CollectionsView() {
                                     <div className="pt-[15px] sm:pt-0 sm:pl-[15px] lg:pl-[20px]"></div>
                                     <button
                                         type="submit"
-                                        className="h-[55px] sm:w-[130px] rounded-[4px] w-full md:text-sm leading-[54px] text-xs text-[#fff] basis-[28%] font-semibold text-center bg-[#E51937]"
+                                        className="h-[55px] sm:w-[130px] rounded-[4px] w-full md:text-sm leading-[54px] text-xs text-[#fff] basis-[28%] font-semibold text-center bg-primary"
                                     >
                                         Publish collection
                                     </button>
@@ -136,7 +136,7 @@ function CollectionsView() {
                                     src="/assets/collections/delete.svg"
                                     alt=""
                                 />
-                                <span className="text-sm leading-[19.07px] text-[#E51937]">
+                                <span className="text-sm leading-[19.07px] text-primary">
                                     REMOVE ALL
                                 </span>
                             </div>
@@ -187,7 +187,7 @@ function CollectionsView() {
                                         isChecked={false}
                                     />
                                 </div>
-                                <span className="text-sm leading-[19.07px] text-[#E51937]">
+                                <span className="text-sm leading-[19.07px] text-primary">
                                     SELECT ALL
                                 </span>
                             </div>

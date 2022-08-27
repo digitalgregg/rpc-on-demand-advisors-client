@@ -46,7 +46,7 @@ function PricingTabItem({ href, text, icon }: PricingTabItemType) {
             href={href}
             component={(isActive) => (
                 <div
-                    className="border border-[#E51937] rounded-[4px] h-[54px] flex px-[10%] sm:px-[20px] xs:px-[90px] items-center gap-[10px] cursor-pointer"
+                    className="border border-primary rounded-[4px] h-[54px] flex px-[10%] sm:px-[20px] xs:px-[90px] items-center gap-[10px] cursor-pointer"
                     style={{ background: isActive ? "#E51937" : "none" }}
                 >
                     <div>{icon(isActive)}</div>

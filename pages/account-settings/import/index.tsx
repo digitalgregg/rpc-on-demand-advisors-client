@@ -49,7 +49,7 @@ function Import() {
                     <div>
                         <input
                             type="file"
-                            className="text-[#E51937] text-sm leading-[19.07px] upload-button:hover:cursor-pointer upload-button:text-sm upload-button:leading-[19.07px] upload-button:rounded-[4px] upload-button:p-[10px_20px] upload-button:mr-4 upload-button:text-white upload-button:hover:text-black upload-button:font-normal upload-button:hover:bg-transparent upload-button:hover:border-primary upload-button:border upload-button:border-solid upload-button:border-transparent upload-button:transition upload-button:ease-in-out upload-button:duration-200 upload-button:bg-[#E51937]"
+                            className="text-primary text-sm leading-[19.07px] upload-button:hover:cursor-pointer upload-button:text-sm upload-button:leading-[19.07px] upload-button:rounded-[4px] upload-button:p-[10px_20px] upload-button:mr-4 upload-button:text-white upload-button:hover:text-black upload-button:font-normal upload-button:hover:bg-transparent upload-button:hover:border-primary upload-button:border upload-button:border-solid upload-button:border-transparent upload-button:transition upload-button:ease-in-out upload-button:duration-200 upload-button:bg-primary"
                             accept=".csv"
                         />
                     </div>
@@ -126,7 +126,7 @@ const ImportHistoryCard = ({
                         className={` ${
                             status == "Deleted"
                                 ? "text-[#828282] border-[#828282] hover:bg-[#828282] hover:text-White"
-                                : "text-[#E51937] border-[#E51937] hover:bg-primary hover:text-White"
+                                : "text-primary border-primary hover:bg-primary hover:text-White"
                         } transition ease-in-out duration-200 text-sm h-[39px] text-center sm:w-[70px] sm:h-[30px] border rounded-[4px] w-full`}
                     >
                         Delete

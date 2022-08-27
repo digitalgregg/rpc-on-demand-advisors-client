@@ -24,7 +24,7 @@ export const VideoControls = () => {
                             layout="fill"
                             src="/assets/DashboardSupport/videobg.png"
                             alt="icons"
-                            onClick={handlePlay}
+                            // onClick={handlePlay}
                         />
                     </div>
                     <div className="absolute z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:w-full lg:h-full">

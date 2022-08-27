@@ -65,7 +65,7 @@ function PaymentInfoDialog({
                 </div>
                 <div className="pt-[25.84px] sm:pt-[30px]"></div>
                 <div>
-                    <button className="text-[12.06px] w-full rounded-[4px] sm:h-[35px] sm:leading-[35px] h-[29.78px] leading-[29.78px] text-[#e51937] border border-[#e51937] font-semibold">
+                    <button className="text-[12.06px] w-full rounded-[4px] sm:h-[35px] sm:leading-[35px] h-[29.78px] leading-[29.78px] text-primary border border-primary font-semibold">
                         Close
                     </button>
                 </div>

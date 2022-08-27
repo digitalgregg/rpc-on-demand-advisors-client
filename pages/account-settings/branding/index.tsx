@@ -100,10 +100,10 @@ function Branding() {
                         </div>
                         <div className="pt-[17px]"></div>
                         <div className="flex gap-[17px]">
-                            <button className="border border-[#e51937] w-full rounded-[4px] text-[#e51937] font-semibold text-sm leading-[45px] h-[45px] text-center">
+                            <button className="hover-transition hover:bg-primary hover:text-White  border border-primary w-full rounded-[4px] text-primary font-semibold text-sm leading-[45px] h-[45px] text-center">
                                 Reset
                             </button>
-                            <button className="border border-[#e51937] w-full rounded-[4px] text-[#e51937] font-semibold text-sm leading-[45px] h-[45px] text-center">
+                            <button className="hover-transition hover:bg-primary hover:text-White  border border-primary w-full rounded-[4px] text-primary font-semibold text-sm leading-[45px] h-[45px] text-center">
                                 Update
                             </button>
                         </div>

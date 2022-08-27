@@ -67,7 +67,7 @@ const SidebarTab = ({ data }: { data: SidebarDataType }) => {
         <NavLink
             href={data.link}
             className="flex items-center transition ease-in-out duration-200 hover:bg-primary justify-center lg:pl-5 lg:justify-start py-[10px] rounded-[4px]"
-            activeClassName="bg-[#E51937]"
+            activeClassName="bg-primary"
         >
             <div className=" flex items-center">
                 <img

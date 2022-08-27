@@ -15,10 +15,10 @@ const Hero = () => {
                         and close deals faster.
                     </p>
                     <div className=" flex sm:flex-row flex-col gap-[22px] 2xl:gap-[46px] w-fit mx-auto">
-                        <button className=" h-[56px] px-8 text-sm sm:text-base leading-[22px] font-semibold text-White rounded bg-primary">
+                        <button className=" h-[56px] px-8 text-sm sm:text-base leading-[22px] font-semibold text-White rounded bg-primary hover:bg-transparent hover:border-White hover-transition border border-solid border-primary">
                             Try for Free
                         </button>
-                        <button className=" h-[56px] px-8 text-sm sm:text-base leading-[22px] font-semibold text-White rounded border-inherit border-[1px] border-solid border-White">
+                        <button className=" h-[56px] px-8 text-sm sm:text-base leading-[22px] font-semibold text-White rounded border-inherit border-[1px] border-solid border-White hover-transition hover:border-primary hover:bg-primary">
                             Schedule Demo
                         </button>
                     </div>

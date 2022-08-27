@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
+import { RightArrowIcon } from "../CustomIcons";
 
 const DeliveryPersonalize = () => {
+  const [iconColor, setIconColor] = useState(false);
+  const onOver = (e: any) => {
+      if (e) setIconColor(true);
+  };
+  const onLeave = (e: any) => {
+      if (e) setIconColor(false);
+  };
   const imgStyle = "xs:w-[309px] xs:h-[205px] sm:w-[520px] sm:h-[345.63px] md:w-[520px] md:h-[345.63px] xs:mt-[-110px] sm:mt-[-190px] md:mt-[-210px] lg:w-[800px] lg:h-[532px] lg:mt-[-285px] xl:mt-[-340px] xl:w-[931px] xl:h-[620px] 2xl:w-[931px] 2xl:h-[620px] mx-auto 3xl:w-[1136px] 3xl:h-[756px] 3xl:mt-[-360px] 4xl:w-[1344px] 4xl:h-[895px] 3xl:mt-[-300px]";
 
   const vactor2 = "absolute w-[50px] h-[50px] sm:w-[70px] sm:h-[70px] bottom-[10px] right-[3px] sm:bottom-[-10px] sm:right-[20px] lg:w-[90.24px] lg:h-[90.24px] lg:bottom-[-40px] xl:w-[140.12px] xl:h-[140.12px] 2xl:w-[124.45px] 2xl:h-[124.45px] 2xl:right-[160px] 4xl:right-[190px]";
@@ -19,14 +27,22 @@ const DeliveryPersonalize = () => {
               Accelerate pipeline and your buyer’s decision making process with
               super easy content grouping and publishing as branded pages.
             </p>
-            <button className="w-[161px] h-[46px]  border border-[#FFFFFF] rounded-[4px] text-[#FFFFFF] text-[14px] sm:text-[16px] cursor-pointer leading-[19px] font-semibold xs:mb-[30px]">
+            <button onMouseOver={onOver}
+                            onMouseLeave={onLeave} className="hover:text-White hover:bg-primary hover:border-primary hover-transition w-[161px] h-[46px]  border border-[#FFFFFF] rounded-[4px] text-[#FFFFFF] text-[14px] sm:text-[16px] cursor-pointer leading-[19px] font-semibold xs:mb-[30px]">
               {" "}
-              <span className="flex items-center justify-center">
+              <span className="flex items-center justify-center gap-[11px]">
                 <span> Take a tour</span>
-                <img
+                <RightArrowIcon
+                                    color={`${
+                                        !iconColor === true
+                                            ? "#ffffff"
+                                            : "#ffffff"
+                                    }`}
+                                />
+                {/* <img
                   src="/img/whiteArrow.svg"
                   className="w-[18px] h-[20px] ml-[11px]"
-                />
+                /> */}
               </span>{" "}
             </button>
             <img src="/img/vector3.svg" alt="vector" className={vactor1} />

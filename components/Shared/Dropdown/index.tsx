@@ -165,7 +165,7 @@ export const DropdownItem = ({
             className={`text-base leading-[21.79px] p-[9px_16px] text-[#101010]  cursor-pointer rounded-[4px] ${
                 (active &&
                     existValue.value == active.value &&
-                    "bg-[#E51937] font-semibold !text-[#fff]" +
+                    "bg-primary font-semibold !text-[#fff]" +
                         " " +
                         activeClass) ||
                 "hover:text-[rgb(229,25,55)] hover:bg-[rgb(229,25,55,.1)] hover:font-semibold"

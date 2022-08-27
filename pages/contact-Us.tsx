@@ -159,7 +159,7 @@ const ContactUs = () => {
                                             </div>
                                             <button
                                                 type="submit"
-                                                className=" rounded w-full mt-[40px] h-[55px] bg-primary text-white"
+                                                className=" hover-transition hover:bg-transparent hover:text-primary border border-solid border-primary rounded w-full mt-[40px] h-[55px] bg-primary text-white"
                                             >
                                                 Send Request
                                             </button>
