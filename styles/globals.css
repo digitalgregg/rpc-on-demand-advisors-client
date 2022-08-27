@@ -46,7 +46,7 @@ a {
 }
 
 @media only screen and (min-width: 1200px) {
-    .success-bg{
+    .success-bg {
         background-image: url("/img/success-bg.svg");
         background-repeat: no-repeat;
         background-attachment: fixed;
@@ -54,60 +54,93 @@ a {
         background-position: center;
     }
 }
-.container1{
+.container1 {
     height: 100%;
     width: 100%;
     overflow: hidden;
 }
 
- .container2{
+.container2 {
     height: 100%;
     width: 100%;
     overflow: auto;
     padding-right: 20px;
 }
-.drawer ::-webkit-scrollbar {display:none;}
+.drawer ::-webkit-scrollbar {
+    display: none;
+}
 .text-line-clamp {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 5;
     overflow: hidden;
-  }
+}
 .text-line-clamp-1 {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
     overflow: hidden;
-  }
+}
 
-  .modal-scroll {
+.modal-scroll {
     -ms-overflow-style: none; /* for Internet Explorer, Edge */
     scrollbar-width: none; /* for Firefox */
     overflow-y: scroll;
-  }
-  .modal-scroll::-webkit-scrollbar {
+}
+.modal-scroll::-webkit-scrollbar {
     display: none; /* for Chrome, Safari, and Opera */
-  }
+}
 
-  .arrow{
+.arrow {
     position: relative;
-    width:240px;
-    background: #FFFFFF;
-    height:61px;
-    text-align:center;
-    color:#fff;
+    width: 240px;
+    background: #ffffff;
+    height: 61px;
+    text-align: center;
+    color: #fff;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
     z-index: 999;
     border-radius: 4px;
-  }
-  .arrow-top:before{
+}
+.arrow-top:before {
     position: absolute;
     top: -10px;
-    left:85%;
+    left: 85%;
     margin-left: -10px;
-    content:"";
-    display:block;
+    content: "";
+    display: block;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-bottom: 10px solid #FFFFFF; 
-  }
+    border-bottom: 10px solid #ffffff;
+}
+
+/* Uppy File Uploader  */
+
+.uppy-Root * {
+    font-family: "Open Sans", sans-serif !important;
+}
+
+.uppy-Dashboard--modal .uppy-Dashboard-overlay {
+    background-color: rgb(25, 25, 25, 0.25) !important;
+}
+
+.uppy-Dashboard--modal .uppy-Dashboard-inner {
+    box-shadow: none !important;
+}
+
+.uppy-Dashboard--modal .uppy-Dashboard-inner .file-upload-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 30px;
+    padding-right: 20px;
+    background-color: #101010;
+}
+
+.uppy-Dashboard--modal .uppy-Dashboard-inner .uppy-Dashboard-close {
+    display: none !important;
+}
+
+.uppy-Dashboard--modal .uppy-Dashboard-inner .uppy-Dashboard-innerWrap {
+    height: calc(100% - 50px) !important;
+}
