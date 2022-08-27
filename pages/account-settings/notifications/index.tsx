@@ -19,17 +19,17 @@ const Notifications = () => {
             border: "1px solid #9E9E9E",
             boxShadow: "none",
         }),
-        option: (provided: any) => ({
+        option: (provided: any,state: any) => ({
             ...provided,
-            color: "#000000",
+            color: state.isSelected ? "#fff" : "#000000",
             fontSize: "14px",
-            fontWeight: 400,
+            fontWeight: state.isSelected ? 700 : 400,
             width: "95%",
             borderRadius: "4px",
             margin: "0 auto",
             "&:hover": {
-                color: "#E51937",
-                fontWeight: 600,
+                color: state.isSelected ? "#fff" : "#E51937",
+                fontWeight: state.isSelected ? 700 : 600,
             },
         }),
         indicatorsContainer: (provided: any) => ({
@@ -77,6 +77,15 @@ const Notifications = () => {
                                                     placeholder="Select User"
                                                     options={options}
                                                     styles={customStyles}
+                                                    theme={(theme) => ({
+                                                        ...theme,
+                                                        borderRadius: 4,
+                                                        colors: {
+                                                            ...theme.colors,
+                                                            primary25: "#E519371A",
+                                                            primary: "#E51937",
+                                                        },
+                                                    })}
                                                     className="text-[#000000] font-normal text-[14px] xs:w-[100px] sm:w-[115px]"
                                                     name="select-user"
                                                 />

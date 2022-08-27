@@ -17,12 +17,12 @@ const ProfilePhoto = () => {
             <h3 className="font-semibold text-[16px] leading-[22px] text-[#101010] mb-[5px]">
               Profile name
             </h3>
-            <h4 className="font-normal text-[12px] leading-[16px] text-[#E51937]">
+            <h4 className="font-normal text-[12px] leading-[16px] text-primary">
               Remove
             </h4>
           </div>
         </div>
-        <button className="w-[100%] h-[45.2px] border border-[#E51937] text-[#E51937] font-semibold text-[14px] mt-[20.22px] rounded-[4px]">
+        <button className="w-[100%] h-[45.2px] border border-primary text-primary font-semibold text-[14px] mt-[20.22px] rounded-[4px]">
           Update profile photo
         </button>
       </div>

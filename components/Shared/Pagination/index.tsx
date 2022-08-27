@@ -48,12 +48,12 @@ function Pagination({
                         className
                     }
                     disabledClassName="!text-[#9E9E9E]"
-                    nextClassName="text-[#E51937]"
-                    previousClassName="text-[#E51937]"
+                    nextClassName="text-primary"
+                    previousClassName="text-primary"
                     pageCount={pageCount}
                     marginPagesDisplayed={1}
                     previousLabel="Previous"
-                    activeClassName="text-[#E51937]"
+                    activeClassName="text-primary"
                 />
             )}
         </>

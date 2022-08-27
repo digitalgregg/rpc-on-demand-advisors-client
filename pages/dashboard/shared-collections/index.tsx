@@ -39,7 +39,7 @@ function Collections() {
           {[...Array(20)].map((collectionId: any, index) => (
             <div
               key={collectionId}
-              className="w-full  h-[121px] bg-[#FFFFFF] relative rounded-[4px]  shadow-[0px_2px_25px_rgba(0,0,0,0.06)] hover:shadow-[0px_2px_20px_rgba(229,25,55,0.2)] hover:border border border-transparent  transition ease-in-out duration-200 hover:border-[#E51937] px-[20px] py-[20px]"
+              className="w-full  h-[121px] bg-[#FFFFFF] relative rounded-[4px]  shadow-[0px_2px_25px_rgba(0,0,0,0.06)] hover:shadow-[0px_2px_20px_rgba(229,25,55,0.2)] hover:border border border-transparent  transition ease-in-out duration-200 hover:border-primary px-[20px] py-[20px]"
             >
               <img
                 onClick={() => handleEditIconDropdown(index)}

@@ -19,7 +19,7 @@ const PricingCard = ({
     return (
         <div
             className={
-                " bg-[#fff] p-[20px_35.5px] xl:p-[20px_35.5px] md:p[20px_70.5px] lg:p-[30.77px_35.6px] md:hover:shadow-[2px_2px_16px_rgba(0,0,0,0.08)] md:border md:border-transparent md:hover:border md:hover:border-[#E51937] rounded-[4px] h-[802px] xl:h-[802px] sm:w-[330px] xl:w-[330px]  md:w-[400px] md:px-[50px] flex flex-col justify-between group transition-all duration-400 lg:h-[720px] ease-in-out delay-100" +
+                "hover-transition bg-[#fff] p-[20px_35.5px] xl:p-[20px_35.5px] md:p[20px_70.5px] lg:p-[30.77px_35.6px] md:hover:shadow-[2px_2px_16px_rgba(0,0,0,0.08)] md:border md:border-transparent md:hover:border md:hover:border-primary rounded-[4px] h-[802px] xl:h-[802px] sm:w-[330px] xl:w-[330px]  md:w-[400px] md:px-[50px] flex flex-col justify-between group transition-all duration-400 lg:h-[720px] ease-in-out delay-100" +
                 " " +
                 className
             }
@@ -126,7 +126,7 @@ const PricingCard = ({
                 ></div>
 
                 <div
-                    className={`text-[32px] font-semibold leading-[43.5px] text-[#E51937] ${
+                    className={`text-[32px] font-semibold leading-[43.5px] text-primary ${
                         isSmallLg &&
                         "lg:text-[27.65px] lg:leading-[37.66px] xl:text-[32px] xl:leading-[43.5px]"
                     } ${
@@ -181,7 +181,7 @@ const PricingCard = ({
                         isSmallLg && "lg:p-[9.5px_53.4px]  xl:p-[11px_62px] "
                     }  ${
                         isSmallXl && "xl:p-[9.5px_53.4px]  2xl:p-[11px_62px]"
-                    }  border border-[#E51937]  text-base font-semibold leading-[21.79px] transition-all duration-400 ease-in-out delay-100 text-[#E51937] md:group-hover:bg-[#E51937] md:group-hover:text-[#fff] `}
+                    }  border border-primary  text-base font-semibold leading-[21.79px] transition-all duration-400 ease-in-out delay-100 text-primary md:group-hover:bg-primary md:group-hover:text-[#fff] `}
                 >
                     Subscribe
                 </button>

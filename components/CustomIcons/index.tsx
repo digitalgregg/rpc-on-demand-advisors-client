@@ -13,6 +13,7 @@ import TrackerUploadIcon from "./TrackerUploadIcon";
 import TrackerCloseIcon from "./TrackerCloseIcon";
 import TrackerEditeIcon from "./TrackerEditeIcon";
 import TrackerSaveIcon from "./TrackerSaveIcon";
+import RightArrowIcon from './RightArrowIcon';
 
 export {
     PaymentIcon,
@@ -30,4 +31,5 @@ export {
     TrackerCloseIcon,
     TrackerEditeIcon,
     TrackerSaveIcon,
+    RightArrowIcon
 };

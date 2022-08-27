@@ -144,7 +144,7 @@ export const Modals = ({ modalIsOpen, closeModal }: any) => {
                                         whileTap={{ scale: 0.9 }}
                                         onClick={closeModal}
                                         type="button"
-                                        className="w-[182.5px] h-[45px] py-[11px] px-[32px] rounded border-[1px] border-solid border-primary  capitalize text-base leading-[22px] font-semibold text-primary"
+                                        className="w-[182.5px] h-[45px] py-[11px] px-[32px] rounded border-[1px] border-solid border-primary  capitalize text-base leading-[22px] font-semibold hover:bg-primary hover:text-White text-primary"
                                     >
                                         Cancel
                                     </motion.button>

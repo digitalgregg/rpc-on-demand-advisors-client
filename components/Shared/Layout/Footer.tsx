@@ -123,7 +123,7 @@ const FooterIcon = () => {
                         type="text"
                         placeholder="Youremail@gmail.com"
                     />
-                    <button className=" ml-[3px] text-[#ffffff] text-sm leading-[19px] py-[10px] px-[11px] hover:bg-[#e51938e5] bg-primary rounded">
+                    <button className=" ml-[3px] text-[#ffffff] text-sm leading-[19px] py-[10px] px-[11px] hover:bg-transparent border border-inherit border-solid border-primary hover:text-primary bg-primary rounded hover-transition">
                         Subscribe
                     </button>
                 </div>

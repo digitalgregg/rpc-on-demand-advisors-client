@@ -45,7 +45,7 @@ function PaymentDetails() {
                                 </div>
                                 <div className="pt-2"></div>
                                 <div className="relative">
-                                    <div className="absolute h-2 bg-[#E51937] top-[-1px] w-1/2 rounded-[20px]"></div>
+                                    <div className="absolute h-2 bg-primary top-[-1px] w-1/2 rounded-[20px]"></div>
                                     <div className="bg-[#F8C5CD] w-full h-[6px] rounded-[20px]"></div>
                                 </div>
                                 <div className="absolute top-[137px] sm:top-[118px] right-[10px] sm:right-[30px]">
@@ -76,7 +76,7 @@ function PaymentDetails() {
                                 <div>
                                     <div className="pt-[29px]"></div>
                                     <button
-                                        className="text-base leading-[58px] font-bold bg-[#E51937] w-full h-[58px] rounded-[4px]"
+                                        className="text-base leading-[58px] font-bold bg-primary w-full h-[58px] rounded-[4px]"
                                         onClick={handleModal}
                                     >
                                         + Add Payment Method
@@ -86,7 +86,7 @@ function PaymentDetails() {
                                 <div className=" justify-between hidden">
                                     <div className="flex gap-4">
                                         <div>
-                                            <div className="text-[#E51937] text-base leading-[21.79px] font-bold border-[#E51937] border rounded-[4px] p-[6px_12.5px]">
+                                            <div className="text-primary text-base leading-[21.79px] font-bold border-primary border rounded-[4px] p-[6px_12.5px]">
                                                 VISA
                                             </div>
                                         </div>
@@ -112,7 +112,7 @@ function PaymentDetails() {
                                         </div>
                                     </div>
                                     <div>
-                                        <button className="p-[7px_15px] text-base font-bold leading-[21.79px] text-[#E51937] border border-[#E51937] rounded-[4px]">
+                                        <button className="p-[7px_15px] text-base font-bold leading-[21.79px] text-primary border border-primary rounded-[4px]">
                                             Edit
                                         </button>
                                     </div>
@@ -128,7 +128,7 @@ function PaymentDetails() {
                                     <div className="text-lg sm:text-[24px] sm:leading-[32.68px] font-bold leading-[24.51px] text-[#101010] ">
                                         Billing History
                                     </div>
-                                    <button className="text-xs font-bold leading-[16.34px] p-[8px_24px] bg-[#E51937] rounded-[4px] text-[#FFFFFF] ">
+                                    <button className="text-xs font-bold leading-[16.34px] p-[8px_24px] bg-primary rounded-[4px] text-[#FFFFFF] ">
                                         Download all
                                     </button>
                                 </div>
@@ -173,7 +173,7 @@ function HistoryItem({ data }: { data?: HistoryItemDataType }) {
                     July 30, 2022
                 </div>
             </div>
-            <button className="transition ease-in-out duration-200 hover:bg-primary hover:text-White text-xs leading-[16.34px] font-bold text-[#E51937] p-[7px_23px] border-[#E51937] border rounded-[4px]">
+            <button className="transition ease-in-out duration-200 hover:bg-primary hover:text-White text-xs leading-[16.34px] font-bold text-primary p-[7px_23px] border-primary border rounded-[4px]">
                 Download
             </button>
         </div>

@@ -39,7 +39,7 @@ export const Modals = ({ modalIsOpen, closeModal }: any) => {
                             <a
                                 className={classnames(
                                     commonStyle,
-                                    " !text-[#E51937]"
+                                    " !text-primary"
                                 )}
                             >
                                 Help Center
@@ -50,7 +50,7 @@ export const Modals = ({ modalIsOpen, closeModal }: any) => {
                             <a
                                 className={classnames(
                                     commonStyle,
-                                    " !text-[#E51937]"
+                                    " !text-primary"
                                 )}
                             >
                                 Resources.
