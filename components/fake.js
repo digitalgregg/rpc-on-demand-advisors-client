@@ -242,6 +242,37 @@ export const userManagementData = [
     onlineStatus: "offline",
     img:"/img/user-avatar.svg"
   }
+];
+
+export const sharingData = [
+  {
+    id: 1,
+    recipent: "Abdur Rakib",
+    lastView: "31/07/2022 10:36 am",
+    view: 5
+  },
+  {
+    id: 2,
+    recipent: "Abdur Rakib",
+    lastView: "31/07/2022 10:36 am",
+    view: 5
+  },
+]
+export const additionalData = [
+  {
+    id: 1,
+    fileName: "Read me.pdf",
+    resolution: "1920x1080",
+    isShared: "true"
+  }
+]
+export const dateAdded = [
+  {
+    id: 1,
+    fileName: "Read me.pdf",
+    date: "1920x1080",
+  
+  }
 ]
 
 export const notifications = [
