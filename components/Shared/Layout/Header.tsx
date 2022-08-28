@@ -61,7 +61,7 @@ const NavMenuItem = () => {
         setSubMenuState(!subMenuState);
     };
     return (
-        <nav className="flex lg:items-center items-start lg:flex-row flex-col">
+        <nav className="flex flex-col items-start lg:items-center lg:flex-row">
             <ul className=" lg:w-fit w-full flex lg:items-center items-start lg:flex-row flex-col xl:gap-10 gap-[10px]">
                 <NavList title={"Home"} url={"/"} />
                 <NavList title={"Tour"} url={"/tour"} />
@@ -116,7 +116,7 @@ const NavMenuItem = () => {
                             pera={
                                 "Watch a quick demo or schedule time with us."
                             }
-                            url={"/contact-us"}
+                            url={"/schedule-demo"}
                         />
                     </ul>
                 </li>
@@ -142,7 +142,7 @@ const Header = () => {
     return (
         <div className="md:h-[105px] relative h-[70px] flex items-center bg-[#242424]">
             <div className="container mx-auto ">
-                <div className="  flex  justify-between items-center">
+                <div className="flex items-center justify-between ">
                     <div>
                         <Link href={"/"}>
                             <a>
@@ -184,7 +184,7 @@ const Header = () => {
                         </div>
                     )}
 
-                    <div className="lg:block hidden">
+                    <div className="hidden lg:block">
                         <NavMenuItem />
                     </div>
                     <div
