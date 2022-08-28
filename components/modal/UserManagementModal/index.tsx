@@ -2,9 +2,12 @@ import React from "react";
 import Modal from "react-modal";
 import { Formik } from "formik";
 import { Form } from "formik";
-import { UserManagementModalStyle } from './../../../utils/modalCustomStyle';
-import InputField from './../../Shared/InputField/index';
-import ContentTypeStage from './../../ContentTypeStage/index';
+import { UserManagementModalStyle } from "./../../../utils/modalCustomStyle";
+import InputField from "./../../Shared/InputField/index";
+import ContentTypeStage from "./../../ContentTypeStage/index";
+import GlobalSelect from "./../../GlobalSelect/index";
+import { options } from "../../../utils/GlobalReactSelectData/AssetUse";
+import { userManagementstyles } from "./../../../utils/GlobalReactSelectData/AssetUse";
 
 type ModalProps = {
   isOpen: boolean;
@@ -27,6 +30,9 @@ const UserManagementModel = ({ isOpen, onClose }: ModalProps) => {
   const handleClose = () => {
     onClose();
   };
+  const handleContentChange = (e: any) => {
+    console.log(e);
+  };
   return (
     <>
       <Modal
@@ -36,7 +42,7 @@ const UserManagementModel = ({ isOpen, onClose }: ModalProps) => {
         contentLabel="Example Modal"
       >
         <div className="w-[100%] bg-[#FFFFFF]">
-          <div className="sm:px-[40px] xs:px-[20px] pt-[20px] pb-[40px]">
+          <div className="sm:px-[40px] xs:px-[20px] pt-[20px] pb-[40px] modal-scroll h-[100%]">
             <h2 className="mb-[20px] text-center text-[#000000] font-semibold text-[24px] leading-[23px]">
               Edit User
             </h2>
@@ -53,7 +59,7 @@ const UserManagementModel = ({ isOpen, onClose }: ModalProps) => {
                       type="name"
                       label="Enter your name"
                       inputClass={inputStyle}
-                      height="48px"
+                      height="55px"
                       labelClass={labelStyle}
                       required
                     />
@@ -63,21 +69,32 @@ const UserManagementModel = ({ isOpen, onClose }: ModalProps) => {
                       type="email"
                       label="Enter your email"
                       inputClass={inputStyle}
-                      height="48px"
+                      height="55px"
                       labelClass={labelStyle}
                       required
                     />
-                    <div className="mb-[30px] mt-[0px]">
-                      <ContentTypeStage />
+                    <div className="mb-[30px]">
+                      <GlobalSelect
+                        selectClassName="text-[14px] text-[#676767] pt-[10px]"
+                        isMulti={false}
+                        options={options}
+                        labelStyles={labelStyle}
+                        isLabel={true}
+                        customStyles={userManagementstyles}
+                        labelName="Enter user type"
+                        handleOnChange={handleContentChange}
+                        placeholder="User"
+                        optionHoverColor="#E519371A"
+                      />
                     </div>
-                    <div className="flex sm:flex-row xs:flex-col">
+                    <div className="flex">
                       <button
-                        className="w-[202.5px] h-[45px] rounded-[4px] border border-[#E51937] text-[16px] xs:mb-[20px] sm:mb-[0px] font-normal text-[#E51937] cursor-pointer mr-[5px]"
+                        className="sm:w-[202.5px] xs:w-[100px] sm:h-[45px] xs:h-[40px] rounded-[4px] border border-[#E51937] sm:text-[16px] xs:text-[12px] font-normal text-[#E51937] cursor-pointer mr-[5px]"
                         onClick={handleClose}
                       >
                         Cancel
                       </button>
-                      <button className="bg-[#E51937] rounded-[4px] w-[202.5px] h-[45px] text-[#FFFFFF] text-[16px] font-semibold cursor-pointer">
+                      <button className="bg-[#E51937] rounded-[4px] sm:w-[202.5px] xs:w-[100px] sm:h-[45px] xs:h-[40px] text-[#FFFFFF] sm:text-[16px] xs:text-[12px] font-semibold cursor-pointer">
                         Update
                       </button>
                     </div>
