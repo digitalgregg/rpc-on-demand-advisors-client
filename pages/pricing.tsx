@@ -112,10 +112,10 @@ const PricingPage = () => {
                             <div className="pt-5"></div>
 
                             <div className="text-sm leading-[19.07px] flex justify-center sm:justify-start gap-5">
-                                <button className="p-[13px_30px] border border-[#E51937] bg-[#E51937] text-[#fff] rounded-[4px] font-semibold">
+                                <button className=" hover-transition hover:bg-transparent hover:text-primary p-[13px_30px] border border-primary bg-primary text-[#fff] rounded-[4px] font-semibold">
                                     Try for Free
                                 </button>
-                                <button className="p-[13px_30px] border border-[#E51937] text-[#E51937] font-semibold rounded-[4px]">
+                                <button className="hover-transition hover:bg-primary hover:text-White p-[13px_30px] border border-primary text-primary font-semibold rounded-[4px]">
                                     Take a tour
                                 </button>
                             </div>

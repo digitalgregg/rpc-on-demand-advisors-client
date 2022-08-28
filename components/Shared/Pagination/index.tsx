@@ -43,17 +43,17 @@ function Pagination({
                     onPageChange={handlePageClick}
                     pageRangeDisplayed={2}
                     className={
-                        "flex gap-4 font-semibold pt-[30px] w-full text-base leading-[21.79px] text-[#9E9E9E] justify-end items-center" +
+                        "flex gap-4 font-semibold w-full text-base leading-[21.79px] text-[#9E9E9E] justify-end items-center" +
                         " " +
                         className
                     }
                     disabledClassName="!text-[#9E9E9E]"
-                    nextClassName="text-[#E51937]"
-                    previousClassName="text-[#E51937]"
+                    nextClassName="text-primary"
+                    previousClassName="text-primary"
                     pageCount={pageCount}
                     marginPagesDisplayed={1}
                     previousLabel="Previous"
-                    activeClassName="text-[#E51937]"
+                    activeClassName="text-primary"
                 />
             )}
         </>

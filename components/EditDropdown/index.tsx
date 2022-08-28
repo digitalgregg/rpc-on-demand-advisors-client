@@ -4,7 +4,7 @@ import DownloadIcon from "../CustomIcons/DownloadIcon";
 import EditIcon from "../CustomIcons/EditIcon";
 import TagIcon from "../CustomIcons/TagIcon";
 import UpdateIcon from "../CustomIcons/UpdateIcon";
-import TagModal from './../TagModal/index';
+import TagModal from '../modal/TagModal/index';
 
 type DropdownProps = {
   mapIndex: number;

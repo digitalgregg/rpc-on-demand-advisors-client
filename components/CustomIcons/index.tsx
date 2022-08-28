@@ -5,10 +5,15 @@ import HappyIcon from "./HappyIcon";
 import NormalIcon from "./NormalIcon";
 import SmileIcon from "./SmileIcon";
 import IgnorIcon from "./IgnorIcon";
-import MeetIcon from './MeetIcon';
-import MeetCalander from './MeetCalander';
-import EditIcon from './EditIcon';
-import DeleteIcon from './DeleteIcon';
+import MeetIcon from "./MeetIcon";
+import MeetCalander from "./MeetCalander";
+import EditIcon from "./EditIcon";
+import DeleteIcon from "./DeleteIcon";
+import TrackerUploadIcon from "./TrackerUploadIcon";
+import TrackerCloseIcon from "./TrackerCloseIcon";
+import TrackerEditeIcon from "./TrackerEditeIcon";
+import TrackerSaveIcon from "./TrackerSaveIcon";
+import RightArrowIcon from './RightArrowIcon';
 
 export {
     PaymentIcon,
@@ -21,5 +26,10 @@ export {
     MeetIcon,
     MeetCalander,
     EditIcon,
-    DeleteIcon
+    DeleteIcon,
+    TrackerUploadIcon,
+    TrackerCloseIcon,
+    TrackerEditeIcon,
+    TrackerSaveIcon,
+    RightArrowIcon
 };

@@ -33,7 +33,7 @@ const ContentCard = ({
   mapIndex,
 }: CardProps) => {
   const buttonSyle =
-    " h-[30px]  sm:h-[30px] w-[48%] rounded-[4px] border border-[#E51937] text-[12px] font-semibold	text-[#E51937] hover:bg-[#E51937] hover:text-[#FFFFFF]";
+    " h-[30px]  sm:h-[30px] w-[48%] rounded-[4px] border transition ease-in-out duration-200 border-primary text-[12px] font-semibold	text-primary hover:bg-primary hover:text-[#FFFFFF]";
   const [clickedId, setClickedId] = useState(null);
   const [selectId, setSelectId] = useState(null);
   const [isOpen, setIsOpen] = useState(false);

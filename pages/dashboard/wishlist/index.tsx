@@ -19,7 +19,7 @@ function WishList() {
                         </div>
                         <button
                             onClick={handleModal}
-                            className="bg-[#E51937] p-[15px_18px] rounded-[4px] flex items-center justify-center"
+                            className="bg-primary p-[15px_18px] rounded-[4px] flex items-center justify-center"
                         >
                             <img
                                 src="/assets/dashboard-wishlist/plus.svg"
@@ -128,7 +128,7 @@ function WishListItem() {
                         </tr>
                     </table> */}
                     <div className="pt-[40px]"></div>
-                    <button className="text-xs leading-[40px] text-[#e51937] hover:text-[#fff] font-semibold w-full border-[#e51937] border hover:bg-[#e51937] rounded-[4px] h-[40px]">
+                    <button className="text-xs leading-[40px] text-primary hover:text-[#fff] font-semibold w-full border-primary border hover:bg-primary rounded-[4px] h-[40px]">
                         Manage
                     </button>
                 </div>

@@ -1,31 +1,60 @@
 import React, { useState } from "react";
 import { Formik, Form } from "formik";
-import InputField from "../../Shared/InputField";
-import { TeaxArea } from "../../Shared/TeaxArea";
+import TextField from "../../Shared/InputField";
+import TeaxArea from "../../Shared/TextAreaField";
 import * as Yup from "yup";
-import CustomModal from "../../CustomUtils/CustomModal";
+import CustomModal from "../../Shared/CustomUtils/CustomModal";
+import DropdownField from "../../Shared/DropdownField";
+import { DropdownItem } from "../../Shared/Dropdown";
 const stypes =
     "text-[16px] leading-[22px] text-[$000000] font-normal mb-[20px]";
 
-const validate = Yup.object({
-    yourName: Yup.string()
-        .min(3, "Must be 2 characters or less")
-        .required("Your Name is required"),
-    email: Yup.string().email("Email is invalid").required("Email is required"),
-    subject: Yup.string().required("Subject is required"),
+const SelectaTopic = [
+    {
+        name: "Billing issue",
+    },
+    {
+        name: "Pricing",
+    },
+    {
+        name: "Feature",
+    },
+    {
+        name: "Bug report",
+    },
+    {
+        name: "Enterprise",
+    },
+    {
+        name: "Others",
+    },
+];
+
+const validationSchema = Yup.object({
+    yourname: Yup.string()
+        .min(2, "Must be 2 characters or less")
+        .required("Fast Name is required"),
+    email: Yup.string()
+        .min(2, "Must be 2 characters or less")
+        .required("Last Name is required"),
+    select: Yup.string(),
+    subject: Yup.string(),
+    description: Yup.string(),
 });
-interface MyFormValues {
-    yourName: string;
-    subject: string;
-    email: string;
-    description: string;
-}
-const initialValues: MyFormValues = {
-    yourName: "",
-    subject: "",
-    email: "",
-    description: "",
-};
+// interface MyFormValues {
+//     yourname: string;
+//     subject: string;
+//     email: string;
+//     select: string;
+//     description: string;
+// }
+// const initialValues: MyFormValues = {
+//     yourname: "",
+//     subject: "",
+//     email: "",
+//     select: "",
+//     description: "",
+// };
 const ContactFrom: React.FC<{}> = () => {
     const [selectedOption, setSelectedOption] = useState(null);
     const [modalIsOpen, setIsOpen] = useState(false);
@@ -73,46 +102,75 @@ const ContactFrom: React.FC<{}> = () => {
                     </p>
                 </div>
                 <div className=" w-full lg:max-w-[600px] lg:w-[600px] bg-White rounded py-[50px] px-[40px]">
-                    <Formik
-                        initialValues={initialValues}
-                        validationSchema={validate}
-                        onSubmit={(valus) => console.log(valus)}
-                    >
-                        {() => (
-                            <div className=" w-full">
-                                {/* {console.log(formik.values)} */}
-                                <div className=" mb-[30px]">
-                                    <h1 className="mb-[4px] text-[32px] leading-[44px] font-bold text-black_primary">
-                                        Get In Touch With Us
-                                    </h1>
-                                    <p className=" text-[18px] leading-[25px] font-normal text-black_primary">
-                                        Let’s contact us if you have any
-                                        questions?
-                                    </p>
-                                </div>
-
+                    <div className=" w-full">
+                        {/* {console.log(formik.values)} */}
+                        <div className=" mb-[30px]">
+                            <h1 className="mb-[4px] text-[32px] leading-[44px] font-bold text-black_primary">
+                                Get In Touch With Us
+                            </h1>
+                            <p className=" text-[18px] leading-[25px] font-normal text-black_primary">
+                                Let’s contact us if you have any questions?
+                            </p>
+                        </div>
+                        <Formik
+                            initialValues={{
+                                yourname: "",
+                                email: "",
+                                select: "",
+                                subject: "",
+                                description: "",
+                            }}
+                            validationSchema={validationSchema}
+                            onSubmit={(valus) => console.log(valus)}
+                        >
+                            {() => (
                                 <Form>
-                                    <InputField
-                                        label="Your Name"
-                                        name="yourName"
-                                        type="text"
-                                    />
-                                    <InputField
-                                        label="Email"
-                                        name="email"
-                                        type="email"
-                                    />
-                                    <InputField
-                                        label="Subject"
-                                        name="subject"
-                                        type="text"
-                                    />
-                                    <TeaxArea
-                                        label="Description"
-                                        name="description"
-                                        type="text"
-                                        className=" !h-[150px] !flex !items-start"
-                                    />
+                                    <div className=" flex flex-col gap-[16px]">
+                                        <DropdownField
+                                            className="!border-[#e0e0e0]"
+                                            height="44px"
+                                            label="Select a Topic"
+                                            name="select"
+                                            placeholderClass="!text-sm"
+                                            iconClass="!w-[12px]"
+                                            labelClass="!text-sm"
+                                            placeholder="Select a Topic"
+                                        >
+                                            {SelectaTopic.map((v, i) => (
+                                                <DropdownItem
+                                                    key={i}
+                                                    value={v.name}
+                                                >
+                                                    {v.name}
+                                                </DropdownItem>
+                                            ))}
+                                        </DropdownField>
+
+                                        <TextField
+                                            label="Your Name"
+                                            name="yourname"
+                                            type="text"
+                                            placeholder={"Readme..."}
+                                        />
+                                        <TextField
+                                            label="Email"
+                                            name="email"
+                                            type="text"
+                                            placeholder={"Readme..."}
+                                        />
+                                        <TextField
+                                            label="Subject"
+                                            name="subject"
+                                            type="text"
+                                            placeholder={"Readme..."}
+                                        />
+                                        <TeaxArea
+                                            className={"mt-[10px] "}
+                                            label="Description"
+                                            name="description"
+                                            placeholder="Text here..."
+                                        />
+                                    </div>
                                     <button
                                         type="submit"
                                         className=" rounded w-full mt-[40px] h-[55px] bg-primary text-white"
@@ -120,9 +178,9 @@ const ContactFrom: React.FC<{}> = () => {
                                         Send Request
                                     </button>
                                 </Form>
-                            </div>
-                        )}
-                    </Formik>
+                            )}
+                        </Formik>
+                    </div>
                 </div>
             </div>
         </>

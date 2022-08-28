@@ -90,7 +90,7 @@ function SectionTab({ data }: { data: SectionTabDataType[] }) {
                                 >
                                     {v.text}
                                     {sectionTab == i && (
-                                        <div className="absolute bottom-[-2px] z-10 w-full h-[3px] sm:bg-[#E51937]"></div>
+                                        <div className="absolute bottom-[-2px] z-10 w-full h-[3px] sm:bg-primary"></div>
                                     )}
                                 </div>
                             ))}

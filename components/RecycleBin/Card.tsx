@@ -31,7 +31,7 @@ const Card = ({ link, title, url, timeDate }: CardType) => {
                 </div>
             </div>
             <Link href={link}>
-                <button className=" hover:bg-transparent ease-in-out duration-300 hover:text-[#E51937] border-[1px] border-solid border-[#E51937] px-[13px] sm:px-[26px] py-[7px] sm:py-[9px] rounded text-xs sm:text-base leading-[16.34px] sm:leading-[22px] bg-[#E51937] font-semibold text-White">Restore</button>
+                <button className=" hover:bg-transparent ease-in-out duration-300 hover:text-primary border-[1px] border-solid border-primary px-[13px] sm:px-[26px] py-[7px] sm:py-[9px] rounded text-xs sm:text-base leading-[16.34px] sm:leading-[22px] bg-primary font-semibold text-White">Restore</button>
             </Link>
         </div>
     );

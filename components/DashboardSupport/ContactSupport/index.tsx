@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ConfirmYourDetails from "./YourMeetingBooked";
+import ConfirmYourDetails from "./ContactFrom";
 
 const index = () => {
     return (

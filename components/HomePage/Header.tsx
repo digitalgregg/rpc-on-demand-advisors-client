@@ -17,8 +17,8 @@ const Header = () => {
             </div>
             {/* group buttons */}
             <div className="flex flex-row gap-[30px] text-[14px] text-[#FFFFFF] justify-center relative">
-                <button className="xs:w-[157px] xs:h-[44px] sm:w-[155px] sm:h-[56px] rounded-[4px] p-[11px, 32px, 11px, 32px] bg-[#E51937]">Take a Tour</button>
-                <button className="xs:w-[157px] xs:h-[44px] sm:w-[155px] sm:h-[56px] rounded-[4px] p-[11px, 32px, 11px, 32px] bg-[#191919] border border-[white]">Take a Tour</button>
+                <button className="xs:w-[157px] xs:h-[44px] sm:w-[155px] sm:h-[56px] rounded-[4px] p-[11px, 32px, 11px, 32px] bg-primary border border-solid border-primary hover:bg-transparent hover:text-White hover-transition">Take a Tour</button>
+                <button className="xs:w-[157px] xs:h-[44px] sm:w-[155px] sm:h-[56px] rounded-[4px] p-[11px, 32px, 11px, 32px] bg-[#191919] border border-[white] hover:bg-primary hover:border-primary hover-transition">Take a Tour</button>
             <img src="/img/vector.svg" alt="" className={leftIconStyle}/>
 
             <img src="/img/vector1.svg" alt="" className={rightIconStyle}/>

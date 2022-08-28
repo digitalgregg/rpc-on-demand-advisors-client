@@ -1,3 +1,40 @@
+export const applicationsettingsFakeData = [
+  {
+      id: 0,
+      name:"Cons",
+      colors:'#909'
+  },
+  {
+      id: 1,
+      name:"ideration",
+      colors:'#109'
+  },
+  {
+      id: 2,
+      name:"tion",
+      colors:'#509'
+  },
+  {
+      id: 3,
+      name:"Cration",
+      colors:'#921009'
+  },
+  {
+      id: 4,
+      name:"Con",
+      colors:'#909909'
+  },
+  {
+      id: 5,
+      name:"Cation",
+      colors:'#1909'
+  },
+  {
+      id: 6,
+      name:"sider",
+      colors:'#012909'
+  },
+];
 export const FakeData = [
   {
     id: 1,
@@ -160,7 +197,7 @@ export const userManagementData = [
   {
     id:1,
     name:"A.S. Piash",
-    email:"examample@gmailffffffffffffffffffffffffffffff.com",
+    email:"examample@digitalgreeg.com",
     userType : "admin",
     onlineStatus: "offline",
     img:"/img/user-avatar.svg"
@@ -234,5 +271,42 @@ export const dateAdded = [
     id: 1,
     fileName: "Read me.pdf",
     date: "1920x1080",
+]
+
+export const notifications = [
+  {
+    id:0,
+    title : "Weekly Digests",
+    description : "Digest emails go out weekly to you and your team. Modify the distribution list here."
+  },
+  {
+    id:1,
+    title : "Weekly Digests",
+    description : "Digest emails go out weekly to you and your team. Modify the distribution list here."
+  },
+  {
+    id:2,
+    title : "Weekly Digests",
+    description : "Digest emails go out weekly to you and your team. Modify the distribution list here."
+  },
+  {
+    id:3,
+    title : "Weekly Digests",
+    description : "Digest emails go out weekly to you and your team. Modify the distribution list here."
+  },
+  {
+    id:4,
+    title : "Weekly Digests",
+    description : "Digest emails go out weekly to you and your team. Modify the distribution list here."
+  },
+  {
+    id:5,
+    title : "Weekly Digests",
+    description : "Digest emails go out weekly to you and your team. Modify the distribution list here."
+  },
+  {
+    id:6,
+    title : "Weekly Digests",
+    description : "Digest emails go out weekly to you and your team. Modify the distribution list here."
   }
 ]
