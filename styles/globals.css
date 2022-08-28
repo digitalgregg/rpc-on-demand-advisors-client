@@ -90,7 +90,7 @@ a {
   }
 
   .arrow{
-    position: relative;
+    /* position: relative; */
     width:240px;
     background: #FFFFFF;
     height:61px;

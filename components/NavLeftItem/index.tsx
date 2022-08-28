@@ -49,17 +49,17 @@ const NavLeftItem = () => {
                         onClick={handleDropDown}
                         className="text-[16px] cursor-pointer xs:hidden sm:flex font-semibold text-[#222222] flex items-center relative"
                     >
-                        Gregg{" "}
+                        Gregg
                         <span>
                             <img
                                 src="/img/dropdown.svg"
                                 alt="dropdown"
                                 className="w-[12px] h-[8px] ml-[10px] cursor-pointer"
                             />
-                        </span>{" "}
+                        </span>
                     </h3>
                     {openDropdown && (
-                        <div className="absolute z-50 top-[65px] right-[35px] xl:top-[65px] xl:right-[120px]">
+                        <div className="absolute z-50 top-[65px] right-[110px] xl:top-[65px] xl:right-[120px]">
                             <UserSettingsDropdown />
                         </div>
                     )}

@@ -15,31 +15,31 @@ const FooterMenuOne: NavLinksType[] = [
     },
     {
         title: "Showpad alternative",
-        url: "/showpadAlternative",
+        url: "/showpad-alternative",
     },
     {
         title: "Uberflip pricing",
-        url: "/uberflipPricing",
+        url: "/uberflip-pricing",
     },
     {
         title: "Seismic alternative",
-        url: "/seismicAlternative",
+        url: "/seismic-alternative",
     },
     {
         title: "PathFactory alternative",
-        url: "/pathFactoryAlternative",
+        url: "/pathFactory-alternative",
     },
     {
         title: "Paperflite competitor",
-        url: "/paperfliteCompetitor",
+        url: "/paperflite-competitor",
     },
     {
         title: "Top Sales Enablement Tools",
-        url: "/topSalesEnablementTools",
+        url: "/top-sales-enablement-tools",
     },
     {
         title: "How to do a sales content audit",
-        url: "/howToDoaSalesContentAudit",
+        url: "/how-to-doa-sales-content-audit",
     },
 ];
 const FooterMenuTwo: NavLinksType[] = [
@@ -61,11 +61,11 @@ const FooterMenuTwo: NavLinksType[] = [
     },
     {
         title: "Help Center",
-        url: "/helpCenter",
+        url: "/help-center",
     },
     {
         title: "Get started",
-        url: "/getStarted",
+        url: "/",
     },
 ];
 const FooterMenuThree: NavLinksType[] = [
@@ -79,19 +79,19 @@ const FooterMenuThree: NavLinksType[] = [
     },
     {
         title: "Contact Us",
-        url: "/contactUs",
+        url: "/contact-us",
     },
     {
         title: "Support",
-        url: "/support",
+        url: "/dashboard/support",
     },
     {
         title: "Privacy Policy",
-        url: "/privacyPolicy",
+        url: "/privacy-policy",
     },
     {
         title: "Terms of Service",
-        url: "/termsService",
+        url: "/terms-service",
     },
 ];
 const FooterIcon = () => {

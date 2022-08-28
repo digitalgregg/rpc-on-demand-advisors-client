@@ -14,6 +14,13 @@ import TrackerCloseIcon from "./TrackerCloseIcon";
 import TrackerEditeIcon from "./TrackerEditeIcon";
 import TrackerSaveIcon from "./TrackerSaveIcon";
 import RightArrowIcon from './RightArrowIcon';
+import AccountSetting from './AccountSetting';
+import RecycleBin from './RecycleBin';
+import Support from './Support';
+import WishlistIcon from './WishlistIcon';
+import UserSetting from './UserSetting';
+import Logout from './Logout';
+import BillingIcon from './BillingIcon';
 
 export {
     PaymentIcon,
@@ -31,5 +38,12 @@ export {
     TrackerCloseIcon,
     TrackerEditeIcon,
     TrackerSaveIcon,
-    RightArrowIcon
+    RightArrowIcon,
+    AccountSetting,
+    RecycleBin,
+    Support,
+    WishlistIcon,
+    UserSetting,
+    Logout,
+    BillingIcon
 };
