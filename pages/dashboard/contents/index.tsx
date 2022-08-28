@@ -12,7 +12,7 @@ function Contents() {
           <h3 className="text-[16px] md:text-[18px] lg:text-[24px] 2xl:text-[32px] mb-[30px] sm:mb-0 font-bold">
             Good Morning Gregg!{" "}
           </h3>
-          <div className="flex gap-[3%] sm:gap-[25px] ">
+          <div className="flex gap-[4%] sm:gap-[25px] ">
             <button className="w-[48.5%] sm:w-[143px] h-[48px] lg:w-[190px] lg:h-[54px] border-[1.5px] border-[#E51937] rounded-[4px] text-[12px] lg:text-[14px] font-semibold flex items-center justify-center gap-[5px]	lg:gap-[11px] text-[#E51937]">
               <span>
                 <img src="/img/addContactIcon.svg" alt="" />

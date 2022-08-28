@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import DashboardLayout from "../../../components/Dashboard/DashboardLayout";
 import { useRouter } from "next/router";
 import DeleteIcon from "./../../../components/CustomIcons/DeleteIcon";
+import YesNoModal from "./../../../components/Shared/YesNoModal/index";
 
 function Collections() {
   const router = useRouter();
@@ -10,10 +11,23 @@ function Collections() {
   const handleEditIconDropdown = (id: any) => {
     setSelectedId(id);
     setOpenDropdown(!openDropdown);
-    console.log(id, "clicked id")
+    console.log(id, "clicked id");
   };
+
+  const [removeModal, setRemoveModal] = useState(false);
   return (
     <DashboardLayout>
+         <YesNoModal
+                isOpen={removeModal}
+                handleModal={() => setRemoveModal(!removeModal)}
+                header={"Remove shared collection ?"}
+                onYesClick={() => {
+                  console.log("Check");
+                }}
+                description={
+                  "Are you sure you want to remove shared collection?"
+                }
+              />
       <div className="w-full">
         {/* Filter section  */}
         <div className="flex items-center justify-between pb-[30px]">
@@ -51,7 +65,14 @@ function Collections() {
               {index === selectedId && openDropdown && (
                 <div className="absolute top-[44px]  right-[31px] w-[111px] h-[70px] z-50 shadow-[4px_4px_8px_rgba(0,0,0,0.25)] bg-white  flex items-center justify-center px-[10px]">
                   <ul className="w-full group ">
-                    <li onClick={() => router.push(`/dashboard/collections/view-contents/${collectionId}`)} className="flex gap-[18px] items-center mb-[12px] text-[14px] px-2 py-[2px] hover:bg-[rgba(229,25,55,0.1)] cursor-pointer ">
+                    <li
+                      onClick={() =>
+                        router.push(
+                          `/dashboard/collections/view-contents/${collectionId}`
+                        )
+                      }
+                      className="flex gap-[18px] items-center mb-[12px] text-[14px] px-2 py-[2px] hover:bg-[rgba(229,25,55,0.1)] cursor-pointer "
+                    >
                       <img src="/img/editIcon.svg" alt="edit" />{" "}
                       <span className="group-hover:text-primary text-[#222222] ">
                         {" "}
@@ -59,7 +80,10 @@ function Collections() {
                       </span>{" "}
                     </li>
 
-                    <li className="flex gap-[18px] items-center text-[14px] hover:bg-[rgba(229,25,55,0.1)] px-2  py-[2px] cursor-pointer">
+                    <li
+                      onClick={() => setRemoveModal(!removeModal)}
+                      className="flex gap-[18px] items-center text-[14px] hover:bg-[rgba(229,25,55,0.1)] px-2  py-[2px] cursor-pointer"
+                    >
                       <DeleteIcon stroke="#E51937" width="12px" height="12px" />{" "}
                       <span className="group-hover:text-primary text-[#222222]">
                         {" "}
@@ -81,6 +105,7 @@ function Collections() {
               </p>
             </div>
           ))}
+          
         </div>
       </div>
     </DashboardLayout>

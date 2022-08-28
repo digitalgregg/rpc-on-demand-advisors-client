@@ -92,7 +92,7 @@ function CollectionsView() {
                     >
                         {() => (
                             <Form>
-                                <div className="flex flex-col sm:flex-row sm:items-end  w-full">
+                                <div className="flex flex-col w-full sm:flex-row sm:items-end">
                                     <InputField
                                         name="collection_title"
                                         label="Collection title"
