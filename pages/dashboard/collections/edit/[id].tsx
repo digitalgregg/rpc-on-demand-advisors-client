@@ -13,7 +13,9 @@ import TestField from "../../../../components/Playground/TestField";
 import Pagination from "../../../../components/Shared/Pagination";
 import YesNoModal from "../../../../components/modal/YesNoModal";
 import { useEffect } from "react";
-import FileUploadModal from "../../../../components/FileUploadModal";
+import FileUploadModal, {
+    handleUppyModal,
+} from "../../../../components/FileUploadModal";
 const initialValues = {
     collection_title: "",
     share_with: "",
@@ -81,12 +83,6 @@ function CollectionsView() {
             img: "https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aW1nfGVufDB8fDB8fA%3D%3D&w=1000&q=80",
         },
     ]);
-
-    const [fileUploadOpen, setFileUploadOpen] = useState(false);
-
-    const handleFileUploadModal = () => {
-        setFileUploadOpen(!fileUploadOpen);
-    };
 
     return (
         <>
@@ -214,8 +210,8 @@ function CollectionsView() {
                                     ))}
                                     <div>
                                         <button
-                                            className="h-[80px] sm:h-[84.45px] lg:h-[100px] font-semibold rounded-[4px] text-[#000] w-full leading-[84px] text-center bg-[#fff] border border-dashed border-[#9D9D9D] open-file-uploader"
-                                            onClick={handleFileUploadModal}
+                                            className="h-[80px] sm:h-[84.45px] lg:h-[100px] font-semibold rounded-[4px] text-[#000] w-full leading-[84px] text-center bg-[#fff] border border-dashed border-[#9D9D9D] "
+                                            onClick={handleUppyModal}
                                         >
                                             Add New Content
                                         </button>

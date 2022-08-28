@@ -13,6 +13,7 @@ function FileUploadModal({ onUploadFinished }: FileUploadModalType) {
                 onUploadFinished(v);
             }
         };
+
         return () => {};
     }, []);
 
@@ -26,5 +27,14 @@ function FileUploadModal({ onUploadFinished }: FileUploadModalType) {
         </div>
     );
 }
+
+export const handleUppyModal = () => {
+    if (window.myUppy) {
+        const dashboard = window.myUppy.getPlugin("Dashboard");
+        if (!dashboard.isModalOpen()) {
+            dashboard.openModal();
+        }
+    }
+};
 
 export default FileUploadModal;
