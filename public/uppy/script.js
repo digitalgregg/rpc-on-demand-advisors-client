@@ -8,6 +8,7 @@ var uppy = new Uppy.Uppy()
         inline: false,
         trigger: ".open-file-uploader",
         target: "body",
+        allowMultipleUploads: false,
         proudlyDisplayPoweredByUppy: false,
         showProgressDetails: true,
         animateOpenClose: true,
@@ -15,6 +16,7 @@ var uppy = new Uppy.Uppy()
         closeModalOnClickOutside: true,
         closeAfterFinish: true,
         doneButtonHandler: null,
+        disablePageScrollWhenModalOpen: false,
     })
     .use(Uppy.GoogleDrive, {
         target: Uppy.Dashboard,
@@ -74,3 +76,5 @@ if (closeUploadModalBtn) {
         }
     });
 }
+
+window.myUppy = uppy;
