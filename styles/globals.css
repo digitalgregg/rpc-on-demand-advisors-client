@@ -91,13 +91,13 @@ a {
     display: none; /* for Chrome, Safari, and Opera */
 }
 
-.arrow {
+  .arrow{
     position: relative;
-    width: 240px;
-    background: #ffffff;
-    height: 61px;
-    text-align: center;
-    color: #fff;
+    width:240px;
+    background: #FFFFFF;
+    height:61px;
+    text-align:center;
+    color:#fff;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
     z-index: 999;
     border-radius: 4px;

@@ -10,8 +10,7 @@ const CustomSlider = ({ children, ...props }: any) => {
     const timeout = useRef(null);
     const length = props.Slideslength.length;
     const lastLangth = length - 1;
-    
-    // console.log(length);
+
 
     useEffect(() => {
         props.count(current);

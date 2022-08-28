@@ -1,10 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { OutSideClick } from "../components/Shared/OutSideClick";
 
 import { NormalIcon } from "../components/CustomIcons";
 
-import {CustomIconHover} from "../components/Shared/CustomIconHover"
-
+import { CustomIconHover } from "../components/Shared/CustomIconHover";
 
 const data = [
     {
@@ -27,11 +26,15 @@ const data = [
 
 const Test = () => {
     const [open, setOpen] = useState(false);
-  
-    const handleOpen = () => {
-        setOpen(!open);
+    const [iconColor, setIconColor] = useState(false);
+    const [itemCount, setItemCount] = useState<any>({});
+
+    const onOver = (e:any) => {if (e) setIconColor(true)}
+    const onLeave = (e:any) => {if (e) setIconColor(false)}
+
+    const handleOpen = (e: any) => {
+        if (e) setIconColor(false);
     };
-    
 
     return (
         <div className="min-h-screen flex justify-center items-center w-full bg-white">
@@ -46,10 +49,21 @@ const Test = () => {
                     {data.map(({ id, Icon }: any) => (
                         <div
                             key={id}
-                          
+                            onMouseOver={() => {
+                                onOver(id), setItemCount(id);
+                            }}
+                            onMouseLeave={() => {
+                                onLeave(id), setItemCount(id);
+                            }}
                             className=" w-[100px] m-4 h-[50px] rounded-md hover:bg-purple-700 bg-pink-600"
                         >
-                            <CustomIconHover totalIcon={id} Icons={Icon} activeColor="#fff" changeColor="#000" />
+                            <Icon
+                                color={`${
+                                    id === itemCount && iconColor === true
+                                        ? "#ffffff"
+                                        : "#000"
+                                }`}
+                            />
                         </div>
                     ))}
 

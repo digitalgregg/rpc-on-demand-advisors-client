@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactNode, useEffect, useState } from "react";
-
+import { OutSideClick } from "../../../components/Shared/OutSideClick";
 type NavLinksType = {
     title: ReactNode;
     url: string;
@@ -19,10 +19,8 @@ const NavList = ({ title, url }: NavLinksType) => {
             <Link href={url} className="w-[272px]">
                 <a
                     className={` ${
-                        router.asPath === url
-                            ? "!text-primary !font-bold"
-                            : ""
-                    } text-[#ffffff]  font-semibold text-[18px] leading-[25px] lg:w-fit w-[272px]`}
+                        router.asPath === url ? "!text-primary !font-bold" : ""
+                    } text-[#ffffff] hover:text-primary font-semibold text-[18px] leading-[25px] lg:w-fit w-[272px]`}
                 >
                     {title}
                 </a>
@@ -65,7 +63,7 @@ const NavMenuItem = () => {
             <ul className=" lg:w-fit w-full flex lg:items-center items-start lg:flex-row flex-col xl:gap-10 gap-[10px]">
                 <NavList title={"Home"} url={"/"} />
                 <NavList title={"Tour"} url={"/tour"} />
-                <li className=" lg:p-0 p-[10px] lg:w-fit w-full relative">
+                <li className=" group lg:p-0 p-[10px] lg:w-fit w-full relative">
                     <a onClick={SubMenuHandlear} className="cursor-pointer">
                         <div className=" flex items-center gap-[15.52px]">
                             <span
@@ -75,7 +73,7 @@ const NavMenuItem = () => {
                             router.asPath === "/contact-us"
                                 ? "!text-primary !font-bold"
                                 : ""
-                        } text-[#ffffff] lg:p-[10px] pr-3 font-semibold text-[18px] leading-[25px]
+                        } group-hover:text-primary text-[#ffffff] lg:p-[10px] pr-3 font-semibold text-[18px] leading-[25px]
                         `}
                             >
                                 Resources
@@ -97,6 +95,7 @@ const NavMenuItem = () => {
                             </div>
                         </div>
                     </a>
+                    <OutSideClick onOutSideClick={() => setSubMenuState(false)}>
                     <ul
                         className={`${
                             subMenuState === false
@@ -119,16 +118,25 @@ const NavMenuItem = () => {
                             url={"/contact-us"}
                         />
                     </ul>
+                    </OutSideClick>
                 </li>
                 <NavList title={"Pricing"} url={"/pricing"} />
             </ul>
             <div className="lg:w-fit w-full lg:mt-0 mt-[20vh] lg:flex-none flex gap-5 lg:gap-0 flex-col lg:flex-row">
-                <button className=" lg:w-fit lg:mx-5 w-full py-[11px] px-[19.5px] lg:border-none border-[#F8F8F8] border-solid border-[1px] text-base font-semibold rounded text-[#fff]">
-                    Login
-                </button>
-                <button className=" lg:w-fit w-full py-[11px] px-[20px] bg-primary text-base font-semibold rounded text-[#fff]">
-                    Sign up
-                </button>
+                <Link href="/signin">
+                    <a>
+                        <button className=" hover:text-primary lg:w-fit lg:mx-5 w-full py-[11px] px-[19.5px] lg:border-none border-[#F8F8F8] border-solid border-[1px] text-base font-semibold rounded text-[#fff]">
+                            Login
+                        </button>
+                    </a>
+                </Link>
+                <Link href="/signup">
+                    <a>
+                        <button className=" hover:bg-transparent hover:border-White border border-solid border-primary lg:w-fit w-full py-[11px] px-[20px] bg-primary text-base font-semibold rounded text-[#fff]">
+                            Sign up
+                        </button>
+                    </a>
+                </Link>
             </div>
         </nav>
     );
