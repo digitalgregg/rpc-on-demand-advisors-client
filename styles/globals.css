@@ -32,7 +32,7 @@ a {
 }
 
 .hover-transition{
-    @apply  transition ease-in-out duration-200;
+    @apply  transition duration-200 ease-in-out;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -143,4 +143,23 @@ a {
 
 .uppy-Dashboard--modal .uppy-Dashboard-inner .uppy-Dashboard-innerWrap {
     height: calc(100% - 50px) !important;
+}
+.divider {
+    border: 0;
+    height: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    margin-top: 14px;
+    margin-bottom: 14px;
+}
+  .divider2 {
+    border: 0;
+    height: 0;
+    border-bottom: 0.75px solid lightgray;
+    margin-top: 14px;
+    margin-bottom: 14px;
+}
+.thumbnail-wrapper img {
+    min-width: 100%;
+    height: 100%;
 }
