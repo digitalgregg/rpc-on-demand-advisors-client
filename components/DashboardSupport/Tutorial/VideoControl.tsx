@@ -27,7 +27,7 @@ export const VideoControls = () => {
                             // onClick={handlePlay}
                         />
                     </div>
-                    <div className="absolute z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:w-full lg:h-full">
+                    <div className="absolute z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:w-full lg:h-full">
                         <div
                             onClick={handlePlay}
                             className=" cursor-pointer flex flex-col justify-center items-center gap-[10px] lg:w-full lg:h-full"

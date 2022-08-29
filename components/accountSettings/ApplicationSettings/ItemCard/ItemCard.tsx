@@ -21,7 +21,7 @@ const Card = (props: any) => {
     const [editeDetails, setEditeDetails] = useState(false);
     const [deletes, setDeletes] = useState(false);
     const handlerEdite = () => {
-        setEditeDetails(true);
+        setEditeDetails(!editeDetails);
     };
     const handlerUpDateDetails = () => {
         setEditeDetails(false);

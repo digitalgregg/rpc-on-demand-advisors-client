@@ -3,8 +3,6 @@ import { OutSideClick } from "../components/Shared/OutSideClick";
 
 import { NormalIcon } from "../components/CustomIcons";
 
-import { CustomIconHover } from "../components/Shared/CustomIconHover";
-
 const data = [
     {
         id: 1,
