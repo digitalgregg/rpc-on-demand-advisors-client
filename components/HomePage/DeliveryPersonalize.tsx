@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { RightArrowIcon } from "../CustomIcons";
+import {useRouter} from "next/router";
 
 const DeliveryPersonalize = () => {
+  const router = useRouter();
   const [iconColor, setIconColor] = useState(false);
   const onOver = (e: any) => {
       if (e) setIconColor(true);
@@ -27,7 +29,7 @@ const DeliveryPersonalize = () => {
               Accelerate pipeline and your buyer’s decision making process with
               super easy content grouping and publishing as branded pages.
             </p>
-            <button onMouseOver={onOver}
+            <button onClick={() => router.push("/tour")} onMouseOver={onOver}
                             onMouseLeave={onLeave} className="hover:text-White hover:bg-primary hover:border-primary hover-transition w-[161px] h-[46px]  border border-[#FFFFFF] rounded-[4px] text-[#FFFFFF] text-[14px] sm:text-[16px] cursor-pointer leading-[19px] font-semibold xs:mb-[30px]">
               {" "}
               <span className="flex items-center justify-center gap-[11px]">

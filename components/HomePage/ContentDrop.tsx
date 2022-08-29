@@ -1,6 +1,8 @@
 import React from "react";
+import {useRouter} from "next/router";
 
 const ContentDrop = () => {
+  const router = useRouter();
   return (
     <div className="w-[100%] xs:mt-[60px] sm:mt-[80px]">
       <div className="container">
@@ -10,8 +12,8 @@ const ContentDrop = () => {
               <h3 className=" xl:text-[32px] xs:text-[21px] sm:text-[28px] md:leading-[38.13px] font-bold 2xl:leading-[43.58px]">Wrangle your content. Drop the Drive.</h3>
               <p className="mt-[30px] mb-[40px] leading-[21.79px]">One place for your winning content. Better sales conversations.Smoother buyer’s journey. Close more deals</p>
               <div className="w-[339px] h-[56px] flex flex-row gap-[30px] mx-auto lg:mx-0">
-                <button className="w-[154px] h-[56px] rounded-[4px] bg-primary text-[#FFFFFF] text-[16px] font-semibold leading-[22px] border border-solid border-primary hover:bg-transparent hover:text-primary hover-transition">Try for Free</button>
-                <button className="w-[154px] h-[56px] rounded-[4px] bg-[#FFFFFF] text-primary border border-primary text-[16px] font-semibold leading-[22px] hover:bg-primary hover:text-White hover-transition">Try for Free</button>
+                <button onClick={() => router.push("/signup")} className="w-[154px] h-[56px] rounded-[4px] bg-primary text-[#FFFFFF] text-[16px] font-semibold leading-[22px] border border-solid border-primary hover:bg-transparent hover:text-primary hover-transition">Try for Free</button>
+                <button onClick={() => router.push("/tour")}  className="w-[154px] h-[56px] rounded-[4px] bg-[#FFFFFF] text-primary border border-primary text-[16px] font-semibold leading-[22px] hover:bg-primary hover:text-White hover-transition">Take a Tour</button>
               </div>
             </div>
             {/* second section  */}

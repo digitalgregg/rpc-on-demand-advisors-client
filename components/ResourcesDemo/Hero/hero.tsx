@@ -1,12 +1,14 @@
 import Image from "next/image";
 import React from "react";
 import  SalesSuccess  from "../salesSuccess/SalesSuccess";
+import {useRouter} from "next/router";
 const Hero = () => {
+    const router = useRouter();
     return (
         <div className=" bg-[#101010] pt-[100px]">
             <div className="container mx-auto">
-                <div className="flex justify-center flex-col">
-                    <h1 className=" text-center text-White">
+                <div className="flex flex-col justify-center">
+                    <h1 className="text-center text-White">
                         Sales Enablement Demo
                     </h1>
                     <p className=" max-w-[592px] mx-auto text-center pt-[30px] pb-10 text-white_primary">
@@ -15,10 +17,10 @@ const Hero = () => {
                         and close deals faster.
                     </p>
                     <div className=" flex sm:flex-row flex-col gap-[22px] 2xl:gap-[46px] w-fit mx-auto">
-                        <button className=" h-[56px] px-8 text-sm sm:text-base leading-[22px] font-semibold text-White rounded bg-primary hover:bg-transparent hover:border-White hover-transition border border-solid border-primary">
+                        <button onClick={() => router.push("/signup")} className=" h-[56px] px-8 text-sm sm:text-base leading-[22px] font-semibold text-White rounded bg-primary hover:bg-transparent hover:border-White hover-transition border border-solid border-primary">
                             Try for Free
                         </button>
-                        <button className=" h-[56px] px-8 text-sm sm:text-base leading-[22px] font-semibold text-White rounded border-inherit border-[1px] border-solid border-White hover-transition hover:border-primary hover:bg-primary">
+                        <button onClick={() => router.push("/schedule-demo")} className=" h-[56px] px-8 text-sm sm:text-base leading-[22px] font-semibold text-White rounded border-inherit border-[1px] border-solid border-White hover-transition hover:border-primary hover:bg-primary">
                             Schedule Demo
                         </button>
                     </div>
