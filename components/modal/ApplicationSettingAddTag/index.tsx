@@ -27,7 +27,7 @@ export const Modals = ({ modalIsOpen, closeModal, HTitle }: any) => {
             <Formik
                 initialValues={initialValues}
                 onSubmit={(valus: any) => {
-                    console.log(valus), setColorChange(valus.color);
+                    console.log(valus);
                 }}
             >
                 {() => (
@@ -62,7 +62,7 @@ export const Modals = ({ modalIsOpen, closeModal, HTitle }: any) => {
                                         name="color"
                                         type="color"
                                         onChange={(val: any) =>
-                                            setColorChange(val)
+                                            setColorChange(val.target.value)
                                         }
                                         placeholder="Stage"
                                     />

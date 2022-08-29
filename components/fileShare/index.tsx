@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import Card from "./Card";
 import HeaderContent from "./headerContent";
-import Image from "next/image";
+import Pagination from "../Shared/Pagination";
 import { FakeData } from "../fake";
-
 
 const FileShare = () => {
     return (
@@ -29,11 +28,21 @@ const FileShare = () => {
                         <HeaderContent />
                         <div className=" max-w-[1200px] mx-auto mt-[30px]">
                             <div className=" bg-White rounded w-full px-[30px] md:px-[40px] lg:px-[80px] xl:px-[110px] py-[49px]">
-                                <div className=" grid md:grid-flow-col grid-flow-row gap-[20px] justify-center xl:gap-[40px]">
-                                    {FakeData?.map((v: any, id: any) => (
-                                        <Card key={id} pre={v.p1} />
-                                    ))}
-                                </div>
+                                <Pagination
+                                    dataArr={FakeData}
+                                    itemsPerPage={2}
+                                    className=" mt-5"
+                                >
+                                    {(currentItems) => (
+                                        <div className=" grid md:grid-flow-col grid-flow-row gap-[20px] justify-center xl:gap-[40px]">
+                                            {currentItems?.map(
+                                                (v: any, id: any) => (
+                                                    <Card key={id} pre={v.p1} />
+                                                )
+                                            )}
+                                        </div>
+                                    )}
+                                </Pagination>
                             </div>
                         </div>
                     </div>
