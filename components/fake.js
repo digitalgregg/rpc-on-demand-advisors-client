@@ -311,4 +311,45 @@ export const notifications = [
     title : "Weekly Digests",
     description : "Digest emails go out weekly to you and your team. Modify the distribution list here."
   }
-]
+];
+
+export const fakeTagData = [
+  {
+    label: "Dummy text1",
+    tagColor: "red",
+  },
+  {
+    label: "Dummy text2",
+    tagColor: "green",
+  },
+  {
+    label: "Dummy text3",
+    tagColor: "dodgerblue",
+  },
+  {
+    label: "Dummy text4",
+    tagColor: "orange",
+  },
+  {
+    label: "Dummy text5",
+    tagColor: "blue",
+  },
+  {
+    label: "Dummy text6",
+    tagColor: "purple",
+  },
+];
+export const tagCustomStyle = {
+  control: (base, state) => ({
+    ...base,
+    border: "1px solid #9E9E9E",
+    boxShadow: "none",
+    minHeight: "55px",
+    "&:hover": {
+      border: "1px solid #E51937"
+    }
+  }),
+  // indicatorsContainer: (provided:any) => ({
+  //     border: "none"
+  //   }),
+};
