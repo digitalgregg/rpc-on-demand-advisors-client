@@ -35,7 +35,7 @@ function Pagination({
 
     return (
         <>
-            <div>{children && children(currentItems)}</div>
+            <>{children && children(currentItems)}</>
             {dataArr.length > itemsPerPage && (
                 <ReactPaginate
                     breakLabel="..."

@@ -25,7 +25,7 @@ const Card = ({ pre }: CardItemType) => {
                         </p>
                     </div>
 
-                    <button className=" bg-primary w-full h-[40px] rounded text-White font-semibold text-base leading-4">
+                    <button className="hover-transition bg-primary border border-solid border-primary hover:bg-transparent hover:text-primary w-full h-[40px] rounded text-White font-semibold text-base leading-4">
                         View content
                     </button>
                 </div>
