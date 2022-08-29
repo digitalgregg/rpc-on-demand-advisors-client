@@ -19,10 +19,6 @@ function FileUploadModal({ onUploadFinished }: FileUploadModalType) {
 
     return (
         <div>
-            <Script
-                src="/uppy/uppy.min.js"
-                strategy="beforeInteractive"
-            ></Script>
             <Script src="/uppy/script.js" />
         </div>
     );

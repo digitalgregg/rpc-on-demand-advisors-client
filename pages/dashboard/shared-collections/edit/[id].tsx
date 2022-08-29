@@ -2,7 +2,7 @@ import React from "react";
 import DashboardLayout from "../../../../components/Dashboard/DashboardLayout";
 import EditCollection from "../../../../components/Dashboard/CollectionPage/EditCollection";
 
-function EditCollectionPage() {
+function EditSharedCollectionPage() {
     return (
         <DashboardLayout>
             <EditCollection />
@@ -10,4 +10,4 @@ function EditCollectionPage() {
     );
 }
 
-export default EditCollectionPage;
+export default EditSharedCollectionPage;

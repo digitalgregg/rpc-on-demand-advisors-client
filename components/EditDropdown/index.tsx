@@ -16,27 +16,31 @@ const item = [
     {
         id: 0,
         title: "Tag",
-        img: <TagIcon stroke="#222222" />,
+        img: (stroke = "#222222") => <TagIcon stroke={stroke} />,
     },
     {
         id: 1,
         title: "Edit",
-        img: <EditIcon stroke="#222222" width="12px" height="12px" />,
+        img: (stroke = "#222222") => (
+            <EditIcon stroke={stroke} width="12px" height="12px" />
+        ),
     },
     {
         id: 2,
         title: "Download",
-        img: <DownloadIcon stroke="#222222" />,
+        img: (stroke = "#222222") => <DownloadIcon stroke={stroke} />,
     },
     {
         id: 3,
         title: "Update",
-        img: <UpdateIcon stroke="#222222" />,
+        img: (stroke = "#222222") => <UpdateIcon stroke={stroke} />,
     },
     {
         id: 4,
         title: "Delete",
-        img: <DeleteIcon stroke="#222222" width="12px" height="12px" />,
+        img: (stroke = "#222222") => (
+            <DeleteIcon stroke={stroke} width="12px" height="12px" />
+        ),
     },
 ];
 const EditDropdown = ({ mapIndex, clickedId, isOpen }: DropdownProps) => {
@@ -53,23 +57,45 @@ const EditDropdown = ({ mapIndex, clickedId, isOpen }: DropdownProps) => {
                     className="w-[156px] h-[210px] bg-[#FFFFFF] rounded-[4px]  px-[10px] flex flex-col justify-center"
                 >
                     {item.map((list: any) => (
-                        <div key={list.id} className="">
-                            <ul className="rounded-[4px] hover:bg-[rgba(229,25,55,0.1)]">
-                                <li
-                                    onClick={() => handleIconClick(list.title)}
-                                    className="flex gap-[12px] cursor-pointer py-2 group px-[10px] text-[16px] items-center  text-[#222222]"
-                                >
-                                    {list.img}{" "}
-                                    <span className=" text-[16px] text-[#222222] group-hover:text-primary group-hover:font-semibold	">
-                                        {list.title}
-                                    </span>{" "}
-                                </li>
-                            </ul>
-                        </div>
+                        <DropdownList
+                            key={list.id}
+                            handleIconClick={handleIconClick}
+                            list={list}
+                        />
                     ))}
                 </div>
             )}
             <TagModal isOpen={openModal} onClose={() => setOpenModal(false)} />
+        </div>
+    );
+};
+
+const DropdownList = ({
+    handleIconClick,
+    list,
+}: {
+    handleIconClick: any;
+    list: any;
+}) => {
+    const [isHover, setHover] = useState(false);
+    const handleHover = () => {
+        setHover(!isHover);
+    };
+    return (
+        <div className="">
+            <ul className="rounded-[4px] hover:bg-[rgba(229,25,55,0.1)]">
+                <li
+                    onClick={() => handleIconClick(list.title)}
+                    className="flex gap-[12px] cursor-pointer py-2 group px-[10px] text-[16px] items-center  text-[#222222]"
+                    onMouseEnter={handleHover}
+                    onMouseLeave={handleHover}
+                >
+                    {list.img(isHover ? "#E51937" : "#222222")}{" "}
+                    <span className=" text-[16px] text-[#222222] group-hover:text-primary group-hover:font-semibold	">
+                        {list.title}
+                    </span>{" "}
+                </li>
+            </ul>
         </div>
     );
 };

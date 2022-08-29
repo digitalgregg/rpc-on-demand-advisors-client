@@ -7,7 +7,8 @@ type YesNoModalType = {
     handleModal: () => void;
     header: string;
     description: string;
-    onYesClick?: () => void;
+    data?: any;
+    onYesClick?: (data?: any) => void;
 };
 
 function YesNoModal({
@@ -15,6 +16,7 @@ function YesNoModal({
     handleModal,
     header,
     description,
+    data,
     onYesClick,
 }: YesNoModalType) {
     return (
@@ -27,36 +29,36 @@ function YesNoModal({
                 <img
                     src="/assets/dashboard/logo-lg.svg"
                     alt=""
-                    className="w-[104px]"
+                    className="w-[104px] sm:w-[130px]"
                 />
 
                 <img
                     src="/assets/collections/modal-close.svg"
                     alt="Close btn"
                     onClick={handleModal}
-                    className="w-[18px]"
+                    className="w-[18px] sm:w-[23.16px] cursor-pointer"
                 />
             </div>
-            <div className="p-[30px] sm:p-[53px] 2xl:px-[98px]">
-                <div className="text-center font-bold leading-[21.79px] text-base text-primary ">
+            <div className="p-[30px] sm:p-[52px] 2xl:px-[98px]">
+                <div className="text-center sm:text-lg sm:leading-[24.51px] font-bold leading-[21.79px] text-base text-primary md:text-[24px] md:leading-[32.68px] ">
                     {header}
                 </div>
-                <div className="pt-[30px]"></div>
-                <div className="text-xs leading-[16.34px] text-center text-[#222222]">
+                <div className="pt-[30px] 2xl:pt-[35px]"></div>
+                <div className="text-xs sm:text-sm sm:leading-[19.07px] leading-[16.34px] text-center text-[#222222] md:text-base md:leading-[21.79px]">
                     {description}
                 </div>
-                <div className="pt-[30px]"></div>
+                <div className="pt-[30px] 2xl:pt-[35px]"></div>
 
-                <div className="flex gap-[14px] text-xs leading-[16.34px] font-bold">
+                <div className="flex gap-[14px] text-xs leading-[16.34px] sm:text-sm sm:leading-[19.07px] font-bold">
                     <button
-                        onClick={onYesClick}
-                        className="w-full h-[40px] border border-primary bg-primary text-white rounded-[4px]"
+                        onClick={() => onYesClick && onYesClick(data)}
+                        className="w-full h-[40px] sm:h-[43px] border border-primary bg-primary text-white rounded-[4px] hover:bg-transparent hover:text-primary transition-all duration-100"
                     >
                         Yes
                     </button>
                     <button
                         onClick={handleModal}
-                        className="w-full h-[40px] border border-primary  text-primary  rounded-[4px]"
+                        className="w-full h-[40px] sm:h-[43px] border border-primary  text-primary  rounded-[4px] hover:bg-primary hover:text-white transition-all duration-100"
                     >
                         No
                     </button>

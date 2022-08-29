@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useRef } from "react";
 import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 type SectionContentType = {
     count: string;
@@ -51,23 +52,32 @@ function SectionContent({
                     alt="Section Arrow Icon"
                 />
             </div>
+            <AnimatePresence initial={false}>
+                {isExpand && (
+                    <motion.div
+                        initial={{ height: 0 }}
+                        animate={{ height: "fit-content" }}
+                        exit={{ height: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden"
+                    >
+                        <div className="mb-[15px] md:mb-2 lg:mb-5"></div>
 
-            {isExpand && (
-                <>
-                    <div className="mb-[15px] md:mb-2 lg:mb-5"></div>
-
-                    <div className="overflow-hidden transition-all duration-300 sm:ml-[66px] lg:ml-[92px] xl:ml-[120px] lg:flex lg:justify-between mb-5">
-                        <div
-                            className="text-sm md:text-base sm:leading-[21.79px] leading-[21px] text-[#4F4F4F] lg:w-[calc(50%-10px)]"
-                            dangerouslySetInnerHTML={{ __html: description }}
-                        ></div>
-                        <div className="mb-[30px] sm:mb-5 md:mb-4"></div>
-                        <div className="lg:w-[calc(50%-10px)] ">
-                            <VideoControls />
+                        <div className="overflow-hidden transition-all duration-300 sm:ml-[66px] lg:ml-[92px] xl:ml-[120px] lg:flex lg:justify-between mb-5">
+                            <div
+                                className="text-sm md:text-base sm:leading-[21.79px] leading-[21px] text-[#4F4F4F] lg:w-[calc(50%-10px)]"
+                                dangerouslySetInnerHTML={{
+                                    __html: description,
+                                }}
+                            ></div>
+                            <div className="mb-[30px] sm:mb-5 md:mb-4"></div>
+                            <div className="lg:w-[calc(50%-10px)] ">
+                                <VideoControls />
+                            </div>
                         </div>
-                    </div>
-                </>
-            )}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }
