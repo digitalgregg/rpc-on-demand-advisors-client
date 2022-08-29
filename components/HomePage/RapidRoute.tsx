@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { RightArrowIcon } from "../CustomIcons";
+import {useRouter} from "next/router";
 
 const RapidRoute = () => {
+    const router = useRouter();
     const [iconColor, setIconColor] = useState(false);
     const onOver = (e: any) => {
         if (e) setIconColor(true);
@@ -35,6 +37,7 @@ const RapidRoute = () => {
                     </p>
                     <div className="w-[100%] text-center lg:text-left xs:mt-[20px] md:mt-[40px] xs:mb-[30px] sm:mb-[60px]">
                         <button
+                            onClick={() => router.push("/signup")}
                             onMouseOver={onOver}
                             onMouseLeave={onLeave}
                             className="hover:text-White hover:bg-primary hover-transition xs:w-[161px] xs:h-[44px] sm:w-[162px] sm:h-[46px]  border border-primary rounded-[4px] text-primary text-[14px] sm:text-[16px] cursor-pointer leading-[19px] font-semibold "
