@@ -146,10 +146,12 @@ function PaymentDetails() {
                     </div>
                 </div>
             </PricingLayout>
-            <PaymentMethodDialog
-                modalOpen={modalOpen}
-                handleModal={handleModal}
-            />
+            <div className="[&>.overflow-hidden]:!overflow-auto">
+                <PaymentMethodDialog
+                    modalOpen={modalOpen}
+                    handleModal={handleModal}
+                />
+            </div>
         </>
     );
 }
