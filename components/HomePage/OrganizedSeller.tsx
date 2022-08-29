@@ -17,7 +17,7 @@ const OrganizedSeller = () => {
         <div className="w-[100%] xs:mt-[20px] sm:mt-[60px] lg:mt-[80px] xs:pb-[20px] sm:pb-[60px] lg:pb-[80px] ">
             <div className="container lg:flex items-center xs:w-[375px] sm:w-[680px] md:w-[768px] lg:w-[1024px] xl:w-[1200px] 2xl:w-[1440px] 3xl:w-[1680px] 4xl:w-[1920px] ">
                 <div className="lg:w-[481px] lg:mr-[125px] xl:w-[556px] xl:mr-[148px] 2xl:w-[687px] 2xl:mr-[111px] 3xl:w-[732px] 4xl:w-[900px] 4xl:mr-[151px] 3xl:mr-[199px]">
-                    <h2 className="xs:leading-[24px] sm:leading-[38.13px] xl:leading-[43.58px] text-center lg:text-left md:px-0 lg:px-0 2xl:px-0 xs:mb-[10px] sm:mb-[20px] sm:w-[472px] md:w-[448px] lg:w-[481px] 2xl:w-[687px] xl:w-[556px] 3xl:w-[732px] 4xl:w-[900px] mx-auto">
+                    <h2 className="text-[#1D1D1D] xs:leading-[24px] sm:leading-[38.13px] xl:leading-[43.58px] text-center lg:text-left md:px-0 lg:px-0 2xl:px-0 xs:mb-[10px] sm:mb-[20px] sm:w-[472px] md:w-[448px] lg:w-[481px] 2xl:w-[687px] xl:w-[556px] 3xl:w-[732px] 4xl:w-[900px] mx-auto">
                         Organized for Sellers and Marketers
                     </h2>
                     <p className={pStyle}>

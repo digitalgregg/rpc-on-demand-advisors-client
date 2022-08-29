@@ -17,7 +17,7 @@ const ContentTool = () => {
     return (
         <div className="lg:flex flex-col lg:flex-row xs:mt-[40px] lg:items-center sm:mt-[120px] lg:mt-[160px] xl:gap-[90px] 2xl:gap-[69.65px] 3xl:gap-[121.02px] container 4xl:gap-[237.29px] w-[100%]">
             <div className="flex flex-col ">
-                <h2 className="xs:leading-[24px] sm:leading-[38.13px] xl:leading-[43.58px] text-center lg:text-left xs:px-8 lg:px-0 2xl:px-0 xs:mb-[10px] sm:mb-[20px] sm:w-[472px] 2xl:w-[520px] mx-auto">
+                <h2 className="text-[#1D1D1D] xs:leading-[24px] sm:leading-[38.13px] xl:leading-[43.58px] text-center lg:text-left xs:px-8 lg:px-0 2xl:px-0 xs:mb-[10px] sm:mb-[20px] sm:w-[472px] 2xl:w-[520px] mx-auto">
                     Content tools for Sales and Marketing teams
                 </h2>
                 <p className={pStyle}>
