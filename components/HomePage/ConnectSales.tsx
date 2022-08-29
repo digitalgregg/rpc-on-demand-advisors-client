@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { RightArrowIcon } from "../CustomIcons";
+import {useRouter} from "next/router";
 
 const ConnectSales = () => {
+    const router = useRouter();
   const [iconColor, setIconColor] = useState(false);
   const onOver = (e: any) => {
       if (e) setIconColor(true);
@@ -39,7 +41,7 @@ const ConnectSales = () => {
                         double-down on what’s working to secure future pipeline.
                     </p>
                     <div className="w-[100%] text-center lg:text-left xs:mt-[20px] md:mt-[40px] xs:mb-[30px] sm:mb-[60px]">
-                        <button onMouseOver={onOver}
+                        <button onClick={() => router.push("/signup")} onMouseOver={onOver}
                         onMouseLeave={onLeave} className="xs:w-[161px] xs:h-[44px] sm:w-[162px] sm:h-[46px]  border border-primary rounded-[4px] text-primary text-[14px] sm:text-[16px] cursor-pointer leading-[19px] font-semibold hover:text-White hover:bg-primary hover-transition">
                             {" "}
                             <span className="flex items-center justify-center gap-[11px]">

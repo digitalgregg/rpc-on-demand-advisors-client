@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { RightArrowIcon } from "../../components/CustomIcons";
+import {useRouter} from "next/router";
 const ContentTool = () => {
+    const router = useRouter();
     const [iconColor, setIconColor] = useState(false);
     const onOver = (e: any) => {
         if (e) setIconColor(true);
@@ -41,7 +43,7 @@ const ContentTool = () => {
                         onMouseLeave={onLeave}
                         className="xs:w-[161px] xs:h-[44px] sm:w-[162px] sm:h-[46px]  border border-primary rounded-[4px] text-primary text-[14px] sm:text-[16px] cursor-pointer leading-[19px] font-semibold hover:text-White hover:bg-primary hover-transition"
                     >
-                        <span className="flex items-center justify-center gap-[11px]">
+                        <span onClick={() => router.push('/signup')} className="flex items-center justify-center gap-[11px]">
                             <span> Get Started</span>
                             <RightArrowIcon 
                                 color={`${
