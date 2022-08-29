@@ -173,7 +173,7 @@ const ContactFrom: React.FC<{}> = () => {
                                     </div>
                                     <button
                                         type="submit"
-                                        className=" rounded w-full mt-[40px] h-[55px] bg-primary text-white"
+                                        className="hover-transition hover:bg-transparent border border-solid border-primary hover:text-primary rounded w-full mt-[40px] h-[55px] bg-primary text-white"
                                     >
                                         Send Request
                                     </button>

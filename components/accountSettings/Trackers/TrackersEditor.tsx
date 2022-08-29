@@ -10,10 +10,12 @@ import { useState } from "react";
 
 function TrackersEditor({ onSave }: { onSave?: (code?: string) => any }) {
     const [isEditable, setEditable] = useState(false);
+    const [code, setCode] = useState<string>();
+
+
     const handleEditable = () => {
         setEditable(!isEditable);
     };
-    const [code, setCode] = useState<string>();
     const handleEditorChange = (v?: string) => {
         setCode(v);
     };
@@ -35,13 +37,15 @@ function TrackersEditor({ onSave }: { onSave?: (code?: string) => any }) {
                                 className=" cursor-pointer"
                                 onClick={handleEditable}
                             >
-                                <TrackerUploadIcon />
+                                <TrackerUploadIcon
+                                />
                             </div>
                             <div
                                 className=" cursor-pointer"
                                 onClick={handleEditable}
                             >
-                                <TrackerCloseIcon />
+                                <TrackerCloseIcon
+                                />
                             </div>
                         </div>
                     </>
@@ -52,13 +56,15 @@ function TrackersEditor({ onSave }: { onSave?: (code?: string) => any }) {
                                 className=" cursor-pointer"
                                 onClick={handleEditable}
                             >
-                                <TrackerEditeIcon />
+                                <TrackerEditeIcon
+                                />
                             </div>
                             <div
                                 className=" cursor-pointer"
                                 onClick={() => onSave && onSave(code)}
                             >
-                                <TrackerSaveIcon />
+                                <TrackerSaveIcon
+                                />
                             </div>
                         </div>
                     </>
