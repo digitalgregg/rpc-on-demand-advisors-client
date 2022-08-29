@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
 import { QuestionsDataType } from "./data";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect } from "react";
 
 const QuestionCard = ({ data }: { data: QuestionsDataType }) => {
@@ -36,18 +36,22 @@ const QuestionCard = ({ data }: { data: QuestionsDataType }) => {
                     {data.question}
                 </div>
             </motion.div>
-            {isExpand && (
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                >
-                    <div className="pt-[11.07px] sm:pt-[20px] "></div>
-                    <div className="text-[8.85px] leading-[12.06px] text-[#101010] ml-[24.34px] sm:leading-[21.79px] sm:text-base sm:ml-[44px]">
-                        {data.answer}
-                    </div>
-                </motion.div>
-            )}
+            <AnimatePresence initial={false}>
+                {isExpand && (
+                    <motion.div
+                        initial={{ height: 0 }}
+                        animate={{ height: "fit-content" }}
+                        exit={{ height: 0 }}
+                        transition={{ duration: 0.3 }} // TODO: Duration changeable
+                        className="overflow-hidden"
+                    >
+                        <div className="pt-[11.07px] sm:pt-[20px] "></div>
+                        <div className="text-[8.85px] leading-[12.06px] text-[#101010] ml-[24.34px] sm:leading-[21.79px] sm:text-base sm:ml-[44px]">
+                            {data.answer}
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };

@@ -31,8 +31,8 @@ a {
     box-sizing: border-box;
 }
 
-.hover-transition{
-    @apply  transition duration-200 ease-in-out;
+.hover-transition {
+    @apply transition duration-200 ease-in-out;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -91,13 +91,12 @@ a {
     display: none; /* for Chrome, Safari, and Opera */
 }
 
-  .arrow{
-    position: relative;
-    width:240px;
-    background: #FFFFFF;
-    height:61px;
-    text-align:center;
-    color:#fff;
+.arrow {
+    width: 240px;
+    background: #ffffff;
+    height: 61px;
+    text-align: center;
+    color: #fff;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
     z-index: 999;
     border-radius: 4px;
@@ -152,7 +151,7 @@ a {
     margin-top: 14px;
     margin-bottom: 14px;
 }
-  .divider2 {
+.divider2 {
     border: 0;
     height: 0;
     border-bottom: 0.75px solid lightgray;

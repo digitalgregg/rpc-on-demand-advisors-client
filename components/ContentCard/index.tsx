@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import TagBadges from "./../CustomIcons/TagBadges";
@@ -5,6 +6,7 @@ import FavouriteIcon from "./../CustomIcons/FavouriteIcon";
 import LikeIcon from "./../CustomIcons/LikeIcon";
 import EditDropdown from "./../EditDropdown/index";
 import { OutSideClick } from "../Shared/OutSideClick";
+import { motion } from "framer-motion";
 type CardProps = {
     imgURL: string;
     title: string;
@@ -48,28 +50,25 @@ const ContentCard = ({
         setShareOpen(!shareOpen);
     };
     return (
-        <div
-            style={{ boxShadow: "2px 2px 18px rgba(0, 0, 0, 0.08)" }}
-            className="h-[175px] w-[100%] sm:h-[175px]  md:h-[175px]  lg:h-[175px] xl:h-[175px] 2xl:h-[175px]  bg-[#FFFFFF] rounded-[4px] p-[10px] relative"
-        >
+        <div className="h-[175px] w-[100%] bg-[#FFFFFF] rounded-[4px] p-[10px] relative shadow-[2px_2px_18px_rgba(0,0,0,0.08)]">
             <div className="flex gap-[4%] justify-between items-center">
                 <img
                     src={imgURL}
-                    className="h-[155px] w-[48%] s sm:h-[155px] md:h-[155px]  lg:h-[155px]  xl:h-[155px]  rounded-[4px]"
+                    className="h-[155px] w-[48%] rounded-[4px]"
                     alt="content"
                 />
 
-                <div className=" h-[155px]  sm:h-[155px]  md:h-[155px]  lg:h-[155px]  xl:h-[155px] w-[48%]">
+                <div className=" h-[155px] w-[48%]">
                     <div className="flex justify-between items-center mb-[15.34px] relative">
                         <h3 className="text-[14px] font-semibold 4xl:text-[16px] text-[#222222] w-[95%] truncate">
                             {title}
                         </h3>
-                        <OutSideClick onOutSideClick={()=> setIsOpen(false)} >
-                            <img
+                        <OutSideClick onOutSideClick={() => setIsOpen(false)}>
+                            <motion.img
                                 onClick={() => handleIconClick(mapIndex)}
                                 src="/img/dotline.svg"
                                 alt="3 dot line"
-                                className="w-[14px] h-[14px] cursor-pointer"
+                                className="w-[14px] h-[21px] cursor-pointer "
                             />
                             <div className="absolute right-[5px] top-[20px] z-10">
                                 <EditDropdown

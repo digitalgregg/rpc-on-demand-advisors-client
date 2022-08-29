@@ -33,9 +33,10 @@ function CustomSelect({
             ...styles,
             color: "#fff",
         }),
+
         input: (styles) => ({
             ...styles,
-            height: "53px",
+
             padding: 0,
             margin: 0,
             fontSize: 14,
@@ -50,6 +51,9 @@ function CustomSelect({
             borderColor: "#676767",
             background: "none",
             border: "none",
+            paddingTop: "5px",
+            paddingBottom: "5px",
+            minHeight: "53px",
             ":focus": {
                 borderColor: "#676767",
             },
@@ -82,6 +86,7 @@ function CustomSelect({
             ...styles,
             paddingTop: 0,
             paddingBottom: 0,
+
             paddingLeft: 16,
         }),
         menu: (styles) => ({
@@ -95,6 +100,7 @@ function CustomSelect({
         indicatorSeparator: (styles) => ({ ...styles, display: "none" }),
         container: (styles) => ({
             ...styles,
+
             ":focus": { outline: "none" },
         }),
     };
