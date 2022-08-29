@@ -28,6 +28,7 @@ const items = [
 ];
 
 const ResetPassword = () => {
+  const [isHiddenPassword, setIsHiddenPassword] = useState(true);
   const router = useRouter();
   const path = router.asPath.split("/");
   const token = path[2];
@@ -42,7 +43,7 @@ const ResetPassword = () => {
   const label =
     "text-[#101010] font-semibold xs:text-[14px] xs:leading-[19.07px] lg:text-[16px] lg:leading-[21.79px]";
   const input =
-    "w-[100%] text-[#6D6D6D] text-[14px] font-normal border border-[#E0E0E0] h-[55px] mt-[10px] mb-[20px] px-[20px] py-[18px]";
+    "w-[100%] text-[#6D6D6D] text-[14px] bg-[#FFFFFF] font-normal border border-[#E0E0E0] h-[55px] mt-[10px] px-[20px] py-[18px]";
 
   const onSubmit = (data: any) => {
     setError("");
@@ -64,7 +65,7 @@ const ResetPassword = () => {
       });
   };
   return (
-    <div className="w-[100%] flex">
+    <div className="w-[100%] flex bg-[#FFFFFF]">
       <div className="w-[100%] xl:w-[50%] h-[1080px]">
         <div className="4xl:ml-[180px] 4xl:mr-[117px]  3xl:ml-[120px] 3xl:mr-[110px] 2xl:ml-[120px] 2xl:mr-[88px] xl:ml-[60px] xl:mr-[60px] lg:mr-[202px] lg:ml-[202px] md:mr-[100px] md:ml-[100px] sm:mr-[90px] sm:ml-[90px] xs:mr-[20px] xs:ml-[20px]">
           <img
@@ -72,26 +73,38 @@ const ResetPassword = () => {
             alt="logo"
             className="w-[230px] xs:w-[198px] xs:mt-[19.93px] xs:mb-[59.97px] mt-[40px] mb-[105px] 3xl:mb-[145px]"
           />
-          <h2 className="text-[24px] font-semibold leading-[32.68px] md:text-[18px] md:leading-[25px]">
+          <h2 className="text-[24px] font-semibold leading-[32.68px] md:text-[18px] md:leading-[25px] text-[#101010]">
             Reset Password
           </h2>
-          <p className="text-[14px] mt-[10px] mb-[30px] leading-[22px]">
+          <p className="text-[14px] mt-[10px] mb-[30px] leading-[22px] text-[#101010]">
             Enter your new password.
           </p>
           <form onSubmit={handleSubmit(onSubmit)}>
             <label className={label} htmlFor="password">
               Password
             </label>
-            <input
-              {...register("password", { required: true })}
-              className={input}
-              style={{
-                boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
-                border:
-                  (errorIndex === '"Password"' && "1px solid #E51937") ||
-                  (errors.password && "1px solid #E51937"),
-              }}
-            />
+            <div className="relative mb-[20px]">
+              <input
+                {...register("password", { required: true })}
+                className={input}
+                style={{
+                  boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
+                  marginBottom: "0px",
+                  border:
+                    (errorIndex === '"Password"' && "1px solid #E51937") ||
+                    (errors.password && "1px solid #E51937"),
+                }}
+                type={isHiddenPassword ? "password" : "text"}
+              />
+              <img
+                onClick={() => setIsHiddenPassword(!isHiddenPassword)}
+                src={`/img/${
+                  isHiddenPassword ? "invisible.svg" : "visible.svg"
+                }`}
+                alt="icon"
+                className="absolute cursor-pointer top-7 right-5 w-[16px] h-[16px]"
+              />
+            </div>
             {errors.password && (
               <h3 className="text-primary mb-[20px] text-[12px]">
                 Password is required
@@ -104,7 +117,7 @@ const ResetPassword = () => {
             )}
             <button
               type="submit"
-              className="w-[100%] h-[58px] bg-primary text-[#FFFFFF] rounded font-bold text-[16px] mb-[20px]"
+              className="w-[100%] h-[58px] bg-primary text-[#FFFFFF] hover:bg-[#FFFFFF] hover:border hover:border-primary hover:text-primary transition duration-700 rounded font-bold text-[16px] mb-[20px]"
               style={{ boxShadow: "inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
             >
               Reset Password

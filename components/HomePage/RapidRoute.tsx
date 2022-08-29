@@ -17,7 +17,7 @@ const RapidRoute = () => {
         <div className="w-[100%] bg-[#F8F8F8] py-[60px] lg:py-[80px]">
             <div className="container flex flex-col items-center lg:flex-row-reverse xs:w-[375px] sm:w-[680px] md:w-[768px] lg:w-[1024px] xl:w-[1200px] 2xl:w-[1440px] 3xl:w-[1680px] 4xl:w-[1920px]">
                 <div className="flex-col lg:w-[404.54px] xl:w-[461.13px] 2xl:w-[537.87px] 3xl:w-[589.61px] 4xl:w-[572px]">
-                    <h2 className="xs:leading-[24px] sm:leading-[38.13px] xl:leading-[43.58px] text-center lg:text-left xs:px-[50px] md:px-0 lg:px-0 2xl:px-0 xs:mb-[10px] sm:mb-[20px] sm:w-[472px] md:w-[525px] lg:w-[404.54px] xl:w-[461.13px] 2xl:w-[537.87px] 3xl:w-[589.61px] 4xl:w-[572px] mx-auto">
+                    <h2 className="text-[#1D1D1D] xs:leading-[24px] sm:leading-[38.13px] xl:leading-[43.58px] text-center lg:text-left xs:px-[50px] md:px-0 lg:px-0 2xl:px-0 xs:mb-[10px] sm:mb-[20px] sm:w-[472px] md:w-[525px] lg:w-[404.54px] xl:w-[461.13px] 2xl:w-[537.87px] 3xl:w-[589.61px] 4xl:w-[572px] mx-auto">
                         Rapid rollout and fast Adoption
                     </h2>
                     <p className={pStyle}>

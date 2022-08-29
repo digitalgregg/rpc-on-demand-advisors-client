@@ -4,7 +4,6 @@ import { Formik } from "formik";
 import { Form } from "formik";
 import { UserManagementModalStyle } from "./../../../utils/modalCustomStyle";
 import InputField from "./../../Shared/InputField/index";
-import ContentTypeStage from "./../../ContentTypeStage/index";
 import GlobalSelect from "./../../GlobalSelect/index";
 import { options } from "../../../utils/GlobalReactSelectData/AssetUse";
 import { userManagementstyles } from "./../../../utils/GlobalReactSelectData/AssetUse";
@@ -89,7 +88,7 @@ const UserManagementModel = ({ isOpen, onClose }: ModalProps) => {
                     </div>
                     <div className="flex">
                       <button
-                        className="sm:w-[202.5px] xs:w-[100px] sm:h-[45px] xs:h-[40px] rounded-[4px] border border-[#E51937] sm:text-[16px] xs:text-[12px] font-normal text-[#E51937] cursor-pointer mr-[5px]"
+                        className="sm:w-[202.5px] xs:w-[100px] sm:h-[45px] xs:h-[40px] rounded-[4px] border border-[#E51937] sm:text-[16px] xs:text-[12px] font-normal text-[#E51937] cursor-pointer mr-[10px]"
                         onClick={handleClose}
                       >
                         Cancel

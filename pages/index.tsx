@@ -20,7 +20,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="w-[100%] mx-auto">
+      <main className="w-[100%] mx-auto bg-[#FFFFFF]">
         <Layout>
           <HomePage />
           <ContentTool />

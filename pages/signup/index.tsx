@@ -32,6 +32,7 @@ const items = [
 ];
 
 const Signup = () => {
+  const [isHiddenPassword, setIsHiddenPassword] = useState(true);
   const router = useRouter();
   const [signupData, setSignupData] = useAtom(signupState);
   const [error, setError] = useState("");
@@ -46,7 +47,7 @@ const Signup = () => {
   const label =
     "font-semibold text-[14px] leading-[19.07px] lg:text-[16px] lg:leading-[22px] text-[#101010]";
   const input =
-    "w-[100%] h-[55px] text-[#6D6D6D] text-[14px] font-normal border border-[#E0E0E0] rounded mt-[10px] px-[20px] py-[18px] mb-[10px]";
+    "w-[100%] h-[55px] text-[#6D6D6D] bg-[#FFFFFF] text-[14px] font-normal border border-[#E0E0E0] rounded mt-[10px] px-[20px] py-[18px] mb-[10px]";
 
   const onSubmit = (data: any) => {
     setSignupData(data);
@@ -74,18 +75,18 @@ const Signup = () => {
   };
 
   return (
-    <div className="w-[100%] flex">
+    <div className="w-[100%] flex bg-[#FFFFFF]">
       <div className="w-[100%] xl:w-[50%] h-[1080px]">
         <div className="4xl:ml-[180px] 4xl:mr-[117px]  3xl:ml-[120px] 3xl:mr-[110px] 2xl:ml-[120px] 2xl:mr-[88px] xl:ml-[60px] xl:mr-[60px] lg:mr-[202px] lg:ml-[202px] md:mr-[100px] md:ml-[100px] sm:mr-[90px] sm:ml-[90px] xs:mr-[20px] xs:ml-[20px]">
           <img
             src="/img/logo.svg"
             alt="logo"
-            className="w-[230px] xs:w-[198px] xs:mt-[19.93px] xs:mb-[59.97px] mt-[40px] mb-[105px] 3xl:mb-[145px]"
+            className="sm:w-[230px] xs:w-[198px] xs:mt-[19.93px] xs:mb-[59.97px] sm:mt-[40px] sm:mb-[105px] 3xl:mb-[145px]"
           />
-          <h2 className="text-[24px] font-semibold leading-[32.68px] md:text-[18px] md:leading-[25px]">
+          <h2 className="text-[24px] font-semibold leading-[32.68px] md:text-[18px] md:leading-[25px] text-[#101010]">
             Hi There We’re happy to see you
           </h2>
-          <p className="text-[14px] mt-[10px] mb-[30px] leading-[22px]">
+          <p className="text-[14px] mt-[10px] mb-[30px] leading-[22px] text-[#101010]">
             Sign up now with email
           </p>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -149,18 +150,28 @@ const Signup = () => {
             <label className={label} htmlFor="password">
               Password
             </label>
-            <input
-              {...register("password", { required: true })}
-              className={input}
-              style={{
-                boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
-                marginBottom: "0px",
-                border:
-                  (errorIndex === '"Password"' && "1px solid #E51937") ||
-                  (errors.password && "1px solid #E51937"),
-              }}
-            />
-            <br />
+            <div className="relative">
+              <input
+                {...register("password", { required: true })}
+                className={input}
+                style={{
+                  boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
+                  marginBottom: "0px",
+                  border:
+                    (errorIndex === '"Password"' && "1px solid #E51937") ||
+                    (errors.password && "1px solid #E51937"),
+                }}
+                type={isHiddenPassword ? "password" : "text"}
+              />
+              <img
+                onClick={() => setIsHiddenPassword(!isHiddenPassword)}
+                src={`/img/${
+                  isHiddenPassword ? "invisible.svg" : "visible.svg"
+                }`}
+                alt="icon"
+                className="absolute cursor-pointer top-7 right-5 w-[16px] h-[16px]"
+              />
+            </div>
             {errors.password && (
               <h3 className="text-primary mt-[10px] text-[12px]">
                 Password is required
@@ -171,16 +182,16 @@ const Signup = () => {
             )}
             <button
               type="submit"
-              className="w-[100%] h-[58px] bg-primary text-[#FFFFFF] rounded font-bold text-[16px] my-[30px]"
+              className="w-[100%] h-[58px] bg-primary hover:bg-[#FFFFFF] hover:border hover:border-primary hover:text-primary transition duration-700 text-[#FFFFFF] rounded font-bold text-[16px] my-[30px]"
               style={{ boxShadow: "inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
             >
               Sign up
             </button>
           </form>
-          <h3 className="font-normal text-[14px] leading-[19.07px]">
+          <h3 className="font-normal text-[14px] leading-[19.07px] text-[#101010]">
             I already have an account {""}
             <Link href="/signin">
-              <span className="text-primary cursor-pointer">Log in.</span>
+              <span className="cursor-pointer text-primary">Log in.</span>
             </Link>
           </h3>
         </div>

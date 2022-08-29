@@ -31,6 +31,7 @@ const items = [
 ];
 
 const Signin = () => {
+  const [isHiddenPassword, setIsHiddenPassword] = useState(true);
   const [error, setError] = useState("");
   const splitError = error.split(" ");
   const errorIndex = splitError[0];
@@ -62,20 +63,20 @@ const Signin = () => {
   const label =
     "text-[#101010] font-semibold xs:text-[14px] xs:leading-[19.07px] lg:text-[16px] lg:leading-[21.79px]";
   const input =
-    "w-[100%] text-[#6D6D6D] text-[14px] font-normal border border-[#E0E0E0] h-[55px] mb-[10px] mt-[10px] px-[20px] py-[18px]";
+    "w-[100%] text-[#6D6D6D] bg-[#FFFFFF] text-[14px] font-normal border border-[#E0E0E0] h-[55px] mb-[10px] mt-[10px] px-[20px] py-[18px]";
   return (
-    <div className="w-[100%] flex">
+    <div className="w-[100%] flex bg-[#FFFFFF]">
       <div className="w-[100%] xl:w-[50%] h-[1080px]">
         <div className="4xl:ml-[180px] 4xl:mr-[117px]  3xl:ml-[120px] 3xl:mr-[110px] 2xl:ml-[120px] 2xl:mr-[88px] xl:ml-[60px] xl:mr-[60px] lg:mr-[202px] lg:ml-[202px] md:mr-[100px] md:ml-[100px] sm:mr-[90px] sm:ml-[90px] xs:mr-[20px] xs:ml-[20px]">
           <img
             src="/img/logo.svg"
             alt="logo"
-            className="w-[230px] xs:w-[198px] xs:mt-[19.93px] xs:mb-[59.97px] mt-[40px] mb-[105px] 3xl:mb-[145px]"
+            className="sm:w-[230px] xs:w-[198px] xs:mt-[19.93px] xs:mb-[59.97px] sm:mt-[40px] sm:mb-[105px] 3xl:mb-[145px]"
           />
-          <h2 className="text-[24px] font-semibold leading-[32.68px] md:text-[18px] md:leading-[25px]">
+          <h2 className="text-[24px] font-semibold leading-[32.68px] md:text-[18px] md:leading-[25px] text-[#101010]">
             Hi There Access your account here
           </h2>
-          <p className="text-[14px] mt-[10px] mb-[30px] leading-[22px]">
+          <p className="text-[14px] mt-[10px] mb-[30px] leading-[22px] text-[#101010]">
             Log in now with email
           </p>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -100,17 +101,28 @@ const Signin = () => {
             <label className={label} htmlFor="password">
               Password
             </label>
-            <input
-              {...register("password", { required: true })}
-              className={input}
-              style={{
-                boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
-                marginBottom: "0px",
-                border:
-                  (errorIndex === '"Password"' && "1px solid #E51937") ||
-                  (errors.email && "1px solid #E51937"),
-              }}
-            />
+            <div className="relative">
+              <input
+                {...register("password", { required: true })}
+                className={input}
+                style={{
+                  boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
+                  marginBottom: "0px",
+                  border:
+                    (errorIndex === '"Password"' && "1px solid #E51937") ||
+                    (errors.password && "1px solid #E51937"),
+                }}
+                type={isHiddenPassword ? "password" : "text"}
+              />
+              <img
+                onClick={() => setIsHiddenPassword(!isHiddenPassword)}
+                src={`/img/${
+                  isHiddenPassword ? "invisible.svg" : "visible.svg"
+                }`}
+                alt="icon"
+                className="absolute cursor-pointer top-7 right-7"
+              />
+            </div>
             {errors.password && (
               <h3 className="text-primary mt-[10px] text-[12px]">
                 Password is required
@@ -119,20 +131,25 @@ const Signin = () => {
             {error && (
               <h3 className="text-primary text-[12px] mt-[10px]">{error}</h3>
             )}
+            <div className="mt-[10px] mb-[20px] text-right">
+              <Link href="/forgot-password ">
+                <h3 className="text-[#E51937] font-normal text-[14px] leading-[19px] cursor-pointer">Forgot Password?</h3>
+              </Link>
+            </div>
             <button
               type="submit"
-              className="w-[100%] h-[58px] bg-primary text-[#FFFFFF] rounded font-bold text-[16px] my-[30px]"
+              className="w-[100%] h-[58px] bg-primary hover:bg-[#FFFFFF] hover:border hover:border-primary hover:text-primary transition duration-700 text-[#FFFFFF] rounded font-bold text-[16px] mb-[30px]"
               style={{ boxShadow: "inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
             >
               Sign in
             </button>
           </form>
-          <h3 className="font-normal text-[14px] leading-[19.07px]">
+          <h3
+            className="font-normal text-[14px] leading-[19.07px] text-[#101010]"
+          >
             No account yet? {""}
             <Link href="/signup">
-              <span className="text-primary cursor-pointer">
-                Sign up now.
-              </span>
+              <span className="cursor-pointer text-primary">Sign up now.</span>
             </Link>
           </h3>
         </div>
