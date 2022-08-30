@@ -1,17 +1,23 @@
 import React, { useState } from "react";
 import { userManagementData } from "../../fake";
 import UserManagementModel from "./../../modal/UserManagementModal/index";
+import UserManagementInviteSendModal from "./../../modal/UserManagementInviteSendModal/index";
 import { DeleteModals } from "./../../modal/UserManagementDeleteModal";
 
 const UserManagementTable = () => {
     const [openModal, setOpenModal] = useState(false);
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
+    const [openInviteSendModal, setOpenInviteSendModal] = useState(false);
     const thStyle =
         "py-[13px] font-semibold sm:text-[12px] sm:leading-[16px] md:text-[14px] md:leading-[19px] xl:text-[16px] xl:leading-[22px]";
     const tdStyle =
         "font-semibold sm:text-[12px] sm:leading-[16px] md:text-[14px] md:leading-[19px] text-[#222222] sm:pt-[13px] sm:pb-[15px] md:pb-[16.5px] md:pt-[12.5px] xl:pb-[20.5px] xl:pt-[14.5px]";
     return (
         <>
+            <UserManagementInviteSendModal
+                isOpen={openInviteSendModal}
+                onClose={() => setOpenInviteSendModal(false)}
+            />
             <UserManagementModel
                 isOpen={openModal}
                 onClose={() => setOpenModal(false)}
@@ -25,7 +31,10 @@ const UserManagementTable = () => {
                     <h3 className="flex-1 font-semibold text-[18px] leading-[25px] text-[#101010]">
                         User Management
                     </h3>
-                    <button className="hover-transition hover:bg-primary hover:text-White w-[132px] sm:h-[39px] md:h-[42px] border border-primary rounded-[4px] font-normal sm:text-[14px] sm:leading-[19px] md:text-[16px] md:leading-[22px] text-primary">
+                    <button
+                        onClick={() => setOpenInviteSendModal(true)}
+                        className="hover-transition hover:bg-primary hover:text-White w-[132px] sm:h-[39px] md:h-[42px] border border-primary rounded-[4px] font-normal sm:text-[14px] sm:leading-[19px] md:text-[16px] md:leading-[22px] text-primary"
+                    >
                         Send Invite
                     </button>
                 </div>

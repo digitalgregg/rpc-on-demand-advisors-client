@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import FilterBox from "../FilterBox/index";
 import { OutSideClick } from "../Shared/OutSideClick";
 const SearchFilter = () => {
@@ -28,17 +28,24 @@ const SearchFilter = () => {
                         className="w-[20px] h-[20px] cursor-pointer"
                         alt="filter icon"
                     />
-                    <motion.div
-                        style={{
-                            boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
-                            display: filterBoxOpen === true ? "block" : "none",
-                        }}
-                        className="xs:w-full z-50 sm:w-[460px] md:w-[460px] lg:w-[530px] h-auto absolute left-0 top-[39px] rounded-[4px] bg-white "
-                    >
-                        <div className=" px-[40px] py-[30px]">
-                            <FilterBox />
-                        </div>
-                    </motion.div>
+                    <AnimatePresence initial={false}>
+                        {filterBoxOpen === true && (
+                            <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{
+                                    opacity: 1,
+                                    height: "fit-content",
+                                }}
+                                exit={{ opacity: 0, height: 0 }}
+                                transition={{ duration: 0.2 }}
+                                className={` overflow-hidden shadow-[0px_4px_20px_rgba(0,0,0,0.1)] xs:w-full z-50 sm:w-[460px] md:w-[460px] lg:w-[530px] h-auto absolute left-0 top-[39px] rounded-[4px] bg-white`}
+                            >
+                                <div className=" px-[40px] py-[30px]">
+                                    <FilterBox />
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </OutSideClick>
             </div>
         </>

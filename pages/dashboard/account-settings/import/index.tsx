@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
-import { Layout } from "../../../components/accountSettings/Layout";
-import DashboardLayout from "../../../components/Dashboard/DashboardLayout";
-import Dropzone, { simpleClasses } from "../../../components/Shared/Dropzone";
+import { Layout } from "../../../../components/accountSettings/Layout";
+import DashboardLayout from "../../../../components/Dashboard/DashboardLayout";
+import Dropzone, { simpleClasses } from "../../../../components/Shared/Dropzone";
 
 function Import() {
     return (
@@ -49,7 +49,7 @@ function Import() {
                     <div>
                         <input
                             type="file"
-                            className="text-primary text-sm leading-[19.07px] upload-button:hover:cursor-pointer upload-button:text-sm upload-button:leading-[19.07px] upload-button:rounded-[4px] upload-button:p-[10px_20px] upload-button:mr-4 upload-button:text-white upload-button:hover:text-black upload-button:font-normal upload-button:hover:bg-transparent upload-button:hover:border-primary upload-button:border upload-button:border-solid upload-button:border-transparent upload-button:transition upload-button:ease-in-out upload-button:duration-200 upload-button:bg-primary"
+                            className="text-primary text-sm leading-[19.07px] upload-button:hover:cursor-pointer upload-button:text-sm upload-button:leading-[19.07px] upload-button:rounded-[4px] upload-button:p-[10px_20px] upload-button:mr-4 upload-button:text-white upload-button:font-normal upload-button:hover:bg-transparent upload-button:hover:border-primary_dark upload-button:border upload-button:border-solid upload-button:border-transparent upload-button:transition upload-button:ease-in-out upload-button:duration-200 upload-button:bg-primary upload-button:hover:bg-primary_dark"
                             accept=".csv"
                         />
                     </div>

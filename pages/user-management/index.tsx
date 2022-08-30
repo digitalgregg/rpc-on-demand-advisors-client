@@ -1,7 +1,7 @@
 import React from "react";
 import UserManagementCard from "../../components/accountSettings/UserManagement/UserCard";
-import DashboardLayout from "./../../components/Dashboard/DashboardLayout";
 import UserManagementTable from "../../components/accountSettings/UserManagement/UserTable";
+import DashboardLayout from "./../../components/Dashboard/DashboardLayout";
 
 const UserManagement = () => {
   return (

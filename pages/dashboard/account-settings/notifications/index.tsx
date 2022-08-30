@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import DashboardLayout from "../../../components/Dashboard/DashboardLayout";
-import { notifications } from "../../../components/fake";
+import DashboardLayout from "../../../../components/Dashboard/DashboardLayout";
+import { notifications } from "../../../../components/fake";
 import Select from "react-select";
-import ToggleButton from "../../../components/Shared/ToggleButton";
-import { Layout } from "../../../components/accountSettings/Layout";
+import ToggleButton from "../../../../components/Shared/ToggleButton";
+import { Layout } from "../../../../components/accountSettings/Layout";
 const options = [
     { value: "All Users", label: "All Users" },
     { value: "Admin", label: "Admin" },
