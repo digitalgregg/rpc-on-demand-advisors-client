@@ -339,17 +339,3 @@ export const fakeTagData = [
     tagColor: "purple",
   },
 ];
-export const tagCustomStyle = {
-  control: (base, state) => ({
-    ...base,
-    border: "1px solid #9E9E9E",
-    boxShadow: "none",
-    minHeight: "55px",
-    "&:hover": {
-      border: "1px solid #E51937"
-    }
-  }),
-  // indicatorsContainer: (provided:any) => ({
-  //     border: "none"
-  //   }),
-};

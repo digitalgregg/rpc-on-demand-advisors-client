@@ -19,7 +19,7 @@ const Header = () => {
             </div>
             {/* group buttons */}
             <div className="flex flex-row gap-[30px] text-[14px] text-[#FFFFFF] justify-center relative">
-                <button onClick={() => router.push('//tour') } className="xs:w-[157px] xs:h-[44px] sm:w-[155px] sm:h-[56px] rounded-[4px] p-[11px, 32px, 11px, 32px] bg-primary border border-solid border-primary hover:bg-transparent hover:text-White hover:border-White hover-transition">Take a Tour</button>
+                <button onClick={() => router.push('/tour') } className="xs:w-[157px] xs:h-[44px] sm:w-[155px] sm:h-[56px] rounded-[4px] p-[11px, 32px, 11px, 32px] bg-primary hover:bg-[#890F21] hover:border-[#890F21] border border-solid border-primary hover:text-White hover-transition">Take a Tour</button>
                 <button onClick={() => router.push("/signup")} className="xs:w-[157px] xs:h-[44px] sm:w-[155px] sm:h-[56px] rounded-[4px] p-[11px, 32px, 11px, 32px] bg-[#191919] border border-[white] hover:bg-primary hover:border-primary hover-transition">Try for free</button>
             <img src="/img/vector.svg" alt="" className={leftIconStyle}/>
 

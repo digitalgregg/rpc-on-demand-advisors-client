@@ -123,7 +123,7 @@ const FooterIcon = () => {
                         type="text"
                         placeholder="Youremail@gmail.com"
                     />
-                    <button className=" ml-[3px] text-[#ffffff] text-sm leading-[19px] py-[10px] px-[11px] hover:bg-transparent border border-inherit border-solid border-primary hover:text-primary bg-primary rounded hover-transition">
+                    <button className=" ml-[3px] text-[#ffffff] text-sm leading-[19px] py-[10px] px-[11px] border border-inherit border-solid border-primary hover:border-[#890F21] hover:text-[#FFFFFF] bg-primary hover:bg-[#890F21] rounded hover-transition">
                         Subscribe
                     </button>
                 </div>
@@ -159,18 +159,18 @@ const Footer = () => {
     return (
         <div className=" bg-[#191919] text-white py-[80px]">
             <div className="container mx-auto ">
-                <div className=" flex justify-between lg:flex-row flex-col items-start">
+                <div className="flex flex-col items-start justify-between lg:flex-row">
                     <div className=" lg:hidden">
                         <FooterIcon />
                     </div>
                     <div className="w-full lg:gap-0 gap-[23px] flex items-start lg:flex-row flex-col justify-between">
-                        <div className="lg:block hidden">
+                        <div className="hidden lg:block">
                             <FooterIcon />
                         </div>
-                        <div className="flex flex-col lg:gap-6 gap-3 lg:w-fit w-full">
+                        <div className="flex flex-col w-full gap-3 lg:gap-6 lg:w-fit">
                             <div
                                 onClick={() => dropDownMenuHandler(1)}
-                                className=" lg:w-fit w-full flex justify-between items-center flex-row"
+                                className="flex flex-row items-center justify-between w-full lg:w-fit"
                             >
                                 <label className={`${footerMenuHeader}`}>
                                     Sales Enablement
@@ -219,10 +219,10 @@ const Footer = () => {
                                 </ul>
                             </div>
                         </div>
-                        <div className="flex flex-col lg:gap-6 gap-3 lg:w-fit w-full">
+                        <div className="flex flex-col w-full gap-3 lg:gap-6 lg:w-fit">
                             <div
                                 onClick={() => dropDownMenuHandler(2)}
-                                className=" lg:w-fit w-full flex justify-between items-center flex-row"
+                                className="flex flex-row items-center justify-between w-full lg:w-fit"
                             >
                                 <label className={`${footerMenuHeader}`}>
                                     Product
@@ -271,10 +271,10 @@ const Footer = () => {
                                 </ul>
                             </div>
                         </div>
-                        <div className="flex flex-col lg:gap-6 gap-3 lg:w-fit w-full">
+                        <div className="flex flex-col w-full gap-3 lg:gap-6 lg:w-fit">
                             <div
                                 onClick={() => dropDownMenuHandler(3)}
-                                className=" lg:w-fit w-full flex justify-between items-center flex-row"
+                                className="flex flex-row items-center justify-between w-full lg:w-fit"
                             >
                                 <label className={`${footerMenuHeader}`}>
                                     Company
@@ -328,7 +328,7 @@ const Footer = () => {
                 <div>
                     <hr className="my-[40px] bg-[#ffffff] opacity-25 hidden lg:block " />
                     <div className="mt-[40px] lg:mt-0">
-                        <p className=" text-center">
+                        <p className="text-center ">
                             © 2022 ODA Center, Inc., All rights reserved
                         </p>
                     </div>
