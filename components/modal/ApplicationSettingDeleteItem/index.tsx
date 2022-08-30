@@ -38,18 +38,20 @@ export const DeleteModals = ({ modalIsOpen, closeModal }: any) => {
                 <div className=" flex justify-between gap-[15px]">
                     <motion.button
                         whileTap={{ scale: 0.9 }}
-                        transition={{ stiffness: 700, damping: 30 }}
+                        transition={{ duration: 0.2 }}
+                        whileHover={{ backgroundColor:"#890F21"}}
                         type="submit"
-                        className="w-[327.5px]  h-[45px] py-[11px] px-[32px] rounded border-[1px] border-solid border-primary bg-primary capitalize text-sm leading-[19px] font-bold text-White hover:bg-transparent hover:text-primary "
+                        className="w-[327.5px]  h-[45px] py-[11px] px-[32px] rounded border-[1px] border-solid border-primary bg-primary capitalize text-sm leading-[19px] font-bold text-White  hover:border-primary_dark  "
                     >
                         Delete
                     </motion.button>
                     <motion.button
                         onClick={closeModal}
                         whileTap={{ scale: 0.9 }}
-                        transition={{ stiffness: 700, damping: 30 }}
+                        transition={{ duration: 0.2 }}
+                        whileHover={{ backgroundColor:"#E51937"}}
                         type="button"
-                        className=" w-[327.5px] h-[45px] py-[11px] px-[32px] rounded border-[1px] border-solid border-primary hover:bg-primary hover:text-White capitalize text-sm leading-[19px] font-bold text-primary"
+                        className=" w-[327.5px] h-[45px] py-[11px] px-[32px] rounded border-[1px] border-solid border-primary hover:text-White capitalize text-sm leading-[19px] font-bold text-primary"
                     >
                         Cancel
                     </motion.button>

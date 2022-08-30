@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import {
     AccountSetting,
     RecycleBin,
@@ -14,47 +16,56 @@ const menuItems = [
         id: 1,
         title: "User Settings",
         Icon: UserSetting,
-        url: "",
+        url: "/dashboard/user-settings",
+        baseUrl: "/dashboard/user-settings",
     },
     {
         id: 2,
         title: "Account setting",
         Icon: AccountSetting,
-        url: "",
+        url: "/dashboard/account-settings/application-settings",
+        baseUrl: "/dashboard/account-settings/",
     },
     {
         id: 3,
         title: "Wishlist",
         Icon: WishlistIcon,
-        url: "",
+        url: "/dashboard/wishlist",
+        baseUrl: "/dashboard/wishlist",
     },
     {
         id: 4,
         title: "Billing",
         Icon: BillingIcon,
-        url: "",
+        url: "/dashboard/billing/subscription-plan",
+        baseUrl: "/dashboard/billing/",
     },
     {
         id: 5,
         title: "Support",
         Icon: Support,
-        url: "",
+        url: "/dashboard/support",
+        baseUrl: "/dashboard/support",
     },
     {
         id: 6,
         title: "Recycle Bin",
         Icon: RecycleBin,
-        url: "",
+        url: "/dashboard/recycle-bin",
+        baseUrl: "/dashboard/recycle-bin",
     },
     {
         id: 7,
         title: "Logout",
         Icon: Logout,
-        url: "",
+        url: "/logout",
+        baseUrl: "/logout",
+
     },
 ];
 
 const UserSettingsDropdown = () => {
+    const router = useRouter();
     const [iconColor, setIconColor] = useState(false);
     const [itemCount, setItemCount] = useState<any>({});
 
@@ -64,13 +75,14 @@ const UserSettingsDropdown = () => {
     const onLeave = (e: any) => {
         if (e) setIconColor(false);
     };
+
     return (
         <div
             style={{ boxShadow: "2px 2px 20px rgba(0, 0, 0, 0.15)" }}
             className="w-[190px] rounded-[4px] bg-[#FFFFFF]"
         >
             <div className="p-[8px] ">
-                {menuItems.map(({ id, Icon, title }: any) => (
+                {menuItems.map(({ id, Icon, title, url ,baseUrl}: any) => (
                     <div
                         key={id}
                         onMouseOver={() => {
@@ -81,21 +93,40 @@ const UserSettingsDropdown = () => {
                         }}
                         className="my-[2px] "
                     >
-                        <ul className="px-[10px] py-[12px] hover:bg-primary mt-[5px] rounded-[4px] hover:text-[#FFFFFF] cursor-pointer">
-                            <li className="flex gap-[10px]">
-                                {
-                                    <Icon
-                                        color={`${
-                                            id === itemCount &&
-                                            iconColor === true
-                                                ? "#ffffff"
-                                                : "#000"
-                                        }`}
-                                    />
-                                }
-                                <span className="text-[14px] font-semibold	">
-                                    {title}
-                                </span>
+                        <ul
+                            className={` ${
+                                router.asPath.includes(baseUrl)
+                                    ? "!bg-primary"
+                                    : " bg-transparent"
+                            } px-[10px] py-[12px] hover:bg-primary mt-[5px] rounded-[4px] cursor-pointer`}
+                        >
+                            <li className="flex ">
+                                <Link href={url}>
+                                    <a className=" flex flex-row gap-[10px]">
+                                        {
+                                            <Icon
+                                                color={`${
+                                                    (id === itemCount &&
+                                                        iconColor === true) ||
+                                                    router.asPath.includes(baseUrl)
+                                                        ? "#ffffff"
+                                                        : "#000"
+                                                }`}
+                                            />
+                                        }
+                                        <span
+                                            className={` ${
+                                                (id === itemCount &&
+                                                    iconColor === true) ||
+                                                router.asPath.includes(baseUrl)
+                                                    ? "text-[#FFFFFF]"
+                                                    : "#000"
+                                            } text-[14px] font-semibold`}
+                                        >
+                                            {title}
+                                        </span>
+                                    </a>
+                                </Link>
                             </li>
                         </ul>
                     </div>

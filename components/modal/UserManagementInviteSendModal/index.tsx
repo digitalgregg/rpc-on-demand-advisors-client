@@ -49,7 +49,7 @@ const UserManagementModel = ({ isOpen, onClose }: ModalProps) => {
             <div className="w-[100%] bg-[#FFFFFF]">
                 <div className="sm:px-[40px] xs:px-[20px] pt-[20px] pb-[40px] modal-scroll h-[100%]">
                     <h2 className="mb-[20px] text-center text-[#000000] font-semibold text-[24px] leading-[23px]">
-                        Edit User
+                        Send Invite
                     </h2>
                     <Formik
                         initialValues={initialValues}
@@ -62,7 +62,7 @@ const UserManagementModel = ({ isOpen, onClose }: ModalProps) => {
                                         name="name"
                                         placeholder="Enter your name"
                                         type="name"
-                                        label="Edite your name"
+                                        label="Enter your name"
                                         inputClass={inputStyle}
                                         height="55px"
                                         labelClass={labelStyle}
@@ -73,12 +73,11 @@ const UserManagementModel = ({ isOpen, onClose }: ModalProps) => {
                                         placeholder="Enter your email address"
                                         type="email"
                                         value="demo@gmail.com"
-                                        label="Your email"
+                                        label="Enter your email"
                                         inputClass={inputStyle}
                                         height="55px"
                                         labelClass={labelStyle}
                                         required
-                                        readOnly={true}
                                     />
                                     <div className="mb-[30px]">
                                         <DropdownField

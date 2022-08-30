@@ -9,6 +9,13 @@ import { applicationsettingsFakeData } from "../../../fake";
 const Region = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [toggle, setToggle] = useState(false);
+    const [iconColor, setIconColor] = useState(false);
+    const onOver = (e: any) => {
+        if (e) setIconColor(true);
+    };
+    const onLeave = (e: any) => {
+        if (e) setIconColor(false);
+    };
     const handleToggle = () => setToggle(!toggle);
     function openModal() {
         setIsOpen(true);
@@ -53,12 +60,18 @@ const Region = () => {
                                 </div>
                                 <div
                                     onClick={openModal}
-                                    className=" my-[16px] w-[159px] h-[45px] py-[10px] px-[10px] rounded border-[1px] border-solid border-[#9E9E9E]  capitalize text-base leading-[22px] font-semibold text-[#000000] flex flex-row  items-center gap-[10px]"
+                                    onMouseOver={onOver}
+                                    onMouseLeave={onLeave}
+                                    className=" group  my-[16px] w-[159px] h-[45px] py-[10px] px-[10px] rounded border-[1px] border-solid border-[#9E9E9E] hover:border-primary capitalize text-base leading-[22px] font-semibold  flex flex-row  items-center gap-[10px] cursor-pointer hover-transition hover:bg-primary"
                                 >
-                                    <Plus />
-                                    <button type="button" className="">
+                                    <Plus
+                                        color={`${
+                                            iconColor === true ? "#ffffff" : "#000000" 
+                                        }`}
+                                    />
+                                    <span className="text-[#000000] group-hover:text-White ">
                                         Add Stage
-                                    </button>
+                                    </span>
                                 </div>
                             </>
                         )}

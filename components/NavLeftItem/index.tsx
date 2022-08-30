@@ -4,6 +4,7 @@ import MoboDraer from "../MoboDraer";
 import UserSettingsDropdown from "./../UserSettingsDropdown/index";
 import RecentActivityStatus from "./../RecentActivityStatus/index";
 import { OutSideClick } from "../Shared/OutSideClick";
+import { AnimatePresence, motion } from "framer-motion";
 
 const NavLeftItem = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -37,11 +38,22 @@ const NavLeftItem = () => {
                     alt="recent activity"
                     className="xs:w-[18px] xs:h-[18px] sm:w-[24px] sm:h-[24px] cursor-pointer"
                 />
-                {openActivity && (
-                    <div className="absolute top-[70px] right-[40px] z-50  sm:top-[60px] sm:right-[205px]">
-                        <RecentActivityStatus />
-                    </div>
-                )}
+                <AnimatePresence initial={false}>
+                    {openActivity && (
+                        <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{
+                                opacity: 1,
+                                height: "fit-content",
+                            }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="overflow-hidden shadow-[0px_4px_20px_rgba(0,0,0,0.1)] absolute top-[70px] right-[40px] z-50  sm:top-[60px] sm:right-[205px]"
+                        >
+                            <RecentActivityStatus />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </OutSideClick>
             <OutSideClick onOutSideClick={() => setOpenDropdown(false)}>
                 <div className="flex gap-[15px]">
@@ -58,11 +70,24 @@ const NavLeftItem = () => {
                             />
                         </span>
                     </h3>
-                    {openDropdown && (
-                        <div className="absolute z-50 top-[65px] right-[110px] xl:top-[65px] xl:right-[120px]">
-                            <UserSettingsDropdown />
-                        </div>
-                    )}
+                    <AnimatePresence initial={false}>
+                        {openDropdown && (
+                            <>
+                                <motion.div
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{
+                                        opacity: 1,
+                                        height: "fit-content",
+                                    }}
+                                    exit={{ opacity: 0, height: 0 }}
+                                    transition={{ duration: 0.2 }}
+                                    className=" overflow-hidden shadow-[0px_4px_20px_rgba(0,0,0,0.1)] absolute z-50 top-[65px] right-[110px] xl:top-[65px] xl:right-[120px]"
+                                >
+                                    <UserSettingsDropdown />
+                                </motion.div>
+                            </>
+                        )}
+                    </AnimatePresence>
                     <img
                         src="/img/avater.svg"
                         alt="avater"
