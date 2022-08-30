@@ -48,7 +48,7 @@ const ChangeEmail = () => {
                 labelClass={labelStyle}
                 required
               />
-              <button className="xs:w-[100%] sm:w-[241.56px] md:w-[279.24px] lg:w-[328.52px] xl:w-[186px] 2xl:w-[216px] 3xl:w-[209.14px] 4xl:w-[250.29px] h-[45px] border border-primary rounded font-semibold text-[14px] leading-[19px] text-primary">
+              <button className="xs:w-[100%] hover:bg-primary transition duration-700 ease-in-out hover:text-[#FFFFFF] sm:w-[241.56px] md:w-[279.24px] lg:w-[328.52px] xl:w-[186px] 2xl:w-[216px] 3xl:w-[209.14px] 4xl:w-[250.29px] h-[45px] border border-primary rounded font-semibold text-[14px] leading-[19px] text-primary">
                 Update email address
               </button>
             </div>
