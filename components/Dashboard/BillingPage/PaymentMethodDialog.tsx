@@ -5,6 +5,7 @@ import CustomModal from "../../Shared/CustomUtils/CustomModal";
 import * as Yup from "yup";
 import InputField from "../../Shared/InputField";
 import CountrySelect from "./CountrySelect";
+import OverflowModal from "../../Shared/CustomUtils/OverflowModal";
 
 const initialPaymentMethod = {
     card_number: "",
@@ -28,7 +29,7 @@ function PaymentMethodDialog({
     handleModal: () => void;
 }) {
     return (
-        <CustomModal
+        <OverflowModal
             className="w-[calc(100vw-40px)] max-w-[540px] bg-[#fff] rounded-[4px] "
             isOpen={modalOpen}
             onRequestClose={handleModal}
@@ -89,7 +90,7 @@ function PaymentMethodDialog({
                                     </div>
                                     <div className="pt-5"></div>
                                     <button
-                                        className="h-[44px] w-full text-[#fff] font-medium rounded-[4px]  text-base leading-[44px] bg-primary"
+                                        className="h-[44px] w-full text-[#fff] font-medium rounded-[4px]  text-base leading-[44px] transition-all duration-200 hover:bg-primary_dark bg-primary"
                                         type="submit"
                                     >
                                         Add
@@ -97,7 +98,7 @@ function PaymentMethodDialog({
                                     <div className="pt-3"></div>
 
                                     <button
-                                        className="h-[44px] text-primary w-full font-medium rounded-[4px] border-primary border text-base leading-[44px]"
+                                        className="h-[44px] text-primary w-full font-medium rounded-[4px] border-primary hover:bg-primary hover:text-white transition-all duration-200 border text-base leading-[44px]"
                                         type="button"
                                         onClick={handleModal}
                                     >
@@ -115,7 +116,7 @@ function PaymentMethodDialog({
                     </div>
                 </div>
             </div>
-        </CustomModal>
+        </OverflowModal>
     );
 }
 

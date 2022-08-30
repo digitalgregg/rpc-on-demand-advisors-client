@@ -3,6 +3,7 @@ import React from "react";
 import * as Yup from "yup";
 import CustomModal from "../../Shared/CustomUtils/CustomModal";
 import InputField from "../../Shared/InputField";
+import MultiSelect from "../../Shared/MultiSelect";
 import SelectField from "../../Shared/SelectField";
 import TextAreaField from "../../Shared/TextAreaField";
 
@@ -29,6 +30,27 @@ function CreateWishlistDialog({
     modalOpen: boolean;
     handleModal: () => void;
 }) {
+    const requestOptions = [
+        { value: "all-team-members", label: "All Team Members" },
+        { value: "no-team-members", label: "No Team Members" },
+        { value: "hell", label: "Rashed Iqbal" },
+        { value: "helld", label: "Rakib Islam" },
+        { value: "helldgf", label: "Asif 1Ahmed" },
+        { value: "helldfs", label: "Asif2 Ahmed" },
+        { value: "hellrth", label: "Asif 3Ahmed" },
+        { value: "helldf", label: "Asif 4Ahmed" },
+    ];
+    const typeOptions = [
+        { value: "all-team-members", label: "All Team Members" },
+        { value: "no-team-members", label: "No Team Members" },
+        { value: "hell", label: "Rashed Iqbal" },
+        { value: "helld", label: "Rakib Islam" },
+        { value: "helldgf", label: "Asif 1Ahmed" },
+        { value: "helldfs", label: "Asif2 Ahmed" },
+        { value: "hellrth", label: "Asif 3Ahmed" },
+        { value: "helldf", label: "Asif 4Ahmed" },
+    ];
+
     return (
         <CustomModal
             isOpen={modalOpen}
@@ -48,27 +70,26 @@ function CreateWishlistDialog({
                     {() => (
                         <Form>
                             <div className="flex flex-col sm:flex-row gap-[14px] sm:gap-5">
-                                <SelectField
+                                <MultiSelect
                                     name="content_request"
                                     label="Content Request"
-                                    className="[&>div>select]:bg-[url('/assets/dashboard-wishlist/arrow.svg')] basis-1/2"
-                                    height="52px"
+                                    type="single"
+                                    className="basis-1/2"
+                                    inputClass="!h-[52px] border-[#E0E0E0]"
                                     labelClass="!text-sm !leading-[19.07px]"
-                                >
-                                    <option value="urgent">Urgent</option>
-                                </SelectField>
+                                    options={typeOptions}
+                                />
 
-                                <SelectField
+                                <MultiSelect
                                     name="content_type"
                                     label="Content Type"
-                                    className="[&>div>select]:bg-[url('/assets/dashboard-wishlist/arrow.svg')] basis-1/2"
-                                    height="52px"
+                                    type="single"
+                                    className="basis-1/2"
+                                    inputClass="!h-[52px] border-[#E0E0E0]"
                                     labelClass="!text-sm !leading-[19.07px]"
-                                >
-                                    <option value="" disabled>
-                                        Select Type
-                                    </option>
-                                </SelectField>
+                                    placeholder="Select Type"
+                                    options={typeOptions}
+                                />
                             </div>
                             <div className=" pt-[14px] sm:pt-5"></div>
                             <InputField
@@ -98,13 +119,13 @@ function CreateWishlistDialog({
                                 <button
                                     type="button"
                                     onClick={handleModal}
-                                    className="basis-1/2 h-[45px] max-w-[152px] text-[16px] leading-[45px] text-center border border-primary text-primary rounded-[4px]"
+                                    className="basis-1/2 h-[45px] max-w-[152px] text-[16px] leading-[45px] text-center border border-primary hover:bg-primary  transition-all duration-200 hover:text-white text-primary rounded-[4px]"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="basis-1/2 h-[45px] max-w-[152px] text-[16px] leading-[45px] bg-primary text-[#fff] text-center border border-primary rounded-[4px]"
+                                    className="basis-1/2 h-[45px] max-w-[152px] text-[16px] leading-[45px] bg-primary text-[#fff] text-center border transition-all duration-200 hover:bg-[#890F21] border-primary rounded-[4px]"
                                 >
                                     Add to wish
                                 </button>

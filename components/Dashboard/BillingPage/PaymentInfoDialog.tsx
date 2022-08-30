@@ -13,7 +13,7 @@ function PaymentInfoDialog({
         <CustomModal
             isOpen={modalOpen}
             onRequestClose={handleModal}
-            className="w-[calc(100vw-56.4px)] max-w-[369px] bg-[#fff] rounded-[4px]"
+            className="w-[calc(100vw-56.4px)] max-w-[369px] bg-[#fff] overflow-hidden rounded-[4px]"
         >
             <div className="p-[24.98px_31.87px] sm:p-[29px_37px]">
                 <div className="text-[13.78px] sm:text-base leading-[18.77px] sm:leading-[21.79px] text-center text-[#000000] font-semibold">

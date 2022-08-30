@@ -52,7 +52,7 @@ function YesNoModal({
                 <div className="flex gap-[14px] text-xs leading-[16.34px] sm:text-sm sm:leading-[19.07px] font-bold">
                     <button
                         onClick={() => onYesClick && onYesClick(data)}
-                        className="w-full h-[40px] sm:h-[43px] border border-primary bg-primary text-white rounded-[4px] hover:bg-transparent hover:text-primary transition-all duration-100"
+                        className="w-full h-[40px] sm:h-[43px] border border-primary bg-primary text-white rounded-[4px] hover:bg-[#890F21]  transition-all duration-100"
                     >
                         Yes
                     </button>

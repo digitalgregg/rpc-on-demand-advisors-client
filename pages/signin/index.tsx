@@ -138,7 +138,7 @@ const Signin = () => {
             </div>
             <button
               type="submit"
-              className="w-[100%] h-[58px] bg-primary hover:bg-[#FFFFFF] hover:border hover:border-primary hover:text-primary transition duration-700 text-[#FFFFFF] rounded font-bold text-[16px] mb-[30px]"
+              className="w-[100%] h-[58px] bg-primary hover:bg-[#890F21] border-primary hover:border-[#890F21] hover:text-[#FFFFFF] transition duration-700 text-[#FFFFFF] rounded-[4px] font-bold text-[16px] mb-[30px]"
               style={{ boxShadow: "inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
             >
               Sign in

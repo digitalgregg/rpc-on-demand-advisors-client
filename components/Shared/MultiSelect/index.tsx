@@ -10,6 +10,7 @@ interface MultiSelectType {
     labelClass?: string;
     value?: string;
     inputClass?: string;
+    placeholder?: string;
     type: "multi" | "single";
     valueChange?: (v: any) => void;
 }

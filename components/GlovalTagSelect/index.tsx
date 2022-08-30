@@ -35,7 +35,7 @@ const GlovalTagSelect = ({
   }));
 
   return (
-    <div className="w-full">
+    <div className="w-full ">
       {isLabel === true && (
         <div className={labelContainer}>
           <label className={labelClass}>Tags</label>
@@ -43,13 +43,14 @@ const GlovalTagSelect = ({
       )}
       <Select
         // defaultValue={[colourOptions[2], colourOptions[3]]}
+        components={{ DropdownIndicator : () => <div className="w-[155px] h-[31px] cursor-pointer text-[#9E9E9E] text-[14px] border rounded-[4px] border-[#9E9E9E] px-[10px] flex items-center justify-between">Tags <span><img src="/img/selectDropdown.svg" alt="" className="w-[12.94px] h-[4.86px]" /></span> </div> }}
         onChange={handleChange}
         isMulti
         placeholder={placeholder}
         name={name}
         styles={customStyles}
         options={options}
-        className="basic-multi-select"
+        className=""
         classNamePrefix="select"
       />
     </div>

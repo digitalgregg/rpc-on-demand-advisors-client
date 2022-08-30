@@ -117,7 +117,7 @@ const ResetPassword = () => {
             )}
             <button
               type="submit"
-              className="w-[100%] h-[58px] bg-primary text-[#FFFFFF] hover:bg-[#FFFFFF] hover:border hover:border-primary hover:text-primary transition duration-700 rounded font-bold text-[16px] mb-[20px]"
+              className="w-[100%] h-[58px] bg-primary text-[#FFFFFF] border-primary hover:border-[#890F21] hover:bg-[#890F21] transition duration-700 rounded-[4px] font-bold text-[16px] mb-[20px]"
               style={{ boxShadow: "inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
             >
               Reset Password

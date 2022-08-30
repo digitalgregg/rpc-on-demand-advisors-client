@@ -71,7 +71,7 @@ const AccountInfo = () => {
                 label="Account type (not editable)"
                 required
               />
-              <button className="xs:w-[100%] sm:w-[207px] h-[45px] border border-primary rounded font-semibold text-[14px] leading-[19px] text-primary">
+              <button className="xs:w-[100%] hover:bg-primary transition duration-700 ease-in-out hover:text-[#FFFFFF] sm:w-[207px] h-[45px] border border-primary rounded font-semibold text-[14px] leading-[19px] text-primary">
                 Update Account Info
               </button>
             </div>
