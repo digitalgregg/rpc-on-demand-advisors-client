@@ -77,7 +77,7 @@ const ChangePassword = () => {
                   );
                 }}
               />
-              <button className="xs:w-[100%] sm:w-[240px] md:w-[279px] lg:w-[144px] xl:w-[144px] 2xl:w-[187px] 3xl:w-[278.06px] 4xl:w-[278.06px] h-[45px] border border-primary rounded-[4px] font-semibold text-[14px] leading-[19px] text-primary">
+              <button className="xs:w-[100%] hover:bg-primary transition duration-700 ease-in-out hover:text-[#FFFFFF] sm:w-[240px] md:w-[279px] lg:w-[144px] xl:w-[144px] 2xl:w-[187px] 3xl:w-[278.06px] 4xl:w-[278.06px] h-[45px] border border-primary rounded-[4px] font-semibold text-[14px] leading-[19px] text-primary">
                 Update password
               </button>
             </div>
