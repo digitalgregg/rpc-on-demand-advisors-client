@@ -19,7 +19,7 @@ export default function Index() {
         {RecentActivities.map((item, index) => {
           return (
             <div
-              className="w-full relative bg-[#FFFFFF] hover:bg-[#e519371a] rounded my-[16px] py-[18px] px-[10px] flex flex-row"
+              className="w-full relative bg-[#FFFFFF] hover:bg-[#e519371a] rounded-[4px] my-[16px] py-[18px] px-[10px] flex flex-row"
               key={item.id}
             >
               <div className="flex-1">
@@ -29,16 +29,16 @@ export default function Index() {
                 <h4 className="font-normal text-[12px] leading-[16px] text-[#676767] mb-[2px]">
                   {item.data}
                 </h4>
-                <h3 className="font-normal text-[14px] leading-[19px] text-[text-[#222222]">
+                <h3 className="font-normal text-[14px] leading-[19px] text-[#222222]">
                   {item.description}
                 </h3>
               </div>
-              <div className="">
+              <div className="p-[4px] h-[16px] cursor-pointer" onClick={() => handleMenu(item.id)}>
                 <img
                   src="/icon/three-dot.svg"
                   alt="three dot"
-                  className="w-[2px] h-[18px] cursor-pointer"
-                  onClick={() => handleMenu(item.id)}
+                  className="w-[2px]"
+                  
                 />
               </div>
               {/* drop down items  */}
