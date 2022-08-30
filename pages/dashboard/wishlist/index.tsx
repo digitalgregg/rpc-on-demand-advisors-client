@@ -19,7 +19,7 @@ function WishList() {
                         </div>
                         <button
                             onClick={handleModal}
-                            className="bg-primary p-[15px_18px] rounded-[4px] flex items-center justify-center"
+                            className="bg-primary hover:bg-[#890F21] transition-all duration-200 p-[15px_18px] rounded-[4px] flex items-center justify-center"
                         >
                             <img
                                 src="/assets/dashboard-wishlist/plus.svg"
@@ -58,7 +58,7 @@ function WishListItem() {
     return (
         <div>
             <div>
-                <div className="flex items-center gap-[10px] p-[10px_15px] bg-[#000]">
+                <div className="flex items-center gap-[10px] text-white p-[10px_15px] bg-[#000]">
                     <img
                         src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
                         alt="profile image"
@@ -128,7 +128,7 @@ function WishListItem() {
                         </tr>
                     </table> */}
                     <div className="pt-[40px]"></div>
-                    <button className="text-xs leading-[40px] text-primary hover:text-[#fff] font-semibold w-full border-primary border hover:bg-primary rounded-[4px] h-[40px]">
+                    <button className="text-xs leading-[40px] text-primary hover:text-[#fff] font-semibold w-full border-primary border transition-all duration-200 hover:bg-primary rounded-[4px] h-[40px]">
                         Manage
                     </button>
                 </div>

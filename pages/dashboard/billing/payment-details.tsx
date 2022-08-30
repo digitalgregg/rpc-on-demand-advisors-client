@@ -76,7 +76,7 @@ function PaymentDetails() {
                                 <div>
                                     <div className="pt-[29px]"></div>
                                     <button
-                                        className="text-base leading-[58px] font-bold bg-primary w-full h-[58px] rounded-[4px]"
+                                        className="text-base leading-[58px] font-bold bg-primary w-full h-[58px] rounded-[4px] transition-all duration-200 text-white hover:bg-primary_dark"
                                         onClick={handleModal}
                                     >
                                         + Add Payment Method
@@ -128,7 +128,7 @@ function PaymentDetails() {
                                     <div className="text-lg sm:text-[24px] sm:leading-[32.68px] font-bold leading-[24.51px] text-[#101010] ">
                                         Billing History
                                     </div>
-                                    <button className="text-xs font-bold leading-[16.34px] p-[8px_24px] bg-primary rounded-[4px] text-[#FFFFFF] ">
+                                    <button className="text-xs font-bold leading-[16.34px] p-[8px_24px] bg-primary rounded-[4px] text-[#FFFFFF] transition-all duration-200 hover:bg-primary_dark">
                                         Download all
                                     </button>
                                 </div>
@@ -146,7 +146,7 @@ function PaymentDetails() {
                     </div>
                 </div>
             </PricingLayout>
-            <div className="[&>.overflow-hidden]:!overflow-auto">
+            <div>
                 <PaymentMethodDialog
                     modalOpen={modalOpen}
                     handleModal={handleModal}

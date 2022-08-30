@@ -8,32 +8,62 @@ import LikeIcon from "../CustomIcons/LikeIcon";
 import OutSider from "../Shared/OutSider";
 import DropdownEdit from "./DropdownEdit";
 import TagModal from "../modal/TagModal";
+import EditTagModal from "./EditTagModal";
+import YesNoModal from "../modal/YesNoModal";
+import { useRouter } from "next/router";
 
 const buttonStyle =
     " h-[30px]  sm:h-[30px] w-[48%] rounded-[4px] border transition ease-in-out duration-200 border-primary text-[12px] font-semibold	text-primary hover:bg-primary hover:text-[#FFFFFF]";
 
 function ContentViewCard() {
+    const router = useRouter();
+
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [shareOpen, setShareOpen] = useState(false);
-
-    const handleDropdown = () => setDropdownOpen(!dropdownOpen);
-    const handleShare = () => setShareOpen(!shareOpen);
-
     const [tagModal, setTagModal] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
+
+    const handleDropdown = (e: any) => {
+        e.stopPropagation();
+        setDropdownOpen(!dropdownOpen);
+    };
+    const handleShare = () => setShareOpen(!shareOpen);
+    const handleTag = () => setTagModal(!tagModal);
+    const handleDelete = () => setDeleteModal(!deleteModal);
+
+    const handleLoveIcon = (e: any) => {
+        e.stopPropagation();
+    };
+
+    const handleLikeIcon = (e: any) => {
+        e.stopPropagation();
+    };
 
     const handleDropdownClick = (v: any) => {
         switch (v.title) {
             case "Tag":
-                return setTagModal(!tagModal);
-
+                return handleTag();
+            case "Delete":
+                return handleDelete();
+            case "Edit":
+                return router.push("/dashboard/contents/view-details/vkljdf");
+            case "Update":
+                return router.push("/dashboard/contents/view-details/vkljdf");
             default:
                 break;
         }
     };
 
+    const handleViewContent = (e: any) => {
+        router.push("/dashboard/contents/view-details/vkljdf");
+    };
+
     return (
         <>
-            <div className="h-[175px] w-[100%] bg-[#FFFFFF] rounded-[4px] p-[10px] relative shadow-[2px_2px_18px_rgba(0,0,0,0.08)]">
+            <div
+                onClick={handleViewContent}
+                className="h-[175px]  w-[100%]  bg-[#FFFFFF] rounded-[4px] p-[10px] relative shadow-[2px_2px_18px_rgba(0,0,0,0.08)]"
+            >
                 <div className="flex gap-[4%] justify-between items-center">
                     <img
                         src="/img/test.jpg"
@@ -54,9 +84,14 @@ function ContentViewCard() {
                                     src="/img/dotline.svg"
                                     alt="3 dot line"
                                     className="w-[14px] h-[21px] cursor-pointer "
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.9 }}
                                 />
 
-                                <div className="absolute right-[5px] top-[20px] z-10">
+                                <div
+                                    onClick={(e) => e.stopPropagation()}
+                                    className="absolute right-[5px] top-[20px] z-10"
+                                >
                                     {dropdownOpen && (
                                         <DropdownEdit
                                             onDropdownClick={
@@ -85,6 +120,7 @@ function ContentViewCard() {
                                 <motion.button
                                     whileHover={{ scale: 1.1 }}
                                     whileTap={{ scale: 0.9 }}
+                                    onClick={handleLoveIcon}
                                 >
                                     <FavouriteIcon
                                         stroke={"black"}
@@ -99,6 +135,7 @@ function ContentViewCard() {
                                 <motion.button
                                     whileHover={{ scale: 1.1 }}
                                     whileTap={{ scale: 0.9 }}
+                                    onClick={handleLikeIcon}
                                 >
                                     <LikeIcon
                                         stroke={"black"}
@@ -110,7 +147,10 @@ function ContentViewCard() {
                                 </p>
                             </div>
                         </div>
-                        <div className="flex flex-row gap-[2%]">
+                        <div
+                            onClick={(e) => e.stopPropagation()}
+                            className="flex flex-row gap-[2%]"
+                        >
                             <button className={buttonStyle}>Link</button>
                             <div className="!w-[48%]">
                                 <OutSider
@@ -144,9 +184,15 @@ function ContentViewCard() {
                     </div>
                 </div>
             </div>
-            <TagModal
+            <EditTagModal
                 isOpen={tagModal}
                 onClose={() => setTagModal(!tagModal)}
+            />
+            <YesNoModal
+                header="Remove my content" // TODO: 'my collection' -> collection name
+                description="Are you sure you want to remove my content? This action cannot be undone"
+                isOpen={deleteModal}
+                handleModal={handleDelete}
             />
         </>
     );
