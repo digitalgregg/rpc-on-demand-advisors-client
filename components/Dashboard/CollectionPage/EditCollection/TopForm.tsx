@@ -47,7 +47,7 @@ function TopForm() {
                         <div className=" pt-[20px] sm:pt-0 sm:pl-[15px] lg:pl-[20px]"></div>
                         <button
                             type="submit"
-                            className="h-[55px] sm:mt-[31.78px] sm:w-[130px] rounded-[4px] w-full md:text-sm leading-[54px] text-xs text-[#fff] basis-[28%] font-semibold text-center bg-[#E51937]"
+                            className="h-[55px] sm:mt-[31.78px] sm:w-[130px] rounded-[4px] w-full md:text-sm leading-[54px] hover:bg-[#890F21] transition-all duration-200 text-xs text-[#fff] basis-[28%] font-semibold text-center bg-[#E51937]"
                         >
                             Publish collection
                         </button>

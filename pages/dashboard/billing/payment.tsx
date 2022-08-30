@@ -200,7 +200,7 @@ function ButtonField({ text }: { text: string }) {
     return (
         <button
             type="submit"
-            className="h-[58px] bg-primary font-bold w-full rounded-[4px] text-[16px] leading-[58px] text-[#FFFFFF]"
+            className="h-[58px] hover:bg-primary_dark bg-primary font-bold w-full rounded-[4px] text-[16px] leading-[58px] text-[#FFFFFF]"
         >
             {text}
         </button>

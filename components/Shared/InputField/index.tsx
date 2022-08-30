@@ -7,6 +7,7 @@ interface InputFieldType {
     inputImg?: FC;
     height: string;
     labelClass?: string;
+    readOnly?: boolean;
     inputClass?: string;
 }
 
@@ -31,6 +32,7 @@ function InputField(props: InputFieldType & FieldHookConfig<string>) {
                     id={id}
                     {...field}
                     type={props.type}
+                    readOnly={props.readOnly}
                     className={` ${
                         meta.touched && meta.error && "!border-error"
                     } w-full input bg-[#fff] text-sm placeholder:text-[#6D6D6D] border border-[#E0E0E0]  ${

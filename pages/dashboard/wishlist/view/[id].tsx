@@ -4,6 +4,7 @@ import { ReactNode } from "react";
 import * as Yup from "yup";
 import DashboardLayout from "../../../../components/Dashboard/DashboardLayout";
 import PasswordField from "../../../../components/Playground/PasswordField";
+import MultiSelect from "../../../../components/Shared/MultiSelect";
 import SelectField from "../../../../components/Shared/SelectField";
 import TextAreaField from "../../../../components/Shared/TextAreaField";
 
@@ -18,6 +19,17 @@ const updateWishSchema = Yup.object({
 });
 
 function ViewWish() {
+    const statusOptions = [
+        { value: "all-team-members", label: "All Team Members" },
+        { value: "no-team-members", label: "No Team Members" },
+        { value: "hell", label: "Rashed Iqbal" },
+        { value: "helld", label: "Rakib Islam" },
+        { value: "helldgf", label: "Asif 1Ahmed" },
+        { value: "helldfs", label: "Asif2 Ahmed" },
+        { value: "hellrth", label: "Asif 3Ahmed" },
+        { value: "helldf", label: "Asif 4Ahmed" },
+    ];
+
     return (
         <DashboardLayout>
             <div className=" min-h-screen">
@@ -84,29 +96,27 @@ function ViewWish() {
                                     >
                                         {() => (
                                             <Form>
-                                                <SelectField
+                                                <MultiSelect
                                                     name="status"
                                                     label="Status"
-                                                    className="[&>div>select]:bg-[url('/assets/dashboard-wishlist/arrow.svg')] basis-1/2"
+                                                    type="single"
                                                     height="55px"
+                                                    inputClass=" border-[#E0E0E0]"
                                                     labelClass="!text-sm !leading-[19.07px]"
-                                                >
-                                                    <option value="">
-                                                        Inprogress
-                                                    </option>
-                                                </SelectField>
-                                                <PasswordField />
+                                                    options={statusOptions}
+                                                />
+
                                                 <div className="pt-4 sm:pt-5"></div>
                                                 <TextAreaField
                                                     name="note"
                                                     label="Note"
                                                     height="200px"
-                                                    placeholder="Type here"
+                                                    placeholder="Type here..."
                                                     labelClass="!text-sm !leading-[19.07px]"
                                                 />
                                                 <div className="pt-4 sm:pt-5 flex justify-end">
                                                     <button
-                                                        className="h-[45px] leading-[45px] rounded-[4px] bg-primary text-base text-[#fff] w-full sm:w-[129px]"
+                                                        className="h-[45px] leading-[45px] rounded-[4px] bg-primary text-base text-[#fff] hover:bg-[#890F21] transition-all duration-200 w-full sm:w-[129px]"
                                                         type="submit"
                                                     >
                                                         Update
