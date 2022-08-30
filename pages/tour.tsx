@@ -145,7 +145,7 @@ function TourPage() {
                                 <div className="mb-[40px] sm:mb-[30px]  lg:mb-[40px] 2xl:mb-[50px] 4xl:mb-[40px]"></div>
 
                                 <div className="flex gap-5  justify-center relative z-10 text-[#fff]">
-                                    <button className="text-sm font-semibold text-center w-[158px] h-[44px] sm:h-[56px] bg-primary border border-primary leading-[19.07px] sm:leading-[21.79px] rounded-[4px] sm:w-[154px] sm:text-base hover:bg-transparent hover:border-White hover-transition">
+                                    <button className="text-sm font-semibold text-center w-[158px] h-[44px] sm:h-[56px] bg-primary hover:bg-[#890F21] border border-primary leading-[19.07px] sm:leading-[21.79px] rounded-[4px] sm:w-[154px] sm:text-base hover:bg-transparent hover:border-[#890F21] hover-transition">
                                         Try for Free
                                     </button>
                                     <button className=" hover:bg-primary hover:border-primary text-sm font-semibold text-center w-[158px] h-[44px] sm:h-[56px] border border-white leading-[19.07px] rounded-[4px] sm:leading-[21.79px] sm:w-[183px] sm:text-base hover-transition">
@@ -272,7 +272,7 @@ function TourPage() {
                         <div className="mb-[20px] md:mb-[36px] lg:mb-[40px]"></div>
 
                         <div className="px-[28.5px] flex justify-between sm:justify-center items-center sm:gap-[15px]">
-                            <button className="border border-primary text-xs h-[44px] leading-[16.34px] font-semibold text-[#fff] p-[14px_24px] rounded-[3px] bg-primary sm:h-[42px] sm:py-[13px] lg:h-[56px] lg:rounded-[4px] lg:text-base lg:p-[17px_32px] lg:leading-[21.79px] hover-transition hover:text-primary hover:bg-transparent">
+                            <button className="border border-primary hover:border-[#890F21] text-xs h-[44px] leading-[16.34px] font-semibold text-[#fff] p-[14px_24px] rounded-[3px] bg-primary hover:bg-[#890F21] sm:h-[42px] sm:py-[13px] lg:h-[56px] lg:rounded-[4px] lg:text-base lg:p-[17px_32px] lg:leading-[21.79px] hover-transition hover:text-[#FFFFFF]">
                                 Try for free
                             </button>
                             <div className="text-[12px] lg:text-base leading-[16.34px] font-semibold text-center text-[#101010]">
@@ -326,7 +326,7 @@ function TourPage() {
                                 from your content and close deals faster.
                             </div>
                             <div className="mb-5 md:mb-[30px] lg:mb-[40px]"></div>
-                            <button className="hover-transition hover:text-primary hover:bg-transparent hover:border-primary text-xs leading-[16.34px] font-semibold p-[13px_24px] lg:p-[17px_32px] border border-solid border-primary bg-primary text-center rounder-[3px] lg:text-base lg:leading-[21.79px] text-[#fff] rounded-[4px]">
+                            <button className="hover-transition hover:text-[#FFFFFF] hover:bg-transparent hover:border-[#890F21] text-xs leading-[16.34px] font-semibold p-[13px_24px] lg:p-[17px_32px] border border-solid border-primary bg-primary hover:bg-[#890F21] text-center rounder-[3px] lg:text-base lg:leading-[21.79px] text-[#fff] rounded-[4px]">
                                 Get started
                             </button>
                         </div>
@@ -377,7 +377,7 @@ function TourPage() {
                         <div className="mb-[20px] md:mb-[36px] lg:mb-[40px]"></div>
 
                         <div className="px-[28.5px] flex justify-between sm:justify-center items-center sm:gap-[15px]">
-                            <button className="hover-transition hover:bg-transparent hover:text-primary border border-primary text-xs h-[44px] leading-[16.34px] font-semibold text-[#fff] p-[14px_24px] rounded-[3px] bg-primary sm:h-[42px] sm:py-[13px] lg:h-[56px] lg:rounded-[4px] lg:text-base lg:p-[17px_32px] lg:leading-[21.79px]">
+                            <button className="hover-transition hover:bg-transparent hover:text-[#FFFFFF] border border-primary hover:border-[#890F21] hover:bg-[#890F21] text-xs h-[44px] leading-[16.34px] font-semibold text-[#fff] p-[14px_24px] rounded-[3px] bg-primary sm:h-[42px] sm:py-[13px] lg:h-[56px] lg:rounded-[4px] lg:text-base lg:p-[17px_32px] lg:leading-[21.79px]">
                                 Try for free
                             </button>
                             <div className="text-[12px] lg:text-base leading-[16.34px] font-semibold text-center text-[#101010]">
@@ -432,7 +432,7 @@ function TourPage() {
                         <div className="mb-[20px] md:mb-[36px] lg:mb-[40px]"></div>
 
                         <div className="px-[28.5px] flex justify-between sm:justify-center items-center sm:gap-[15px]">
-                            <button className="hover-transition hover:bg-transparent hover:text-primary border border-primary text-xs h-[44px] leading-[16.34px] font-semibold text-[#fff] p-[14px_24px] rounded-[3px] bg-primary sm:h-[42px] sm:py-[13px] lg:h-[56px] lg:rounded-[4px] lg:text-base lg:p-[17px_32px] lg:leading-[21.79px]">
+                            <button className="hover-transition hover:bg-transparent hover:text-[#FFFFFF] border border-primary hover:border-[#890F21] text-xs h-[44px] leading-[16.34px] font-semibold text-[#fff] p-[14px_24px] rounded-[3px] bg-primary hover:bg-[#890F21] sm:h-[42px] sm:py-[13px] lg:h-[56px] lg:rounded-[4px] lg:text-base lg:p-[17px_32px] lg:leading-[21.79px]">
                                 Try for free
                             </button>
                             <div className="text-[12px] lg:text-base leading-[16.34px] font-semibold text-center text-[#101010]">

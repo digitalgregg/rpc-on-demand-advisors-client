@@ -30,7 +30,7 @@ const Index = () => {
           <h3 className="font-bold text-center text-[#1D1D1D] lg:text-[50px] lg:leading-[60px] 3xl:text-[60px] 3xl:leading-[70px] xs:text-[24px] xs:leading-[32.68px] mt-[30px]">
             Your email has been verified!
           </h3>
-          <button className="w-[153px] h-[45px] rounded-[4px] bg-primary text-[16px] text-[white] mt-[40px]">
+          <button className="w-[153px] h-[45px] rounded-[4px] bg-primary transition duration-700 hover:bg-[#890F21] border-primary hover:border-[#890F21] text-[16px] text-[white] mt-[40px]">
             <Link href="/signin">Sign in</Link>
           </button>
         </div>
