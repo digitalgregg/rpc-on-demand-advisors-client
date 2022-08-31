@@ -132,7 +132,7 @@ const NavMenuItem = () => {
                 </Link>
                 <Link href="/signup">
                     <a>
-                        <button className=" hover:bg-transparent hover:border-White border border-solid border-primary lg:w-fit w-full py-[11px] px-[20px] bg-primary text-base font-semibold rounded text-[#fff]">
+                        <button className=" hover:bg-primary_dark hover:border-primary_dark border border-solid border-primary lg:w-fit w-full py-[11px] px-[20px] bg-primary text-base font-semibold rounded text-[#fff]">
                             Sign up
                         </button>
                     </a>

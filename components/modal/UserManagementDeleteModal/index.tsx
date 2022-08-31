@@ -41,7 +41,7 @@ export const DeleteModals = ({ modalIsOpen, closeModal }: any) => {
                         whileHover={{ backgroundColor:"#890F21"}}
                         transition={{ duration: 0.2 }}
                         type="submit"
-                        className="w-[327.5px]  h-[45px] py-[11px] px-[32px] rounded border-[1px] border-solid border-primary bg-primary capitalize text-sm leading-[19px] font-bold text-White hover:border-primary_dark "
+                        className="w-[48%]  h-[45px] py-[11px] px-[32px] rounded border-[1px] border-solid border-primary bg-primary capitalize text-sm leading-[19px] font-bold text-White hover:border-primary_dark "
                     >
                         Delete
                     </motion.button>
@@ -51,7 +51,7 @@ export const DeleteModals = ({ modalIsOpen, closeModal }: any) => {
                         transition={{ duration: 0.2 }}
                         whileHover={{ backgroundColor:"#E51937"}}
                         type="button"
-                        className=" w-[327.5px] h-[45px] py-[11px] px-[32px] rounded border-[1px] border-solid border-primary capitalize text-sm leading-[19px] font-bold text-primary hover:text-White"
+                        className=" w-[48%] h-[45px] py-[11px] px-[32px] rounded border-[1px] border-solid border-primary capitalize text-sm leading-[19px] font-bold text-primary hover:text-White"
                     >
                         Cancel
                     </motion.button>

@@ -38,7 +38,7 @@ const SearchFilter = () => {
                                 }}
                                 exit={{ opacity: 0, height: 0 }}
                                 transition={{ duration: 0.2 }}
-                                className={` overflow-hidden shadow-[0px_4px_20px_rgba(0,0,0,0.1)] xs:w-full z-50 sm:w-[460px] md:w-[460px] lg:w-[530px] h-auto absolute left-0 top-[39px] rounded-[4px] bg-white`}
+                                className={` shadow-[0px_4px_20px_rgba(0,0,0,0.1)] xs:w-full z-50 sm:w-[460px] md:w-[460px] lg:w-[530px] h-auto absolute left-0 top-[39px] rounded-[4px] bg-white`}
                             >
                                 <div className=" px-[40px] py-[30px]">
                                     <FilterBox />

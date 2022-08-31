@@ -99,8 +99,7 @@ const UserManagementTable = () => {
                                                 alt="delete"
                                                 className="w-[20px] h-[20px] cursor-pointer"
                                                 onClick={() => {
-                                                    setOpenDeleteModal(true),
-                                                        console.log("hello...");
+                                                    setOpenDeleteModal(true)       
                                                 }}
                                             />
                                         </div>

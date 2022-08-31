@@ -44,9 +44,9 @@ const UserManagementModel = ({ isOpen, onClose }: ModalProps) => {
         <CustomModal
             isOpen={isOpen}
             onRequestClose={onClose}
-            className="bg-[#fff] rounded-[4px] w-fit"
+            className="bg-[#fff] rounded-[4px] w-[500px]"
         >
-            <div className="w-[100%] bg-[#FFFFFF]">
+            <div className="bg-[#FFFFFF]">
                 <div className="sm:px-[40px] xs:px-[20px] pt-[20px] pb-[40px] modal-scroll h-[100%]">
                     <h2 className="mb-[20px] text-center text-[#000000] font-semibold text-[24px] leading-[23px]">
                         Edit User
