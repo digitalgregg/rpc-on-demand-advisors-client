@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import ItemCard from "../ItemCard/ItemCard";
 import { Modals } from "../../../modal/ApplicationSettingAddItem";
 import Plus from "../../../CustomIcons/PlusIcon";
 import ToggleButton from "../../../Shared/ToggleButton";
 import Pagination from "../../../Shared/Pagination";
 import {applicationsettingsFakeData} from "../../../fake"
+import { setLocal } from "../../../../utils/localStorage";
 const Industry = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [toggle, setToggle] = useState(false);
@@ -23,6 +24,10 @@ const Industry = () => {
     function closeModal() {
         setIsOpen(false);
     }
+    useEffect(() => {
+    
+        setLocal("industry-toggle", toggle);
+       },[toggle, setToggle]);
     return (
         <>
             <Modals

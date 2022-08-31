@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import FunnelStage from "./../FunnelStage/index";
 import ContentTypeStage from "./../ContentTypeStage/index";
 import TagBadges from "./../CustomIcons/TagBadges";
@@ -11,6 +11,7 @@ import {
 } from "./../../utils/GlobalReactSelectData/AssetUse";
 import { fakeTagData } from "../fake";
 import { tagCustomStyle } from "./../../utils/reactSelectCustomSyle";
+import { getLocal } from './../../utils/localStorage';
 
 const FilterBox = () => {
   const labelClass = "text-[16px] text-[#101010] font-semibold";
@@ -25,6 +26,15 @@ const FilterBox = () => {
   const handleContentChange = (e: any) => {
     console.log(e);
   };
+  const handleProducttChange = (e: any) => {
+    console.log(e);
+  };
+  
+  const productToggle = getLocal("product-toggle");
+  const tagToggle = getLocal("tag-toggle");
+  const industryToggle = getLocal("industry-toggle");
+  const regionToggle = getLocal("region-toggle");
+  
   return (
     <>
       {/* FUNNEL STAGE SELECT  */}
@@ -60,9 +70,59 @@ const FilterBox = () => {
         />
       </div>
 
+      {/* PRODUCT TYPE STAGE  */}
+     {productToggle === true &&  <div className="mt-[30px]">
+        <GlobalSelect
+          selectClassName="text-[14px]  text-[#676767] mt-[10px]"
+          name="product type Stgage"
+          isMulti={true}
+          options={options}
+          labelStyles={labelClass}
+          isLabel={true}
+          customStyles={customStyles}
+          labelName="Product Type Stages"
+          handleOnChange={handleProducttChange}
+          placeholder="Select Product Stages"
+          optionHoverColor="#E519371A"
+        />
+      </div>}
+      {/* INDUSTRY TYPE STAGE  */}
+     {industryToggle === true &&  <div className="mt-[30px]">
+        <GlobalSelect
+          selectClassName="text-[14px]  text-[#676767] mt-[10px]"
+          name="industry type Stgage"
+          isMulti={true}
+          options={options}
+          labelStyles={labelClass}
+          isLabel={true}
+          customStyles={customStyles}
+          labelName="Industry Type Stages"
+          handleOnChange={handleProducttChange}
+          placeholder="Select Industry Stages"
+          optionHoverColor="#E519371A"
+        />
+      </div>}
+      {/* REGION TYPE STAGE  */}
+     {regionToggle === true &&  <div className="mt-[30px]">
+        <GlobalSelect
+          selectClassName="text-[14px]  text-[#676767] mt-[10px]"
+          name="region type Stgage"
+          isMulti={true}
+          options={options}
+          labelStyles={labelClass}
+          isLabel={true}
+          customStyles={customStyles}
+          labelName="Region Type Stages"
+          handleOnChange={handleProducttChange}
+          placeholder="Select Region Stages"
+          optionHoverColor="#E519371A"
+        />
+      </div>}
+      {/* TAG TYPE STATE  */}
+      {tagToggle === true && 
       <TagsSelect
-        name="filter tag"
-        onChangeFuction={nandleOnChange}
+      name="filter tag"
+      onChangeFuction={nandleOnChange}
         customStyles={tagCustomStyle}
         mapData={fakeTagData}
         isLabel={true}
@@ -70,7 +130,8 @@ const FilterBox = () => {
         label="Tags"
         labelContainer="mb-[10px] mt-[30px]"
         selectclass="mb-[30px]"
-      />
+        />
+      }
 
       <div className="flex flex-col gap-4 md:gap-0  md:flex-row justify-between mt-[38px] items-center">
         <div>
