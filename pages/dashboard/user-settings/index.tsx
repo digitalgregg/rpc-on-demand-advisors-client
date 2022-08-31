@@ -37,6 +37,7 @@ const Index = () => {
           </h3>
             <GlovalTagSelect
               mapData={fakeTagData}
+              isSecondary={true}
               placeholder="Add Tags"
               labelContainer="mb-[20px]"
               labelClass={labelStyle}
