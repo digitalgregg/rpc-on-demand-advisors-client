@@ -103,18 +103,20 @@ const Signin = () => {
             <label className={label} htmlFor="password">
               Password
             </label>
-            <div className="relative">
+            <div
+              className={`${input} flex justify-between w-[100%]`}
+              style={{
+                boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
+                marginBottom: "0px",
+                border:
+                  (errorIndex === '"Password"' && "1px solid #E51937") ||
+                  (errors.password && "1px solid #E51937"),
+              }}
+            >
               <input
                 {...register("password", { required: true })}
-                className={input}
-                style={{
-                  boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
-                  marginBottom: "0px",
-                  border:
-                    (errorIndex === '"Password"' && "1px solid #E51937") ||
-                    (errors.password && "1px solid #E51937"),
-                }}
                 type={isHiddenPassword ? "password" : "text"}
+                className="bg-transparent border-none outline-none sm:w-[94%] xs:w-[90%]"
               />
               <img
                 onClick={() => setIsHiddenPassword(!isHiddenPassword)}
@@ -122,7 +124,7 @@ const Signin = () => {
                   isHiddenPassword ? "invisible.svg" : "visible.svg"
                 }`}
                 alt="icon"
-                className="absolute cursor-pointer top-7 right-7"
+                className="cursor-pointer w-[16px] h-[16px] ml-[10px]"
               />
             </div>
             {errors.password && (

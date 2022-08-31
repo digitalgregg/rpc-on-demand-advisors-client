@@ -45,7 +45,7 @@ const ChangePassword = () => {
   const label =
     "text-[#101010] font-semibold xs:text-[14px] xs:leading-[19.07px] lg:text-[16px] lg:leading-[21.79px]";
   const input =
-    "w-[100%] text-[#6D6D6D] text-[14px] bg-[#FFFFFF] font-normal border border-[#E0E0E0] h-[55px] mt-[10px] px-[20px] py-[18px]";
+    "w-[100%] text-[#6D6D6D] text-[14px] bg-[#FFFFFF] font-normal border border-[#E0E0E0] h-[55px] mt-[10px] mb-[20px] px-[20px] py-[18px]";
 
   const onSubmit = (data: any) => {
     setError("");
@@ -87,18 +87,19 @@ const ChangePassword = () => {
             <label className={label} htmlFor="old_password">
               Current Password
             </label>
-            <div className="relative mb-[20px]">
+            <div
+              className={`${input} flex justify-between w-[100%]`}
+              style={{
+                boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
+                border:
+                  (errorIndex === '"old_password"' && "1px solid #E51937") ||
+                  (errors.old_password && "1px solid #E51937"),
+              }}
+            >
               <input
                 {...register("old_password", { required: true })}
-                className={input}
-                style={{
-                  boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
-                  marginBottom: "0px",
-                  border:
-                    (errorIndex === '"old_password"' && "1px solid #E51937") ||
-                    (errors.old_password && "1px solid #E51937"),
-                }}
                 type={isHiddenOldPassword ? "password" : "text"}
+                className="bg-transparent border-none outline-none sm:w-[94%] xs:w-[90%]"
               />
               <img
                 onClick={() => setIsHiddenOldPassword(!isHiddenOldPassword)}
@@ -106,9 +107,10 @@ const ChangePassword = () => {
                   isHiddenOldPassword ? "invisible.svg" : "visible.svg"
                 }`}
                 alt="icon"
-                className="absolute cursor-pointer top-7 right-5 w-[16px] h-[16px]"
+                className="cursor-pointer w-[16px] h-[16px] ml-[10px]"
               />
             </div>
+
             {errors.old_password && (
               <h3 className="text-primary mb-[20px] text-[12px]">
                 Password is required
@@ -117,18 +119,19 @@ const ChangePassword = () => {
             <label className={label} htmlFor="new_password">
               New Password
             </label>
-            <div className="relative mb-[20px]">
+            <div
+              className={`${input} flex justify-between w-[100%]`}
+              style={{
+                boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
+                border:
+                  (errorIndex === '"new_password"' && "1px solid #E51937") ||
+                  (errors.new_password && "1px solid #E51937"),
+              }}
+            >
               <input
                 {...register("new_password", { required: true })}
-                className={input}
-                style={{
-                  boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
-                  marginBottom: "0px",
-                  border:
-                    (errorIndex === '"new_password"' && "1px solid #E51937") ||
-                    (errors.new_password && "1px solid #E51937"),
-                }}
                 type={isHiddenNewPassword ? "password" : "text"}
+                className="bg-transparent border-none outline-none sm:w-[94%] xs:w-[90%]"
               />
               <img
                 onClick={() => setIsHiddenNewPassword(!isHiddenNewPassword)}
@@ -136,7 +139,7 @@ const ChangePassword = () => {
                   isHiddenNewPassword ? "invisible.svg" : "visible.svg"
                 }`}
                 alt="icon"
-                className="absolute cursor-pointer top-7 right-5 w-[16px] h-[16px]"
+                className="cursor-pointer w-[16px] h-[16px] ml-[10px]"
               />
             </div>
             {errors.new_password && (
