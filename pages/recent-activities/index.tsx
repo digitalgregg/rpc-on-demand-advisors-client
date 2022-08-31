@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import DashboardLayout from "./../../components/Dashboard/DashboardLayout";
 import { RecentActivities } from "../../components/fake";
-import { OutSideClick } from "./../../components/Shared/OutSideClick/index";
 
 export default function Index() {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,7 +10,6 @@ export default function Index() {
     setSelectNum(id);
     setIsOpen(!isOpen);
   };
-  console.log("clicked", isOpen);
   return (
     <DashboardLayout>
       <>
@@ -35,19 +33,16 @@ export default function Index() {
                   {item.description}
                 </h3>
               </div>
-              <OutSideClick onOutSideClick={() => setIsOpen(false)}>
-                <div
-                  className="p-[4px] h-[16px] cursor-pointer"
-                  onClick={() => handleMenu(item.id)}
-                >
-                  <img
-                    src="/icon/three-dot.svg"
-                    alt="three dot"
-                    className="w-[2px]"
-                  />
-                </div>
-              </OutSideClick>
+              <div className="p-[4px] h-[16px] cursor-pointer" onClick={() => handleMenu(item.id)}>
+                <img
+                  src="/icon/three-dot.svg"
+                  alt="three dot"
+                  className="w-[2px]"
+                  
+                />
+              </div>
               {/* drop down items  */}
+
               {index === selectNum && isOpen && (
                 <div
                   className="w-[92px] h-[92px] bg-[#ffffff] rounded px-[8px] py-[8px] absolute top-[40px]  right-[25px] z-50"
