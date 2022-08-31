@@ -2,71 +2,49 @@ import React from "react";
 import Select from "react-select";
 import TagBadges from "./../CustomIcons/TagBadges";
 
-const TagsSelect = () => {
-  const labelStyle = "flex items-center gap-[8px]";
-  const label = "text-[16px] font-semibold text-[#000805]";
-  const options = [
-    {
-      value: "Demo text1",
-      label: (
-        <div className={labelStyle}>
-          <TagBadges color="green" /> Demo text1
-        </div>
-      ),
-    },
-    {
-      value: "Demo text2",
-      label: (
-        <div className={labelStyle}>
-          <TagBadges color="red" /> Demo text2
-        </div>
-      ),
-    },
-    {
-      value: "Demo text3",
-      label: (
-        <div className={labelStyle}>
-          <TagBadges color="purple" /> Demo text3
-        </div>
-      ),
-    },
-    {
-      value: "Demo text4",
-      label: (
-        <div className={labelStyle}>
-          <TagBadges color="dodgerblue" /> Demo text4
-        </div>
-      ),
-    },
-  ];
 
-  const customStyles = {
-    control: (base: any, state: any) => ({
-      ...base,
-      border: "1px solid #9E9E9E",
-      boxShadow: "none",
-    }),
-    // indicatorsContainer: (provided:any) => ({
-    //     border: "none"
-    //   }),
-  };
-  const handleChange = (e:any) => {
-    console.log(e, "event name")
-  }
+type TagSelectProps = {
+  mapData: Object[];
+  customStyles:object;
+  onChangeFuction: (e:any) => void;
+  name?: string;
+  placeholder?: string;
+  selectclass?: string;
+  isLabel?: boolean;
+  labelClass?: string;
+  label?: string;
+  labelContainer?: string;
+}
+
+const TagsSelect = ({mapData, customStyles,name,placeholder, selectclass, onChangeFuction, isLabel, labelClass, label, labelContainer}: TagSelectProps) => {
+  const labelStyle = "flex items-center gap-[8px]";
+  // const label = "text-[16px] font-semibold text-[#000805]";
+
+  
+  const options = mapData.map((item: any, index) => ({
+    value: `${index}`,
+    label: (
+      <div className={labelStyle}>
+        <TagBadges color={item.tagColor} /> {item.label}
+      </div>
+    ),
+  }));
+
+  
   return (
     <>
-      <div className="mb-[10px] mt-[30px] text-#000805">
-        <label className={label}>Tags</label>
-      </div>
+      {isLabel === true && <div className={labelContainer}>
+        <label className={labelClass}>{label}</label>
+      </div>}
       <Select
         // defaultValue={[colourOptions[2], colourOptions[3]]}
-        onChange={handleChange}
+        onChange={onChangeFuction}
         isMulti
-        placeholder="Select Tags"
-        name="tags"
+        placeholder={placeholder}
+        name={name}
         styles={customStyles}
         options={options}
-        className="basic-multi-select"
+        className={selectclass}
         classNamePrefix="select"
       />
     </>

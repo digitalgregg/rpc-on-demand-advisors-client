@@ -22,10 +22,10 @@ const ContentDetails = () => {
 
             {/* Group buttons start */}
             <div className="flex gap-[20px] sm:justify-end">
-              <button className="border border-primary rounded-[4px] text-primary text-[14px] h-[45px] font-semibold w-[50%] sm:w-[198px]">
+              <button className="border hover:bg-primary transition duration-700 ease-in-out hover:text-[#FFFFFF] border-primary rounded-[4px] text-primary text-[14px] h-[45px] font-semibold w-[50%] sm:w-[198px]">
                 Replace Content File{" "}
               </button>
-              <button className="border border-primary rounded-[4px] text-primary text-[14px] h-[45px] font-semibold w-[50%] sm:w-[166px]">
+              <button className="border hover:bg-primary transition duration-700 ease-in-out hover:text-[#FFFFFF] border-primary rounded-[4px] text-primary text-[14px] h-[45px] font-semibold w-[50%] sm:w-[166px]">
                 Publish content
               </button>
             </div>
