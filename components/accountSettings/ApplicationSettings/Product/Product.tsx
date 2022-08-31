@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ItemCard from "../ItemCard/ItemCard";
 import { Modals } from "../../../modal/ApplicationSettingAddItem";
 import Plus from "../../../CustomIcons/PlusIcon";
 import ToggleButton from "../../../Shared/ToggleButton";
 import Pagination from "../../../Shared/Pagination";
+import { setLocal } from "../../../../utils/localStorage";
+import { getLocal } from './../../../../utils/localStorage';
 const content = [
     {
         id: 0,
@@ -43,7 +45,6 @@ const content = [
 const Product = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [toggle, setToggle] = useState(false);
-    const handleToggle = () => setToggle(!toggle);
     const [iconColor, setIconColor] = useState(false);
     const onOver = (e: any) => {
         if (e) setIconColor(true);
@@ -54,10 +55,19 @@ const Product = () => {
     function openModal() {
         setIsOpen(true);
     }
-
+    
     function closeModal() {
         setIsOpen(false);
     }
+    const handleToggle = () => setToggle(!toggle);
+    
+    const localSt = getLocal("product-toggle");
+    console.log(localSt, "local storage")
+
+   useEffect(() => {
+    
+    setLocal("product-toggle", toggle);
+   },[toggle, setToggle]);
 
     return (
         <>
@@ -67,7 +77,7 @@ const Product = () => {
                 modalIsOpen={modalIsOpen}
             />
             <div className="h-fit max-w-[770px] md:w-[770px] rounded-lg bg-White overflow-hidden">
-                <div className=" px-5 md:px-10 py-5 ">
+                <div className="px-5 py-5 md:px-10">
                     <div className=" flex flex-row justify-between py-[10px]">
                         <span className="capitalize font-bold leading-[22px] text-base text-[#101010]">
                             Product

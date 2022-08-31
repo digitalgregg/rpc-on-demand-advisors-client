@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ItemCard from "../ItemCard/ItemCard";
 import { Modals } from "../../../modal/ApplicationSettingAddItem";
 import Plus from "../../../CustomIcons/PlusIcon";
 import ToggleButton from "../../../Shared/ToggleButton";
 import Pagination from "../../../Shared/Pagination";
 import { applicationsettingsFakeData } from "../../../fake";
+import { setLocal } from "../../../../utils/localStorage";
 
 const Region = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
@@ -24,6 +25,10 @@ const Region = () => {
     function closeModal() {
         setIsOpen(false);
     }
+    useEffect(() => {
+    
+        setLocal("region-toggle", toggle);
+       },[toggle, setToggle]);
     return (
         <>
             <Modals

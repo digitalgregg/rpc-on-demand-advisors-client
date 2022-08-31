@@ -36,7 +36,7 @@ const FunnelStage = () => {
                         Funnel Stage
                     </span>
                 </div>
-                <div className="px-5 md:px-10 pt-5 pb-10 ">
+                <div className="px-5 pt-5 pb-10 md:px-10 ">
                     <Pagination dataArr={applicationsettingsFakeData} itemsPerPage={5} className=" !justify-start">
                         {(currentItems) => (
                             <>
