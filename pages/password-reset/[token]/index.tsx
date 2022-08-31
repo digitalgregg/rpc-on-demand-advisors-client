@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import api from "../../../api";
+import Link from "next/link";
 
 const items = [
   {
@@ -68,11 +69,13 @@ const ResetPassword = () => {
     <div className="w-[100%] flex bg-[#FFFFFF]">
       <div className="w-[100%] xl:w-[50%] h-[1080px]">
         <div className="4xl:ml-[180px] 4xl:mr-[117px]  3xl:ml-[120px] 3xl:mr-[110px] 2xl:ml-[120px] 2xl:mr-[88px] xl:ml-[60px] xl:mr-[60px] lg:mr-[202px] lg:ml-[202px] md:mr-[100px] md:ml-[100px] sm:mr-[90px] sm:ml-[90px] xs:mr-[20px] xs:ml-[20px]">
-          <img
-            src="/img/logo.svg"
-            alt="logo"
-            className="w-[230px] xs:w-[198px] xs:mt-[19.93px] xs:mb-[59.97px] mt-[40px] mb-[105px] 3xl:mb-[145px]"
-          />
+          <Link href="/">
+            <img
+              src="/img/logo.svg"
+              alt="logo"
+              className="sm:w-[230px] xs:w-[198px] xs:mt-[19.93px] xs:mb-[59.97px] sm:mt-[40px] sm:mb-[105px] 3xl:mb-[145px] cursor-pointer"
+            />
+          </Link>
           <h2 className="text-[24px] font-semibold leading-[32.68px] md:text-[18px] md:leading-[25px] text-[#101010]">
             Reset Password
           </h2>
