@@ -2,9 +2,13 @@
 import React from "react";
 import { Layout } from "../../../../components/accountSettings/Layout";
 import DashboardLayout from "../../../../components/Dashboard/DashboardLayout";
-import Dropzone, { simpleClasses } from "../../../../components/Shared/Dropzone";
+import Dropzone, {
+    simpleClasses,
+} from "../../../../components/Shared/Dropzone";
+import Pagination from "../../../../components/Shared/Pagination";
 
 function Import() {
+    const ImportHistoryData = [{}, {}, {}, {}, {}, {}, {}];
     return (
         <DashboardLayout>
             <Layout>
@@ -63,14 +67,26 @@ function Import() {
 
                     <div className="hidden sm:flex items-center px-[20px] h-[72px] xl:h-[80px] bg-[#222222] rounded-[4px]">
                         <div className="w-[calc(80%/3)] text-white">Date</div>
-                        <div className="w-[calc(80%/3)] text-white">Filename</div>
+                        <div className="w-[calc(80%/3)] text-white">
+                            Filename
+                        </div>
                         <div className="w-[calc(80%/3)] text-white">Status</div>
                         <div className="w-[20%] text-white">Status Details</div>
                     </div>
                     <div className="flex flex-col gap-[16px] sm:gap-0">
-                        <ImportHistoryCard />
-                        <ImportHistoryCard />
-                        <ImportHistoryCard />
+                        <Pagination
+                            dataArr={ImportHistoryData}
+                            itemsPerPage={4}
+                            className=" my-3"
+                        >
+                            {(currentItems) => (
+                                <div className=" flex flex-col gap-[10px] sm:gap-[15px] md:gap-[20px]">
+                                    {currentItems.map((i: any) => (
+                                        <ImportHistoryCard key={i} />
+                                    ))}
+                                </div>
+                            )}
+                        </Pagination>
                     </div>
                 </div>
             </Layout>
