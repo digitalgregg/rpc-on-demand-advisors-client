@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import ItemCard from "../ItemCard/ItemCard";
 import { Modals } from "../../../modal/ApplicationSettingAddTag";
 import Plus from "../../../CustomIcons/PlusIcon";
 import ToggleButton from "../../../Shared/ToggleButton";
 import Pagination from "../../../Shared/Pagination";
 import { applicationsettingsFakeData } from "../../../fake";
+import { setLocal } from "../../../../utils/localStorage";
 
 const Tag = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
@@ -23,7 +24,11 @@ const Tag = () => {
 
     function closeModal() {
         setIsOpen(false);
-    }
+    };
+    useEffect(() => {
+    
+        setLocal("tag-toggle", toggle);
+       },[toggle, setToggle]);
     return (
         <>
             <Modals
