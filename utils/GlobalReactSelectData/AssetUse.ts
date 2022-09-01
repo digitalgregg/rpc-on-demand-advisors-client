@@ -3,7 +3,33 @@ export const customStyles = {
     ...base,
     border: "1px solid #9E9E9E",
     boxShadow: "none",
-    height: "55px"
+    minHeight: "55px",
+  }),
+  option: (provided: any) => ({
+    ...provided,
+    color: "#000000",
+    fontSize: "14px",
+    fontWeight: 400,
+    width: "95%",
+    
+    borderRadius: "4px",
+    margin: "0 auto",
+    "&:hover": {
+      color: "#E51937",
+      fontWeight: 600,
+    },
+  }),
+  indicatorSeparator: (provided: any) => ({
+    display: "none"
+  }),
+};
+
+export const customFilterBoxStyles = {
+  control: (base: any, state: any) => ({
+    ...base,
+    border: "1px solid #9E9E9E",
+    boxShadow: "none",
+    height: "55px",
   }),
   option: (provided: any) => ({
     ...provided,

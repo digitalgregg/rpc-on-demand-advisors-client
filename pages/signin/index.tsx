@@ -68,11 +68,13 @@ const Signin = () => {
     <div className="w-[100%] flex bg-[#FFFFFF]">
       <div className="w-[100%] xl:w-[50%] h-[1080px]">
         <div className="4xl:ml-[180px] 4xl:mr-[117px]  3xl:ml-[120px] 3xl:mr-[110px] 2xl:ml-[120px] 2xl:mr-[88px] xl:ml-[60px] xl:mr-[60px] lg:mr-[202px] lg:ml-[202px] md:mr-[100px] md:ml-[100px] sm:mr-[90px] sm:ml-[90px] xs:mr-[20px] xs:ml-[20px]">
-          <img
-            src="/img/logo.svg"
-            alt="logo"
-            className="sm:w-[230px] xs:w-[198px] xs:mt-[19.93px] xs:mb-[59.97px] sm:mt-[40px] sm:mb-[105px] 3xl:mb-[145px]"
-          />
+          <Link href="/">
+            <img
+              src="/img/logo.svg"
+              alt="logo"
+              className="sm:w-[230px] xs:w-[198px] xs:mt-[19.93px] xs:mb-[59.97px] sm:mt-[40px] sm:mb-[105px] 3xl:mb-[145px] cursor-pointer"
+            />
+          </Link>
           <h2 className="text-[24px] font-semibold leading-[32.68px] md:text-[18px] md:leading-[25px] text-[#101010]">
             Hi There Access your account here
           </h2>
@@ -101,18 +103,20 @@ const Signin = () => {
             <label className={label} htmlFor="password">
               Password
             </label>
-            <div className="relative">
+            <div
+              className={`${input} flex justify-between w-[100%]`}
+              style={{
+                boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
+                marginBottom: "0px",
+                border:
+                  (errorIndex === '"Password"' && "1px solid #E51937") ||
+                  (errors.password && "1px solid #E51937"),
+              }}
+            >
               <input
                 {...register("password", { required: true })}
-                className={input}
-                style={{
-                  boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
-                  marginBottom: "0px",
-                  border:
-                    (errorIndex === '"Password"' && "1px solid #E51937") ||
-                    (errors.password && "1px solid #E51937"),
-                }}
                 type={isHiddenPassword ? "password" : "text"}
+                className="bg-transparent border-none outline-none sm:w-[94%] xs:w-[90%]"
               />
               <img
                 onClick={() => setIsHiddenPassword(!isHiddenPassword)}
@@ -120,7 +124,7 @@ const Signin = () => {
                   isHiddenPassword ? "invisible.svg" : "visible.svg"
                 }`}
                 alt="icon"
-                className="absolute cursor-pointer top-7 right-7"
+                className="cursor-pointer w-[16px] h-[16px] ml-[10px]"
               />
             </div>
             {errors.password && (
@@ -133,7 +137,9 @@ const Signin = () => {
             )}
             <div className="mt-[10px] mb-[20px] text-right">
               <Link href="/forgot-password ">
-                <h3 className="text-[#E51937] font-normal text-[14px] leading-[19px] cursor-pointer">Forgot Password?</h3>
+                <h3 className="text-[#E51937] font-normal text-[14px] leading-[19px] cursor-pointer">
+                  Forgot Password?
+                </h3>
               </Link>
             </div>
             <button
@@ -144,9 +150,7 @@ const Signin = () => {
               Sign in
             </button>
           </form>
-          <h3
-            className="font-normal text-[14px] leading-[19.07px] text-[#101010]"
-          >
+          <h3 className="font-normal text-[14px] leading-[19.07px] text-[#101010]">
             No account yet? {""}
             <Link href="/signup">
               <span className="cursor-pointer text-primary">Sign up now.</span>

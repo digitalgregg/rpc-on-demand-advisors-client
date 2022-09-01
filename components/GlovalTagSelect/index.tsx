@@ -11,6 +11,7 @@ type TagProps = {
   placeholder?: string;
   name: string;
   labelContainer?: string;
+  isSecondary?: boolean;
 };
 
 const GlovalTagSelect = ({
@@ -21,7 +22,8 @@ const GlovalTagSelect = ({
   handleChange,
   placeholder,
   name,
-  labelContainer
+  labelContainer,
+  isSecondary
 }: TagProps) => {
   const labelStyle = "flex items-center gap-[8px]";
 
@@ -47,7 +49,6 @@ const GlovalTagSelect = ({
         onChange={handleChange}
         isMulti
         placeholder={placeholder}
-        name={name}
         styles={customStyles}
         options={options}
         className=""

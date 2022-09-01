@@ -17,7 +17,7 @@ const FileViewer = () => {
             Video file
           </h3>
         </div>
-        <div className="flex gap-[19px] items-center">
+        <div className="flex gap-[19px] items-center text-[#000805]">
           <div className="flex gap-[5px] items-center">
             <img
               src="/img/viewIcon.svg"

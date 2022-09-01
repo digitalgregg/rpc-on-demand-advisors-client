@@ -87,12 +87,12 @@ const ContactFrom: React.FC<{}> = () => {
                     </p>
                     <p className={stypes}>
                         Want to schedule time to talk or get a demo? Just find a
-                        time here that works for you:
-                        <a className=" text-primary">Schedule a call.</a>
+                        time here that works for you: 
+                        <a className=" text-primary"> Schedule a call.</a>
                     </p>
                     <p className={stypes}>
                         Or email us anytime with the form. <br />
-                        <a className=" text-primary">Or use this address.</a>
+                        <a className=" text-primary"> Or use this address.</a>
                     </p>
                     <p className={stypes}>
                         Or chat us up with that icon in the lower right.
@@ -173,7 +173,7 @@ const ContactFrom: React.FC<{}> = () => {
                                     </div>
                                     <button
                                         type="submit"
-                                        className="hover-transition hover:bg-transparent border border-solid border-primary hover:text-primary rounded w-full mt-[40px] h-[55px] bg-primary text-white"
+                                        className="hover-transition hover:bg-primary_dark hover:border-primary_dark border border-solid border-primary rounded w-full mt-[40px] h-[55px] bg-primary text-white"
                                     >
                                         Send Request
                                     </button>

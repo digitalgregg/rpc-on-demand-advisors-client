@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
-import DashboardLayout from "../../../components/Dashboard/DashboardLayout";
+import DashboardLayout from "../../../../components/Dashboard/DashboardLayout";
 import { useState } from "react";
-import { Layout } from "../../../components/accountSettings/Layout";
-import Dropzone, { simpleClasses } from "../../../components/Shared/Dropzone";
-import BrandingBg from "../../../components/CustomIcons/BrandingBg";
-import TestCodeEditor from "../../../components/Playground/TestCodeEditor";
+import { Layout } from "../../../../components/accountSettings/Layout";
+import Dropzone, { simpleClasses } from "../../../../components/Shared/Dropzone";
+import BrandingBg from "../../../../components/CustomIcons/BrandingBg";
+import TestCodeEditor from "../../../../components/Playground/TestCodeEditor";
 
 function Branding() {
     const [color, setColor] = useState("#0D7BEA");
@@ -134,15 +134,6 @@ function Branding() {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div className="py-[50px] flex flex-col gap-[30px] lg:flex-row ">
-                    <div className="w-full">
-                        <TestCodeEditor />
-                    </div>
-                    <div className="w-full">
-                        <TestCodeEditor />
                     </div>
                 </div>
             </Layout>

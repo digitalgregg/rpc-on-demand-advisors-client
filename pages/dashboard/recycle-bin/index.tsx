@@ -14,8 +14,8 @@ const index = () => {
 
                 <Pagination
                     dataArr={applicationsettingsFakeData}
-                    itemsPerPage={5}
-                    className=" !justify-start"
+                    itemsPerPage={4}
+                    className=" !justify-start my-3"
                 >
                     {(currentItems) => (
                         <div className=" flex flex-col gap-[10px] sm:gap-[15px] md:gap-[20px]">

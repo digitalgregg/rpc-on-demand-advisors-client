@@ -1,10 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
-import { Layout } from "../../../components/accountSettings/Layout";
-import DashboardLayout from "../../../components/Dashboard/DashboardLayout";
-import Dropzone, { simpleClasses } from "../../../components/Shared/Dropzone";
+import { Layout } from "../../../../components/accountSettings/Layout";
+import DashboardLayout from "../../../../components/Dashboard/DashboardLayout";
+import Dropzone, {
+    simpleClasses,
+} from "../../../../components/Shared/Dropzone";
+import Pagination from "../../../../components/Shared/Pagination";
 
 function Import() {
+    const ImportHistoryData = [{}, {}, {}, {}, {}, {}, {}];
     return (
         <DashboardLayout>
             <Layout>
@@ -49,7 +53,7 @@ function Import() {
                     <div>
                         <input
                             type="file"
-                            className="text-primary text-sm leading-[19.07px] upload-button:hover:cursor-pointer upload-button:text-sm upload-button:leading-[19.07px] upload-button:rounded-[4px] upload-button:p-[10px_20px] upload-button:mr-4 upload-button:text-white upload-button:hover:text-black upload-button:font-normal upload-button:hover:bg-transparent upload-button:hover:border-primary upload-button:border upload-button:border-solid upload-button:border-transparent upload-button:transition upload-button:ease-in-out upload-button:duration-200 upload-button:bg-primary"
+                            className="text-primary text-sm leading-[19.07px] upload-button:hover:cursor-pointer upload-button:text-sm upload-button:leading-[19.07px] upload-button:rounded-[4px] upload-button:p-[10px_20px] upload-button:mr-4 upload-button:text-white upload-button:font-normal upload-button:hover:bg-transparent upload-button:hover:border-primary_dark upload-button:border upload-button:border-solid upload-button:border-transparent upload-button:transition upload-button:ease-in-out upload-button:duration-200 upload-button:bg-primary upload-button:hover:bg-primary_dark"
                             accept=".csv"
                         />
                     </div>
@@ -63,14 +67,26 @@ function Import() {
 
                     <div className="hidden sm:flex items-center px-[20px] h-[72px] xl:h-[80px] bg-[#222222] rounded-[4px]">
                         <div className="w-[calc(80%/3)] text-white">Date</div>
-                        <div className="w-[calc(80%/3)] text-white">Filename</div>
+                        <div className="w-[calc(80%/3)] text-white">
+                            Filename
+                        </div>
                         <div className="w-[calc(80%/3)] text-white">Status</div>
                         <div className="w-[20%] text-white">Status Details</div>
                     </div>
                     <div className="flex flex-col gap-[16px] sm:gap-0">
-                        <ImportHistoryCard />
-                        <ImportHistoryCard />
-                        <ImportHistoryCard />
+                        <Pagination
+                            dataArr={ImportHistoryData}
+                            itemsPerPage={4}
+                            className=" my-3"
+                        >
+                            {(currentItems) => (
+                                <div className=" flex flex-col gap-[10px] sm:gap-[15px] md:gap-[20px]">
+                                    {currentItems.map((i: any) => (
+                                        <ImportHistoryCard key={i} />
+                                    ))}
+                                </div>
+                            )}
+                        </Pagination>
                     </div>
                 </div>
             </Layout>

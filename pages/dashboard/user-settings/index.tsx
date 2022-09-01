@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import DashboardLayout from "../../components/Dashboard/DashboardLayout";
-import AccountInfo from "../../components/UserSettings/AccountInfo";
-import ChangeEmail from "../../components/UserSettings/ChangeEmail";
-import ProfilePhoto from "../../components/UserSettings/ProfilePhoto";
-import ChangePassword from "../../components/UserSettings/ChangePassword";
-import NotificationSettings from "../../components/UserSettings/NotificationSettings";
-import GlovalTagSelect from "./../../components/GlovalTagSelect/index";
-import { fakeTagData } from "../../components/fake";
-import { useragCustomStyle } from "../../utils/reactSelectCustomSyle";
+import DashboardLayout from "../../../components/Dashboard/DashboardLayout";
+import AccountInfo from "../../../components/UserSettings/AccountInfo";
+import ChangeEmail from "../../../components/UserSettings/ChangeEmail";
+import ProfilePhoto from "../../../components/UserSettings/ProfilePhoto";
+import ChangePassword from "../../../components/UserSettings/ChangePassword";
+import NotificationSettings from "../../../components/UserSettings/NotificationSettings";
+import GlovalTagSelect from "../../../components/GlovalTagSelect/index";
+import { fakeTagData } from "../../../components/fake";
+import { useragCustomStyle } from "../../../utils/reactSelectCustomSyle";
 
 const labelStyle = "text-[16px] text-[#000000] font-normal	 leading-[21.79px]";
 
@@ -37,6 +37,7 @@ const Index = () => {
           </h3>
             <GlovalTagSelect
               mapData={fakeTagData}
+              isSecondary={true}
               placeholder="Add Tags"
               labelContainer="mb-[20px]"
               labelClass={labelStyle}

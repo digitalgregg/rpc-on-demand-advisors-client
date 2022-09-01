@@ -36,7 +36,7 @@ const ApplicationSettings = () => {
                         Short Domain
                     </span>
                 </div>
-                <div className=" p-5 flex flex-col gap-5">
+                <div className="flex flex-col gap-5 p-5 ">
                     <p className=" text-base leading-[22px] font-normal text-[#222222]">
                         This short domain will be used in the creation of short
                         links for content items that are shared and publicly
@@ -50,11 +50,11 @@ const ApplicationSettings = () => {
                     >
                         {() => (
                             <Form>
-                                <div className=" flex flex-row w-full">
+                                <div className="flex flex-row w-full ">
                                     <div className="!w-fit">
                                         <button
                                             type="submit"
-                                            className="!w-[153px] h-[56px] py-[11px] rounded-l border-[1px] border-solid border-primary bg-primary capitalize text-base leading-[22px] font-semibold text-White"
+                                            className="!w-[153px] h-[56px] py-[11px] rounded-l border-[1px] border-solid border-primary bg-primary hover:bg-primary_dark hover:border-primary_dark hover-transition capitalize text-base leading-[22px] font-semibold text-White"
                                         >
                                             Current Domain
                                         </button>

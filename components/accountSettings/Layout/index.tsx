@@ -5,27 +5,27 @@ import { ReactNode } from "react";
 const subNev = [
     {
         titile: "Application Settings",
-        url: "/account-settings/application-settings",
+        url: "/dashboard/account-settings/application-settings",
     },
     {
         titile: "User Management",
-        url: "/account-settings/user-management",
+        url: "/dashboard/account-settings/user-management",
     },
     {
         titile: "Branding",
-        url: "/account-settings/branding",
+        url: "/dashboard/account-settings/branding",
     },
     {
         titile: "Import",
-        url: "/account-settings/import",
+        url: "/dashboard/account-settings/import",
     },
     {
         titile: "Trackers",
-        url: "/account-settings/trackers",
+        url: "/dashboard/account-settings/trackers",
     },
     {
         titile: "Notification",
-        url: "/account-settings/notifications",
+        url: "/dashboard/account-settings/notifications",
     },
 ];
 
@@ -37,7 +37,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
                 <ul className=" flex flex-row flex-wrap gap-[15px] gap-y-[30px] xl:gap-y-0">
                     {subNev.map((val: any, i) => (
                         <li
-                            className="cursor-pointer w-fit"
+                            className="cursor-pointer w-fit text-[#000000]"
                             key={i}
                         >
                             <Link href={val.url}>
@@ -45,8 +45,8 @@ export const Layout = ({ children }: { children: ReactNode }) => {
                                     className={`${
                                         router.asPath === val.url
                                             ? "!bg-primary !font-bold border-primary text-White"
-                                            : "border-[#9E9E9E] text-[#000000]"
-                                    }  py-2 px-[19px] border border-solid rounded transition ease-in-out duration-200 hover:bg-primary hover:text-White hover:border-primary`}
+                                            : "border-[#9E9E9E]"
+                                    }   py-2 px-[19px] border border-solid rounded transition ease-in-out duration-200 hover:bg-primary hover:text-White  hover:border-primary`}
                                 >
                                     {val.titile}
                                 </a>
