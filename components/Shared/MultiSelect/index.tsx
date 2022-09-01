@@ -11,7 +11,9 @@ interface MultiSelectType {
     value?: string;
     inputClass?: string;
     placeholder?: string;
+
     type: "multi" | "single";
+    isDual?: boolean;
     valueChange?: (v: any) => void;
 }
 
@@ -34,9 +36,21 @@ function MultiSelect(props: MultiSelectType & FieldHookConfig<string>) {
                 <CustomSelect
                     options={props.options}
                     onChange={(v) => {
-                        props.valueChange && props.valueChange(v);
-
-                        helpers.setValue(v);
+                        props.valueChange &&
+                            props.valueChange(
+                                props.type == "single"
+                                    ? !props.isDual
+                                        ? v.value
+                                        : v
+                                    : v
+                            );
+                        helpers.setValue(
+                            props.type == "single"
+                                ? !props.isDual
+                                    ? v.value
+                                    : v
+                                : v
+                        );
                     }}
                     className={` ${
                         meta.touched && meta.error && "!border-error"
@@ -45,6 +59,7 @@ function MultiSelect(props: MultiSelectType & FieldHookConfig<string>) {
                     } focus:outline-none  text-black rounded-[4px]`}
                     placeholder={props.placeholder}
                     type={props.type}
+                    height={props.height}
                     value={props.value}
                 />
             </div>

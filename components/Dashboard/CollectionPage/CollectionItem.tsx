@@ -1,11 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
-import { DeleteIcon } from "../../CustomIcons";
-import { useState } from "react";
+import { useState, ReactElement } from "react";
 import Link from "next/link";
 import OutSider from "../../Shared/OutSider/index";
 import { motion } from "framer-motion";
 import YesNoModal from "../../modal/YesNoModal";
+import { EditIcon, DeleteIcon } from "../../CustomIcons";
+import CopyIcon from "../../CustomIcons/CopyIcon";
+import NewDeleteIcon from "../../CustomIcons/NewDeleteIcon";
+import NewEditIcon from "../../CustomIcons/NewEditIcon";
+import { useRouter } from "next/router";
 
 type ItemDataType = {
     id: string;
@@ -15,6 +19,8 @@ type ItemDataType = {
 };
 
 function CollectionItem({ data }: { data: ItemDataType }) {
+    const router = useRouter();
+
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const handleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
@@ -24,6 +30,18 @@ function CollectionItem({ data }: { data: ItemDataType }) {
 
     const handleDeleteModal = () => {
         setDeleteModal(!deleteModal);
+    };
+
+    const dropdownClickHandle = (v: DropdownItemType) => {
+        switch (v.title) {
+            case "Delete":
+                return handleDeleteModal();
+            case "Edit":
+                return router.push("/dashboard/collections/edit/" + data.id);
+
+            default:
+                break;
+        }
     };
 
     return (
@@ -58,36 +76,9 @@ function CollectionItem({ data }: { data: ItemDataType }) {
                     </div>
 
                     {dropdownOpen && (
-                        <div className="absolute top-[44px]  right-[31px] w-[111px] h-[70px] z-50 shadow-[4px_4px_8px_rgba(0,0,0,0.25)] bg-white rounded flex items-center justify-center px-[10px]">
-                            <ul className="w-full  ">
-                                <Link
-                                    href={`/dashboard/collections/edit/${data.id}`}
-                                >
-                                    <li className="flex group rounded-[2px] gap-[18px] items-center mb-[12px] text-[14px] px-2 py-[2px]  transition ease-in-out duration-200 hover:bg-[rgba(229,25,55,0.1)] cursor-pointer ">
-                                        <img
-                                            src="/img/editIcon.svg"
-                                            alt="edit"
-                                        />
-                                        <span className="group-hover:text-primary text-[#222222] ">
-                                            Edit
-                                        </span>
-                                    </li>
-                                </Link>
-                                <li
-                                    className="flex gap-[18px] rounded-[2px] items-center  transition ease-in-out duration-200 text-[14px] hover:bg-[rgba(229,25,55,0.1)] px-2 group py-[2px] cursor-pointer"
-                                    onClick={handleDeleteModal}
-                                >
-                                    <DeleteIcon
-                                        stroke="#E51937"
-                                        width="12px"
-                                        height="12px"
-                                    />
-                                    <span className="group-hover:text-primary text-[#222222]">
-                                        Delete
-                                    </span>
-                                </li>
-                            </ul>
-                        </div>
+                        <EditColDropdown
+                            onDropdownClick={dropdownClickHandle}
+                        />
                     )}
                 </OutSider>
             </div>
@@ -100,6 +91,78 @@ function CollectionItem({ data }: { data: ItemDataType }) {
         </>
     );
 }
+
+type DropdownItemType = {
+    id: number;
+    title: string;
+    img: (stroke: string) => ReactElement;
+};
+
+const dropdownList: DropdownItemType[] = [
+    {
+        id: 1,
+        title: "Edit",
+        img: (stroke = "#222222") => (
+            <NewEditIcon stroke={stroke} width="16px" height="16px" />
+        ),
+    },
+    {
+        id: 1,
+        title: "Copy",
+        img: (stroke = "#222222") => (
+            <CopyIcon stroke={stroke} width="16px" height="16px" />
+        ),
+    },
+    {
+        id: 4,
+        title: "Delete",
+        img: (stroke = "#222222") => (
+            <NewDeleteIcon stroke={stroke} width="16px" height="16px" />
+        ),
+    },
+];
+
+const EditColDropdown = ({
+    onDropdownClick,
+}: {
+    onDropdownClick?: (v: DropdownItemType) => void;
+}) => {
+    return (
+        <div className="z-50 shadow-[4px_4px_8px_rgba(0,0,0,0.25)] overflow-hidden p-[5px] bg-white rounded absolute top-[44px] right-[37px]">
+            {dropdownList.map((v, i) => (
+                <div
+                    key={i}
+                    onClick={() => onDropdownClick && onDropdownClick(v)}
+                >
+                    <EditColDropdownItem val={v} />
+                </div>
+            ))}
+        </div>
+    );
+};
+
+const EditColDropdownItem = ({ val }: { val: DropdownItemType }) => {
+    const [isHover, setHover] = useState(false);
+    const handleHover = () => {
+        setHover(!isHover);
+    };
+    return (
+        <div
+            onMouseEnter={handleHover}
+            onMouseLeave={handleHover}
+            className="flex items-center rounded-[3px] gap-3 p-[5px_10px] hover:bg-[rgba(229,25,55,0.1)] cursor-pointer"
+        >
+            {val.img(isHover ? "#E51937" : "#222")}
+            <div
+                className={`text-sm leading-[19.07px] text-[#222] ${
+                    isHover && "!text-primary"
+                }`}
+            >
+                {val.title}
+            </div>
+        </div>
+    );
+};
 
 CollectionItem.defaultProps = {
     data: {

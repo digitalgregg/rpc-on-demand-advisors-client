@@ -83,6 +83,7 @@ const CollectionsSelect = ({ options }: { options: object[] }) => {
             }
             label="Share with"
             value={value}
+            isDual={true}
             valueChange={(v) => {
                 setValue(v);
             }}
