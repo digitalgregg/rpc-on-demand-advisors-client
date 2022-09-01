@@ -8,6 +8,7 @@ import FileUploadModal, {
 } from "../../../../components/FileUploadModal";
 import TopForm from "./TopForm";
 import CContentCard from "./CContentCard";
+import { useWindowDimensions } from "../../../Shared/DimentionHook/index";
 
 function EditCollection() {
     const [removeModal, setRemoveModal] = useState(false);
@@ -97,6 +98,23 @@ function EditCollection() {
         },
     ]);
 
+    const { width } = useWindowDimensions();
+
+    function getItemPerPageBottom(): number {
+        if (width < 680) {
+            return 5;
+        } else {
+            return 9;
+        }
+    }
+    function getItemPerPageTop(): number {
+        if (width < 680) {
+            return 6;
+        } else {
+            return 10;
+        }
+    }
+
     return (
         <>
             <div className="min-h-screen">
@@ -141,7 +159,7 @@ function EditCollection() {
                         {selectedContent ? (
                             <Pagination
                                 dataArr={selectedContent}
-                                itemsPerPage={6}
+                                itemsPerPage={getItemPerPageTop()}
                                 className="pt-[30px]"
                             >
                                 {(currentItems) => (
@@ -187,7 +205,7 @@ function EditCollection() {
                     <div className="pt-5"></div>
                     <Pagination
                         dataArr={content}
-                        itemsPerPage={5}
+                        itemsPerPage={getItemPerPageBottom()}
                         className="pt-[30px]"
                     >
                         {(currentItems) => (

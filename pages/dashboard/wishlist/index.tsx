@@ -1,8 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import DashboardLayout from "../../../components/Dashboard/DashboardLayout";
-import CreateWishlistDialog from "../../../components/Dashboard/WishlistPage/CreateWishlistDialog";
 import { useState } from "react";
+import Link from "next/link";
+import WishlistModal from "../../../components/Dashboard/WishlistPage/WishlistModal";
 // flex flex-col gap-5 sm:flex-row sm:flex-wrap sm:[&>div]:basis-[calc(50%-10px)] lg:[&>div]:basis-[calc((100%/3)-(40px/3))]
 function WishList() {
     const [modalOpen, setModalOpen] = useState(false);
@@ -46,9 +47,10 @@ function WishList() {
                     </div>
                 </div>
             </div>
-            <CreateWishlistDialog
+            <WishlistModal
                 modalOpen={modalOpen}
                 handleModal={handleModal}
+                type={"create"}
             />
         </DashboardLayout>
     );
@@ -56,7 +58,7 @@ function WishList() {
 
 function WishListItem() {
     return (
-        <div>
+        <Link href="/dashboard/wishlist/view/dfsdfw">
             <div>
                 <div className="flex items-center gap-[10px] text-white p-[10px_15px] bg-[#000]">
                     <img
@@ -133,7 +135,7 @@ function WishListItem() {
                     </button>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 }
 

@@ -8,6 +8,9 @@ import ContentViewCard from "../../../components/ContentViewCard";
 import FileUploadModal, {
     handleUppyModal,
 } from "../../../components/FileUploadModal";
+import NewCollectionModal from "../../../components/modal/NewCollection";
+import Pagination from "../../../components/Shared/Pagination";
+import { useWindowDimensions } from "../../../components/Shared/DimentionHook/index";
 const options = [
     { value: "Newest", label: "Newest" },
     { value: "Oldest", label: "Oldest" },
@@ -43,6 +46,28 @@ function Contents() {
         // setItemCount(e);
     };
     const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+    const [collectionModal, setCollectionModal] = useState(false);
+    const handleCollection = () => {
+        setCollectionModal(!collectionModal);
+    };
+
+    const { width } = useWindowDimensions();
+    function getItemsPerPage(): number {
+        if (width < 680) {
+            return 6;
+        } else if (width < 768) {
+            return 10;
+        } else if (width < 1024) {
+            return 4;
+        } else if (width < 1440) {
+            return 8;
+        } else if (width < 1920) {
+            return 12;
+        } else {
+            return 16;
+        }
+    }
+
     return (
         <>
             <DashboardLayout>
@@ -62,7 +87,10 @@ function Contents() {
                                 Add new content
                             </button>
 
-                            <button className="w-[48.5%] sm:w-[168px] lg:w-[206px] h-[48px] lg:h-[54px] border-[1.5px] border-primary rounded-[4px] text-[12px] lg:text-[14px] font-semibold	flex items-center justify-center gap-[5px]	lg:gap-[11px] text-primary">
+                            <button
+                                onClick={handleCollection}
+                                className="w-[48.5%] sm:w-[168px] lg:w-[206px] h-[48px] lg:h-[54px] border-[1.5px] border-primary rounded-[4px] text-[12px] lg:text-[14px] font-semibold	flex items-center justify-center gap-[5px]	lg:gap-[11px] text-primary"
+                            >
                                 <span>
                                     <img
                                         src="/img/Collections.png"
@@ -78,7 +106,7 @@ function Contents() {
                         <h3 className="text-[16px] font-semibold text-[#222222]">
                             Your Content (100)
                         </h3>
-                        <div className="flex items-center gap-[10px] ">
+                        <div className="flex items-center gap-[10px] text-[#000]">
                             <h3 className="text-[14px]">Sorted by</h3>
 
                             <Select
@@ -104,17 +132,34 @@ function Contents() {
 
                     {/* content cards  */}
                     <div className="">
-                        <div className="grid grid-cols-1 place-items-center lg:grid-cols-2 2xl:grid-cols-3 4xl:grid-cols-4 gap-[25px] pb-[20px]">
-                            {data.map((item: any, index: number) => (
-                                <div key={index} className="relative w-[100%]">
-                                    <ContentViewCard />
+                        <Pagination
+                            dataArr={[...Array(50)]}
+                            itemsPerPage={getItemsPerPage()}
+                        >
+                            {(currentItems) => (
+                                <div className="grid grid-cols-1 place-items-center lg:grid-cols-2 2xl:grid-cols-3 4xl:grid-cols-4 gap-[25px] pb-[20px]">
+                                    {currentItems.map(
+                                        (item: any, index: number) => (
+                                            <div
+                                                key={index}
+                                                className="relative w-[100%]"
+                                            >
+                                                <ContentViewCard />
+                                            </div>
+                                        )
+                                    )}
                                 </div>
-                            ))}
-                        </div>
+                            )}
+                        </Pagination>
                     </div>
                 </div>
+                <div className="pt-[50px]"></div>
             </DashboardLayout>
             <FileUploadModal />
+            <NewCollectionModal
+                isOpen={collectionModal}
+                handleClose={handleCollection}
+            />
         </>
     );
 }

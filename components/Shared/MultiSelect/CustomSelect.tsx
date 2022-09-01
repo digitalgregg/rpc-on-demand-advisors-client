@@ -9,6 +9,7 @@ type CustomSelectType = {
     value?: any;
     type: "multi" | "single";
     className?: string;
+    height?: string;
     placeholder?: string;
 };
 
@@ -17,6 +18,7 @@ function CustomSelect({
     onChange,
     optionColor,
     value,
+    height,
     type,
     placeholder,
     className,
@@ -51,9 +53,7 @@ function CustomSelect({
             borderColor: "#676767",
             background: "none",
             border: "none",
-            paddingTop: "5px",
-            paddingBottom: "5px",
-            minHeight: "53px",
+            minHeight: height,
             ":focus": {
                 borderColor: "#676767",
             },
@@ -84,8 +84,8 @@ function CustomSelect({
         },
         valueContainer: (styles) => ({
             ...styles,
-            paddingTop: 0,
-            paddingBottom: 0,
+            paddingTop: 5,
+            paddingBottom: 5,
 
             paddingLeft: 16,
         }),
@@ -121,6 +121,7 @@ function CustomSelect({
 CustomSelect.defaultProps = {
     type: "multi",
     optionColor: "#bbb",
+    height: "55px",
 };
 
 export default CustomSelect;

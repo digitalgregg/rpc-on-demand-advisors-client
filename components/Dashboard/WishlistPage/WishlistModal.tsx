@@ -23,13 +23,13 @@ const wishlistSchema = Yup.object({
     revenue: Yup.string(),
 });
 
-function CreateWishlistDialog({
-    modalOpen,
-    handleModal,
-}: {
+type WishModalType = {
     modalOpen: boolean;
     handleModal: () => void;
-}) {
+    type: "create" | "update";
+};
+
+function WishlistModal({ modalOpen, handleModal, type }: WishModalType) {
     const requestOptions = [
         { value: "all-team-members", label: "All Team Members" },
         { value: "no-team-members", label: "No Team Members" },
@@ -59,7 +59,7 @@ function CreateWishlistDialog({
         >
             <div className="p-5 sm:py-[30px]">
                 <div className="text-lg leading-[24.51px] text-center text-[#000] font-semibold">
-                    Create Wishlist
+                    {type === "create" ? "Create" : "Update"} Wishlist
                 </div>
                 <div className="pt-[25px]"></div>
                 <Formik
@@ -74,18 +74,20 @@ function CreateWishlistDialog({
                                     name="content_request"
                                     label="Content Request"
                                     type="single"
+                                    height="52px"
                                     className="basis-1/2"
-                                    inputClass="!h-[52px] border-[#E0E0E0]"
+                                    inputClass=" border-[#E0E0E0]"
                                     labelClass="!text-sm !leading-[19.07px]"
-                                    options={typeOptions}
+                                    options={requestOptions}
                                 />
 
                                 <MultiSelect
                                     name="content_type"
                                     label="Content Type"
                                     type="single"
+                                    height="52px"
                                     className="basis-1/2"
-                                    inputClass="!h-[52px] border-[#E0E0E0]"
+                                    inputClass=" border-[#E0E0E0]"
                                     labelClass="!text-sm !leading-[19.07px]"
                                     placeholder="Select Type"
                                     options={typeOptions}
@@ -127,7 +129,9 @@ function CreateWishlistDialog({
                                     type="submit"
                                     className="basis-1/2 h-[45px] max-w-[152px] text-[16px] leading-[45px] bg-primary text-[#fff] text-center border transition-all duration-200 hover:bg-[#890F21] border-primary rounded-[4px]"
                                 >
-                                    Add to wish
+                                    {type == "create"
+                                        ? "Add to wish"
+                                        : "Update wish"}
                                 </button>
                             </div>
                         </Form>
@@ -138,4 +142,4 @@ function CreateWishlistDialog({
     );
 }
 
-export default CreateWishlistDialog;
+export default WishlistModal;
