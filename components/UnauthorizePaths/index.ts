@@ -10,4 +10,12 @@ export const allUnauthorizePath =  [
     "/schedule-demo",
     "/tour",
     "/resources/demo"
+];
+
+export const authorizePath = [
+    "/dashboard/contents",
+    "/file-upload",
+    "/analytics",
+    "users",
+
 ]

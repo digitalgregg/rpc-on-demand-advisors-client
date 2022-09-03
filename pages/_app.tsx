@@ -29,8 +29,8 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Script src="/uppy/uppy.min.js" strategy="beforeInteractive"></Script>
       <QueryClientProvider client={queryClient}>
         <ProtectedRoute>
-          <Component {...pageProps} />
         </ProtectedRoute>
+          <Component {...pageProps} />
       </QueryClientProvider>
     </>
   );
