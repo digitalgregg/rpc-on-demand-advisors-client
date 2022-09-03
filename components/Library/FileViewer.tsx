@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
-import { isAudio, isImage, isVideo, isPdf } from "./FileType";
+import { getFileType } from "./FileType";
 import PlyrReact from "plyr-react";
 import { DocumentViewer } from "react-documents";
 
@@ -61,13 +61,6 @@ function FileViewer({ src }: FileViewerType) {
 // https://web-examples.pspdfkit.com/hello/example.pdf
 
 export default FileViewer;
-
-function getFileType(filename: string, onFileType: (type: string) => any) {
-    if (isImage(filename)) return onFileType("image");
-    if (isVideo(filename)) return onFileType("video");
-    if (isAudio(filename)) return onFileType("audio");
-    if (isPdf(filename)) return onFileType("pdf");
-}
 
 // errorComponent={CustomErrorComponent}
 // onError={this.onError}/>

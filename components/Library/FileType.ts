@@ -3,7 +3,7 @@ function getExtension(filename: string) {
     return parts[parts.length - 1];
 }
 
-export function isImage(filename: string) {
+function isImage(filename: string) {
     var ext = getExtension(filename);
     switch (ext.toLowerCase()) {
         case "jpg":
@@ -17,7 +17,7 @@ export function isImage(filename: string) {
     return false;
 }
 
-export function isVideo(filename: string) {
+function isVideo(filename: string) {
     var ext = getExtension(filename);
     switch (ext.toLowerCase()) {
         case "m4v":
@@ -29,7 +29,7 @@ export function isVideo(filename: string) {
     return false;
 }
 
-export function isAudio(filename: string) {
+function isAudio(filename: string) {
     var ext = getExtension(filename);
     switch (ext.toLowerCase()) {
         case "m4a":
@@ -42,7 +42,7 @@ export function isAudio(filename: string) {
     return false;
 }
 
-export function isPdf(filename: string) {
+function isPdf(filename: string) {
     var ext = getExtension(filename);
     switch (ext.toLowerCase()) {
         case "pdf":
@@ -52,4 +52,14 @@ export function isPdf(filename: string) {
             return true;
     }
     return false;
+}
+
+export function getFileType(
+    filename: string,
+    onFileType: (type: string) => any
+) {
+    if (isImage(filename)) return onFileType("image");
+    if (isVideo(filename)) return onFileType("video");
+    if (isAudio(filename)) return onFileType("audio");
+    if (isPdf(filename)) return onFileType("pdf");
 }
