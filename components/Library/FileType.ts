@@ -61,5 +61,30 @@ export function getFileType(
     if (isImage(filename)) return onFileType("image");
     if (isVideo(filename)) return onFileType("video");
     if (isAudio(filename)) return onFileType("audio");
-    if (isPdf(filename)) return onFileType("pdf");
+    if (isOfficeDocument(filename)) return onFileType("document");
+    if (isOtherDocument(filename)) return onFileType("all-document");
+}
+function isOfficeDocument(filename: string) {
+    var ext = getExtension(filename);
+    switch (ext.toLowerCase()) {
+        case "ppt":
+        case "pptx":
+        case "doc":
+        case "docx":
+        case "xls":
+        case "xlsx":
+            return true;
+    }
+    return false;
+}
+function isOtherDocument(filename: string) {
+    var ext = getExtension(filename);
+    switch (ext.toLowerCase()) {
+        case "txt":
+        case "pdf":
+        case "html":
+        case "css":
+            return true;
+    }
+    return false;
 }
