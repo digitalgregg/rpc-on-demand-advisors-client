@@ -9,12 +9,6 @@ type FileViewerType = {
 };
 
 function FileViewer({ src }: FileViewerType) {
-    const [numPages, setNumPages] = useState(null);
-    const [pageNumber, setPageNumber] = useState(1);
-    function onDocumentLoadSuccess({ numPages }: any) {
-        setNumPages(numPages);
-    }
-
     return (
         <>
             {getFileType(src, (type) => {
@@ -35,9 +29,6 @@ function FileViewer({ src }: FileViewerType) {
                             <PlyrReact
                                 source={{ type: "video", sources: [{ src }] }}
                             />
-                            // <video controls className="max-w-full max-h-full">
-                            //     <source src={src} />
-                            // </video>
                         );
                     case "audio":
                         return (
@@ -48,8 +39,10 @@ function FileViewer({ src }: FileViewerType) {
                                 }}
                             />
                         );
-                    case "pdf":
+                    case "document":
                         return <DocumentViewer url={src} viewer="office" />;
+                    case "all-document":
+                        return <DocumentViewer url={src} viewer="google" />;
                     default:
                         break;
                 }
