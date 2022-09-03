@@ -2,6 +2,7 @@
 import "../styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/uppy.min.css";
+import "plyr-react/plyr.css";
 import { ToastContainer } from "react-toastify";
 
 import type { AppProps } from "next/app";
