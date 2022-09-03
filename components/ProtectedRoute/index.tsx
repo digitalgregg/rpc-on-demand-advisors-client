@@ -1,28 +1,33 @@
 import React, { ReactNode, useEffect } from "react";
 import { getLocal } from "../../utils/localStorage";
-import { useRouter } from "next/router";
-import { allUnauthorizePath } from './../UnauthorizePaths/index';
+import {useRouter} from "next/router";
+import { allUnauthorizePath, authorizePath } from './../UnauthorizePaths/index';
 
 type ProtectedRouteProps = {
   children: ReactNode;
 };
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-    
-    const router = useRouter();
-    const pathName= router.pathname ;
     const token = getLocal("token");
-    const user = getLocal("user");
-    useEffect(() => {
-    
-      const unauthorisePath = allUnauthorizePath.includes(router.pathname);
-    if ((!token || !user ) && unauthorisePath === false ) {
-        router.push("/");
-    }
-    if(token) {
-        router.replace("/dashboard/contents");
-    }
-  }, [token])
+    const router = useRouter();
+
+  const splitRoute = router.pathname.split("/")[1];
+  const rootPath = (splitRoute && `/${splitRoute}`) || "/";
+  
+  useEffect(() => {
+    const pathRedirect = allUnauthorizePath.includes(router.pathname) ? router.pathname : "/";
+    const authorizePathRedirect = authorizePath.includes(router.pathname) ? router.pathname : "/dashboard/contents";
+    const authorizePaths = authorizePath.includes(router.pathname);
+  if(!token) {
+    router.replace(pathRedirect);
+    return
+  }
+//   if(token) {
+//     router.replace(authorizePathRedirect);
+//     return
+//   }
+  },[]) 
+
 
   return <>{children}</>;
 };

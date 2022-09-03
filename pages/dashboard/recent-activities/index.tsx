@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import DashboardLayout from "./../../components/Dashboard/DashboardLayout";
-import { RecentActivities } from "../../components/fake";
-import Pagination from "../../components/Shared/Pagination";
-import { OutSideClick } from "../../components/Shared/OutSideClick";
+import DashboardLayout from "../../../components/Dashboard/DashboardLayout";
+import { RecentActivities } from "../../../components/fake";
+import Pagination from "../../../components/Shared/Pagination";
+import { OutSideClick } from "../../../components/Shared/OutSideClick";
 import { AnimatePresence, motion } from "framer-motion";
 export default function Index() {
     const [isOpen, setIsOpen] = useState(false);
