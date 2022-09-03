@@ -17,15 +17,14 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   useEffect(() => {
     const pathRedirect = allUnauthorizePath.includes(router.pathname) ? router.pathname : "/";
     const authorizePathRedirect = authorizePath.includes(router.pathname) ? router.pathname : "/dashboard/contents";
-    const authorizePaths = authorizePath.includes(router.pathname);
   if(!token) {
     router.replace(pathRedirect);
     return
   }
-//   if(token) {
-//     router.replace(authorizePathRedirect);
-//     return
-//   }
+  if(token) {
+    router.replace(authorizePathRedirect);
+    return
+  }
   },[]) 
 
 
