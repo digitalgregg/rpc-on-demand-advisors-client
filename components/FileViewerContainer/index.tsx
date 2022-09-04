@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
+import FileViewer from "../Library/FileViewer";
 import ViewFile from "../ViewFile/index";
 
 const FileViewerContainer = () => {
@@ -53,8 +54,11 @@ const FileViewerContainer = () => {
                     </div>
                 </div>
             </div>
-            <div className="overflow-hidden">
-                <img src="/demo/aaa.jpg" className="object-none" alt="" />
+            <div className="h-[calc(100%-70px)]">
+                {/* <FileViewer src="https://filesamples.com/samples/document/doc/sample2.doc" /> */}
+                {/* <FileViewer src="https://filesamples.com/samples/audio/aac/sample3.aac" /> */}
+                {/* <FileViewer src="https://filesamples.com/samples/video/mp4/sample_960x540.mp4" /> */}
+                <FileViewer src="https://rpc-s3-upload.s3.ap-south-1.amazonaws.com/1662234682176sample.pdf" />
             </div>
             {/* <ViewFile /> */}
         </div>
