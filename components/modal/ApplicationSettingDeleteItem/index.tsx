@@ -2,8 +2,26 @@ import CustomModal from "../../Shared/CustomUtils/CustomModal";
 import { motion } from "framer-motion";
 import RoundborderClose from "../../CustomIcons/RoundborderClose";
 import Image from "next/image";
+import api from "../../../api";
+import { toast } from "react-toastify";
 
-export const DeleteModals = ({ modalIsOpen, closeModal }: any) => {
+export const DeleteModals = ({
+    apiPass,
+    modalIsOpen,
+    closeModal,
+    modalCloseFuncton,
+}: any) => {
+    const handlerDelete = () => {
+        api.delete(apiPass)
+            .then(() => {
+                toast.success("Delete successfully");
+                modalCloseFuncton(false);
+            })
+            .catch((res) => {
+                toast.error(res.message);
+            });
+        console.log(apiPass);
+    };
     return (
         <CustomModal
             isOpen={modalIsOpen}
@@ -27,7 +45,6 @@ export const DeleteModals = ({ modalIsOpen, closeModal }: any) => {
             <div className="bg-white_secondary p-5 rounded-lg flex flex-col gap-[10px]">
                 <div className=" mt-[40px] mb-[36px] flex flex-col w-full gap-[30px]">
                     <span className=" text-center text-primary text-2xl leading-[33px] font-bold">
-                        {" "}
                         Delete Account Settings
                     </span>
                     <p className=" text-center px-[13.5px] text-base font-normal leading-[22px] text-[#222222]">
@@ -39,17 +56,18 @@ export const DeleteModals = ({ modalIsOpen, closeModal }: any) => {
                     <motion.button
                         whileTap={{ scale: 0.9 }}
                         transition={{ duration: 0.2 }}
-                        whileHover={{ backgroundColor:"#890F21"}}
+                        whileHover={{ backgroundColor: "#890F21" }}
                         type="submit"
+                        onClick={handlerDelete}
                         className="w-[327.5px]  h-[45px] py-[11px] px-[32px] rounded border-[1px] border-solid border-primary bg-primary capitalize text-sm leading-[19px] font-bold text-White  hover:border-primary_dark  "
                     >
                         Delete
                     </motion.button>
                     <motion.button
-                        onClick={closeModal}
+                        onClick={() => modalCloseFuncton(false)}
                         whileTap={{ scale: 0.9 }}
                         transition={{ duration: 0.2 }}
-                        whileHover={{ backgroundColor:"#E51937"}}
+                        whileHover={{ backgroundColor: "#E51937" }}
                         type="button"
                         className=" w-[327.5px] h-[45px] py-[11px] px-[32px] rounded border-[1px] border-solid border-primary hover:text-White capitalize text-sm leading-[19px] font-bold text-primary"
                     >

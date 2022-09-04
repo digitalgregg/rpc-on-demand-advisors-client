@@ -62,7 +62,7 @@ const Product = () => {
     const handleToggle = () => setToggle(!toggle);
     
     const localSt = getLocal("product-toggle");
-    console.log(localSt, "local storage")
+    // console.log(localSt, "local storage")
 
    useEffect(() => {
     
