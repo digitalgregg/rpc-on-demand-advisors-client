@@ -2,7 +2,7 @@
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
-export const signupState = atom({
+export const signupState = atomWithStorage("user-info", {
     name: "",
     companyName: "",
     email: "",
@@ -16,4 +16,5 @@ export const team_state = atomWithStorage("team", {
     company_name: "",
     id: "",
     user_id: "",
+    team_name: "",
 });

@@ -1,54 +1,36 @@
+/* eslint-disable @next/next/no-img-element */
 import { useRouter } from "next/router";
 import React from "react";
 import api from "./../../../../../api/index";
 import { toast } from "react-toastify";
-import { useAtom } from "jotai";
-import { team_state } from "../../../../../state";
+import LodingAnimation from "../../../../../components/Shared/LodingAnimation";
+import { useState } from "react";
 
 const Index = () => {
     const router = useRouter();
     const path = router.asPath.split("/");
+    const [buttonLoading, setButtonLoading] = useState(false);
     const id = path[2];
     const token = path[4];
-    const [_, setTeamObj] = useAtom(team_state);
 
     const handleClick = () => {
-        api.get(
-            `https://oda-center.herokuapp.com/api/signup/${id}/verify/${token}`
-        )
+        setButtonLoading(true);
+        api.get(`/api/signup/${id}/verify/${token}`)
             .then((res) => {
                 if (res.status === 200) {
-                    api.get(
-                        `https://oda-center.herokuapp.com/api/team/user/${id}`
-                    )
-                        .then((result) => {
-                            if (result.status === 200) {
-                                setTeamObj(resultToObj(result.data));
-                            }
-                            toast.success(res.data.message);
-                            setTimeout(() => {
-                                router.push("/signin");
-                            }, 4000);
-                        })
-                        .catch((err) => {
-                            console.log(err?.response.data.message);
-                        });
+                    toast.success(res.data.message);
+                    setButtonLoading(false);
+                    setTimeout(() => {
+                        router.push("/signin");
+                    }, 100);
                 }
             })
             .catch((err) => {
-                console.log(err?.response.data.message);
+                console.log(err);
+                setButtonLoading(false);
+                toast.error(err?.response.data.message);
             });
     };
-
-    function resultToObj(result: any) {
-        return {
-            name: result.user_id.name,
-            email: result.user_id.email,
-            company_name: result.team_id.company_name,
-            id: result.team_id._id,
-            user_id: result.user_id._id,
-        };
-    }
 
     return (
         <div className="success-bg bg-[#FFFFFF]">
@@ -73,7 +55,16 @@ const Index = () => {
                         className="w-[153px] h-[45px] rounded-[4px] bg-primary transition duration-700 hover:bg-[#890F21] border-primary hover:border-[#890F21] text-[16px] text-[white] mt-[40px]"
                         onClick={handleClick}
                     >
-                        Verify
+                        {buttonLoading ? (
+                            <span className="flex items-center gap-[10px] justify-center">
+                                <div>
+                                    <LodingAnimation color="white" />
+                                </div>
+                                <div>Loading...</div>
+                            </span>
+                        ) : (
+                            "Verify"
+                        )}
                     </button>
                 </div>
             </div>

@@ -4,13 +4,22 @@ import Script from "next/script";
 
 type FileUploadModalType = {
     onUploadFinished?: (v: any) => any;
+    onSingleUpload?: (v: any) => any;
 };
 
-function FileUploadModal({ onUploadFinished }: FileUploadModalType) {
+function FileUploadModal({
+    onUploadFinished,
+    onSingleUpload,
+}: FileUploadModalType) {
     useEffect(() => {
         window.myOnFileUpload = (v) => {
             if (onUploadFinished) {
                 onUploadFinished(v);
+            }
+        };
+        window.onSingleFileUpload = (v) => {
+            if (onSingleUpload) {
+                onSingleUpload(v);
             }
         };
 

@@ -13,7 +13,14 @@ import Pagination from "../../../components/Shared/Pagination";
 import { useWindowDimensions } from "../../../components/Shared/DimentionHook/index";
 import { useAtom } from "jotai";
 import { team_state } from "../../../state/index";
-import { createContent, CreateContentType } from "../../../api-call/ContentApi";
+import {
+    createContent,
+    fetchContents,
+    responseToObject,
+} from "../../../api-call/ContentApi";
+import { useEffect } from "react";
+import api from "../../../api";
+import { useQuery } from "react-query";
 
 const options = [
     { value: "Newest", label: "Newest" },
@@ -52,7 +59,6 @@ function Contents() {
         // setItemCount(e);
     };
 
-    const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
     const [collectionModal, setCollectionModal] = useState(false);
     const handleCollection = () => {
         console.log(teamData);
@@ -76,26 +82,18 @@ function Contents() {
         }
     }
 
-    function handleUploadFinished(v: any) {
-        Array.isArray(v) &&
-            v.forEach((val) => {
-                const { size, key, location, mimetype, originalname } =
-                    val.response.body;
-                const contentData: CreateContentType = {
-                    team_id: teamData.id,
-                    user_id: teamData.user_id,
-                    thumbnail: location,
-                    title: originalname,
-                    additional_info: {
-                        file_type: mimetype,
-                        file_name: originalname,
-                        file_size: size.toString(),
-                    },
-                    file_url: location,
-                    aws_key: key,
-                };
-                createContent(contentData);
-            });
+    const {
+        data: contentData,
+        isLoading,
+        error,
+    } = useQuery("fetch-contents", () =>
+        fetchContents({ team_id: teamData.id })
+    );
+
+    console.log(contentData);
+
+    function handleSingleUpload(response: any) {
+        createContent(responseToObject(response, teamData));
     }
 
     return (
@@ -185,7 +183,7 @@ function Contents() {
                 </div>
                 <div className="pt-[50px]"></div>
             </DashboardLayout>
-            <FileUploadModal onUploadFinished={handleUploadFinished} />
+            <FileUploadModal onSingleUpload={handleSingleUpload} />
             <NewCollectionModal
                 isOpen={collectionModal}
                 handleClose={handleCollection}
