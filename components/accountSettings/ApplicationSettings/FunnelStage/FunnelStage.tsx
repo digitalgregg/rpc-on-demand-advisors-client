@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ItemCard from "../ItemCard/ItemCard";
 import { Modals } from "../../../modal/ApplicationSettingAddItem";
 import Plus from "../../../CustomIcons/PlusIcon";
 import Pagination from "../../../Shared/Pagination";
-import { applicationsettingsFakeData } from "../../../fake";
-
+import { useQuery } from "react-query";
+import api from "../../../../api";
+import LodingAnimation from "../../../Shared/LodingAnimation";
+import { toast } from "react-toastify";
 
 const FunnelStage = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [iconColor, setIconColor] = useState(false);
+    const [getData, setGetData] = useState([]);
     const onOver = (e: any) => {
         if (e) setIconColor(true);
     };
@@ -22,6 +25,33 @@ const FunnelStage = () => {
     function closeModal() {
         setIsOpen(false);
     }
+
+    const { data, isLoading } = useQuery(["funnel-item-get"], () =>
+        api
+            .get(
+                `https://oda-center.herokuapp.com/api/application-settings?team_id=63136b121fa3f86a336b6325`
+            )
+            .then((res) => {
+                const regionData = res?.data;
+                const filterData = regionData.filter((e: any) => {
+                    e.type === "funnel";
+                });
+                return filterData;
+            })
+            .catch((res) => {
+                toast.error(res.message);
+            })
+    );
+    // console.log(getData);
+    // .then((res)=>{
+    //     const datas = res.data.data;
+    //     const filterData = datas.rData.filter((a: any) => a._id === apId)
+    // })
+    useEffect(() => {
+        const IndustryData = data?.data;
+        IndustryData?.map((v: any) => setGetData(v.settingsItems));
+    }, [data]);
+
     return (
         <>
             <Modals
@@ -29,7 +59,7 @@ const FunnelStage = () => {
                 closeModal={closeModal}
                 modalIsOpen={modalIsOpen}
             />
-      
+
             <div className="h-fit max-w-[770px] md:w-[770px] rounded-lg bg-White overflow-hidden">
                 <div className=" px-5 py-[10px] bg-black">
                     <span className="capitalize font-bold leading-[22px] text-base text-White">
@@ -37,32 +67,51 @@ const FunnelStage = () => {
                     </span>
                 </div>
                 <div className="px-5 pt-5 pb-10 md:px-10 ">
-                    <Pagination dataArr={applicationsettingsFakeData} itemsPerPage={5} className=" !justify-start">
-                        {(currentItems) => (
-                            <>
-                                <div className=" flex flex-col gap-[16px]">
-                                    {currentItems.map(({name,id}:any, i) => (
-                                        <ItemCard name={name} orderShow order={id} key={i} />
-                                    ))}
-                                </div>
-                                <div
-                                    onClick={openModal}
-                                    onMouseOver={onOver}
-                                    onMouseLeave={onLeave}
-                                    className=" group  my-[16px] w-[159px] h-[45px] py-[10px] px-[10px] rounded border-[1px] border-solid border-[#9E9E9E] hover:border-primary capitalize text-base leading-[22px] font-semibold  flex flex-row  items-center gap-[10px] cursor-pointer hover-transition hover:bg-primary"
-                                >
-                                    <Plus
-                                        color={`${
-                                            iconColor === true ? "#ffffff" : "#000000" 
-                                        }`}
-                                    />
-                                    <span className="text-[#000000] group-hover:text-White ">
-                                        Add Stage
-                                    </span>
-                                </div>
-                            </>
-                        )}
-                    </Pagination>
+                    {isLoading ? (
+                        <LodingAnimation />
+                    ) : (
+                        <Pagination
+                            dataArr={getData}
+                            itemsPerPage={5}
+                            className=" !justify-start"
+                        >
+                            {(currentItems) => (
+                                <>
+                                    <div className=" flex flex-col gap-[16px]">
+                                        {currentItems.map(
+                                            ({ title, _id, color }: any, i) => (
+                                                <ItemCard
+                                                    name={title}
+                                                    color={color}
+                                                    id={_id}
+                                                    orderShow
+                                                    index={i}
+                                                    key={_id}
+                                                />
+                                            )
+                                        )}
+                                    </div>
+                                    <div
+                                        onClick={openModal}
+                                        onMouseOver={onOver}
+                                        onMouseLeave={onLeave}
+                                        className=" group  my-[16px] w-[159px] h-[45px] py-[10px] px-[10px] rounded border-[1px] border-solid border-[#9E9E9E] hover:border-primary capitalize text-base leading-[22px] font-semibold  flex flex-row  items-center gap-[10px] cursor-pointer hover-transition hover:bg-primary"
+                                    >
+                                        <Plus
+                                            color={`${
+                                                iconColor === true
+                                                    ? "#ffffff"
+                                                    : "#000000"
+                                            }`}
+                                        />
+                                        <span className="text-[#000000] group-hover:text-White ">
+                                            Add Stage
+                                        </span>
+                                    </div>
+                                </>
+                            )}
+                        </Pagination>
+                    )}
                 </div>
             </div>
         </>

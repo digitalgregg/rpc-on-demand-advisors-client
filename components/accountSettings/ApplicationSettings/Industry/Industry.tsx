@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ItemCard from "./ItemCard";
+import ItemCard from "../ItemCard/ItemCard";
 import { Modals } from "../../../modal/ApplicationSettingIndustryItemAdd";
 import Plus from "../../../CustomIcons/PlusIcon";
 import ToggleButton from "../../../Shared/ToggleButton";
@@ -9,11 +9,12 @@ import { setLocal } from "../../../../utils/localStorage";
 import { useQuery } from "react-query";
 import api from "../../../../api";
 import LodingAnimation from "./../../../Shared/LodingAnimation/index";
+import { toast } from "react-toastify";
 const Industry = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [toggle, setToggle] = useState(false);
     const [iconColor, setIconColor] = useState(false);
-    const [getData, setGetData] = useState([]);
+    const [getData, setGetData] = useState<any[]>([]);
     const onOver = (e: any) => {
         if (e) setIconColor(true);
     };
@@ -21,6 +22,7 @@ const Industry = () => {
         if (e) setIconColor(false);
     };
     const handleToggle = () => setToggle(!toggle);
+
     function openModal() {
         setIsOpen(true);
     }
@@ -33,19 +35,36 @@ const Industry = () => {
     }, [toggle, setToggle]);
 
     const { data, isLoading } = useQuery(["Industry-item-get"], () =>
-        api.get(
-            `https://oda-center.herokuapp.com/api/application-settings?type=funnel`
-        )
+        api
+            .get(
+                `https://oda-center.herokuapp.com/api/application-settings?team_id=63136b121fa3f86a336b6325`
+            )
+            .then((res) => {
+                const industryData = res?.data;
+                console.log(industryData, "......industryData");
+                const filterData = industryData.filter((e: any) => {
+                    e.type === "industry";
+                });
+                return filterData;
+            })
+            .catch((res) => {
+                toast.error(res.message);
+            })
     );
-
+    // console.log(data,'......industryData')
     useEffect(() => {
         const IndustryData = data?.data;
-        IndustryData?.map((v: any) => setGetData(v.settingsItems));
+        IndustryData?.map((v: any) => setGetData([v.settingsItems,...v.settingsItems]));
     }, [data]);
 
     return (
         <>
-            <Modals HTitle="Industry" closeModal={closeModal} isOpen={isOpen} />
+            <Modals
+                modalCloseFuncton={setIsOpen}
+                HTitle="Industry"
+                closeModal={closeModal}
+                isOpen={isOpen}
+            />
             <div className="h-fit max-w-[770px] md:w-[770px] rounded-lg bg-White overflow-hidden">
                 <div className=" px-5 md:px-10 py-5 ">
                     <div className=" flex flex-row justify-between py-[10px]">

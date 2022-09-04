@@ -5,47 +5,17 @@ import Plus from "../../../CustomIcons/PlusIcon";
 import ToggleButton from "../../../Shared/ToggleButton";
 import Pagination from "../../../Shared/Pagination";
 import { setLocal } from "../../../../utils/localStorage";
-import { getLocal } from './../../../../utils/localStorage';
-const content = [
-    {
-        id: 0,
-        name:"Cons",
-    },
-    {
-        id: 1,
-        name:"ideration",
-        colors:'#109'
-    },
-    {
-        id: 2,
-        name:"tion",
-        colors:'#509'
-    },
-    {
-        id: 3,
-        name:"Cration",
-        colors:'#921009'
-    },
-    {
-        id: 4,
-        name:"Con",
-        colors:'#909909'
-    },
-    {
-        id: 5,
-        name:"Cation",
-        colors:'#1909'
-    },
-    {
-        id: 6,
-        name:"sider",
-        colors:'#012909'
-    },
-];
+import { getLocal } from "./../../../../utils/localStorage";
+import { useQuery } from "react-query";
+import api from "../../../../api";
+import LodingAnimation from "../../../Shared/LodingAnimation";
+import { toast } from "react-toastify";
+
 const Product = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [toggle, setToggle] = useState(false);
     const [iconColor, setIconColor] = useState(false);
+    const [getData, setGetData] = useState([]);
     const onOver = (e: any) => {
         if (e) setIconColor(true);
     };
@@ -55,19 +25,44 @@ const Product = () => {
     function openModal() {
         setIsOpen(true);
     }
-    
+
     function closeModal() {
         setIsOpen(false);
     }
     const handleToggle = () => setToggle(!toggle);
-    
+
     const localSt = getLocal("product-toggle");
     // console.log(localSt, "local storage")
 
-   useEffect(() => {
-    
-    setLocal("product-toggle", toggle);
-   },[toggle, setToggle]);
+    useEffect(() => {
+        setLocal("product-toggle", toggle);
+    }, [toggle, setToggle]);
+
+    const { data, isLoading } = useQuery(["product-item-get"], () =>
+        api
+            .get(
+                `https://oda-center.herokuapp.com/api/application-settings?team_id=63139b667182ce79d673f933`
+            )
+            .then((res) => {
+                const regionData = res?.data;
+                const filterData = regionData.filter((e: any) => {
+                    e.type === "product";
+                });
+                return filterData;
+            })
+            .catch((res) => {
+                toast.error(res.message);
+            })
+    );
+    // console.log(data);
+    // .then((res)=>{
+    //     const datas = res.data.data;
+    //     const filterData = datas.rData.filter((a: any) => a._id === apId)
+    // })
+    useEffect(() => {
+        const ProductData = data?.data;
+        ProductData?.map((v: any) => setGetData(v.settingsItems));
+    }, [data]);
 
     return (
         <>
@@ -94,33 +89,49 @@ const Product = () => {
                             `}
                         />
                     </div>
-                    <hr className=" text-[#9E9E9E]" />
-                    <Pagination dataArr={content} itemsPerPage={5} className=" !justify-start">
-                        {(currentItems) => (
-                            <>
-                                <div className="mt-[16px] flex flex-col gap-[16px]">
-                                    {currentItems.map(({name}:any, i) => (
-                                        <ItemCard name={name} key={i} />
-                                    ))}
-                                </div>
-                                <div
-                                    onClick={openModal}
-                                    onMouseOver={onOver}
-                                    onMouseLeave={onLeave}
-                                    className=" group  my-[16px] w-[159px] h-[45px] py-[10px] px-[10px] rounded border-[1px] border-solid border-[#9E9E9E] hover:border-primary capitalize text-base leading-[22px] font-semibold  flex flex-row  items-center gap-[10px] cursor-pointer hover-transition hover:bg-primary"
-                                >
-                                    <Plus
-                                        color={`${
-                                            iconColor === true ? "#ffffff" : "#000000" 
-                                        }`}
-                                    />
-                                    <span className="text-[#000000] group-hover:text-White ">
-                                        Add Stage
-                                    </span>
-                                </div>
-                            </>
-                        )}
-                    </Pagination>
+                    <hr className=" text-[#9E9E9E] mb-[16px]" />
+                    {isLoading ? (
+                        <LodingAnimation />
+                    ) : (
+                        <Pagination
+                            dataArr={getData}
+                            itemsPerPage={5}
+                            className=" !justify-start"
+                        >
+                            {(currentItems) => (
+                                <>
+                                    <div className=" flex flex-col gap-[16px]">
+                                        {currentItems.map(
+                                            ({ title, _id }: any) => (
+                                                <ItemCard
+                                                    name={title}
+                                                    id={_id}
+                                                    key={_id}
+                                                />
+                                            )
+                                        )}
+                                    </div>
+                                    <div
+                                        onClick={openModal}
+                                        onMouseOver={onOver}
+                                        onMouseLeave={onLeave}
+                                        className=" group  my-[16px] w-[159px] h-[45px] py-[10px] px-[10px] rounded border-[1px] border-solid border-[#9E9E9E] hover:border-primary capitalize text-base leading-[22px] font-semibold  flex flex-row  items-center gap-[10px] cursor-pointer hover-transition hover:bg-primary"
+                                    >
+                                        <Plus
+                                            color={`${
+                                                iconColor === true
+                                                    ? "#ffffff"
+                                                    : "#000000"
+                                            }`}
+                                        />
+                                        <span className="text-[#000000] group-hover:text-White ">
+                                            Add Stage
+                                        </span>
+                                    </div>
+                                </>
+                            )}
+                        </Pagination>
+                    )}
                 </div>
             </div>
         </>

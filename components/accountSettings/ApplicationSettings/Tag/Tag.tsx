@@ -1,4 +1,4 @@
-import React, { useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import ItemCard from "../ItemCard/ItemCard";
 import { Modals } from "../../../modal/ApplicationSettingAddTag";
 import Plus from "../../../CustomIcons/PlusIcon";
@@ -24,11 +24,10 @@ const Tag = () => {
 
     function closeModal() {
         setIsOpen(false);
-    };
+    }
     useEffect(() => {
-    
         setLocal("tag-toggle", toggle);
-       },[toggle, setToggle]);
+    }, [toggle, setToggle]);
     return (
         <>
             <Modals
@@ -55,7 +54,7 @@ const Tag = () => {
                             `}
                         />
                     </div>
-                    <hr className=" text-[#9E9E9E]" />
+                    <hr className=" text-[#9E9E9E] mb-[16px]" />
                     <Pagination
                         dataArr={applicationsettingsFakeData}
                         itemsPerPage={3}
@@ -63,7 +62,7 @@ const Tag = () => {
                     >
                         {(currentItems) => (
                             <>
-                                <div className="mt-[16px] flex flex-col gap-[16px]">
+                                <div className=" flex flex-col gap-[16px]">
                                     {currentItems.map(
                                         ({ name, colors }: any, i) => (
                                             <ItemCard
@@ -83,7 +82,9 @@ const Tag = () => {
                                 >
                                     <Plus
                                         color={`${
-                                            iconColor === true ? "#ffffff" : "#000000" 
+                                            iconColor === true
+                                                ? "#ffffff"
+                                                : "#000000"
                                         }`}
                                     />
                                     <span className="text-[#000000] group-hover:text-White ">
