@@ -39,6 +39,9 @@ var uppy = new Uppy.Uppy()
         window.myOnFileUpload(result.successful);
         this.uppy.getState().files = {};
         this.uppy.getState().totalProgress = null;
+    })
+    .on("upload-success", (_, response) => {
+        window.onSingleFileUpload(response);
     });
 
 const uppyDashboarInner = document.getElementsByClassName(
