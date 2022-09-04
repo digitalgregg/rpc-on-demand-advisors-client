@@ -1,48 +1,61 @@
 import CustomModal from "../../Shared/CustomUtils/CustomModal";
 import { motion } from "framer-motion";
 import { Formik, Form } from "formik";
+import * as Yup from "yup";
 import InputField from "../../Shared/InputField";
 import TextAreaField from "../../Shared/TextAreaField";
-import * as Yup from "yup";
+import api from "../../../api";
+import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 
 const validationSchema = Yup.object().shape({
-    title: Yup.string().email().required("title is required."),
+    title: Yup.string().email().required(),
     description: Yup.string(),
     order: Yup.string(),
     type: Yup.string(),
 });
 
 interface MyFormValues {
+    team_id: string;
     title: string;
     description: string;
-    order: number;
+    index: number;
     type: string;
 }
 const initialValues: MyFormValues = {
+    team_id: "",
     title: "",
     description: "",
-    order: 0,
+    index: 0,
     type: "industry",
 };
-export const Modals = ({ modalIsOpen, closeModal, HTitle }: any) => {
+export const Modals = ({ isOpen, closeModal, HTitle }: any) => {
+    const [] = useState("");
+    // const { data, isLoading } = useQuery(
+    //     ["director-dashboard-role-management-apprentice-role"],
+    //     () => api.get(`/api/apprentice-role`)
+    //   );
+    useEffect(() => {}, []);
     return (
         <CustomModal
-            isOpen={modalIsOpen}
+            isOpen={isOpen}
             onRequestClose={closeModal}
             className="bg-[#fff] rounded-[4px] w-fit"
         >
             <Formik
                 initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={(valus) => console.log(valus)}
+                // validationSchema={validationSchema}
+                onSubmit={(valus) => {
+                    api.post("", {
+                        title: valus.title,
+                        description: valus.description,
+                        type: valus.type,
+                        order: valus.index,
+                    });
+                }}
             >
-                {({ handleSubmit, isSubmitting, setFieldValue }) => (
-                    <form
-                        onSubmit={(e) => {
-                            e.preventDefault();
-                            handleSubmit();
-                        }}
-                    >
+                {({ submitForm }) => (
+                    <Form onSubmit={submitForm}>
                         <div className="bg-white_secondary p-5 rounded-lg flex flex-col gap-[10px]">
                             <div className=" flex flex-row w-full gap-[12px]">
                                 <div className="w-[537px]  flex flex-col gap-[10px]">
@@ -96,7 +109,7 @@ export const Modals = ({ modalIsOpen, closeModal, HTitle }: any) => {
                                 </motion.button>
                             </div>
                         </div>
-                    </form>
+                    </Form>
                 )}
             </Formik>
         </CustomModal>

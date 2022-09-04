@@ -20,16 +20,16 @@ function Pagination({
 
     useEffect(() => {
         const endOffset = itemOffset + itemsPerPage;
-        console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+        // console.log(`Loading items from ${itemOffset} to ${endOffset}`);
         setCurrentItems(dataArr.slice(itemOffset, endOffset));
         setPageCount(Math.ceil(dataArr.length / itemsPerPage));
     }, [dataArr, itemOffset, itemsPerPage]);
 
     const handlePageClick = (event: any) => {
         const newOffset = (event.selected * itemsPerPage) % dataArr.length;
-        console.log(
-            `User requested page number ${event.selected}, which is offset ${newOffset}`
-        );
+        // console.log(
+        //     `User requested page number ${event.selected}, which is offset ${newOffset}`
+        // );
         setItemOffset(newOffset);
     };
 
