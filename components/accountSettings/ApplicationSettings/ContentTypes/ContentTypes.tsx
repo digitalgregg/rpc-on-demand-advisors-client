@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ItemCard from "../ItemCard/ItemCard";
 import { Modals } from "../../../modal/ApplicationSettingAddItem";
 import Plus from "../../../CustomIcons/PlusIcon";
 import Pagination from "../../../Shared/Pagination";
 import { applicationsettingsFakeData } from "../../../fake";
+import { useQuery } from "react-query";
+import api from "../../../../api";
+import LodingAnimation from "../../../Shared/LodingAnimation";
+import { toast } from "react-toastify";
 
 const ContentTypes = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [iconColor, setIconColor] = useState(false);
+    const [getData, setGetData] = useState([]);
     const onOver = (e: any) => {
         if (e) setIconColor(true);
     };
@@ -21,6 +26,28 @@ const ContentTypes = () => {
     function closeModal() {
         setIsOpen(false);
     }
+    const { data, isLoading } = useQuery(["Industry-item-get"], () =>
+        api
+            .get(
+                `https://oda-center.herokuapp.com/api/application-settings?type=region`
+            )
+            .then((res) => {
+                const regionData = res?.data;
+                const filterData = regionData.filter((e: any) => {
+                    e.type === "content";
+                });
+                return filterData;
+            })
+            .catch((res) => {
+                toast.error(res.message);
+            })
+    );
+
+    useEffect(() => {
+        const IndustryData = data?.data;
+        IndustryData?.map((v: any) => setGetData(v.settingsItems));
+    }, [data]);
+
     return (
         <>
             <Modals
@@ -35,43 +62,49 @@ const ContentTypes = () => {
                     </span>
                 </div>
                 <div className="px-5 md:px-10 pt-5 pb-10 ">
-                    <Pagination
-                        dataArr={applicationsettingsFakeData}
-                        itemsPerPage={6}
-                        className=" !justify-start"
-                    >
-                        {(currentItems) => (
-                            <>
-                                <div className=" flex flex-col gap-[16px]">
-                                    {currentItems.map(
-                                        ({ name, id }: any, i) => (
-                                            <ItemCard
-                                                name={name}
-                                                order={id}
-                                                key={i}
-                                                orderShow
-                                            />
-                                        )
-                                    )}
-                                </div>
-                                <div
-                                    onClick={openModal}
-                                    onMouseOver={onOver}
-                                    onMouseLeave={onLeave}
-                                    className=" group  my-[16px] w-[159px] h-[45px] py-[10px] px-[10px] rounded border-[1px] border-solid border-[#9E9E9E] hover:border-primary capitalize text-base leading-[22px] font-semibold  flex flex-row  items-center gap-[10px] cursor-pointer hover-transition hover:bg-primary"
-                                >
-                                    <Plus
-                                        color={`${
-                                            iconColor === true ? "#ffffff" : "#000000" 
-                                        }`}
-                                    />
-                                    <span className="text-[#000000] group-hover:text-White ">
-                                        Add Stage
-                                    </span>
-                                </div>
-                            </>
-                        )}
-                    </Pagination>
+                    {isLoading ? (
+                        <LodingAnimation />
+                    ) : (
+                        <Pagination
+                            dataArr={getData}
+                            itemsPerPage={6}
+                            className=" !justify-start"
+                        >
+                            {(currentItems) => (
+                                <>
+                                    <div className=" flex flex-col gap-[16px]">
+                                        {currentItems.map(
+                                            ({ name, id }: any, i) => (
+                                                <ItemCard
+                                                    name={name}
+                                                    order={id}
+                                                    key={i}
+                                                    orderShow
+                                                />
+                                            )
+                                        )}
+                                    </div>
+                                    <div
+                                        onClick={openModal}
+                                        onMouseOver={onOver}
+                                        onMouseLeave={onLeave}
+                                        className=" group  my-[16px] w-[159px] h-[45px] py-[10px] px-[10px] rounded border-[1px] border-solid border-[#9E9E9E] hover:border-primary capitalize text-base leading-[22px] font-semibold  flex flex-row  items-center gap-[10px] cursor-pointer hover-transition hover:bg-primary"
+                                    >
+                                        <Plus
+                                            color={`${
+                                                iconColor === true
+                                                    ? "#ffffff"
+                                                    : "#000000"
+                                            }`}
+                                        />
+                                        <span className="text-[#000000] group-hover:text-White ">
+                                            Add Stage
+                                        </span>
+                                    </div>
+                                </>
+                            )}
+                        </Pagination>
+                    )}
                 </div>
             </div>
         </>

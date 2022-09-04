@@ -7,11 +7,14 @@ import TextAreaField from "../../Shared/TextAreaField";
 import api from "../../../api";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { toast } from "react-toastify";
+import { getLocal } from "../../../utils/localStorage";
 
 const validationSchema = Yup.object().shape({
-    title: Yup.string().email().required(),
+    team_id: Yup.string().required(),
+    title: Yup.string().required(),
     description: Yup.string(),
-    order: Yup.string(),
+    index: Yup.string(),
     type: Yup.string(),
 });
 
@@ -29,13 +32,17 @@ const initialValues: MyFormValues = {
     index: 0,
     type: "industry",
 };
-export const Modals = ({ isOpen, closeModal, HTitle }: any) => {
-    const [] = useState("");
-    // const { data, isLoading } = useQuery(
-    //     ["director-dashboard-role-management-apprentice-role"],
-    //     () => api.get(`/api/apprentice-role`)
-    //   );
-    useEffect(() => {}, []);
+export const Modals = ({
+    isOpen,
+    closeModal,
+    HTitle,
+    modalCloseFuncton,
+}: any) => {
+    const [getTeamId, setGetTeamId] = useState("");
+    const user = getLocal("user");
+    useEffect(() => {
+        setGetTeamId(user?.team_id);
+    }, [user]);
     return (
         <CustomModal
             isOpen={isOpen}
@@ -44,18 +51,34 @@ export const Modals = ({ isOpen, closeModal, HTitle }: any) => {
         >
             <Formik
                 initialValues={initialValues}
-                // validationSchema={validationSchema}
+                validationSchema={validationSchema}
                 onSubmit={(valus) => {
-                    api.post("", {
-                        title: valus.title,
-                        description: valus.description,
-                        type: valus.type,
-                        order: valus.index,
-                    });
+                    api.post(
+                        "https://oda-center.herokuapp.com/api/application-settings",
+                        {
+                            team_id: getTeamId,
+                            title: valus.title,
+                            description: valus.description,
+                            type: "industry",
+                            index: valus.index,
+                        }
+                    )
+                        .then((res) => {
+                            toast.success(res.data.message);
+                            modalCloseFuncton(false);
+                        })
+                        .catch((res) => {
+                            toast.error(res.message);
+                        });
                 }}
             >
-                {({ submitForm }) => (
-                    <Form onSubmit={submitForm}>
+                {({ submitForm, handleSubmit }) => (
+                    <Form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            handleSubmit();
+                        }}
+                    >
                         <div className="bg-white_secondary p-5 rounded-lg flex flex-col gap-[10px]">
                             <div className=" flex flex-row w-full gap-[12px]">
                                 <div className="w-[537px]  flex flex-col gap-[10px]">

@@ -6,6 +6,15 @@ import TextAreaField from "../../../Shared/TextAreaField";
 import { EditIcon, DeleteIcon } from "../../../CustomIcons";
 import { DeleteModals } from "../../../modal/ApplicationSettingDeleteItem";
 import TagBadges from "../../../CustomIcons/TagBadges";
+import api from "../../../../api";
+import * as Yup from "yup";
+import { toast } from "react-toastify";
+
+const validate = Yup.object({
+    title: Yup.string().required("title is required"),
+    description: Yup.string(),
+    order: Yup.number(),
+});
 interface MyFormValues {
     title: string;
     description: string;
@@ -20,11 +29,14 @@ const initialValues: MyFormValues = {
 const Card = (props: any) => {
     const [editeDetails, setEditeDetails] = useState(false);
     const [deletes, setDeletes] = useState(false);
+    const [itemId, setItemId] = useState("");
+    const [passDeleteApi, setPassDeleteApi] = useState("");
+
     const handlerEdite = () => {
         setEditeDetails(!editeDetails);
+        setItemId(props.id);
     };
-    const handlerUpDateDetails = (e:any) => {
-        console.log(e)
+    const handlerUpDateDetails = () => {
         setEditeDetails(true);
     };
     const handlerCancelDetails = () => {
@@ -36,16 +48,30 @@ const Card = (props: any) => {
     const closeModal = () => {
         setDeletes(false);
     };
+    useEffect(() => {
+        if (deletes === true) {
+            setItemId(props.id);
+            setPassDeleteApi(
+                `https://oda-center.herokuapp.com/api/application-settings/${itemId}`
+            );
+        }
+        if (deletes === false) setPassDeleteApi("");
+    }, [deletes]);
 
     return (
         <>
-            <DeleteModals closeModal={closeModal} modalIsOpen={deletes} />
+            <DeleteModals
+                apiPass={passDeleteApi}
+                closeModal={closeModal}
+                modalIsOpen={deletes}
+                modalCloseFuncton={setDeletes}
+            />
             <div className=" rounded p-[10px] border border-solid border-[#9E9E9E] flex flex-row justify-between">
                 <div className=" flex items-center flex-row gap-[16px]">
                     {props.orderShow && (
                         <div className=" w-[30px] h-[30px] flex justify-center items-center bg-[#E519371A] rounded">
                             <span className=" text-base leading-[22px] font-bold text-primary">
-                                {props.order}
+                                {props.index}
                             </span>
                         </div>
                     )}
@@ -79,7 +105,17 @@ const Card = (props: any) => {
                     >
                         <Formik
                             initialValues={initialValues}
-                            onSubmit={(valus) => console.log(valus)}
+                            validationSchema={validate}
+                            onSubmit={(valus) => {
+                                api.put(
+                                    `https://oda-center.herokuapp.com/api/application-settings/${itemId}`,
+                                    valus
+                                ).then((res) => {
+                                    toast.success(res.data.message);
+                                    setEditeDetails(!editeDetails);
+                                });
+                                // console.log(valus);
+                            }}
                         >
                             {() => (
                                 <Form>
@@ -90,13 +126,15 @@ const Card = (props: any) => {
                                                 <InputField
                                                     name="title"
                                                     type="text"
+                                                    required
                                                 />
                                             </div>
                                             <div className=" w-[113px] flex flex-col gap-[16px]">
                                                 <span>Order</span>
                                                 <InputField
-                                                    name="order"
+                                                    name="index"
                                                     type="text"
+                                                    required
                                                 />
                                             </div>
                                         </div>
@@ -104,6 +142,7 @@ const Card = (props: any) => {
                                             inputClass="!h-[150px]"
                                             name="description"
                                             type="text"
+                                            required
                                         />
                                         <div className=" flex justify-between gap-[15px]">
                                             <motion.button
