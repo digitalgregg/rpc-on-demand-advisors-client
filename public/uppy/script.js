@@ -1,6 +1,4 @@
-const BASE_URL = "http://localhost:7090";
-
-// TRIGGER_BUTTON_CLASS=open-file-uploader
+const BASE_URL = "http://localhost:8080";
 
 // Uppy file uploader
 var uppy = new Uppy.Uppy()
@@ -23,8 +21,8 @@ var uppy = new Uppy.Uppy()
         companionUrl: BASE_URL,
     })
     .use(Uppy.XHRUpload, {
-        endpoint: `${BASE_URL}/upload/`,
-        fieldName: "my-file",
+        endpoint: `${BASE_URL}/api/content/thumbnail/upload`,
+        fieldName: "file",
         method: "post",
         formData: true,
     })

@@ -4,12 +4,31 @@ import DashboardLayout from "../../../components/Dashboard/DashboardLayout";
 import { useState } from "react";
 import Link from "next/link";
 import WishlistModal from "../../../components/Dashboard/WishlistPage/WishlistModal";
+import { useWindowDimensions } from "../../../components/Shared/DimentionHook";
 // flex flex-col gap-5 sm:flex-row sm:flex-wrap sm:[&>div]:basis-[calc(50%-10px)] lg:[&>div]:basis-[calc((100%/3)-(40px/3))]
 function WishList() {
     const [modalOpen, setModalOpen] = useState(false);
     const handleModal = () => {
         setModalOpen(!modalOpen);
     };
+
+    const { width } = useWindowDimensions();
+    function getItemsPerPage(): number {
+        if (width < 680) {
+            return 6;
+        } else if (width < 768) {
+            return 10;
+        } else if (width < 1024) {
+            return 4;
+        } else if (width < 1440) {
+            return 8;
+        } else if (width < 1920) {
+            return 12;
+        } else {
+            return 16;
+        }
+    }
+
     return (
         <DashboardLayout>
             <div className="">

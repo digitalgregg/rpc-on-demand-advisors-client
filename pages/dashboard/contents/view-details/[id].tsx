@@ -38,7 +38,7 @@ const ContentDetails = () => {
                     </div>
 
                     {/* second section  */}
-                    <div className="w-full bg-[#FFFFFF] rounded-[4px] h-[364px] sm:h-[495px] md:h-[620px] xl:h-[542px] 2xl:h-[620px] flex gap-[20px]">
+                    <div className="w-full bg-[#FFFFFF] rounded-[4px]  max-h-[364px] sm:max-h-[495px] md:max-h-[620px] xl:max-h-[542px] 2xl:max-h-[620px] flex gap-[20px]">
                         <FileViewerContainer />
                     </div>
                 </div>

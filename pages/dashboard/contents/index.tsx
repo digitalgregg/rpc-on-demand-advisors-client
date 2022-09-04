@@ -11,6 +11,10 @@ import FileUploadModal, {
 import NewCollectionModal from "../../../components/modal/NewCollection";
 import Pagination from "../../../components/Shared/Pagination";
 import { useWindowDimensions } from "../../../components/Shared/DimentionHook/index";
+import { useAtom } from "jotai";
+import { team_state } from "../../../state/index";
+import { createContent, CreateContentType } from "../../../api-call/ContentApi";
+
 const options = [
     { value: "Newest", label: "Newest" },
     { value: "Oldest", label: "Oldest" },
@@ -41,13 +45,17 @@ const customStyles = {
     }),
 };
 function Contents() {
+    const [teamData] = useAtom(team_state);
+
     const [itemCount, setItemCount] = useState();
     const handleChange = (e: any) => {
         // setItemCount(e);
     };
+
     const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
     const [collectionModal, setCollectionModal] = useState(false);
     const handleCollection = () => {
+        console.log(teamData);
         setCollectionModal(!collectionModal);
     };
 
@@ -66,6 +74,28 @@ function Contents() {
         } else {
             return 16;
         }
+    }
+
+    function handleUploadFinished(v: any) {
+        Array.isArray(v) &&
+            v.forEach((val) => {
+                const { size, key, location, mimetype, originalname } =
+                    val.response.body;
+                const contentData: CreateContentType = {
+                    team_id: teamData.id,
+                    user_id: teamData.user_id,
+                    thumbnail: location,
+                    title: originalname,
+                    additional_info: {
+                        file_type: mimetype,
+                        file_name: originalname,
+                        file_size: size.toString(),
+                    },
+                    file_url: location,
+                    aws_key: key,
+                };
+                createContent(contentData);
+            });
     }
 
     return (
@@ -155,7 +185,7 @@ function Contents() {
                 </div>
                 <div className="pt-[50px]"></div>
             </DashboardLayout>
-            <FileUploadModal />
+            <FileUploadModal onUploadFinished={handleUploadFinished} />
             <NewCollectionModal
                 isOpen={collectionModal}
                 handleClose={handleCollection}
