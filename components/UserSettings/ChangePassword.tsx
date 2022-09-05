@@ -1,20 +1,26 @@
 import React, { useState } from "react";
-import { useField, Formik, Form, FieldHookConfig, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import InputField from "../Shared/InputField";
+import api from "./../../api/index";
+import { getLocal } from "./../../utils/localStorage";
+import { toast } from "react-toastify";
 
 const ChangePassword = () => {
+  const user = getLocal("user");
+  const [error, setError] = useState("");
   const [isHiddenOldPassword, setIsHiddenOldPassword] = useState(true);
   const [isHiddenNewPassword, setIsHiddenNewPassword] = useState(true);
   const inputStyle = " border border-[#676767] text-normal text-[14px]";
   const labelStyle = "font-normal text-[16px] leading-[22px]";
+
   const changePasswordInfo = {
     old_password: "",
     new_password: "",
   };
   const changePasswordInfoSchema = Yup.object({
-    old_password: Yup.string().min(8).required("Password is required"),
-    new_password: Yup.string().min(8).required("Password is required"),
+    old_password: Yup.string().required("Password is required"),
+    new_password: Yup.string().required("Password is required"),
   });
   return (
     <div className="bg-[#FFFFFF] p-[20px]">
@@ -24,7 +30,22 @@ const ChangePassword = () => {
       <Formik
         initialValues={changePasswordInfo}
         validationSchema={changePasswordInfoSchema}
-        onSubmit={(value) => console.log(value)}
+        onSubmit={(values) => {
+          setError("")
+          api
+            .put(
+              `https://oda-center.herokuapp.com/api/user/change-password/${user._id}`,
+              values
+            )
+            .then((res) => {
+              if (res.status === 200) {
+                toast.success(res.data.message);
+              }
+            })
+            .catch((err) => {
+              setError(err?.response.data.message);
+            });
+        }}
       >
         {() => (
           <Form>
@@ -48,7 +69,7 @@ const ChangePassword = () => {
                         isHiddenOldPassword ? "invisible.svg" : "visible.svg"
                       }`}
                       alt="icon"
-                      className="absolute top-[14px] right-[10px]"
+                      className="absolute top-[14px] right-[10px] cursor-pointer"
                     />
                   );
                 }}
@@ -72,15 +93,20 @@ const ChangePassword = () => {
                         isHiddenNewPassword ? "invisible.svg" : "visible.svg"
                       }`}
                       alt="icon"
-                      className="absolute top-[14px] right-[10px]"
+                      className="absolute top-[14px] right-[10px] cursor-pointer"
                     />
                   );
                 }}
               />
-              <button className="xs:w-[100%] hover:bg-primary transition duration-700 ease-in-out hover:text-[#FFFFFF] sm:w-[240px] md:w-[279px] lg:w-[144px] xl:w-[144px] 2xl:w-[187px] 3xl:w-[278.06px] 4xl:w-[278.06px] h-[45px] border border-primary rounded-[4px] font-semibold text-[14px] leading-[19px] text-primary">
-                Update password
-              </button>
             </div>
+            {error && (
+              <h3 className="font-normal text-[14px] leading-[19px] text-primary mt-[10px]">
+                {error}
+              </h3>
+            )}
+            <button type="submit" className="xs:w-[100%] hover:bg-primary transition duration-700 ease-in-out mt-[20px] hover:text-[#FFFFFF] sm:w-[240px] md:w-[279px] lg:w-[144px] xl:w-[144px] 2xl:w-[187px] 3xl:w-[278.06px] 4xl:w-[278.06px] h-[45px] border border-primary rounded-[4px] font-semibold text-[14px] leading-[19px] text-primary">
+              Update password
+            </button>
           </Form>
         )}
       </Formik>
