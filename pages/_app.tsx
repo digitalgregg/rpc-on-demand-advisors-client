@@ -13,27 +13,30 @@ import ProtectedRoute from "./../components/ProtectedRoute/index";
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return (
-    <>
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      <Script src="/uppy/uppy.min.js" strategy="beforeInteractive"></Script>
-      <QueryClientProvider client={queryClient}>
-        <ProtectedRoute>
-          <Component {...pageProps} />
-        </ProtectedRoute>
-      </QueryClientProvider>
-    </>
-  );
+    return (
+        <>
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
+            <Script
+                src="/uppy/uppy.min.js"
+                strategy="beforeInteractive"
+            ></Script>
+            <QueryClientProvider client={queryClient}>
+                <ProtectedRoute>
+                    <Component {...pageProps} />
+                </ProtectedRoute>
+            </QueryClientProvider>
+        </>
+    );
 }
 
 export default MyApp;
