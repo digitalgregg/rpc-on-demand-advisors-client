@@ -1,84 +1,148 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import InputField from "../Shared/InputField";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import api from "../../api";
+import { getLocal, setLocal } from "./../../utils/localStorage";
+import { toast } from "react-toastify";
+import LodingAnimation from "./../Shared/LodingAnimation/index";
 
 const AccountInfo = () => {
-  const inputStyle = "w-[100%] border border-[#676767] text-normal text-[14px]";
-  const labelStyle = "font-normal text-[16px] leading-[22px]";
+  const [error, setError] = useState("");
+  const user = getLocal("user");
+  const team = getLocal("team");
+  const [buttonLoading, setButtonLoading] = useState(false);
+  const inputStyle =
+    "w-[100%] h-[48px] bg-[#fff] border border-[#E0E0E0] text-normal text-[14px] text-[#6D6D6D] rounded-[4px] px-[20px] py-[18px] mt-[12px]";
+  const labelStyle = "font-normal text-[16px] leading-[22px] text-[#000000]";
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
 
-  const accountInfo = {
-    name: "",
-    companyName: "",
-    team_name: "",
-    account_type: "",
+  const onSubmit = async (data: any) => {
+    setButtonLoading(true);
+    setError("");
+    try {
+      const userData = { name: data.name, companyName: data.companyName };
+      const updateUserInfo = await api.put(`/api/user/${user._id}`, userData);
+
+      user.name = data.name;
+      user.companyName = data.companyName;
+      setLocal("user", user);
+
+      const teamData = { team_name: data.team_name };
+      const updateTeamInfo = await api.put(`/api/team/${team.id}`, teamData);
+
+      team.team_name = data.team_name;
+      setLocal("team", team);
+      toast.success("User updated successfully");
+      setButtonLoading(false);
+    } catch (err: any) {
+      setError(err?.response?.data?.message);
+      setButtonLoading(false);
+    }
   };
-  const accountInfoSchema = Yup.object({
-    name: Yup.string(),
-    companyName: Yup.string(),
-    team_name: Yup.string(),
-    account_type: Yup.string(),
-  });
   return (
     <div className="w-[100%] bg-[#FFFFFF] p-[20px] mb-[30px]">
       <h3 className="font-semibold text-[18px] leading-[25px] text-[#000805] mb-[15px]">
         Account Info
       </h3>
-      <Formik
-        initialValues={accountInfo}
-        validationSchema={accountInfoSchema}
-        onSubmit={(values) => console.log(values)}
-      >
-        {() => (
-          <Form>
-            <div className="grid xs:grid-cols-1 lg:grid-cols-2 gap-[15px]">
-              <InputField
-                name="name"
-                placeholder="Enter your name"
-                type="text"
-                label="Profile name"
-                inputClass={inputStyle}
-                height="48px"
-                labelClass={labelStyle}
-                required
-              />
-              <InputField
-                name="companyName"
-                placeholder="Company Name"
-                type="text"
-                label="Company name"
-                inputClass={inputStyle}
-                height="48px"
-                labelClass={labelStyle}
-                required
-              />
-              <InputField
-                name="team_name"
-                placeholder="Team name"
-                type="text"
-                label="Team name"
-                height="48px"
-                inputClass={inputStyle}
-                labelClass={labelStyle}
-                required
-              />
-              <InputField
-                name="account_type"
-                placeholder="Account type"
-                inputClass={inputStyle}
-                height="48px"
-                labelClass={labelStyle}
-                type="text"
-                label="Account type (not editable)"
-                required
-              />
-            </div>
-            <button type="submit" className="xs:w-[100%] mt-[20px] hover:bg-primary transition duration-700 ease-in-out hover:text-[#FFFFFF] sm:w-[207px] h-[45px] border border-primary rounded font-semibold text-[14px] leading-[19px] text-primary">
-              Update Account Info
-            </button>
-          </Form>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="grid xs:grid-cols-1 lg:grid-cols-2 gap-[15px]">
+          <div>
+            <label className={labelStyle} htmlFor="name">
+              Profile name
+            </label>
+            <input
+              {...register("name", { required: true })}
+              className={inputStyle}
+              defaultValue={user?.name}
+              placeholder="Enter your name"
+              style={{
+                boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
+              }}
+            />
+            <br />
+            {errors.name && (
+              <h3 className="text-primary mb-[10px] text-[12px]">
+                Profile name is required
+              </h3>
+            )}
+          </div>
+          <div>
+            <label className={labelStyle} htmlFor="companyName">
+              Company name
+            </label>
+            <input
+              {...register("companyName", { required: true })}
+              className={inputStyle}
+              placeholder="Company Name"
+              defaultValue={user?.companyName}
+              style={{
+                boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
+              }}
+            />
+            <br />
+            {errors.companyName && (
+              <h3 className="text-primary mb-[10px] text-[12px]">
+                Company name is required
+              </h3>
+            )}
+          </div>
+          <div>
+            <label className={labelStyle} htmlFor="team_name">
+              Team name
+            </label>
+            <input
+              {...register("team_name", { required: true })}
+              className={inputStyle}
+              defaultValue={team?.team_name}
+              placeholder="Team name"
+              style={{
+                boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
+              }}
+            />
+            <br />
+            {errors.team_name && (
+              <h3 className="text-primary mb-[10px] text-[12px]">
+                Team name is required
+              </h3>
+            )}
+          </div>
+          <div>
+            <label className={labelStyle} htmlFor="role">
+              Account type (not editable)
+            </label>
+            <input
+              {...register("role", { required: true })}
+              className={inputStyle}
+              value={team?.role}
+              placeholder="Account type"
+              style={{
+                boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
+              }}
+            />
+          </div>
+        </div>
+        {error && (
+          <h3 className="text-primary text-[12px] mt-[10px]">{error}</h3>
         )}
-      </Formik>
+        <button
+          type="submit"
+          className="xs:w-[100%] mt-[20px] hover:bg-primary transition duration-700 ease-in-out hover:text-[#FFFFFF] sm:w-[207px] h-[45px] border border-primary rounded font-semibold text-[14px] leading-[19px] text-primary"
+        >
+          {buttonLoading ? (
+            <span className="flex items-center gap-[10px] justify-center">
+              <div>
+                <LodingAnimation color="red" />
+              </div>
+              <div>Loading...</div>
+            </span>
+          ) : (
+            "Update Account Info"
+          )}
+        </button>
+      </form>
     </div>
   );
 };

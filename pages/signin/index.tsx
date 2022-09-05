@@ -103,6 +103,7 @@ const Signin = () => {
             id: result.team_id._id,
             user_id: result.user_id._id,
             team_name: result.team_id.team_name,
+            role: result.role,
         };
     }
 
