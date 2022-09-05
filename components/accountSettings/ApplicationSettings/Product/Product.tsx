@@ -15,7 +15,8 @@ const Product = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [toggle, setToggle] = useState(false);
     const [iconColor, setIconColor] = useState(false);
-    const [getData, setGetData] = useState([]);
+    const teamId = getLocal("team");
+
     const onOver = (e: any) => {
         if (e) setIconColor(true);
     };
@@ -31,8 +32,6 @@ const Product = () => {
     }
     const handleToggle = () => setToggle(!toggle);
 
-    const localSt = getLocal("product-toggle");
-    // console.log(localSt, "local storage")
 
     useEffect(() => {
         setLocal("product-toggle", toggle);
@@ -41,28 +40,21 @@ const Product = () => {
     const { data, isLoading } = useQuery(["product-item-get"], () =>
         api
             .get(
-                `https://oda-center.herokuapp.com/api/application-settings?team_id=63139b667182ce79d673f933`
+                `https://oda-center.herokuapp.com/api/application-settings?team_id=${teamId.id}`
             )
             .then((res) => {
                 const regionData = res?.data;
-                const filterData = regionData.filter((e: any) => {
-                    e.type === "product";
-                });
+                const filterData = regionData.filter(
+                    (e: any) => e.type === "product"
+                )[0];
+
                 return filterData;
             })
             .catch((res) => {
                 toast.error(res.message);
             })
     );
-    // console.log(data);
-    // .then((res)=>{
-    //     const datas = res.data.data;
-    //     const filterData = datas.rData.filter((a: any) => a._id === apId)
-    // })
-    useEffect(() => {
-        const ProductData = data?.data;
-        ProductData?.map((v: any) => setGetData(v.settingsItems));
-    }, [data]);
+    
 
     return (
         <>
@@ -70,6 +62,9 @@ const Product = () => {
                 HTitle="Funnel Stage"
                 closeModal={closeModal}
                 modalIsOpen={modalIsOpen}
+                modalCloseFuncton={setIsOpen}
+                teamId={teamId?.id}
+                type={data?.type}
             />
             <div className="h-fit max-w-[770px] md:w-[770px] rounded-lg bg-White overflow-hidden">
                 <div className="px-5 py-5 md:px-10">
@@ -94,7 +89,7 @@ const Product = () => {
                         <LodingAnimation />
                     ) : (
                         <Pagination
-                            dataArr={getData}
+                            dataArr={data.settingsItems}
                             itemsPerPage={5}
                             className=" !justify-start"
                         >

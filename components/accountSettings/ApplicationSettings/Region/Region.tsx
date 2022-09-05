@@ -5,7 +5,7 @@ import Plus from "../../../CustomIcons/PlusIcon";
 import ToggleButton from "../../../Shared/ToggleButton";
 import Pagination from "../../../Shared/Pagination";
 import { applicationsettingsFakeData } from "../../../fake";
-import { setLocal } from "../../../../utils/localStorage";
+import { getLocal, setLocal } from "../../../../utils/localStorage";
 import { useQuery } from "react-query";
 import api from "../../../../api";
 import LodingAnimation from "../../../Shared/LodingAnimation";
@@ -15,7 +15,7 @@ const Region = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [toggle, setToggle] = useState(false);
     const [iconColor, setIconColor] = useState(false);
-    const [getData, setGetData] = useState([]);
+    const teamId = getLocal("team");
     const onOver = (e: any) => {
         if (e) setIconColor(true);
     };
@@ -34,16 +34,17 @@ const Region = () => {
         setLocal("region-toggle", toggle);
     }, [toggle, setToggle]);
 
-    const { data, isLoading, error } = useQuery(["Industry-item-get"], () =>
+    const { data, isLoading } = useQuery(["region-item-get"], () =>
         api
             .get(
-                `https://oda-center.herokuapp.com/api/application-settings?team_id=63139b667182ce79d673f933`
+                `https://oda-center.herokuapp.com/api/application-settings?team_id=${teamId.id}`
             )
             .then((res) => {
                 const regionData = res?.data;
-                const filterData = regionData.filter((e: any) => {
-                    e.type === "region";
-                });
+                const filterData = regionData.filter(
+                    (e: any) => e.type === "region"
+                )[0];
+
                 return filterData;
             })
             .catch((res) => {
@@ -51,18 +52,15 @@ const Region = () => {
             })
     );
 
-    // console.log(getData,'..........data')
-
-    useEffect(() => {
-        const IndustryData = data?.data;
-        IndustryData?.map((v: any) => setGetData(v.settingsItems));
-    }, [data]);
     return (
         <>
             <Modals
                 HTitle="Funnel Stage"
                 closeModal={closeModal}
                 modalIsOpen={modalIsOpen}
+                modalCloseFuncton={setIsOpen}
+                teamId={teamId?.id}
+                type={data?.type}
             />
             <div className="h-fit max-w-[770px] md:w-[770px] rounded-lg bg-White overflow-hidden">
                 <div className=" px-5 md:px-10 py-5 ">
@@ -87,13 +85,13 @@ const Region = () => {
                         <LodingAnimation />
                     ) : (
                         <Pagination
-                            dataArr={getData}
+                            dataArr={data.settingsItems}
                             itemsPerPage={5}
                             className=" !justify-start"
                         >
                             {(currentItems) => (
                                 <>
-                                    {getData === undefined ? (
+                                    {data.settingsItems === undefined ? (
                                         <>
                                             <p>you have no data</p>
                                         </>
@@ -103,8 +101,8 @@ const Region = () => {
                                                 ({ title, _id }: any, i) => (
                                                     <ItemCard
                                                         name={title}
-                                                        id={i}
                                                         key={_id}
+                                                        id={_id}
                                                     />
                                                 )
                                             )}

@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import FunnelStage from "./../FunnelStage/index";
 import ContentTypeStage from "./../ContentTypeStage/index";
 import TagBadges from "./../CustomIcons/TagBadges";
 import TagsSelect from "./../TagsSelect/index";
 import GlobalSelect from "./../GlobalSelect/index";
+import ApplicationSettingsGlobalSelect from "../Shared/ApplicationSettingsGlobalSelect";
+import ApplicationSettingsGlobalSelectTags from "../Shared/ApplicationSettingsGlobalSelectTags";
 import {
     customFilterBoxStyles,
     options,
@@ -12,11 +14,13 @@ import {
 import { fakeTagData } from "../fake";
 import { tagCustomStyle } from "./../../utils/reactSelectCustomSyle";
 import { getLocal } from "./../../utils/localStorage";
+import api from "../../api";
 
 const FilterBox = () => {
+    const [apiData, setApiData] = useState<any>([]);
     const labelClass = "text-[16px] text-[#101010] font-semibold";
     const label = "text-[16px] font-semibold text-[#000805]";
-
+    const teamId = getLocal("team");
     const nandleOnChange = (e: any) => {
         console.log(e);
     };
@@ -35,110 +39,109 @@ const FilterBox = () => {
     const industryToggle = getLocal("industry-toggle");
     const regionToggle = getLocal("region-toggle");
 
+    useEffect(() => {
+        api.get(
+            `https://oda-center.herokuapp.com/api/application-settings?team_id=${teamId.id}`
+        ).then((res) => {
+            setApiData(res?.data);
+        });
+    }, [teamId.id]);
+
+    
+
     return (
         <>
-            {/* FUNNEL STAGE SELECT  */}
-            <GlobalSelect
-                selectClassName="text-[14px]  text-[#676767] mt-[10px]"
-                name="filter funnelStgage"
-                isMulti={true}
-                options={options}
-                labelStyles={labelClass}
-                isLabel={true}
-                customStyles={customStyles}
-                labelName="Select Funnel Stages"
-                handleOnChange={handleFunnelChange}
-                placeholder="Select Funnel Stages"
-                optionHoverColor="#E519371A"
-            />
-
-            {/* CONTENT TYPE STAGE  */}
-
-            <div className="mt-[30px]">
-                <GlobalSelect
-                    selectClassName="text-[14px]  text-[#676767] mt-[10px]"
-                    name="filter content Stgage"
-                    isMulti={true}
-                    options={options}
-                    labelStyles={labelClass}
-                    isLabel={true}
-                    customStyles={customStyles}
-                    labelName="Content Type Stages"
-                    handleOnChange={handleContentChange}
-                    placeholder="Select Content Stages"
-                    optionHoverColor="#E519371A"
-                />
-            </div>
-
-            {/* PRODUCT TYPE STAGE  */}
-            {productToggle === true && (
-                <div className="mt-[30px]">
-                    <GlobalSelect
-                        selectClassName="text-[14px]  text-[#676767] mt-[10px]"
-                        name="product type Stgage"
-                        isMulti={true}
-                        options={options}
-                        labelStyles={labelClass}
-                        isLabel={true}
-                        customStyles={customStyles}
-                        labelName="Product Type Stages"
-                        handleOnChange={handleProducttChange}
-                        placeholder="Select Product Stages"
-                        optionHoverColor="#E519371A"
-                    />
-                </div>
-            )}
-            {/* INDUSTRY TYPE STAGE  */}
-            {industryToggle === true && (
-                <div className="mt-[30px]">
-                    <GlobalSelect
-                        selectClassName="text-[14px]  text-[#676767] mt-[10px]"
-                        name="industry type Stgage"
-                        isMulti={true}
-                        options={options}
-                        labelStyles={labelClass}
-                        isLabel={true}
-                        customStyles={customStyles}
-                        labelName="Industry Type Stages"
-                        handleOnChange={handleProducttChange}
-                        placeholder="Select Industry Stages"
-                        optionHoverColor="#E519371A"
-                    />
-                </div>
-            )}
-            {/* REGION TYPE STAGE  */}
-            {regionToggle === true && (
-                <div className="mt-[30px]">
-                    <GlobalSelect
-                        selectClassName="text-[14px]  text-[#676767] mt-[10px]"
-                        name="region type Stgage"
-                        isMulti={true}
-                        options={options}
-                        labelStyles={labelClass}
-                        isLabel={true}
-                        customStyles={customStyles}
-                        labelName="Region Type Stages"
-                        handleOnChange={handleProducttChange}
-                        placeholder="Select Region Stages"
-                        optionHoverColor="#E519371A"
-                    />
-                </div>
-            )}
-            {/* TAG TYPE STATE  */}
-            {tagToggle === true && (
-                <TagsSelect
-                    name="filter tag"
+            <div className=" flex flex-col gap-[10px]">
+                {/* FUNNEL STAGE SELECT  */}
+                <ApplicationSettingsGlobalSelect
+                    name="funnel type Stgage"
                     onChangeFuction={nandleOnChange}
                     customStyles={tagCustomStyle}
-                    mapData={fakeTagData}
+                    typeFilter="funnel"
+                    mapData={apiData}
                     isLabel={true}
                     labelClass={label}
-                    label="Tags"
-                    labelContainer="mb-[10px] mt-[30px]"
-                    selectclass="mb-[30px]"
+                    label="Funnel Type Stages"
+                    labelContainer=" mt-[20px]"
+                    selectclass="mb-0"
                 />
-            )}
 
+                {/* CONTENT TYPE STAGE  */}
+
+                <ApplicationSettingsGlobalSelect
+                    name="content type Stgage"
+                    onChangeFuction={nandleOnChange}
+                    customStyles={tagCustomStyle}
+                    typeFilter="content"
+                    mapData={apiData}
+                    isLabel={true}
+                    labelClass={label}
+                    label="Content Type Stages"
+                    labelContainer=" mt-[20px]"
+                    selectclass="mb-0"
+                />
+
+                {/* PRODUCT TYPE STAGE  */}
+                {productToggle === true && (
+                    <ApplicationSettingsGlobalSelect
+                        name="product type Stgage"
+                        onChangeFuction={nandleOnChange}
+                        customStyles={tagCustomStyle}
+                        mapData={apiData}
+                        typeFilter="product"
+                        isLabel={true}
+                        labelClass={label}
+                        label="Product Type Stages"
+                        labelContainer=" mt-[20px]"
+                        selectclass="mb-0"
+                    />
+                )}
+                {/* INDUSTRY TYPE STAGE  */}
+                {industryToggle === true && (
+                    <ApplicationSettingsGlobalSelect
+                        name="industry type Stgage"
+                        onChangeFuction={nandleOnChange}
+                        customStyles={tagCustomStyle}
+                        typeFilter="industry"
+                        mapData={apiData}
+                        isLabel={true}
+                        labelClass={label}
+                        label="Industry Type Stages"
+                        labelContainer=" mt-[20px]"
+                        selectclass="mb-0"
+                    />
+                )}
+                {/* REGION TYPE STAGE  */}
+                {regionToggle === true && (
+                    <ApplicationSettingsGlobalSelect
+                        name="region type Stgage"
+                        onChangeFuction={nandleOnChange}
+                        customStyles={tagCustomStyle}
+                        typeFilter="region"
+                        mapData={apiData}
+                        isLabel={true}
+                        labelClass={label}
+                        label="Region Type Stages"
+                        labelContainer=" mt-[20px]"
+                        selectclass="mb-0"
+                    />
+                )}
+                {/* TAG TYPE STATE filter tag */}
+                {tagToggle === true && (
+                    <ApplicationSettingsGlobalSelectTags
+                        name="filter tags"
+                        onChangeFuction={nandleOnChange}
+                        customStyles={tagCustomStyle}
+                        typeFilter="tags"
+                        mapData={apiData}
+                        isLabel={true}
+                        labelClass={label}
+                        label="Tags Type Stages"
+                        labelContainer="mt-[20px]"
+                        selectclass="mb-0"
+                    />
+                )}
+            </div>
             <div className="flex flex-col gap-4 md:gap-0  md:flex-row justify-between mt-[38px] items-center">
                 <div>
                     <h3 className="text-[16px] cursor-pointer underline  decoration-1 leading-[21.79px] font-semibold text-[#101010]  ">

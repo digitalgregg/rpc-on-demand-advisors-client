@@ -4,27 +4,40 @@ import { Formik, Form } from "formik";
 import InputField from "../../Shared/InputField";
 import TextAreaField from "../../Shared/TextAreaField";
 import * as Yup from "yup";
+import api from "../../../api";
+import { toast } from "react-toastify";
 
 const validationSchema = Yup.object().shape({
-    title: Yup.string().email().required("title is required."),
+    title: Yup.string().required("title is required."),
     description: Yup.string(),
-    order: Yup.string(),
+    index: Yup.number(),
     type: Yup.string(),
+    team_id: Yup.string(),
 });
 
 interface MyFormValues {
+    team_id: string;
     title: string;
     description: string;
-    order: number;
+    index: number;
     type: string;
 }
-const initialValues: MyFormValues = {
-    title: "",
-    description: "",
-    order: 0,
-    type: "industry",
-};
-export const Modals = ({ modalIsOpen, closeModal, HTitle }: any) => {
+
+export const Modals = ({
+    modalIsOpen,
+    closeModal,
+    HTitle,
+    modalCloseFuncton,
+    type,
+    teamId,
+}: any) => {
+    const initialValues: MyFormValues = {
+        team_id: teamId,
+        title: "",
+        description: "",
+        index: 0,
+        type: type,
+    };
     return (
         <CustomModal
             isOpen={modalIsOpen}
@@ -34,15 +47,22 @@ export const Modals = ({ modalIsOpen, closeModal, HTitle }: any) => {
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
-                onSubmit={(valus) => console.log(valus)}
+                onSubmit={(valus) => {
+                    api.post(
+                        "https://oda-center.herokuapp.com/api/application-settings",
+                        valus
+                    )
+                        .then((res) => {
+                            toast.success(res.data.message);
+                            modalCloseFuncton(false);
+                        })
+                        .catch((res) => {
+                            toast.error(res.message);
+                        });
+                }}
             >
-                {({ handleSubmit, isSubmitting, setFieldValue }) => (
-                    <form
-                        onSubmit={(e) => {
-                            e.preventDefault();
-                            handleSubmit();
-                        }}
-                    >
+                {() => (
+                    <Form>
                         <div className="bg-white_secondary p-5 rounded-lg flex flex-col gap-[10px]">
                             <div className=" flex flex-row w-full gap-[12px]">
                                 <div className="w-[537px]  flex flex-col gap-[10px]">
@@ -62,8 +82,8 @@ export const Modals = ({ modalIsOpen, closeModal, HTitle }: any) => {
                                     </span>
                                     <InputField
                                         inputClass=" !h-[44px] !text-[14px] !font-normal !leading-[19px] !text-[#676767]"
-                                        name="order"
-                                        type="text"
+                                        name="index"
+                                        type="number"
                                         placeholder="Stage"
                                     />
                                 </div>
@@ -96,7 +116,7 @@ export const Modals = ({ modalIsOpen, closeModal, HTitle }: any) => {
                                 </motion.button>
                             </div>
                         </div>
-                    </form>
+                    </Form>
                 )}
             </Formik>
         </CustomModal>

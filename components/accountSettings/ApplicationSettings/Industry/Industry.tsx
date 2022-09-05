@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import ItemCard from "../ItemCard/ItemCard";
-import { Modals } from "../../../modal/ApplicationSettingIndustryItemAdd";
+import { Modals } from "../../../modal/ApplicationSettingAddItem";
 import Plus from "../../../CustomIcons/PlusIcon";
 import ToggleButton from "../../../Shared/ToggleButton";
 import Pagination from "../../../Shared/Pagination";
 import { applicationsettingsFakeData } from "../../../fake";
-import { setLocal } from "../../../../utils/localStorage";
+import { getLocal, setLocal } from "../../../../utils/localStorage";
 import { useQuery } from "react-query";
 import api from "../../../../api";
 import LodingAnimation from "./../../../Shared/LodingAnimation/index";
@@ -14,7 +14,7 @@ const Industry = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [toggle, setToggle] = useState(false);
     const [iconColor, setIconColor] = useState(false);
-    const [getData, setGetData] = useState<any[]>([]);
+    const teamId = getLocal("team");
     const onOver = (e: any) => {
         if (e) setIconColor(true);
     };
@@ -34,28 +34,23 @@ const Industry = () => {
         setLocal("industry-toggle", toggle);
     }, [toggle, setToggle]);
 
-    const { data, isLoading } = useQuery(["Industry-item-get"], () =>
+    const { data, isLoading } = useQuery(["industry-item-get"], () =>
         api
             .get(
-                `https://oda-center.herokuapp.com/api/application-settings?team_id=63136b121fa3f86a336b6325`
+                `https://oda-center.herokuapp.com/api/application-settings?team_id=${teamId.id}`
             )
             .then((res) => {
-                const industryData = res?.data;
-                console.log(industryData, "......industryData");
-                const filterData = industryData.filter((e: any) => {
-                    e.type === "industry";
-                });
+                const regionData = res?.data;
+                const filterData = regionData.filter(
+                    (e: any) => e.type === "industry"
+                )[0];
+
                 return filterData;
             })
             .catch((res) => {
                 toast.error(res.message);
             })
     );
-    // console.log(data,'......industryData')
-    useEffect(() => {
-        const IndustryData = data?.data;
-        IndustryData?.map((v: any) => setGetData([v.settingsItems,...v.settingsItems]));
-    }, [data]);
 
     return (
         <>
@@ -64,6 +59,8 @@ const Industry = () => {
                 HTitle="Industry"
                 closeModal={closeModal}
                 isOpen={isOpen}
+                teamId={teamId?.id}
+                type={data?.type}
             />
             <div className="h-fit max-w-[770px] md:w-[770px] rounded-lg bg-White overflow-hidden">
                 <div className=" px-5 md:px-10 py-5 ">
@@ -88,7 +85,7 @@ const Industry = () => {
                         <LodingAnimation />
                     ) : (
                         <Pagination
-                            dataArr={getData}
+                            dataArr={data.settingsItems}
                             itemsPerPage={5}
                             className=" !justify-start"
                         >
@@ -99,8 +96,8 @@ const Industry = () => {
                                             ({ title, _id }: any) => (
                                                 <ItemCard
                                                     name={title}
-                                                    id={_id}
                                                     key={_id}
+                                                    id={_id}
                                                 />
                                             )
                                         )}

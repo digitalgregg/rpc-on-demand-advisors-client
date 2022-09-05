@@ -8,11 +8,12 @@ import { useQuery } from "react-query";
 import api from "../../../../api";
 import LodingAnimation from "../../../Shared/LodingAnimation";
 import { toast } from "react-toastify";
+import { getLocal } from "../../../../utils/localStorage";
 
 const ContentTypes = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [iconColor, setIconColor] = useState(false);
-    const [getData, setGetData] = useState([]);
+    const teamId = getLocal("team");
     const onOver = (e: any) => {
         if (e) setIconColor(true);
     };
@@ -26,16 +27,18 @@ const ContentTypes = () => {
     function closeModal() {
         setIsOpen(false);
     }
-    const { data, isLoading } = useQuery(["Industry-item-get"], () =>
+    // Aa4321$2
+    const { data, isLoading } = useQuery(["content-item-get"], () =>
         api
             .get(
-                `https://oda-center.herokuapp.com/api/application-settings?type=region`
+                `https://oda-center.herokuapp.com/api/application-settings?team_id=${teamId.id}`
             )
             .then((res) => {
                 const regionData = res?.data;
-                const filterData = regionData.filter((e: any) => {
-                    e.type === "content";
-                });
+                const filterData = regionData.filter(
+                    (e: any) => e.type === "content"
+                )[0];
+
                 return filterData;
             })
             .catch((res) => {
@@ -43,17 +46,15 @@ const ContentTypes = () => {
             })
     );
 
-    useEffect(() => {
-        const IndustryData = data?.data;
-        IndustryData?.map((v: any) => setGetData(v.settingsItems));
-    }, [data]);
-
     return (
         <>
             <Modals
                 HTitle="Funnel Stage"
                 closeModal={closeModal}
                 modalIsOpen={modalIsOpen}
+                modalCloseFuncton={setIsOpen}
+                teamId={teamId?.id}
+                type={data?.type}
             />
             <div className="h-fit max-w-[770px] md:w-[770px] rounded-lg bg-White overflow-hidden">
                 <div className=" px-5 py-[10px] bg-black">
@@ -66,24 +67,31 @@ const ContentTypes = () => {
                         <LodingAnimation />
                     ) : (
                         <Pagination
-                            dataArr={getData}
-                            itemsPerPage={6}
+                            dataArr={data.settingsItems}
+                            itemsPerPage={5}
                             className=" !justify-start"
                         >
                             {(currentItems) => (
                                 <>
-                                    <div className=" flex flex-col gap-[16px]">
-                                        {currentItems.map(
-                                            ({ name, id }: any, i) => (
-                                                <ItemCard
-                                                    name={name}
-                                                    order={id}
-                                                    key={i}
-                                                    orderShow
-                                                />
-                                            )
-                                        )}
-                                    </div>
+                                    {data.settingsItems === undefined ? (
+                                        <>
+                                            <p>you have no data</p>
+                                        </>
+                                    ) : (
+                                        <div className=" flex flex-col gap-[16px]">
+                                            {currentItems.map(
+                                                ({ title, _id }: any, id) => (
+                                                    <ItemCard
+                                                        name={title}
+                                                        index={id}
+                                                        id={_id}
+                                                        key={_id}
+                                                        orderShow
+                                                    />
+                                                )
+                                            )}
+                                        </div>
+                                    )}
                                     <div
                                         onClick={openModal}
                                         onMouseOver={onOver}
