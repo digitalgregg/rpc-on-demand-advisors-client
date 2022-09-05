@@ -4,20 +4,42 @@ import { Formik, Form } from "formik";
 import InputField from "../../Shared/InputField";
 import TextAreaField from "../../Shared/TextAreaField";
 import { useState } from "react";
+import * as Yup from "yup";
+import api from "../../../api";
+import { toast } from "react-toastify";
+
+const validationSchema = Yup.object().shape({
+    title: Yup.string().required("title is required."),
+    description: Yup.string(),
+    index: Yup.number(),
+    type: Yup.string(),
+    team_id: Yup.string(),
+});
 interface MyFormValues {
     title: string;
     description: string;
     color: string;
-    order: number;
+    index: number;
+    team_id: string;
+    type: string;
 }
-const initialValues: MyFormValues = {
-    title: "",
-    description: "",
-    order: 0,
-    color: "",
-};
-export const Modals = ({ modalIsOpen, closeModal, HTitle }: any) => {
+export const Modals = ({
+    modalIsOpen,
+    closeModal,
+    HTitle,
+    modalCloseFuncton,
+    type,
+    teamId,
+}: any) => {
     const [colorChange, setColorChange] = useState("#909090");
+    const initialValues: MyFormValues = {
+        team_id: teamId,
+        title: "",
+        index: 0,
+        description: "",
+        type: type,
+        color: "",
+    };
     return (
         <CustomModal
             isOpen={modalIsOpen}
@@ -26,8 +48,19 @@ export const Modals = ({ modalIsOpen, closeModal, HTitle }: any) => {
         >
             <Formik
                 initialValues={initialValues}
-                onSubmit={(valus: any) => {
-                    console.log(valus);
+                validationSchema={validationSchema}
+                onSubmit={(valus: MyFormValues) => {
+                    api.post(
+                        "https://oda-center.herokuapp.com/api/application-settings",
+                        valus
+                    )
+                        .then((res) => {
+                            toast.success(res.data.message);
+                            modalCloseFuncton(false);
+                        })
+                        .catch((res) => {
+                            toast.error(res.message);
+                        });
                 }}
             >
                 {() => (
@@ -51,19 +84,17 @@ export const Modals = ({ modalIsOpen, closeModal, HTitle }: any) => {
                                     </span>
                                     <InputField
                                         inputClass=" !h-[44px] !text-[14px] !font-normal !leading-[19px] !text-[#676767]"
-                                        name="order"
-                                        type="text"
+                                        name="index"
+                                        type="number"
                                         placeholder="Stage"
                                     />
                                 </div>
                                 <div className=" shadow !h-[44px] rounded overflow-hidden !p-0 !w-[153px] flex flex-row items-center gap-[10px] border border-solid border-[#DEDEDE] bg-White">
                                     <InputField
-                                        inputClass=" !w-[30px] !h-[42px] !p-0 !mt-[6px] !border-none !text-[14px] !font-normal !leading-[19px] !text-[#676767] input-color-rounded-[4px] input-color-padding rounded-[4px] !outline-none !border-none"
+                                        inputClass=" !w-[30px] !h-[42px] !p-0 !mt-[6px] !border-none !text-[14px] !font-normal !leading-[19px] !text-[#676767] input-color-rounded-[4px] input-color-padding rounded-[4px] !outline-none"
                                         name="color"
                                         type="color"
-                                        onChange={(val: any) =>
-                                            setColorChange(val.target.value)
-                                        }
+                                        onChange={(e: any) => setColorChange(e)}
                                         placeholder="Stage"
                                     />
                                     <span className=" capitalize text-sm font-normal leading-[19px] text-[#000805]">

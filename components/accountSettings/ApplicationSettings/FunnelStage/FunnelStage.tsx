@@ -7,11 +7,12 @@ import { useQuery } from "react-query";
 import api from "../../../../api";
 import LodingAnimation from "../../../Shared/LodingAnimation";
 import { toast } from "react-toastify";
+import { getLocal } from "../../../../utils/localStorage";
 
 const FunnelStage = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [iconColor, setIconColor] = useState(false);
-    const [getData, setGetData] = useState([]);
+    const teamId = getLocal("team");
     const onOver = (e: any) => {
         if (e) setIconColor(true);
     };
@@ -29,28 +30,22 @@ const FunnelStage = () => {
     const { data, isLoading } = useQuery(["funnel-item-get"], () =>
         api
             .get(
-                `https://oda-center.herokuapp.com/api/application-settings?team_id=63136b121fa3f86a336b6325`
+                `https://oda-center.herokuapp.com/api/application-settings?team_id=${teamId.id}`
             )
             .then((res) => {
                 const regionData = res?.data;
-                const filterData = regionData.filter((e: any) => {
-                    e.type === "funnel";
-                });
+                const filterData = regionData.filter(
+                    (e: any) => e.type === "funnel"
+                )[0];
+
                 return filterData;
             })
             .catch((res) => {
                 toast.error(res.message);
             })
     );
-    // console.log(getData);
-    // .then((res)=>{
-    //     const datas = res.data.data;
-    //     const filterData = datas.rData.filter((a: any) => a._id === apId)
-    // })
-    useEffect(() => {
-        const IndustryData = data?.data;
-        IndustryData?.map((v: any) => setGetData(v.settingsItems));
-    }, [data]);
+
+    // console.log(data)
 
     return (
         <>
@@ -58,6 +53,9 @@ const FunnelStage = () => {
                 HTitle="Funnel Stage"
                 closeModal={closeModal}
                 modalIsOpen={modalIsOpen}
+                modalCloseFuncton={setIsOpen}
+                teamId={teamId?.id}
+                type={data?.type}
             />
 
             <div className="h-fit max-w-[770px] md:w-[770px] rounded-lg bg-White overflow-hidden">
@@ -71,7 +69,7 @@ const FunnelStage = () => {
                         <LodingAnimation />
                     ) : (
                         <Pagination
-                            dataArr={getData}
+                            dataArr={data.settingsItems}
                             itemsPerPage={5}
                             className=" !justify-start"
                         >
@@ -79,13 +77,12 @@ const FunnelStage = () => {
                                 <>
                                     <div className=" flex flex-col gap-[16px]">
                                         {currentItems.map(
-                                            ({ title, _id, color }: any, i) => (
+                                            ({ title, _id }: any, i) => (
                                                 <ItemCard
                                                     name={title}
-                                                    color={color}
-                                                    id={_id}
                                                     orderShow
                                                     index={i}
+                                                    id={_id}
                                                     key={_id}
                                                 />
                                             )
