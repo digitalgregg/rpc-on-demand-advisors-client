@@ -17,4 +17,5 @@ export const team_state = atomWithStorage("team", {
     id: "",
     user_id: "",
     team_name: "",
+    role:""
 });
