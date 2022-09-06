@@ -18,19 +18,51 @@ export type CreateContentType = {
     aws_key: string;
 };
 
-export function createContent(contentData: CreateContentType) {
-    api.post(BASE_URL + "/api/content", contentData)
-        .then((res) => {
-            if (res.status === 200) {
-                toast.success("Content created successfully");
-            } else {
-                toast.error("Something went wrong!");
-            }
-        })
-        .catch((err) => {
-            console.log(err);
-            toast.error(err?.message);
-        });
+export async function getContent(id: string) {
+    const res = await fetch(`${BASE_URL}/api/content/${id}`);
+    return res.json();
+}
+
+export async function createContent(contentData: CreateContentType) {
+    try {
+        await api.post(BASE_URL + "/api/content", contentData);
+        toast.success("Content created successfully");
+    } catch (err: any) {
+        console.log(err);
+        toast.error(err?.response.data.message);
+    }
+}
+
+export async function deleteContent(content_id: string) {
+    try {
+        await api.delete(BASE_URL + "/api/content/" + content_id);
+    } catch (err: any) {
+        console.log(err);
+        toast.error(err?.response.data.message);
+    }
+}
+
+export async function likeFavoriteApi(
+    user_id: string,
+    content_id: string,
+    type: "likes" | "favorites",
+    isValue: boolean
+) {
+    try {
+        if (isValue) {
+            await api.delete("/api/content/pull/" + content_id, {
+                data: {
+                    [type]: user_id,
+                },
+            });
+        } else {
+            await api.put("/api/content/put/" + content_id, {
+                [type]: user_id,
+            });
+        }
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 export function responseToObject(
@@ -64,11 +96,44 @@ export async function fetchContents({
     user_id,
     team_id,
 }: ContentQueryType) {
-    const url = new URL("/", BASE_URL);
-    id && url.searchParams.append(id, id);
-    user_id && url.searchParams.append(user_id, user_id);
-    team_id && url.searchParams.append(team_id, team_id);
+    const url = new URL("/api/content", BASE_URL);
+    id && url.searchParams.append("_id", id);
+    user_id && url.searchParams.append("user_id", user_id);
+    team_id && url.searchParams.append("team_id", team_id);
 
     const res = await fetch(url);
     return res.json();
+}
+
+interface AdditionalInfo {
+    file_type: string;
+    file_name: string;
+    file_size: number;
+}
+
+export interface ContentDataType {
+    _id: string;
+    user_id: string;
+    team_id: string;
+    thumbnail: string;
+    title: string;
+    short_url: string;
+    asset_use: string;
+    positioning?: string;
+    description?: string;
+    funnel_stage?: string;
+    content_type?: string;
+    product?: string;
+    industry?: string;
+    region?: string;
+    tags: any[];
+    likes: any[];
+    favorites: any[];
+    sharingDetails: any[];
+    additional_info: AdditionalInfo;
+    file_url: string;
+    aws_key: string;
+    createdAt: Date;
+    updatedAt: Date;
+    __v: number;
 }

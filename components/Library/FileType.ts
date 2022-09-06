@@ -1,9 +1,9 @@
-function getExtension(filename: string) {
+export function getExtension(filename: string) {
     var parts = filename.split(".");
     return parts[parts.length - 1];
 }
 
-function isImage(filename: string) {
+export function isImage(filename: string) {
     var ext = getExtension(filename);
     switch (ext.toLowerCase()) {
         case "jpg":
@@ -11,7 +11,7 @@ function isImage(filename: string) {
         case "gif":
         case "bmp":
         case "png":
-        case "svg":
+            // case "svg":
             return true;
     }
     return false;

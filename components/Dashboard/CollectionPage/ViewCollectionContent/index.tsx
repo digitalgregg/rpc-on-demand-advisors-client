@@ -59,7 +59,7 @@ function ViewCollectionContent() {
                             like={0}
                             mapIndex={content}
                         /> */}
-                        <ContentViewCard />
+                        {/* <ContentViewCard /> */}
                     </div>
                 ))}
             </div>

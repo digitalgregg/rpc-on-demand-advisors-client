@@ -86,14 +86,19 @@ function Contents() {
         data: contentData,
         isLoading,
         error,
-    } = useQuery("fetch-contents", () =>
-        fetchContents({ team_id: teamData.id })
+        refetch,
+    } = useQuery(
+        "fetch-contents",
+        () => fetchContents({ team_id: teamData.id }),
+        {
+            select: (response) =>
+                Array.isArray(response) ? response.reverse() : response,
+        }
     );
 
-    console.log(contentData);
-
-    function handleSingleUpload(response: any) {
-        createContent(responseToObject(response, teamData));
+    async function handleSingleUpload(response: any) {
+        await createContent(responseToObject(response, teamData));
+        refetch();
     }
 
     return (
@@ -161,7 +166,7 @@ function Contents() {
                     {/* content cards  */}
                     <div className="">
                         <Pagination
-                            dataArr={[...Array(50)]}
+                            dataArr={contentData || []}
                             itemsPerPage={getItemsPerPage()}
                         >
                             {(currentItems) => (
@@ -172,7 +177,10 @@ function Contents() {
                                                 key={index}
                                                 className="relative w-[100%]"
                                             >
-                                                <ContentViewCard />
+                                                <ContentViewCard
+                                                    data={item}
+                                                    refetch={refetch}
+                                                />
                                             </div>
                                         )
                                     )}
