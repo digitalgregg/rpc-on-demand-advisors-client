@@ -1,10 +1,10 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import api from "../../api";
 import { toast } from "react-toastify";
 import { getLocal } from "../../utils/localStorage";
 import Link from "next/link";
+import api from "../../api";
 
 const items = [
   {
@@ -51,7 +51,7 @@ const ChangePassword = () => {
     setError("");
     api
       .put(
-        `https://oda-center.herokuapp.com/api/user/change-password/${user._id}`,
+        `/api/user/change-password/${user._id}`,
         data
       )
       .then((res) => {
