@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useMemo } from "react";
-import { useDropzone } from "react-dropzone";
+import { DropEvent, FileRejection, useDropzone } from "react-dropzone";
 import classnames from "classnames";
 import { ReactNode } from "react";
 
@@ -34,6 +34,13 @@ type DropzoneType = {
     acceptClass?: string;
     rejectClass?: string;
     focusClass?: string;
+    onDrop?:
+        | (<T extends File>(
+              acceptedFiles: T[],
+              fileRejections: FileRejection[],
+              event: DropEvent
+          ) => void)
+        | undefined;
 };
 
 function Dropzone({
@@ -41,6 +48,7 @@ function Dropzone({
     children,
     acceptClass,
     rejectClass,
+    onDrop,
 }: DropzoneType) {
     const {
         acceptedFiles,
@@ -52,6 +60,7 @@ function Dropzone({
         accept: { "image/*": [] },
         maxFiles: 1,
         multiple: false,
+        onDrop,
     });
 
     const style = useMemo(

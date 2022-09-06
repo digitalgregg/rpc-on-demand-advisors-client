@@ -13,18 +13,19 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     const router = useRouter();
     const [isLoading, setLoading] = useState<boolean>(false);
 
-    const splitRoute = router.pathname.split("/")[1];
-    const rootPath = (splitRoute && `/${splitRoute}`) || "/";
-    console.log(router.asPath, "as pathname");
-
     useEffect(() => {
+        if (router.asPath.includes("dashboard") && token) {
+            setLoading(true);
+        }
+        if (router.asPath.includes("dashboard") && !token) {
+            setLoading(true);
+        }
         router.asPath.includes("dashboard")
-            ? !token && router.push("/", undefined, { shallow: true })
-            : token &&
-              router.replace("/dashboard/contents", undefined, {
-                  shallow: true,
-              });
-        setLoading(true);
+            ? !token && router.push("/")
+            : token && router.replace("/dashboard/contents");
+        router.events.on("routeChangeComplete", () => {
+            setLoading(true);
+        });
     }, [token]);
 
     return <>{!isLoading ? <LoadingBox /> : children}</>;
