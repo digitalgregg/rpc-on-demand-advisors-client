@@ -1,5 +1,6 @@
 import React from "react";
-import TrackersEditor from "./TrackersEditor";
+import FooterTrackersEditor from "./FooterTrackersEditor";
+import HeaderTrackersEditor from "./HeaderTrackersEditor";
 
 const Trackers = () => {
     return (
@@ -34,7 +35,7 @@ const Trackers = () => {
                     </p>
                     <div className="pt-4"></div>
 
-                    <TrackersEditor />
+                    <HeaderTrackersEditor  />
                 </div>
                 <div className="w-full">
                     <h3 className=" capitalize text-2xl leading-[32.68px] font-semibold text-black">
@@ -48,7 +49,7 @@ const Trackers = () => {
                     </p>
                     <div className="pt-4"></div>
 
-                    <TrackersEditor />
+                    <FooterTrackersEditor />
                 </div>
             </div>
         </div>
