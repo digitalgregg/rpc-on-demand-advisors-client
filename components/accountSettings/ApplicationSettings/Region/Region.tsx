@@ -12,10 +12,11 @@ import LodingAnimation from "../../../Shared/LodingAnimation";
 import { toast } from "react-toastify";
 
 const Region = () => {
-    const [modalIsOpen, setIsOpen] = useState(false);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
     const [toggle, setToggle] = useState(false);
     const [iconColor, setIconColor] = useState(false);
     const teamId = getLocal("team");
+    const productToggle = getLocal("region-toggle");
     const onOver = (e: any) => {
         if (e) setIconColor(true);
     };
@@ -24,25 +25,33 @@ const Region = () => {
     };
     const handleToggle = () => setToggle(!toggle);
     function openModal() {
-        setIsOpen(true);
+        setModalIsOpen(true);
     }
 
     function closeModal() {
-        setIsOpen(false);
+        setModalIsOpen(false);
     }
     useEffect(() => {
-        setLocal("region-toggle", toggle);
-    }, [toggle, setToggle]);
+        if (toggle === false) {
+            setLocal("region-toggle", "false");
+        } else if (toggle === true) {
+            setLocal("region-toggle", "true");
+        }
+    }, [toggle]);
+    useEffect(() => {
+        setToggle(productToggle)
+        setLocal("region-toggle", productToggle);
+    },[]);
 
     const { data, isLoading } = useQuery(["region-item-get"], () =>
         api
             .get(
-                `https://oda-center.herokuapp.com/api/application-settings?team_id=${teamId.id}`
+                `https://oda-center.herokuapp.com/api/application-settings?team_id=${teamId?.id}`
             )
             .then((res) => {
                 const regionData = res?.data;
-                const filterData = regionData.filter(
-                    (e: any) => e.type === "region"
+                const filterData = regionData?.filter(
+                    (e: any) => e?.type === "region"
                 )[0];
 
                 return filterData;
@@ -55,10 +64,10 @@ const Region = () => {
     return (
         <>
             <Modals
-                HTitle="Funnel Stage"
+                HTitle="Region"
                 closeModal={closeModal}
                 modalIsOpen={modalIsOpen}
-                modalCloseFuncton={setIsOpen}
+                modalCloseFuncton={setModalIsOpen}
                 teamId={teamId?.id}
                 type={data?.type}
             />
@@ -85,19 +94,19 @@ const Region = () => {
                         <LodingAnimation />
                     ) : (
                         <Pagination
-                            dataArr={data.settingsItems}
+                            dataArr={data?.settingsItems}
                             itemsPerPage={5}
                             className=" !justify-start"
                         >
                             {(currentItems) => (
                                 <>
-                                    {data.settingsItems === undefined ? (
+                                    {data?.settingsItems === undefined ? (
                                         <>
                                             <p>you have no data</p>
                                         </>
                                     ) : (
                                         <div className=" flex flex-col gap-[16px]">
-                                            {currentItems.map(
+                                            {currentItems?.map(
                                                 ({ title, _id }: any, i) => (
                                                     <ItemCard
                                                         name={title}
