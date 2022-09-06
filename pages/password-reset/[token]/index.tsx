@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
-import api from "../../../api";
 import Link from "next/link";
+import api from "../../../api";
 
 const items = [
   {
@@ -50,7 +50,7 @@ const ResetPassword = () => {
     setError("");
     api
       .put(
-        `https://oda-center.herokuapp.com/api/user/password-reset/${token}`,
+        `/api/user/password-reset/${token}`,
         data
       )
       .then((res) => {

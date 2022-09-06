@@ -6,13 +6,15 @@ import { toast } from "react-toastify";
 import LodingAnimation from "./../Shared/LodingAnimation/index";
 
 const AccountInfo = () => {
-  const [error, setError] = useState("");
-  const user = getLocal("user");
-  const team = getLocal("team");
-  const [buttonLoading, setButtonLoading] = useState(false);
   const inputStyle =
     "w-[100%] h-[48px] bg-[#fff] border border-[#E0E0E0] text-normal text-[14px] text-[#6D6D6D] rounded-[4px] px-[20px] py-[18px] mt-[12px]";
   const labelStyle = "font-normal text-[16px] leading-[22px] text-[#000000]";
+  const [error, setError] = useState("");
+  const user = getLocal("user");
+  const team = getLocal("team");
+  const userInfo = getLocal("user-info");
+  const [buttonLoading, setButtonLoading] = useState(false);
+
   const {
     register,
     formState: { errors },
@@ -33,8 +35,14 @@ const AccountInfo = () => {
       const teamData = { team_name: data.team_name };
       const updateTeamInfo = await api.put(`/api/team/${team.id}`, teamData);
 
+      team.company_name = data.companyName;
       team.team_name = data.team_name;
       setLocal("team", team);
+
+      userInfo.name = data.name;
+      userInfo.companyName = data.companyName;
+      setLocal("user-info", userInfo);
+
       toast.success("User updated successfully");
       setButtonLoading(false);
     } catch (err: any) {

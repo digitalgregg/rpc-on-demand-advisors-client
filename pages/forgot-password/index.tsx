@@ -3,8 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
-import api from "../../api";
 import { toast } from "react-toastify";
+import api from "../../api";
 
 const items = [
   {
@@ -47,7 +47,7 @@ const ForgotPassword = () => {
   const onSubmit = (data: any) => {
     setError("");
     api
-      .post("https://oda-center.herokuapp.com/api/user/forgot-password", data)
+      .post("/api/user/forgot-password", data)
       .then((res) => {
         if (res.status === 200) {
           toast.success(res.data.message);
