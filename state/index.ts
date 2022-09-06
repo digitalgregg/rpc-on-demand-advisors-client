@@ -17,5 +17,8 @@ export const team_state = atomWithStorage("team", {
     id: "",
     user_id: "",
     team_name: "",
-    role:""
+    role: "",
 });
+
+export const TrackersStateHeaderAtom = atom<any>("");
+export const TrackersStateFooterAtom = atom<any>("");

@@ -67,19 +67,19 @@ const ContentTypes = () => {
                         <LodingAnimation />
                     ) : (
                         <Pagination
-                            dataArr={data.settingsItems}
+                            dataArr={data?.settingsItems}
                             itemsPerPage={5}
                             className=" !justify-start"
                         >
                             {(currentItems) => (
                                 <>
-                                    {data.settingsItems === undefined ? (
+                                    {data?.settingsItems === undefined ? (
                                         <>
                                             <p>you have no data</p>
                                         </>
                                     ) : (
                                         <div className=" flex flex-col gap-[16px]">
-                                            {currentItems.map(
+                                            {currentItems?.map(
                                                 ({ title, _id }: any, id) => (
                                                     <ItemCard
                                                         name={title}
