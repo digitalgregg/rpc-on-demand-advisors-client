@@ -11,17 +11,46 @@ import TagModal from "../modal/TagModal";
 import EditTagModal from "./EditTagModal";
 import YesNoModal from "../modal/YesNoModal";
 import { useRouter } from "next/router";
+import {
+    ContentDataType,
+    deleteContent,
+    likeFavoriteApi,
+} from "../../api-call/ContentApi";
+import { isImage, getExtension } from "../Library/FileType";
+import { useAtom } from "jotai";
+import { signupState } from "../../state/index";
+import api from "../../api";
+import { saveAs } from "file-saver";
 
 const buttonStyle =
     " h-[30px]  sm:h-[30px] w-[48%] rounded-[4px] border transition ease-in-out duration-200 border-primary text-[12px] font-semibold	text-primary hover:bg-primary hover:text-[#FFFFFF]";
 
-function ContentViewCard() {
-    const router = useRouter();
+type PushButtonType = {
+    type: "like" | "favorite";
+    action: "put" | "delete";
+};
 
+function ContentViewCard({
+    data,
+    refetch,
+}: {
+    data: ContentDataType;
+    refetch: any;
+}) {
+    const router = useRouter();
+    const [userData] = useAtom(signupState);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [shareOpen, setShareOpen] = useState(false);
     const [tagModal, setTagModal] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
+
+    const isLiked = () => {
+        return data.likes.includes(userData._id) ? true : false;
+    };
+
+    const isFavorited = () => {
+        return data.favorites.includes(userData._id) ? true : false;
+    };
 
     const handleDropdown = (e: any) => {
         e.stopPropagation();
@@ -31,12 +60,21 @@ function ContentViewCard() {
     const handleTag = () => setTagModal(!tagModal);
     const handleDelete = () => setDeleteModal(!deleteModal);
 
-    const handleLoveIcon = (e: any) => {
+    const handleLoveIcon = async (e: any) => {
         e.stopPropagation();
+        await likeFavoriteApi(
+            userData._id,
+            data._id,
+            "favorites",
+            isFavorited()
+        );
+        refetch();
     };
 
-    const handleLikeIcon = (e: any) => {
+    const handleLikeIcon = async (e: any) => {
         e.stopPropagation();
+        await likeFavoriteApi(userData._id, data._id, "likes", isLiked());
+        refetch();
     };
 
     const handleDropdownClick = (v: any) => {
@@ -46,35 +84,55 @@ function ContentViewCard() {
             case "Delete":
                 return handleDelete();
             case "Edit":
-                return router.push("/dashboard/contents/view-details/vkljdf");
+                return handleViewContent();
             case "Update":
-                return router.push("/dashboard/contents/view-details/vkljdf");
+                return handleViewContent();
+            case "Download":
+                return saveAs(data.file_url, data.additional_info.file_name);
             default:
                 break;
         }
     };
 
-    const handleViewContent = (e: any) => {
-        router.push("/dashboard/contents/view-details/vkljdf");
+    const handleViewContent = () => {
+        router.push("/dashboard/contents/view-details/" + data._id);
+    };
+
+    const onDeleteContent = async () => {
+        await deleteContent(data._id);
+        setDeleteModal(false);
+        refetch();
+    };
+
+    const handleSharingDetails = (e: React.MouseEvent<HTMLButtonElement>) => {
+        console.log(e);
     };
 
     return (
         <>
             <div
-                onClick={handleViewContent}
+                // onClick={handleViewContent}
                 className="h-[175px]  w-[100%]  bg-[#FFFFFF] rounded-[4px] p-[10px] relative shadow-[2px_2px_18px_rgba(0,0,0,0.08)]"
             >
                 <div className="flex gap-[4%] justify-between items-center">
-                    <img
-                        src="/img/test.jpg"
-                        className="h-[155px] w-[48%] rounded-[4px]"
-                        alt="content"
-                    />
+                    {isImage(data.thumbnail) ? (
+                        <img
+                            src={data.thumbnail}
+                            className="h-[155px] w-[48%] rounded-[4px] object-cover"
+                            alt="content"
+                        />
+                    ) : (
+                        <div className="w-[48%] h-[155px] rounded bg-[rgba(229,25,55,.1)] flex justify-center items-center">
+                            <div className="uppercase text-primary font-bold text-xl">
+                                {getExtension(data.thumbnail)}
+                            </div>
+                        </div>
+                    )}
 
                     <div className=" h-[155px] w-[48%]">
                         <div className="flex justify-between items-center mb-[15.34px] relative">
                             <h3 className="text-[14px] font-semibold 4xl:text-[16px] text-[#222222] w-[95%] truncate">
-                                Give your blog title here I like me better
+                                {data.title}
                             </h3>
                             <OutSideClick
                                 onOutSideClick={() => setDropdownOpen(false)}
@@ -112,7 +170,7 @@ function ContentViewCard() {
                                 Type :
                             </h3>
                             <p className="text-[12px] 4xl:text-[14px] font-normal text-[#676767]">
-                                Blog
+                                {data.content_type || "Not selected"}
                             </p>
                         </div>
                         <div className="flex gap-[10px] items-center mt-[10px] mb-[15.34px] 4xl:mb-[13px]">
@@ -123,12 +181,16 @@ function ContentViewCard() {
                                     onClick={handleLoveIcon}
                                 >
                                     <FavouriteIcon
-                                        stroke={"black"}
-                                        color={"white"}
+                                        stroke={
+                                            isFavorited() ? "#E51937" : "black"
+                                        }
+                                        color={
+                                            isFavorited() ? "#E51937" : "white"
+                                        }
                                     />
                                 </motion.button>
                                 <p className="text-[#676767] text-[12px]">
-                                    {0}
+                                    {data.favorites.length}
                                 </p>
                             </div>
                             <div className="flex gap-[5px] items-center">
@@ -138,12 +200,12 @@ function ContentViewCard() {
                                     onClick={handleLikeIcon}
                                 >
                                     <LikeIcon
-                                        stroke={"black"}
-                                        color={"white"}
+                                        stroke={isLiked() ? "#E51937" : "black"}
+                                        color={isLiked() ? "#E51937" : "white"}
                                     />
                                 </motion.button>
                                 <p className="text-[#676767] text-[12px]">
-                                    {0}
+                                    {data.likes.length}
                                 </p>
                             </div>
                         </div>
@@ -165,17 +227,23 @@ function ContentViewCard() {
 
                                     {shareOpen && (
                                         <div className="absolute bottom-[-62px] right-[0px] arrow arrow-top p-[6px] flex items-center">
-                                            <div className="rounded-[4px] w-full h-[40px] bg-[#F4F4F4] flex justify-between  items-center">
+                                            <form className="rounded-[4px] w-full h-[40px] bg-[#F4F4F4] flex justify-between  items-center">
                                                 <input
                                                     className="placeholder:text-[#a8a8a8] text-[#000] w-[120px] text-[14px] bg-transparent pl-[10px] outline-0"
                                                     type="text"
-                                                    name="name"
+                                                    name="recipient"
                                                     placeholder="Type name"
                                                 />
-                                                <button className="w-[74px] h-[40px] rounded-[4px] bg-primary text-white text-[14px]">
+                                                <button
+                                                    onSubmit={
+                                                        handleSharingDetails
+                                                    }
+                                                    type="submit"
+                                                    className="w-[74px] h-[40px] rounded-[4px] bg-primary text-white text-[14px] hover:bg-primary_dark"
+                                                >
                                                     Copy
                                                 </button>
-                                            </div>
+                                            </form>
                                         </div>
                                     )}
                                 </OutSider>
@@ -192,6 +260,7 @@ function ContentViewCard() {
                 header="Remove my content" // TODO: 'my collection' -> collection name
                 description="Are you sure you want to remove my content? This action cannot be undone"
                 isOpen={deleteModal}
+                onYesClick={onDeleteContent}
                 handleModal={handleDelete}
             />
         </>

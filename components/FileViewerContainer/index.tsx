@@ -1,10 +1,48 @@
 /* eslint-disable @next/next/no-img-element */
+import { motion } from "framer-motion";
 import React from "react";
+import { GetContentContext } from "../Context/ContentDataProvider";
+import FavouriteIcon from "../CustomIcons/FavouriteIcon";
 import FileViewer from "../Library/FileViewer";
 import ViewFile from "../ViewFile/index";
+import { useAtom } from "jotai";
+import { signupState } from "../../state/index";
+import { likeFavoriteApi } from "../../api-call/ContentApi";
+import LikeIcon from "../CustomIcons/LikeIcon";
 
 const FileViewerContainer = () => {
+    const { contentData, refetch } = GetContentContext();
+    const [userData] = useAtom(signupState);
+
     const iconStyle = "w-[16px] h-[16px]  sm:w-[24px] sm:h-[16px]";
+
+    const isLiked = () => {
+        return contentData?.likes.includes(userData._id) ? true : false;
+    };
+
+    const isFavorited = () => {
+        return contentData?.favorites.includes(userData._id) ? true : false;
+    };
+
+    const handleLoveIcon = async () => {
+        await likeFavoriteApi(
+            userData._id,
+            contentData._id,
+            "favorites",
+            isFavorited()
+        );
+        refetch();
+    };
+
+    const handleLikeIcon = async () => {
+        await likeFavoriteApi(
+            userData._id,
+            contentData._id,
+            "likes",
+            isLiked()
+        );
+        refetch();
+    };
 
     return (
         <div className="px-[10]  sm:px-[25px] sm:py-[25px] w-full">
@@ -29,20 +67,31 @@ const FileViewerContainer = () => {
                         <p>0</p>
                     </div>
                     <div className="flex gap-[5px] items-center">
-                        <img
-                            src="/img/favouriteIcon.svg"
-                            alt="view icon"
-                            className={iconStyle}
-                        />
-                        <p>0</p>
+                        <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={handleLoveIcon}
+                        >
+                            <FavouriteIcon
+                                stroke={isFavorited() ? "#E51937" : "black"}
+                                color={isFavorited() ? "#E51937" : "white"}
+                            />
+                        </motion.button>
+
+                        <p>{contentData?.favorites.length || 0}</p>
                     </div>
                     <div className="flex gap-[5px] items-center">
-                        <img
-                            src="/img/likeIcon.svg"
-                            alt="view icon"
-                            className={iconStyle}
-                        />
-                        <p>0</p>
+                        <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={handleLikeIcon}
+                        >
+                            <LikeIcon
+                                stroke={isLiked() ? "#E51937" : "black"}
+                                color={isLiked() ? "#E51937" : "white"}
+                            />
+                        </motion.button>
+                        <p>{contentData?.likes.length || 0}</p>
                     </div>
                     <div className="flex gap-[5px] items-center">
                         <img
@@ -50,15 +99,14 @@ const FileViewerContainer = () => {
                             alt="view icon"
                             className={iconStyle}
                         />
-                        <p>0</p>
+                        <p>{contentData?.sharingDetails.length || 0}</p>
                     </div>
                 </div>
             </div>
             <div className="h-[calc(100%-70px)]">
-                {/* <FileViewer src="https://filesamples.com/samples/document/doc/sample2.doc" /> */}
-                {/* <FileViewer src="https://filesamples.com/samples/audio/aac/sample3.aac" /> */}
-                {/* <FileViewer src="https://filesamples.com/samples/video/mp4/sample_960x540.mp4" /> */}
-                <FileViewer src="https://rpc-s3-upload.s3.ap-south-1.amazonaws.com/1662234682176sample.pdf" />
+                {contentData?.file_url && (
+                    <FileViewer src={contentData?.file_url} />
+                )}
             </div>
             {/* <ViewFile /> */}
         </div>
