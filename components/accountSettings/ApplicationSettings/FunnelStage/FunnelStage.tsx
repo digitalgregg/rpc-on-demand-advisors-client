@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { getLocal } from "../../../../utils/localStorage";
 
 const FunnelStage = () => {
-    const [modalIsOpen, setIsOpen] = useState(false);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
     const [iconColor, setIconColor] = useState(false);
     const teamId = getLocal("team");
     const onOver = (e: any) => {
@@ -20,22 +20,22 @@ const FunnelStage = () => {
         if (e) setIconColor(false);
     };
     function openModal() {
-        setIsOpen(true);
+        setModalIsOpen(true);
     }
 
     function closeModal() {
-        setIsOpen(false);
+        setModalIsOpen(false);
     }
 
     const { data, isLoading } = useQuery(["funnel-item-get"], () =>
         api
             .get(
-                `https://oda-center.herokuapp.com/api/application-settings?team_id=${teamId.id}`
+                `https://oda-center.herokuapp.com/api/application-settings?team_id=${teamId?.id}`
             )
             .then((res) => {
                 const regionData = res?.data;
-                const filterData = regionData.filter(
-                    (e: any) => e.type === "funnel"
+                const filterData = regionData?.filter(
+                    (e: any) => e?.type === "funnel"
                 )[0];
 
                 return filterData;
@@ -53,7 +53,7 @@ const FunnelStage = () => {
                 HTitle="Funnel Stage"
                 closeModal={closeModal}
                 modalIsOpen={modalIsOpen}
-                modalCloseFuncton={setIsOpen}
+                modalCloseFuncton={setModalIsOpen}
                 teamId={teamId?.id}
                 type={data?.type}
             />
@@ -69,14 +69,14 @@ const FunnelStage = () => {
                         <LodingAnimation />
                     ) : (
                         <Pagination
-                            dataArr={data.settingsItems}
+                            dataArr={data?.settingsItems}
                             itemsPerPage={5}
                             className=" !justify-start"
                         >
                             {(currentItems) => (
                                 <>
                                     <div className=" flex flex-col gap-[16px]">
-                                        {currentItems.map(
+                                        {currentItems?.map(
                                             ({ title, _id }: any, i) => (
                                                 <ItemCard
                                                     name={title}

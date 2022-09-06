@@ -13,6 +13,9 @@ import {
 import CustomModal from "../../Shared/CustomUtils/CustomModal";
 import InputField from "../../Shared/InputField";
 import TextAreaField from "../../Shared/TextAreaField";
+import { getLocal } from "../../../utils/localStorage";
+import api from "../../../api";
+import { toast } from "react-toastify";
 const imageUrl = [
     {
         id: 0,
@@ -42,27 +45,36 @@ const imageUrl = [
 ];
 
 const feedbackSchema = Yup.object({
-    iconFill: Yup.string(),
+    user_id: Yup.string(),
+    type: Yup.string(),
     email: Yup.string().required("Email is required"),
-    feedbackNote: Yup.string().required("Feedback note is required"),
+    message: Yup.string().required("Feedback note is required"),
 });
-// .required("Icon is required"),
-export const Modals = ({ modalIsOpen, closeModal }: any) => {
+
+type MyFormValues = {
+    user_id: string;
+    type: string;
+    email: string;
+    message: string;
+};
+
+export const Modals = ({ modalIsOpen, closeModal, modalCloseFuncton }: any) => {
     const [activeIcon, setActiveIcon] = useState(3);
-    const [activeIconFill, setActiveIconFill] = useState("");
-    // console.log(activeIconFill, "fill text");
-    const IconActionHandlar = (i: any) => {
+    const [activeIconFill, setActiveIconFill] = useState<string>("");
+    const teamId = getLocal("user");
+    const initialValues: MyFormValues = {
+        user_id: teamId?._id,
+        type: activeIconFill,
+        message: "",
+        email: "",
+    };
+
+    const IconActionHandlar = ({ i, text }: any) => {
         setActiveIcon(i);
+        setActiveIconFill(text);
         return true;
     };
 
-    useEffect(() => {
-        imageUrl.map((e) => {
-            if (activeIcon === e.id) {
-                setActiveIconFill(e.text);
-            }
-        });
-    }, [activeIcon]);
     return (
         <CustomModal
             isOpen={modalIsOpen}
@@ -85,45 +97,64 @@ export const Modals = ({ modalIsOpen, closeModal }: any) => {
                         What do you think of the content camel website?
                     </p>
                     <Formik
-                        initialValues={{
-                            iconFill: "",
-                            email: "",
-                            feedbackNote: "",
-                        }}
+                        initialValues={initialValues}
                         validationSchema={feedbackSchema}
-                        onSubmit={(valus) => console.log(valus)}
+                        onSubmit={(valus) => {
+                            api.post(`https://oda-center.herokuapp.com/api/feedback`, {
+                                user_id: valus.user_id,
+                                type: activeIconFill,
+                                message: valus.message,
+                                email: valus.email,
+                            })
+                                .then((res) => {
+                                    if (res.status === 200) {
+                                        toast.success(res.data.message);
+                                        modalCloseFuncton(false);
+                                    }
+                                })
+                                .catch((res) => {
+                                    toast.error(res.message);
+                                });
+                        }}
                     >
                         {() => (
                             <Form>
                                 <div className=" flex flex-row justify-between gap-[20px] my-5">
-                                    {imageUrl.map(({ Url }: any, i: any) => (
-                                        <motion.div
-                                            onClick={() => IconActionHandlar(i)}
-                                            key={i}
-                                            initial={{
-                                                borderRadius: "100%",
-                                            }}
-                                            whileTap={{ scale: 1 }}
-                                            whileHover={{
-                                                scale: 1.2,
-                                            }}
-                                            className={`${
-                                                activeIcon === i
-                                                    ? "bg-primary"
-                                                    : ""
-                                            }  rounded-full flex justify-center items-center h-[50px] w-[50px]`}
-                                        >
-                                            <div>
-                                                <Url
-                                                    color={`${
-                                                        activeIcon === i
-                                                            ? "#fff"
-                                                            : "#000"
-                                                    }`}
-                                                />
-                                            </div>
-                                        </motion.div>
-                                    ))}
+                                    {imageUrl.map(
+                                        ({ Url, text }: any, i: any) => (
+                                            <motion.div
+                                                onClick={() =>
+                                                    IconActionHandlar({
+                                                        i,
+                                                        text,
+                                                    })
+                                                }
+                                                key={i}
+                                                initial={{
+                                                    borderRadius: "100%",
+                                                }}
+                                                whileTap={{ scale: 1 }}
+                                                whileHover={{
+                                                    scale: 1.2,
+                                                }}
+                                                className={`${
+                                                    activeIcon === i
+                                                        ? "bg-primary"
+                                                        : ""
+                                                }  rounded-full flex justify-center items-center h-[50px] w-[50px]`}
+                                            >
+                                                <div>
+                                                    <Url
+                                                        color={`${
+                                                            activeIcon === i
+                                                                ? "#fff"
+                                                                : "#000"
+                                                        }`}
+                                                    />
+                                                </div>
+                                            </motion.div>
+                                        )
+                                    )}
                                 </div>
                                 <InputField
                                     name="email"
@@ -134,7 +165,7 @@ export const Modals = ({ modalIsOpen, closeModal }: any) => {
                                     labelClass="!text-base !font-semibold !leading-[22px] !text-[#000805]"
                                 />
                                 <TextAreaField
-                                    name="feedbackNote"
+                                    name="message"
                                     placeholder="Type here"
                                     label="Enter your feedback note"
                                     labelClass="!text-base !font-semibold !leading-[22px] !text-[#000805]"
