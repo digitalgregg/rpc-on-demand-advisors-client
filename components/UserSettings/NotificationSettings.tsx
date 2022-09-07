@@ -3,9 +3,10 @@ import ToggleButton from "../Shared/ToggleButton";
 
 const NotificationSettings = () => {
   const [toggle, setToggle] = useState(false);
-  const handleToggle = () => setToggle(!toggle);
   const [toggle2, setToggle2] = useState(false);
+  const handleToggle = () => setToggle(!toggle);
   const handleToggle2 = () => setToggle2(!toggle2);
+  
   return (
     <div className="bg-[#FFFFFF] p-[20px]">
       <h3 className="text-semibold text-[18px] leading-[25px] mb-[26px] text-[#000000]">
