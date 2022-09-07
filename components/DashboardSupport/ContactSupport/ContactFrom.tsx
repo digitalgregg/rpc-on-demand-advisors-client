@@ -6,6 +6,9 @@ import * as Yup from "yup";
 import CustomModal from "../../Shared/CustomUtils/CustomModal";
 import DropdownField from "../../Shared/DropdownField";
 import { DropdownItem } from "../../Shared/Dropdown";
+import api from "../../../api";
+import { toast } from "react-toastify";
+import { Modals } from "../../modal/contactPageModal/modal";
 const stypes =
     "text-[16px] leading-[22px] text-[$000000] font-normal mb-[20px]";
 
@@ -31,50 +34,33 @@ const SelectaTopic = [
 ];
 
 const validationSchema = Yup.object({
-    yourname: Yup.string()
+    name: Yup.string()
         .min(2, "Must be 2 characters or less")
-        .required("Fast Name is required"),
-    email: Yup.string()
-        .min(2, "Must be 2 characters or less")
-        .required("Last Name is required"),
-    select: Yup.string(),
+        .required("Name is required"),
+    email: Yup.string().email().required("email is required"),
+    select_topic: Yup.string(),
     subject: Yup.string(),
     description: Yup.string(),
 });
-// interface MyFormValues {
-//     yourname: string;
-//     subject: string;
-//     email: string;
-//     select: string;
-//     description: string;
-// }
-// const initialValues: MyFormValues = {
-//     yourname: "",
-//     subject: "",
-//     email: "",
-//     select: "",
-//     description: "",
-// };
-const ContactFrom: React.FC<{}> = () => {
-    const [selectedOption, setSelectedOption] = useState(null);
-    const [modalIsOpen, setIsOpen] = useState(false);
+type MyFormValues = {
+    name: string;
+    subject: string;
+    email: string;
+    select_topic: string;
+    description: string;
+};
+const initialValues: MyFormValues = {
+    name: "",
+    subject: "",
+    email: "",
+    select_topic: "",
+    description: "",
+};
 
-    function openModal() {
-        setIsOpen(true);
-    }
-
-    function closeModal() {
-        setIsOpen(false);
-    }
-    // console.log(selectedOption);
+const ContactFrom = ({ modalOpenfunction }:any) => {
 
     return (
         <>
-            <CustomModal
-                isOpen={modalIsOpen}
-                onRequestClose={closeModal}
-                className="bg-[#fff] rounded-[4px] w-fit"
-            />
             <div className=" flex flex-col lg:flex-row ">
                 <div>
                     <h1 className=" text-2xl leading-[33px] font-semibold text-[#000000] mb-[20px]">
@@ -87,7 +73,7 @@ const ContactFrom: React.FC<{}> = () => {
                     </p>
                     <p className={stypes}>
                         Want to schedule time to talk or get a demo? Just find a
-                        time here that works for you: 
+                        time here that works for you:
                         <a className=" text-primary"> Schedule a call.</a>
                     </p>
                     <p className={stypes}>
@@ -113,15 +99,24 @@ const ContactFrom: React.FC<{}> = () => {
                             </p>
                         </div>
                         <Formik
-                            initialValues={{
-                                yourname: "",
-                                email: "",
-                                select: "",
-                                subject: "",
-                                description: "",
-                            }}
+                            initialValues={initialValues}
                             validationSchema={validationSchema}
-                            onSubmit={(valus) => console.log(valus)}
+                            onSubmit={(valus) => {
+                                api.post(
+                                    `https://oda-center.herokuapp.com/api/get-touch
+                                `,
+                                    valus
+                                )
+                                    .then((res) => {
+                                        if (res.status === 200) {
+                                            toast.success(res.data);
+                                            modalOpenfunction(true);
+                                        }
+                                    })
+                                    .catch((err) => {
+                                        toast.error(err.message);
+                                    });
+                            }}
                         >
                             {() => (
                                 <Form>
@@ -130,7 +125,7 @@ const ContactFrom: React.FC<{}> = () => {
                                             className="!border-[#e0e0e0]"
                                             height="44px"
                                             label="Select a Topic"
-                                            name="select"
+                                            name="select_topic"
                                             placeholderClass="!text-sm"
                                             iconClass="!w-[12px]"
                                             labelClass="!text-sm"
@@ -148,7 +143,7 @@ const ContactFrom: React.FC<{}> = () => {
 
                                         <TextField
                                             label="Your Name"
-                                            name="yourname"
+                                            name="name"
                                             type="text"
                                             placeholder={"Readme..."}
                                         />

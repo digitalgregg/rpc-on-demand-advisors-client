@@ -100,17 +100,18 @@ export const Modals = ({ modalIsOpen, closeModal, modalCloseFuncton }: any) => {
                         initialValues={initialValues}
                         validationSchema={feedbackSchema}
                         onSubmit={(valus) => {
-                            api.post(`https://oda-center.herokuapp.com/api/feedback`, {
-                                user_id: valus.user_id,
-                                type: activeIconFill,
-                                message: valus.message,
-                                email: valus.email,
-                            })
+                            api.post(
+                                `https://oda-center.herokuapp.com/api/feedback`,
+                                {
+                                    user_id: valus.user_id,
+                                    type: activeIconFill,
+                                    message: valus.message,
+                                    email: valus.email,
+                                }
+                            )
                                 .then((res) => {
-                                    if (res.status === 200) {
-                                        toast.success(res.data.message);
-                                        modalCloseFuncton(false);
-                                    }
+                                    toast.success(res.data.message);
+                                    modalCloseFuncton(false);
                                 })
                                 .catch((res) => {
                                     toast.error(res.message);
@@ -159,7 +160,7 @@ export const Modals = ({ modalIsOpen, closeModal, modalCloseFuncton }: any) => {
                                 <InputField
                                     name="email"
                                     label="Enter your email"
-                                    placeholder="...demo@gmil.com"
+                                    placeholder="...email@gmil.com"
                                     height="52px"
                                     className="mb-5"
                                     labelClass="!text-base !font-semibold !leading-[22px] !text-[#000805]"
@@ -173,15 +174,23 @@ export const Modals = ({ modalIsOpen, closeModal, modalCloseFuncton }: any) => {
                                 <div className=" flex justify-between gap-[10px] mt-[30px]">
                                     <motion.button
                                         whileTap={{ scale: 0.9 }}
+                                        transition={{ duration: 0.2 }}
                                         onClick={closeModal}
+                                        whileHover={{
+                                            backgroundColor: "#E51937",
+                                        }}
                                         type="button"
-                                        className="w-[182.5px] h-[45px] py-[11px] px-[32px] rounded border-[1px] border-solid border-primary  capitalize text-base leading-[22px] font-semibold hover:bg-primary hover:text-White text-primary"
+                                        className="w-[182.5px] h-[45px] py-[11px] px-[32px] rounded border-[1px] border-solid border-primary  capitalize text-base leading-[22px] font-semibold hover:text-White text-primary"
                                     >
                                         Cancel
                                     </motion.button>
                                     <motion.button
                                         whileTap={{ scale: 0.9 }}
                                         type="submit"
+                                        transition={{ duration: 0.2 }}
+                                        whileHover={{
+                                            backgroundColor: "#890F21",
+                                        }}
                                         className="w-[182.5px] h-[45px] py-[11px] px-[32px] rounded border-[1px] border-solid border-primary bg-primary capitalize text-base leading-[22px] font-semibold text-White"
                                     >
                                         send
