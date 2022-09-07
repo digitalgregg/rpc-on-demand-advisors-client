@@ -4,10 +4,8 @@ import * as Yup from "yup";
 import InputField from "../Shared/InputField";
 import { getLocal } from "./../../utils/localStorage";
 import { toast } from "react-toastify";
-import { useQuery } from "react-query";
 import api from "../../api";
 import LodingAnimation from "./../Shared/LodingAnimation/index";
-// import bcrypt from 'bcryptjs';
 
 const ChangePassword = () => {
   const [buttonLoading, setButtonLoading] = useState(false);
@@ -18,9 +16,6 @@ const ChangePassword = () => {
   const inputStyle = " border border-[#676767] text-normal text-[14px]";
   const labelStyle = "font-normal text-[16px] leading-[22px]";
 
-  // const { isLoading, data } = useQuery("findUser", () =>
-  //   api.get(`/api/user?_id=${user._id}`)
-  // );
   const changePasswordInfo = {
     old_password: "",
     new_password: "",
