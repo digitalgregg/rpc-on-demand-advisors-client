@@ -21,6 +21,7 @@ import WishlistIcon from './WishlistIcon';
 import UserSetting from './UserSetting';
 import Logout from './Logout';
 import BillingIcon from './BillingIcon';
+import FeedbackIdeaIcon from './feedbackIdeaIcon';
 
 export {
     PaymentIcon,
@@ -45,5 +46,6 @@ export {
     WishlistIcon,
     UserSetting,
     Logout,
-    BillingIcon
+    BillingIcon,
+    FeedbackIdeaIcon
 };

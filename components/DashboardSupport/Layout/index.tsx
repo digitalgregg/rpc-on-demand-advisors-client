@@ -5,23 +5,19 @@ import { ReactNode } from "react";
 const subNev = [
     {
         titile: "Tutorial",
-        url: "/dashboard/tutorial",
+        url: "/dashboard/support/tutorial",
     },
     {
         titile: "How-to",
-        url: "/dashboard/howto",
+        url: "/dashboard/support/howto",
     },
     {
         titile: "Resources",
-        url: "/dashboard/resources",
-    },
-    {
-        titile: "Feedback",
-        url: "/dashboard/feedback",
+        url: "/dashboard/support/resources",
     },
     {
         titile: "Contact support",
-        url: "/dashboard/contact-support",
+        url: "/dashboard/support/contact-support",
     },
 ];
 
