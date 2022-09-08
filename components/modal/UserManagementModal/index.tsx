@@ -5,6 +5,11 @@ import OverflowModal from "../../Shared/CustomUtils/OverflowModal";
 import * as Yup from "yup";
 import InputField from "../../Shared/InputField";
 import MultiSelect from "../../Shared/MultiSelect";
+import { inviteUserApi } from "../../../api-call/InviteUserApi";
+import { useAtom } from "jotai";
+import { team_state } from "../../../state";
+import { useState } from "react";
+import LodingAnimation from "../../Shared/LodingAnimation";
 
 type ModalProps = {
     isOpen: boolean;
@@ -12,19 +17,29 @@ type ModalProps = {
     type: "invite" | "update";
 };
 
-const userInitial = {
+type UserInitialType = {
+    name: string;
+    email: string;
+    role: string;
+};
+
+const userInitial: UserInitialType = {
     name: "",
     email: "",
-    user_type: "",
+    role: "",
 };
 
 const validateSchema = Yup.object({
     name: Yup.string().min(4).required("Name is required"),
     email: Yup.string().required("Email is required"),
-    user_type: Yup.string().required("User type is required"),
+    role: Yup.string().required("User type is required"),
 });
 
 function UserManageModal({ isOpen, onClose, type }: ModalProps) {
+    const [teamData] = useAtom(team_state);
+
+    const [buttonLoading, setButtonLoading] = useState(false);
+
     const labelStyle =
         "font-semibold text-[16px] leading-[22px] text-[#000000]";
 
@@ -32,6 +47,19 @@ function UserManageModal({ isOpen, onClose, type }: ModalProps) {
         { value: "admin", label: "Admin" },
         { value: "user", label: "User" },
     ];
+
+    const handleSubmit = async (value: UserInitialType) => {
+        if (type == "invite") {
+            setButtonLoading(true);
+            const reqData = {
+                ...value,
+                team_id: teamData.id,
+            };
+            await inviteUserApi(reqData);
+            setButtonLoading(false);
+        }
+    };
+
     return (
         <OverflowModal
             isOpen={isOpen}
@@ -45,7 +73,7 @@ function UserManageModal({ isOpen, onClose, type }: ModalProps) {
                 <div className="pt-5"></div>
                 <Formik
                     initialValues={userInitial}
-                    onSubmit={(v) => console.log(v)}
+                    onSubmit={handleSubmit}
                     validationSchema={validateSchema}
                 >
                     {() => (
@@ -70,7 +98,7 @@ function UserManageModal({ isOpen, onClose, type }: ModalProps) {
                             />
                             <div className="pt-[30px]"></div>
                             <MultiSelect
-                                name="user_type"
+                                name="role"
                                 placeholder="Select type..."
                                 label="Enter user type"
                                 options={userTypeOptions}
@@ -86,10 +114,22 @@ function UserManageModal({ isOpen, onClose, type }: ModalProps) {
                                 >
                                     Cancel
                                 </button>
-                                <button className="h-[45px] border-primary border basis-1/2 text-white rounded bg-primary hover:bg-primary_dark transition-all duration-200">
-                                    {type === "invite"
-                                        ? "Send Invite"
-                                        : "Update"}
+                                <button
+                                    type="submit"
+                                    className="h-[45px] border-primary border basis-1/2 text-white rounded bg-primary hover:bg-primary_dark transition-all duration-200"
+                                >
+                                    {buttonLoading ? (
+                                        <span className="flex items-center gap-[10px] justify-center">
+                                            <div>
+                                                <LodingAnimation color="white" />
+                                            </div>
+                                            <div>Loading...</div>
+                                        </span>
+                                    ) : type === "invite" ? (
+                                        "Send Invite"
+                                    ) : (
+                                        "Update"
+                                    )}
                                 </button>
                             </div>
                         </Form>

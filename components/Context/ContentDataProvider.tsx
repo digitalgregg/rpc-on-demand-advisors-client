@@ -21,6 +21,9 @@ function ContentDataProvider({
     contentData: ContentDataType;
     refetch: () => any;
 }) {
+
+
+    
     return (
         <ContentContext.Provider value={{ contentData, refetch }}>
             {children}

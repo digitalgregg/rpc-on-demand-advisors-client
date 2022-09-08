@@ -8,10 +8,11 @@ import CustomModal from "../../Shared/CustomUtils/CustomModal";
 import { motion } from "framer-motion";
 import DropdownField from "../../Shared/DropdownField";
 import { DropdownItem } from "../../Shared/Dropdown";
+import * as Yup from "yup";
 
 const options = [
-    { value: "Admin", label: "Admin" },
-    { value: "User", label: "User" },
+    { value: "admin", label: "Admin" },
+    { value: "user", label: "User" },
 ];
 
 type ModalProps = {
@@ -28,8 +29,15 @@ const initialValues: FormValues = {
     email: "",
     user_type: "",
 };
+
+const validation = Yup.object({
+    name: Yup.string().required("User name required"),
+    email: Yup.string().required("Must provided email"),
+    user_type: Yup.string().required("Select user type"),
+});
+
 const UserManagementModel = ({ isOpen, onClose }: ModalProps) => {
-    const inputStyle = "mb-[30px] xs:w-[100%]";
+    const inputStyle = "xs:w-[100%]";
     const labelStyle =
         "font-semibold text-[16px] leading-[22px] text-[#000000]";
 
@@ -53,6 +61,7 @@ const UserManagementModel = ({ isOpen, onClose }: ModalProps) => {
                     </h2>
                     <Formik
                         initialValues={initialValues}
+                        validationSchema={validation}
                         onSubmit={(valus) => console.log(valus)}
                     >
                         {() => (
@@ -68,23 +77,25 @@ const UserManagementModel = ({ isOpen, onClose }: ModalProps) => {
                                         labelClass={labelStyle}
                                         required
                                     />
+                                    <div className="mb-[30px]"></div>
                                     <InputField
                                         name="email"
                                         placeholder="Enter your email address"
                                         type="email"
-                                        value="demo@gmail.com"
                                         label="Enter your email"
                                         inputClass={inputStyle}
                                         height="55px"
                                         labelClass={labelStyle}
                                         required
                                     />
+                                    <div className="mb-[30px]"></div>
+
                                     <div className="mb-[30px]">
                                         <DropdownField
                                             className="!border-[#e0e0e0]"
                                             height="55px"
                                             label="Select a Type"
-                                            name="select"
+                                            name="user_type"
                                             placeholderClass="!text-sm"
                                             iconClass="!w-[12px]"
                                             labelClass="!text-sm"

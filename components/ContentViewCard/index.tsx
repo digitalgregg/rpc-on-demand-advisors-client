@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from "react";
+import React, { createRef, useState } from "react";
 import { motion } from "framer-motion";
 import { OutSideClick } from "../Shared/OutSideClick";
 import TagBadges from "../CustomIcons/TagBadges";
@@ -21,14 +21,14 @@ import { useAtom } from "jotai";
 import { signupState } from "../../state/index";
 import api from "../../api";
 import { saveAs } from "file-saver";
+import LodingAnimation from "../Shared/LodingAnimation";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { useRef } from "react";
+import useCopyToClipboard from "../Library/useCopyToClipboard";
+import { toast } from "react-toastify";
 
 const buttonStyle =
     " h-[30px]  sm:h-[30px] w-[48%] rounded-[4px] border transition ease-in-out duration-200 border-primary text-[12px] font-semibold	text-primary hover:bg-primary hover:text-[#FFFFFF]";
-
-type PushButtonType = {
-    type: "like" | "favorite";
-    action: "put" | "delete";
-};
 
 function ContentViewCard({
     data,
@@ -104,17 +104,13 @@ function ContentViewCard({
         refetch();
     };
 
-    const handleSharingDetails = (e: React.MouseEvent<HTMLButtonElement>) => {
-        console.log(e);
-    };
-
     return (
         <>
             <div
                 // onClick={handleViewContent}
                 className="h-[175px]  w-[100%]  bg-[#FFFFFF] rounded-[4px] p-[10px] relative shadow-[2px_2px_18px_rgba(0,0,0,0.08)]"
             >
-                <div className="flex gap-[4%] justify-between items-center">
+                <div className="flex gap-[4%] justify-between items-center relative">
                     {isImage(data.thumbnail) ? (
                         <img
                             src={data.thumbnail}
@@ -122,12 +118,24 @@ function ContentViewCard({
                             alt="content"
                         />
                     ) : (
-                        <div className="w-[48%] h-[155px] rounded bg-[rgba(229,25,55,.1)] flex justify-center items-center">
-                            <div className="uppercase text-primary font-bold text-xl">
-                                {getExtension(data.thumbnail)}
-                            </div>
-                        </div>
+                        <img
+                            src="/assets/no_preview.jpg"
+                            className="h-[155px] w-[48%] rounded-[4px] object-cover"
+                            alt="content"
+                        />
                     )}
+
+                    {/* <div className="w-[48%] h-[155px] rounded bg-[#a8a8a8] flex justify-center items-center">
+                        <div className="uppercase text-white font-bold text-sm">
+                            No preview available
+                        </div>
+                    </div> */}
+
+                    <div className="absolute top-[10px] left-[10px] w-[41px] h-[24px] rounded bg-[rgba(255,255,255,.6)] text-white flex justify-center items-center">
+                        <div className="text-[10px] font-medium text-black uppercase">
+                            {getExtension(data.file_url)}
+                        </div>
+                    </div>
 
                     <div className=" h-[155px] w-[48%]">
                         <div className="flex justify-between items-center mb-[15.34px] relative">
@@ -213,7 +221,12 @@ function ContentViewCard({
                             onClick={(e) => e.stopPropagation()}
                             className="flex flex-row gap-[2%]"
                         >
-                            <button className={buttonStyle}>Link</button>
+                            <CopyToClipboard
+                                text={data.file_url}
+                                onCopy={() => toast.success("Link copied!")}
+                            >
+                                <button className={buttonStyle}>Link</button>
+                            </CopyToClipboard>
                             <div className="!w-[48%]">
                                 <OutSider
                                     onOutSideClick={() => setShareOpen(false)}
@@ -226,25 +239,10 @@ function ContentViewCard({
                                     </button>
 
                                     {shareOpen && (
-                                        <div className="absolute bottom-[-62px] right-[0px] arrow arrow-top p-[6px] flex items-center">
-                                            <form className="rounded-[4px] w-full h-[40px] bg-[#F4F4F4] flex justify-between  items-center">
-                                                <input
-                                                    className="placeholder:text-[#a8a8a8] text-[#000] w-[120px] text-[14px] bg-transparent pl-[10px] outline-0"
-                                                    type="text"
-                                                    name="recipient"
-                                                    placeholder="Type name"
-                                                />
-                                                <button
-                                                    onSubmit={
-                                                        handleSharingDetails
-                                                    }
-                                                    type="submit"
-                                                    className="w-[74px] h-[40px] rounded-[4px] bg-primary text-white text-[14px] hover:bg-primary_dark"
-                                                >
-                                                    Copy
-                                                </button>
-                                            </form>
-                                        </div>
+                                        <SharingDetails
+                                            handleShare={handleShare}
+                                            content_id={data._id}
+                                        />
                                     )}
                                 </OutSider>
                             </div>
@@ -266,5 +264,59 @@ function ContentViewCard({
         </>
     );
 }
+
+const SharingDetails = ({
+    handleShare,
+    content_id,
+}: {
+    handleShare: () => any;
+    content_id: string;
+}) => {
+    const [recipient, setRecipient] = useState<string>("");
+    const [isLoading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
+
+    const [copyText, setCopyText] = useCopyToClipboard();
+
+    const handleSharingDetails = async () => {
+        if (!recipient) {
+            return setError(true);
+        }
+        setLoading(true);
+        await api.post("/api/content/sharing", {
+            content_id: content_id,
+            recipient,
+            link: "test",
+        });
+        setCopyText("link");
+        handleShare();
+        setLoading(false);
+    };
+
+    return (
+        <div className="absolute bottom-[-72px] right-[0px] arrow arrow-top p-[6px] flex items-center">
+            <div
+                className={`rounded-[4px] w-full h-[40px] ${
+                    error && "border border-error"
+                } bg-[#F4F4F4] flex justify-between  items-center`}
+            >
+                <input
+                    className="placeholder:text-[#a8a8a8] text-[#000] w-[120px] text-[14px] bg-transparent pl-[10px] outline-0 or "
+                    type="text"
+                    value={recipient}
+                    onChange={(e) => setRecipient(e.target.value)}
+                    placeholder="Type name"
+                />
+                <button
+                    onClick={handleSharingDetails}
+                    type="submit"
+                    className="w-[74px] h-[40px] rounded-[4px] bg-primary text-white text-[14px] hover:bg-primary_dark"
+                >
+                    {isLoading ? <LodingAnimation color="white" /> : "Copy"}
+                </button>
+            </div>
+        </div>
+    );
+};
 
 export default ContentViewCard;
