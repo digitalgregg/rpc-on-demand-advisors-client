@@ -85,6 +85,7 @@ function WishList() {
                 modalOpen={modalOpen}
                 handleModal={handleModal}
                 type={"create"}
+                refetch={refetch}
             />
         </DashboardLayout>
     );

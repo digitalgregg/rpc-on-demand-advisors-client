@@ -7,10 +7,10 @@ import InputField from "../../Shared/InputField";
 import MultiSelect from "../../Shared/MultiSelect";
 import SelectField from "../../Shared/SelectField";
 import TextAreaField from "../../Shared/TextAreaField";
-import api from './../../../api/index';
-import LodingAnimation from './../../Shared/LodingAnimation/index';
+import api from "./../../../api/index";
+import LodingAnimation from "./../../Shared/LodingAnimation/index";
 import { toast } from "react-toastify";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 
 const initialWishlist = {
     content_request: "",
@@ -32,15 +32,21 @@ type WishModalType = {
     modalOpen: boolean;
     handleModal: () => void;
     type: "create" | "update";
+    refetch: any;
 };
 
-function WishlistModal({ modalOpen, handleModal, type }: WishModalType) {
+function WishlistModal({
+    modalOpen,
+    handleModal,
+    refetch,
+    type,
+}: WishModalType) {
     const team = getLocal("team");
     const user = getLocal("user-info");
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
-  const wishListId = router.query.id;
+    const wishListId = router.query.id;
     const requestOptions = [
         { value: "wish", label: "Wish for" },
         { value: "need", label: "Need" },
@@ -84,45 +90,45 @@ function WishlistModal({ modalOpen, handleModal, type }: WishModalType) {
                             team_id: team.id,
                             user_id: team.user_id,
                             user_name: user.name,
-                            profile: "http://profile.com"
-                            
-                            
-                        }
+                            profile: "http://profile.com",
+                        };
                         const updateWishList = {
                             urgency: value.content_request,
                             content_type: value.content_type,
                             wish_title: value.title,
                             needs_to: value.description,
                             revenue: value.revenue,
-                        }
-                        
-                        if(type === "create") {
+                        };
+
+                        if (type === "create") {
                             api.post("/api/wish", wishtlistData)
-                        .then((res:any) => {
-                            setIsLoading(false);
-                            toast.success("Wishlist updated successfully");
-                            handleModal();
-                            setError("");
-                            
-                        })
-                        .catch((error:any) => {
-                            setError(error.message);
-                            setIsLoading(false);
-                            console.log(error)
-                        })
+                                .then((res: any) => {
+                                    setIsLoading(false);
+                                    toast.success(
+                                        "Wishlist updated successfully"
+                                    );
+                                    handleModal();
+                                    setError("");
+                                })
+                                .catch((error: any) => {
+                                    setError(error.message);
+                                    setIsLoading(false);
+                                    console.log(error);
+                                });
                         }
 
-                        if(type === "update") {
+                        if (type === "update") {
                             api.put(`/api/wish/${wishListId}`, updateWishList)
-                            .then((res:any) => {
-                                console.log(res, "res from update");
-                                setIsLoading(false);
-                            })
-                            .catch((error:any) => {
-                                console.log(error, "error...")
-                            })
+                                .then((res: any) => {
+                                    console.log(res, "res from update");
+                                    setIsLoading(false);
+                                    refetch();
+                                    handleModal();
+                                })
+                                .catch((error: any) => {
+                                    console.log(error, "error...");
+                                });
                         }
-                        
                     }}
                 >
                     {() => (
@@ -169,11 +175,16 @@ function WishlistModal({ modalOpen, handleModal, type }: WishModalType) {
                             <div className=" pt-[14px] sm:pt-5"></div>
                             <InputField
                                 name="revenue"
+                                type="number"
                                 label="Revenue impact over 12mos of (optional)"
                                 placeholder="$ 0.00"
                                 labelClass="!text-sm !leading-[19.07px]"
                             />
-                            {error &&  <p className="text-red-500 text-[14px] mt-[4px]">{error}</p>}
+                            {error && (
+                                <p className="text-red-500 text-[14px] mt-[4px]">
+                                    {error}
+                                </p>
+                            )}
                             <div className=" pt-[14px] sm:pt-5"></div>
 
                             <div className="flex justify-end gap-[20px]">
@@ -188,9 +199,23 @@ function WishlistModal({ modalOpen, handleModal, type }: WishModalType) {
                                     type="submit"
                                     className="basis-1/2 h-[45px] max-w-[152px] text-[16px] leading-[45px] bg-primary text-[#fff] text-center border transition-all duration-200 hover:bg-[#890F21] border-primary rounded-[4px]"
                                 >
-                                    {type == "create"
-                                        ? <span>{isLoading === true ? <LodingAnimation color="white" />: "Add to wish"}</span>
-                                        : <span>{isLoading === true ? <LodingAnimation color="white" />: "Update wish"}</span>}
+                                    {type == "create" ? (
+                                        <span>
+                                            {isLoading === true ? (
+                                                <LodingAnimation color="white" />
+                                            ) : (
+                                                "Add to wish"
+                                            )}
+                                        </span>
+                                    ) : (
+                                        <span>
+                                            {isLoading === true ? (
+                                                <LodingAnimation color="white" />
+                                            ) : (
+                                                "Update wish"
+                                            )}
+                                        </span>
+                                    )}
                                 </button>
                             </div>
                         </Form>
