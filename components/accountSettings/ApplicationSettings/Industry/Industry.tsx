@@ -3,7 +3,7 @@ import ItemCard from "../ItemCard/ItemCard";
 import { Modals } from "../../../modal/ApplicationSettingAddItem";
 import Plus from "../../../CustomIcons/PlusIcon";
 import ToggleButton from "../../../Shared/ToggleButton";
-import Pagination from "../../../Shared/Pagination";
+import Pagination, { IsArray } from "../../../Shared/Pagination";
 import { applicationsettingsFakeData } from "../../../fake";
 import { getLocal, setLocal } from "../../../../utils/localStorage";
 import { useQuery } from "react-query";
@@ -39,9 +39,9 @@ const Industry = () => {
         }
     }, [toggle]);
     useEffect(() => {
-        setToggle(productToggle)
+        setToggle(productToggle);
         setLocal("industry-toggle", productToggle);
-    },[]);
+    }, []);
 
     const { data, isLoading } = useQuery(["industry-item-get"], () =>
         api
@@ -93,7 +93,7 @@ const Industry = () => {
                         <LodingAnimation />
                     ) : (
                         <Pagination
-                            dataArr={data?.settingsItems}
+                            dataArr={IsArray(data?.settingsItems)}
                             itemsPerPage={5}
                             className=" !justify-start"
                         >
