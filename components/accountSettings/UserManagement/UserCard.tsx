@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
 import { userManagementData } from "../../fake";
 import UserManagementModel from "./../../modal/UserManagementModal/index";
@@ -5,12 +6,12 @@ import UserManagementInviteSendModal from "./../../modal/UserManagementInviteSen
 import { DeleteModals } from "./../../modal/UserManagementDeleteModal";
 
 const UserManagementCard = () => {
-  const [openModal, setOpenModal] = useState(false);
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [openInviteSendModal, setOpenInviteSendModal] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
+    const [openInviteSendModal, setOpenInviteSendModal] = useState(false);
     return (
         <>
-           <UserManagementInviteSendModal
+            <UserManagementModel
                 isOpen={openInviteSendModal}
                 onClose={() => setOpenInviteSendModal(false)}
             />
@@ -27,7 +28,10 @@ const UserManagementCard = () => {
                     <h3 className="flex-1 font-semibold text-[18px] leading-[25px] text-[#101010]">
                         User Management
                     </h3>
-                    <button onClick={() => setOpenInviteSendModal(true)} className="w-[132px] h-[39px] border border-primary rounded-[4px] font-normal sm:text-[14px] sm:leading-[19px] md:text-[16px] md:leading-[22px] text-primary">
+                    <button
+                        onClick={() => setOpenInviteSendModal(true)}
+                        className="w-[132px] h-[39px] border border-primary rounded-[4px] font-normal sm:text-[14px] sm:leading-[19px] md:text-[16px] md:leading-[22px] text-primary"
+                    >
                         Send Invite
                     </button>
                 </div>
@@ -72,9 +76,12 @@ const UserManagementCard = () => {
                                 </div>
                             </div>
                             <div className="px-[20px] pb-[20px] mt-[20px] flex w-[100%] justify-between">
-                                <button onClick={() => {
-                                                    setOpenDeleteModal(true)       
-                                                }} className="w-[143px] h-[40px] rounded-[4px] bg-primary mr-[9px] cursor-pointer font-semibold text-[12px] leading-[16px] text-[#FFFFFF]">
+                                <button
+                                    onClick={() => {
+                                        setOpenDeleteModal(true);
+                                    }}
+                                    className="w-[143px] h-[40px] rounded-[4px] bg-primary mr-[9px] cursor-pointer font-semibold text-[12px] leading-[16px] text-[#FFFFFF]"
+                                >
                                     Delete
                                 </button>
                                 <button

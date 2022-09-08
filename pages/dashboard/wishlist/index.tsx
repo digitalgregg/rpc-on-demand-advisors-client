@@ -120,34 +120,6 @@ function WishListItem() {
                             </div>
                         </div>
                     </div>
-                    {/* <table className="">
-                        <tr>
-                            <td className="text-xs leading-[16px] font-normal">
-                                Title
-                            </td>
-                            <td className="text-sm leading-[19px] font-semibold p-0 pl-4">
-                                Graphics design
-                            </td>
-                        </tr>
-                        <div className="pt-4"></div>
-                        <tr>
-                            <td className="text-xs leading-[16px] font-normal">
-                                Content Type
-                            </td>
-                            <td className="text-sm leading-[19px] font-semibold pl-4">
-                                Ebook
-                            </td>
-                        </tr>
-                        <div className="pt-4"></div>
-                        <tr>
-                            <td className="text-xs leading-[16px] font-normal">
-                                Status
-                            </td>
-                            <td className="text-sm leading-[19px] font-semibold pl-4">
-                                Close
-                            </td>
-                        </tr>
-                    </table> */}
                     <div className="pt-[40px]"></div>
                     <button className="text-xs leading-[40px] text-primary hover:text-[#fff] font-semibold w-full border-primary border transition-all duration-200 hover:bg-primary rounded-[4px] h-[40px]">
                         Manage

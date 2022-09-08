@@ -19,8 +19,8 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object({
-    collection_title: Yup.string(),
-    share_with: Yup.mixed(),
+    collection_title: Yup.string().required("Collection title is required"),
+    share_with: Yup.mixed().required("Share with is required"),
 });
 
 function NewCollectionModal({ isOpen, handleClose }: ModalType) {
@@ -34,6 +34,11 @@ function NewCollectionModal({ isOpen, handleClose }: ModalType) {
         { value: "62e101e037c89137277c17187", label: "Asif 3Ahmed" },
         { value: "62e101e037c8913f727717187", label: "Asif 4Ahmed" },
     ];
+
+    const handleCollectionCreate = (v: any) => {
+        console.log(v);
+    };
+
     return (
         <OverflowModal
             isOpen={isOpen}
@@ -62,7 +67,7 @@ function NewCollectionModal({ isOpen, handleClose }: ModalType) {
                 <Formik
                     initialValues={initialValues}
                     validationSchema={validationSchema}
-                    onSubmit={(v) => console.log(v)}
+                    onSubmit={handleCollectionCreate}
                 >
                     {() => (
                         <Form>
@@ -89,7 +94,10 @@ function NewCollectionModal({ isOpen, handleClose }: ModalType) {
                                 >
                                     Cancel
                                 </button>
-                                <button className="h-[43px] border border-primary text-center basis-1/2 rounded bg-primary text-white text-sm font-bold hover:bg-primary_dark transition-all duration-200">
+                                <button
+                                    type="submit"
+                                    className="h-[43px] border border-primary text-center basis-1/2 rounded bg-primary text-white text-sm font-bold hover:bg-primary_dark transition-all duration-200"
+                                >
                                     Save
                                 </button>
                             </div>

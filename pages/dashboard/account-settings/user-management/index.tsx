@@ -1,17 +1,17 @@
 import React from "react";
 import { Layout } from "../../../../components/accountSettings/Layout";
 import DashboardLayout from "../../../../components/Dashboard/DashboardLayout";
-
-import UserManagementCard from "../../../../components/accountSettings/UserManagement/UserCard";
-import UserManagementTable from "../../../../components/accountSettings/UserManagement/UserTable";
+import HeaderButton from "../../../../components/accountSettings/UserManagement/HeaderButton";
+import ManagementTable from "../../../../components/accountSettings/UserManagement/ManagementTable";
+import Pagination from "../../../../components/Shared/Pagination";
 
 const index = () => {
     return (
         <DashboardLayout>
             <Layout>
-                <div className="w-[100%]  pb-[20px]">
-                    <UserManagementTable />
-                    <UserManagementCard />
+                <div className="w-full sm:bg-[#FFFFFF] sm:px-[10px] md:px-[20px] 2xl:px-[30px] py-[30px] sm:flex sm:flex-col">
+                    <HeaderButton />
+                    <ManagementTable />
                 </div>
             </Layout>
         </DashboardLayout>

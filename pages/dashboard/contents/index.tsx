@@ -166,7 +166,7 @@ function Contents() {
                     {/* content cards  */}
                     <div className="">
                         <Pagination
-                            dataArr={contentData || []}
+                            dataArr={contentData}
                             itemsPerPage={getItemsPerPage()}
                         >
                             {(currentItems) => (

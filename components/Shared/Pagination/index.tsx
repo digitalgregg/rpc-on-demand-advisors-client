@@ -18,6 +18,8 @@ function Pagination({
     const [pageCount, setPageCount] = useState<number>(0);
     const [itemOffset, setItemOffset] = useState<number>(0);
 
+    dataArr = Array.isArray(dataArr) ? dataArr : [];
+
     useEffect(() => {
         const endOffset = itemOffset + itemsPerPage;
         // console.log(`Loading items from ${itemOffset} to ${endOffset}`);
