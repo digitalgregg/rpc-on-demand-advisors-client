@@ -1,16 +1,29 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
+import React, { useMemo } from "react";
 import DashboardLayout from "../../../components/Dashboard/DashboardLayout";
 import { useState } from "react";
 import Link from "next/link";
 import WishlistModal from "../../../components/Dashboard/WishlistPage/WishlistModal";
 import { useWindowDimensions } from "../../../components/Shared/DimentionHook";
+import { useQuery } from "react-query";
+import api from "./../../../api/index";
+import { getLocal } from "./../../../utils/localStorage";
+import LodingAnimation from "./../../../components/Shared/LodingAnimation/index";
+import { useEffect } from "react";
+import { Router, useRouter } from "next/router";
+
 // flex flex-col gap-5 sm:flex-row sm:flex-wrap sm:[&>div]:basis-[calc(50%-10px)] lg:[&>div]:basis-[calc((100%/3)-(40px/3))]
 function WishList() {
-    const [modalOpen, setModalOpen] = useState(false);
+    const team = getLocal("team");
+
     const handleModal = () => {
         setModalOpen(!modalOpen);
+        refetch();
     };
+    const { isLoading, data, refetch } = useQuery("get wish", () =>
+        api.get(`/api/wish?team_id=${team.id}`)
+    );
+    const [modalOpen, setModalOpen] = useState(false);
 
     const { width } = useWindowDimensions();
     function getItemsPerPage(): number {
@@ -32,8 +45,8 @@ function WishList() {
     return (
         <DashboardLayout>
             <div className="">
-                <div className=" min-h-screen">
-                    <div className="flex justify-between items-center">
+                <div className="min-h-screen ">
+                    <div className="flex items-center justify-between">
                         <div className="text-[24px] leading-[32.68px] text-[#000] font-semibold">
                             Wishlist
                         </div>
@@ -53,17 +66,19 @@ function WishList() {
                         </button>
                     </div>
                     <div className="pt-[30px]"></div>
-                    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 ">
-                        <WishListItem />
-                        <WishListItem />
-                        <WishListItem />
-                        <WishListItem />
-                        <WishListItem />
-                        <WishListItem />
-                        <WishListItem />
-                        <WishListItem />
-                        <WishListItem />
-                    </div>
+                    {isLoading ? (
+                        <div className="flex items-center justify-center w-[100%] h-screen ">
+                            <LodingAnimation
+                                color="#E51937"
+                                height={50}
+                                width={50}
+                            />
+                        </div>
+                    ) : (
+                        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 ">
+                            <WishListItem wishes={data} />
+                        </div>
+                    )}
                 </div>
             </div>
             <WishlistModal
@@ -75,58 +90,71 @@ function WishList() {
     );
 }
 
-function WishListItem() {
+type CardProps = {
+    wishes: any;
+};
+function WishListItem({ wishes }: CardProps) {
+    const router = useRouter();
     return (
-        <Link href="/dashboard/wishlist/view/dfsdfw">
-            <div>
-                <div className="flex items-center gap-[10px] text-white p-[10px_15px] bg-[#000]">
-                    <img
-                        src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
-                        alt="profile image"
-                        width={38}
-                        height={38}
-                        className="rounded-full"
-                    />
-                    <div className="text-lg leading-[24.51px] font-semibold">
-                        Gregg
-                    </div>
-                </div>
-                <div className="p-[15px]">
-                    <div className="text-[#101010] table">
-                        <div className="table-row">
-                            <div className="table-cell text-xs leading-[16px] font-normal">
-                                Title
-                            </div>
-                            <div className="table-cell text-sm leading-[19px] font-semibold p-0 pl-4">
-                                Graphics design
-                            </div>
-                        </div>
-                        <div className="pt-4"></div>
-                        <div className="table-row">
-                            <div className="table-cell text-xs leading-[16px] font-normal">
-                                Content Type
-                            </div>
-                            <div className="table-cell text-sm leading-[19px] font-semibold p-0 pl-4">
-                                eBook
-                            </div>
-                        </div>
-                        <div className="pt-4"></div>
-                        <div className="table-row">
-                            <div className="table-cell text-xs leading-[16px] font-normal">
-                                Status
-                            </div>
-                            <div className="table-cell text-sm leading-[19px] font-semibold p-0 pl-4">
-                                Close
-                            </div>
+        <>
+            {wishes?.data.map((wish: any, index: any) => (
+                <div key={index}>
+                    <div className="flex items-center gap-[10px] text-white p-[10px_15px] bg-[#000]">
+                        <img
+                            src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
+                            alt="profile image"
+                            width={38}
+                            height={38}
+                            className="rounded-full"
+                        />
+                        <div className="text-lg leading-[24.51px] font-semibold">
+                            {wish.user_name}
                         </div>
                     </div>
-                    <div className="pt-[40px]"></div>
-                    <button className="text-xs leading-[40px] text-primary hover:text-[#fff] font-semibold w-full border-primary border transition-all duration-200 hover:bg-primary rounded-[4px] h-[40px]">
-                        Manage
-                    </button>
+                    <div className="p-[15px]">
+                        <div className="text-[#101010] table">
+                            <div className="table-row">
+                                <div className="table-cell text-xs leading-[16px] font-normal">
+                                    Title
+                                </div>
+                                <div className="table-cell text-sm leading-[19px] font-semibold p-0 pl-4 w-[90%] truncate">
+                                    {wish.wish_title}
+                                </div>
+                            </div>
+                            <div className="pt-4"></div>
+                            <div className="table-row">
+                                <div className="table-cell text-xs leading-[16px] font-normal">
+                                    Content Type
+                                </div>
+                                <div className="table-cell text-sm leading-[19px] font-semibold p-0 pl-4  w-[90%] truncate">
+                                    {wish.content_type}
+                                </div>
+                            </div>
+                            <div className="pt-4"></div>
+                            <div className="table-row">
+                                <div className="table-cell text-xs leading-[16px] font-normal">
+                                    Status
+                                </div>
+                                <div className="table-cell text-sm leading-[19px] font-semibold p-0 pl-4 w-[90%] truncate">
+                                    {wish.status}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="pt-[40px]"></div>
+                        <button
+                            onClick={() =>
+                                router.push(
+                                    `/dashboard/wishlist/view/${wish._id}`
+                                )
+                            }
+                            className="text-xs leading-[40px] text-primary hover:text-[#fff] font-semibold w-full border-primary border transition-all duration-200 hover:bg-primary rounded-[4px] h-[40px]"
+                        >
+                            Manage
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </Link>
+            ))}
+        </>
     );
 }
 
