@@ -17,7 +17,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
         if (router.asPath.includes("dashboard") && token) {
             setLoading(true);
         }
-        if (router.asPath.includes("dashboard") && !token) {
+        if (!router.asPath.includes("dashboard") && !token) {
             setLoading(true);
         }
         router.asPath.includes("dashboard")
@@ -32,7 +32,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 };
 
 const LoadingBox = () => (
-    <div className="flex  justify-center items-center h-screen w-full">
+    <div className="flex items-center justify-center w-full h-screen">
         <LodingAnimation color="#E51937" height={50} width={50} />
     </div>
 );

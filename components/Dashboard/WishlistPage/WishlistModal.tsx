@@ -1,11 +1,16 @@
 import { Form, Formik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import * as Yup from "yup";
+import { getLocal } from "../../../utils/localStorage";
 import CustomModal from "../../Shared/CustomUtils/CustomModal";
 import InputField from "../../Shared/InputField";
 import MultiSelect from "../../Shared/MultiSelect";
 import SelectField from "../../Shared/SelectField";
 import TextAreaField from "../../Shared/TextAreaField";
+import api from './../../../api/index';
+import LodingAnimation from './../../Shared/LodingAnimation/index';
+import { toast } from "react-toastify";
+import {useRouter} from "next/router";
 
 const initialWishlist = {
     content_request: "",
@@ -30,15 +35,16 @@ type WishModalType = {
 };
 
 function WishlistModal({ modalOpen, handleModal, type }: WishModalType) {
+    const team = getLocal("team");
+    const user = getLocal("user-info");
+    const [error, setError] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
+  const wishListId = router.query.id;
     const requestOptions = [
-        { value: "all-team-members", label: "All Team Members" },
-        { value: "no-team-members", label: "No Team Members" },
-        { value: "hell", label: "Rashed Iqbal" },
-        { value: "helld", label: "Rakib Islam" },
-        { value: "helldgf", label: "Asif 1Ahmed" },
-        { value: "helldfs", label: "Asif2 Ahmed" },
-        { value: "hellrth", label: "Asif 3Ahmed" },
-        { value: "helldf", label: "Asif 4Ahmed" },
+        { value: "wish", label: "Wish for" },
+        { value: "need", label: "Need" },
+        { value: "urgent", label: "Urgently need" },
     ];
     const typeOptions = [
         { value: "all-team-members", label: "All Team Members" },
@@ -50,7 +56,6 @@ function WishlistModal({ modalOpen, handleModal, type }: WishModalType) {
         { value: "hellrth", label: "Asif 3Ahmed" },
         { value: "helldf", label: "Asif 4Ahmed" },
     ];
-
     return (
         <CustomModal
             isOpen={modalOpen}
@@ -65,7 +70,60 @@ function WishlistModal({ modalOpen, handleModal, type }: WishModalType) {
                 <Formik
                     initialValues={initialWishlist}
                     validationSchema={wishlistSchema}
-                    onSubmit={(value) => console.log(value)}
+                    onSubmit={(value) => {
+                        setIsLoading(true);
+                        const wishtlistData = {
+                            urgency: value.content_request,
+                            content_type: value.content_type,
+                            wish_title: value.title,
+                            needs_to: value.description,
+                            revenue: value.revenue,
+                            because: "example text",
+                            status: "In progress",
+                            checked: false,
+                            team_id: team.id,
+                            user_id: team.user_id,
+                            user_name: user.name,
+                            profile: "http://profile.com"
+                            
+                            
+                        }
+                        const updateWishList = {
+                            urgency: value.content_request,
+                            content_type: value.content_type,
+                            wish_title: value.title,
+                            needs_to: value.description,
+                            revenue: value.revenue,
+                        }
+                        
+                        if(type === "create") {
+                            api.post("/api/wish", wishtlistData)
+                        .then((res:any) => {
+                            setIsLoading(false);
+                            toast.success("Wishlist updated successfully");
+                            handleModal();
+                            setError("");
+                            
+                        })
+                        .catch((error:any) => {
+                            setError(error.message);
+                            setIsLoading(false);
+                            console.log(error)
+                        })
+                        }
+
+                        if(type === "update") {
+                            api.put(`/api/wish/${wishListId}`, updateWishList)
+                            .then((res:any) => {
+                                console.log(res, "res from update");
+                                setIsLoading(false);
+                            })
+                            .catch((error:any) => {
+                                console.log(error, "error...")
+                            })
+                        }
+                        
+                    }}
                 >
                     {() => (
                         <Form>
@@ -115,6 +173,7 @@ function WishlistModal({ modalOpen, handleModal, type }: WishModalType) {
                                 placeholder="$ 0.00"
                                 labelClass="!text-sm !leading-[19.07px]"
                             />
+                            {error &&  <p className="text-red-500 text-[14px] mt-[4px]">{error}</p>}
                             <div className=" pt-[14px] sm:pt-5"></div>
 
                             <div className="flex justify-end gap-[20px]">
@@ -130,8 +189,8 @@ function WishlistModal({ modalOpen, handleModal, type }: WishModalType) {
                                     className="basis-1/2 h-[45px] max-w-[152px] text-[16px] leading-[45px] bg-primary text-[#fff] text-center border transition-all duration-200 hover:bg-[#890F21] border-primary rounded-[4px]"
                                 >
                                     {type == "create"
-                                        ? "Add to wish"
-                                        : "Update wish"}
+                                        ? <span>{isLoading === true ? <LodingAnimation color="white" />: "Add to wish"}</span>
+                                        : <span>{isLoading === true ? <LodingAnimation color="white" />: "Update wish"}</span>}
                                 </button>
                             </div>
                         </Form>
