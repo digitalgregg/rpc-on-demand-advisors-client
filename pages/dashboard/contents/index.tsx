@@ -9,7 +9,7 @@ import FileUploadModal, {
     handleUppyModal,
 } from "../../../components/FileUploadModal";
 import NewCollectionModal from "../../../components/modal/NewCollection";
-import Pagination from "../../../components/Shared/Pagination";
+import Pagination, { IsArray } from "../../../components/Shared/Pagination";
 import { useWindowDimensions } from "../../../components/Shared/DimentionHook/index";
 import { useAtom } from "jotai";
 import { team_state } from "../../../state/index";
@@ -166,7 +166,7 @@ function Contents() {
                     {/* content cards  */}
                     <div className="">
                         <Pagination
-                            dataArr={contentData}
+                            dataArr={IsArray(contentData)}
                             itemsPerPage={getItemsPerPage()}
                         >
                             {(currentItems) => (

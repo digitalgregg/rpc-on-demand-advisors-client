@@ -3,7 +3,7 @@ import ItemCard from "./ItemCard";
 import { Modals } from "../../../modal/ApplicationSettingAddTag";
 import Plus from "../../../CustomIcons/PlusIcon";
 import ToggleButton from "../../../Shared/ToggleButton";
-import Pagination from "../../../Shared/Pagination";
+import Pagination, { IsArray } from "../../../Shared/Pagination";
 import { applicationsettingsFakeData } from "../../../fake";
 import { getLocal, setLocal } from "../../../../utils/localStorage";
 import { useQuery } from "react-query";
@@ -39,9 +39,9 @@ const Tag = () => {
         }
     }, [toggle]);
     useEffect(() => {
-        setToggle(productToggle)
+        setToggle(productToggle);
         setLocal("tag-toggle", productToggle);
-    },[]);
+    }, []);
 
     const { data, isLoading } = useQuery(["tags-item-get"], () =>
         api
@@ -97,7 +97,7 @@ const Tag = () => {
                         <LodingAnimation />
                     ) : (
                         <Pagination
-                            dataArr={data?.settingsItems}
+                            dataArr={IsArray(data?.settingsItems)}
                             itemsPerPage={5}
                             className=" !justify-start"
                         >

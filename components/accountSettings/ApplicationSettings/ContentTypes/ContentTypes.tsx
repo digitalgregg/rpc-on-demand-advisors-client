@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ItemCard from "../ItemCard/ItemCard";
 import { Modals } from "../../../modal/ApplicationSettingAddItem";
 import Plus from "../../../CustomIcons/PlusIcon";
-import Pagination from "../../../Shared/Pagination";
+import Pagination, { IsArray } from "../../../Shared/Pagination";
 import { applicationsettingsFakeData } from "../../../fake";
 import { useQuery } from "react-query";
 import api from "../../../../api";
@@ -67,7 +67,7 @@ const ContentTypes = () => {
                         <LodingAnimation />
                     ) : (
                         <Pagination
-                            dataArr={data?.settingsItems}
+                            dataArr={IsArray(data?.settingsItems)}
                             itemsPerPage={5}
                             className=" !justify-start"
                         >
