@@ -11,10 +11,11 @@ import api from "../../../../api";
 import LodingAnimation from "./../../../Shared/LodingAnimation/index";
 import { toast } from "react-toastify";
 const Industry = () => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
     const [toggle, setToggle] = useState(false);
     const [iconColor, setIconColor] = useState(false);
     const teamId = getLocal("team");
+    const productToggle = getLocal("industry-toggle");
     const onOver = (e: any) => {
         if (e) setIconColor(true);
     };
@@ -24,25 +25,33 @@ const Industry = () => {
     const handleToggle = () => setToggle(!toggle);
 
     function openModal() {
-        setIsOpen(true);
+        setModalIsOpen(true);
     }
 
     function closeModal() {
-        setIsOpen(false);
+        setModalIsOpen(false);
     }
     useEffect(() => {
-        setLocal("industry-toggle", toggle);
-    }, [toggle, setToggle]);
+        if (toggle === false) {
+            setLocal("industry-toggle", "false");
+        } else if (toggle === true) {
+            setLocal("industry-toggle", "true");
+        }
+    }, [toggle]);
+    useEffect(() => {
+        setToggle(productToggle)
+        setLocal("industry-toggle", productToggle);
+    },[]);
 
     const { data, isLoading } = useQuery(["industry-item-get"], () =>
         api
             .get(
-                `https://oda-center.herokuapp.com/api/application-settings?team_id=${teamId.id}`
+                `https://oda-center.herokuapp.com/api/application-settings?team_id=${teamId?.id}`
             )
             .then((res) => {
                 const regionData = res?.data;
-                const filterData = regionData.filter(
-                    (e: any) => e.type === "industry"
+                const filterData = regionData?.filter(
+                    (e: any) => e?.type === "industry"
                 )[0];
 
                 return filterData;
@@ -55,10 +64,9 @@ const Industry = () => {
     return (
         <>
             <Modals
-                modalCloseFuncton={setIsOpen}
+                modalCloseFuncton={setModalIsOpen}
                 HTitle="Industry"
-                closeModal={closeModal}
-                isOpen={isOpen}
+                modalIsOpen={modalIsOpen}
                 teamId={teamId?.id}
                 type={data?.type}
             />
@@ -85,14 +93,14 @@ const Industry = () => {
                         <LodingAnimation />
                     ) : (
                         <Pagination
-                            dataArr={data.settingsItems}
+                            dataArr={data?.settingsItems}
                             itemsPerPage={5}
                             className=" !justify-start"
                         >
                             {(currentItems) => (
                                 <>
                                     <div className=" flex flex-col gap-[16px]">
-                                        {currentItems.map(
+                                        {currentItems?.map(
                                             ({ title, _id }: any) => (
                                                 <ItemCard
                                                     name={title}

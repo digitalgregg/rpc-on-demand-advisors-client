@@ -2,18 +2,22 @@ import React, { useState } from "react";
 import { Modals } from "../../modal/ContactSupportFeedBackModal";
 
 const Feedback = () => {
-    const [modalIsOpen, setIsOpen] = useState(false);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
 
     function openModal() {
-        setIsOpen(true);
+        setModalIsOpen(true);
     }
 
     function closeModal() {
-        setIsOpen(false);
+        setModalIsOpen(false);
     }
     return (
         <>
-            <Modals closeModal={closeModal} modalIsOpen={modalIsOpen} />
+            <Modals
+                closeModal={closeModal}
+                modalIsOpen={modalIsOpen}
+                modalCloseFuncton={setModalIsOpen}
+            />
             <button onClick={openModal} className=" text-4xl font-bold">
                 openModal
             </button>

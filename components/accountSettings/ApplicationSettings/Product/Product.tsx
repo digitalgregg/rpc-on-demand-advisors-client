@@ -12,10 +12,11 @@ import LodingAnimation from "../../../Shared/LodingAnimation";
 import { toast } from "react-toastify";
 
 const Product = () => {
-    const [modalIsOpen, setIsOpen] = useState(false);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
     const [toggle, setToggle] = useState(false);
     const [iconColor, setIconColor] = useState(false);
     const teamId = getLocal("team");
+    const productToggle = getLocal("product-toggle");
 
     const onOver = (e: any) => {
         if (e) setIconColor(true);
@@ -24,28 +25,37 @@ const Product = () => {
         if (e) setIconColor(false);
     };
     function openModal() {
-        setIsOpen(true);
+        setModalIsOpen(true);
     }
 
     function closeModal() {
-        setIsOpen(false);
+        setModalIsOpen(false);
     }
-    const handleToggle = () => setToggle(!toggle);
-
+    const handleToggle = () => {
+        setToggle(!toggle);
+    };
 
     useEffect(() => {
-        setLocal("product-toggle", toggle);
-    }, [toggle, setToggle]);
+        if (toggle === false) {
+            setLocal("product-toggle", "false");
+        } else if (toggle === true) {
+            setLocal("product-toggle", "true");
+        }
+    }, [toggle]);
+    useEffect(() => {
+        setToggle(productToggle)
+        setLocal("product-toggle", productToggle);
+    },[]);
 
     const { data, isLoading } = useQuery(["product-item-get"], () =>
         api
             .get(
-                `https://oda-center.herokuapp.com/api/application-settings?team_id=${teamId.id}`
+                `https://oda-center.herokuapp.com/api/application-settings?team_id=${teamId?.id}`
             )
             .then((res) => {
                 const regionData = res?.data;
-                const filterData = regionData.filter(
-                    (e: any) => e.type === "product"
+                const filterData = regionData?.filter(
+                    (e: any) => e?.type === "product"
                 )[0];
 
                 return filterData;
@@ -54,15 +64,14 @@ const Product = () => {
                 toast.error(res.message);
             })
     );
-    
 
     return (
         <>
             <Modals
-                HTitle="Funnel Stage"
+                HTitle="Product"
                 closeModal={closeModal}
                 modalIsOpen={modalIsOpen}
-                modalCloseFuncton={setIsOpen}
+                modalCloseFuncton={setModalIsOpen}
                 teamId={teamId?.id}
                 type={data?.type}
             />
@@ -89,14 +98,14 @@ const Product = () => {
                         <LodingAnimation />
                     ) : (
                         <Pagination
-                            dataArr={data.settingsItems}
+                            dataArr={data?.settingsItems}
                             itemsPerPage={5}
                             className=" !justify-start"
                         >
                             {(currentItems) => (
                                 <>
                                     <div className=" flex flex-col gap-[16px]">
-                                        {currentItems.map(
+                                        {currentItems?.map(
                                             ({ title, _id }: any) => (
                                                 <ItemCard
                                                     name={title}

@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import InputField from "../Shared/InputField";
-import api from "./../../api/index";
 import { getLocal } from "./../../utils/localStorage";
 import { toast } from "react-toastify";
+import api from "../../api";
+import LodingAnimation from "./../Shared/LodingAnimation/index";
 
 const ChangePassword = () => {
+  const [buttonLoading, setButtonLoading] = useState(false);
   const user = getLocal("user");
   const [error, setError] = useState("");
   const [isHiddenOldPassword, setIsHiddenOldPassword] = useState(true);
@@ -22,6 +24,7 @@ const ChangePassword = () => {
     old_password: Yup.string().required("Password is required"),
     new_password: Yup.string().required("Password is required"),
   });
+
   return (
     <div className="bg-[#FFFFFF] p-[20px]">
       <h2 className="text-semibold text-[18px] leading-[25px] mb-[20px] text-[#000000]">
@@ -31,19 +34,19 @@ const ChangePassword = () => {
         initialValues={changePasswordInfo}
         validationSchema={changePasswordInfoSchema}
         onSubmit={(values) => {
-          setError("")
+          setButtonLoading(true);
+          setError("");
           api
-            .put(
-              `https://oda-center.herokuapp.com/api/user/change-password/${user._id}`,
-              values
-            )
+            .put(`/api/user/change-password/${user._id}`, values)
             .then((res) => {
               if (res.status === 200) {
                 toast.success(res.data.message);
+                setButtonLoading(false);
               }
             })
             .catch((err) => {
               setError(err?.response.data.message);
+              setButtonLoading(false);
             });
         }}
       >
@@ -104,8 +107,20 @@ const ChangePassword = () => {
                 {error}
               </h3>
             )}
-            <button type="submit" className="xs:w-[100%] hover:bg-primary transition duration-700 ease-in-out mt-[20px] hover:text-[#FFFFFF] sm:w-[240px] md:w-[279px] lg:w-[144px] xl:w-[144px] 2xl:w-[187px] 3xl:w-[278.06px] 4xl:w-[278.06px] h-[45px] border border-primary rounded-[4px] font-semibold text-[14px] leading-[19px] text-primary">
-              Update password
+            <button
+              type="submit"
+              className="xs:w-[100%] hover:bg-primary transition duration-700 ease-in-out mt-[20px] hover:text-[#FFFFFF] sm:w-[240px] md:w-[279px] lg:w-[144px] xl:w-[144px] 2xl:w-[187px] 3xl:w-[278.06px] 4xl:w-[278.06px] h-[45px] border border-primary rounded-[4px] font-semibold text-[14px] leading-[19px] text-primary"
+            >
+              {buttonLoading ? (
+                <span className="flex items-center gap-[10px] justify-center">
+                  <div>
+                    <LodingAnimation color="red" />
+                  </div>
+                  <div>Loading...</div>
+                </span>
+              ) : (
+                "Update password"
+              )}
             </button>
           </Form>
         )}

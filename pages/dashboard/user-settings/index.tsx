@@ -9,7 +9,7 @@ import GlovalTagSelect from "../../../components/GlovalTagSelect/index";
 import { fakeTagData } from "../../../components/fake";
 import { useragCustomStyle } from "../../../utils/reactSelectCustomSyle";
 
-const labelStyle = "text-[16px] text-[#000000] font-normal	 leading-[21.79px]";
+const labelStyle = "text-[16px] text-[#000000] font-normal leading-[21.79px]";
 
 const Index = () => {
   const handleOnChange = (e: any) => {
@@ -30,7 +30,6 @@ const Index = () => {
           <ChangePassword />
           <NotificationSettings />
         </div>
-
         <div className="w-full lg:w-[70%] bg-[#FFFFFF] rounded-[4px] mt-[30px] px-[20px] pb-[20px]">
           <h3 className="  font-semibold text-[16px] sm:text-[18px] leading-[24.51px] text-[#000000] mb-[20px] pt-[20px]">
             Search Filter

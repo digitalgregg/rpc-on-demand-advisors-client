@@ -13,7 +13,7 @@ const ScheduleDemo = () => {
         onEventScheduled: (e) => {
             toast.success("Please check your email for more information.");
             setTimeout(() => {
-                router.push("/dashboard/support/contact-support");
+                router.push("/");
             }, 4000);
         },
     });

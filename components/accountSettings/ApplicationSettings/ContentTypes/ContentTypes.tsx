@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import { getLocal } from "../../../../utils/localStorage";
 
 const ContentTypes = () => {
-    const [modalIsOpen, setIsOpen] = useState(false);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
     const [iconColor, setIconColor] = useState(false);
     const teamId = getLocal("team");
     const onOver = (e: any) => {
@@ -21,22 +21,22 @@ const ContentTypes = () => {
         if (e) setIconColor(false);
     };
     function openModal() {
-        setIsOpen(true);
+        setModalIsOpen(true);
     }
 
     function closeModal() {
-        setIsOpen(false);
+        setModalIsOpen(false);
     }
     // Aa4321$2
     const { data, isLoading } = useQuery(["content-item-get"], () =>
         api
             .get(
-                `https://oda-center.herokuapp.com/api/application-settings?team_id=${teamId.id}`
+                `https://oda-center.herokuapp.com/api/application-settings?team_id=${teamId?.id}`
             )
             .then((res) => {
                 const regionData = res?.data;
-                const filterData = regionData.filter(
-                    (e: any) => e.type === "content"
+                const filterData = regionData?.filter(
+                    (e: any) => e?.type === "content"
                 )[0];
 
                 return filterData;
@@ -49,10 +49,10 @@ const ContentTypes = () => {
     return (
         <>
             <Modals
-                HTitle="Funnel Stage"
+                HTitle="Content Types"
                 closeModal={closeModal}
                 modalIsOpen={modalIsOpen}
-                modalCloseFuncton={setIsOpen}
+                modalCloseFuncton={setModalIsOpen}
                 teamId={teamId?.id}
                 type={data?.type}
             />
