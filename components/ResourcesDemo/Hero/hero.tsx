@@ -21,7 +21,7 @@ const Hero = () => {
                             Try for Free
                         </button>
                         <button onClick={() => router.push("/schedule-demo")} className=" h-[56px] px-8 text-sm sm:text-base leading-[22px] font-semibold text-White rounded border-inherit border-[1px] border-solid border-White hover-transition hover:border-primary hover:bg-primary">
-                            Schedule Demo
+                             
                         </button>
                     </div>
                 </div>
