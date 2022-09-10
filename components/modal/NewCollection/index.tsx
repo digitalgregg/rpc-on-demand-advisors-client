@@ -7,6 +7,18 @@ import InputField from "../../Shared/InputField";
 import MultiSelect from "../../Shared/MultiSelect";
 import * as Yup from "yup";
 import OverflowModal from "../../Shared/CustomUtils/OverflowModal";
+import { removeEmpty } from "../../../utils/removeEmpty";
+import { useQuery } from "react-query";
+import { fetchTeamUsers } from "../../../api-call/UserManageApi";
+import { useAtom } from "jotai";
+import { signupState, team_state } from "../../../state";
+import {
+    getShareWithArr,
+    getShareWithData,
+} from "../../../api-call/ReuseableApi";
+import LodingAnimation from "../../Shared/LodingAnimation";
+import api from "../../../api";
+import { toast } from "react-toastify";
 
 type ModalType = {
     isOpen: boolean;
@@ -19,24 +31,44 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object({
-    collection_title: Yup.string().required("Collection title is required"),
+    collection_title: Yup.string().required("Title is required"),
     share_with: Yup.mixed().required("Share with is required"),
 });
 
 function NewCollectionModal({ isOpen, handleClose }: ModalType) {
+    const [teamData] = useAtom(team_state);
+    const [userData] = useAtom(signupState);
+
+    const [buttonLoading, setButtonLoading] = useState(false);
+
+    const { data, isSuccess } = useQuery("get-team-users", () =>
+        fetchTeamUsers(teamData.id)
+    );
+
     const options = [
         { value: "all-team-members", label: "All Team Members" },
         { value: "no-team-members", label: "No Team Members" },
-        { value: "62e101e037c8919ds737717187", label: "Rashed Iqbal" },
-        { value: "62e101e037c8919w757716187", label: "Rakib Islam" },
-        { value: "62e101e037c8913727f717187", label: "Asif 1Ahmed" },
-        { value: "62e101e037c89137s27717187", label: "Asif2 Ahmed" },
-        { value: "62e101e037c89137277c17187", label: "Asif 3Ahmed" },
-        { value: "62e101e037c8913f727717187", label: "Asif 4Ahmed" },
-    ];
+    ].concat(isSuccess ? getShareWithArr(data?.data, userData._id) : []);
 
-    const handleCollectionCreate = (v: any) => {
-        console.log(v);
+    const handleCollectionCreate = async (v: any) => {
+        setButtonLoading(true);
+        try {
+            const shareWith = getShareWithData(v.share_with);
+            const apiObj = {
+                team_id: teamData.id,
+                user_id: userData._id,
+                title: v.collection_title,
+                ...shareWith,
+            };
+            console.log(apiObj);
+            await api.post("/api/collection", apiObj);
+            setButtonLoading(false);
+            toast.success("New collection created");
+            handleClose();
+        } catch (error) {
+            setButtonLoading(false);
+            console.log(error);
+        }
     };
 
     return (
@@ -67,7 +99,7 @@ function NewCollectionModal({ isOpen, handleClose }: ModalType) {
                 <Formik
                     initialValues={initialValues}
                     validationSchema={validationSchema}
-                    onSubmit={handleCollectionCreate}
+                    onSubmit={(v) => handleCollectionCreate(removeEmpty(v))}
                 >
                     {() => (
                         <Form>
@@ -98,7 +130,16 @@ function NewCollectionModal({ isOpen, handleClose }: ModalType) {
                                     type="submit"
                                     className="h-[43px] border border-primary text-center basis-1/2 rounded bg-primary text-white text-sm font-bold hover:bg-primary_dark transition-all duration-200"
                                 >
-                                    Save
+                                    {buttonLoading ? (
+                                        <span className="flex items-center gap-[10px] justify-center">
+                                            <div>
+                                                <LodingAnimation color="white" />
+                                            </div>
+                                            <div>Loading...</div>
+                                        </span>
+                                    ) : (
+                                        "Save"
+                                    )}
                                 </button>
                             </div>
                         </Form>
@@ -109,8 +150,19 @@ function NewCollectionModal({ isOpen, handleClose }: ModalType) {
     );
 }
 
-const CollectionsSelect = ({ options }: { options: object[] }) => {
-    const [value, setValue] = useState<SelectResultType | SelectResultType[]>();
+const CollectionsSelect = ({
+    options,
+    defaultValue,
+}: {
+    options: object[];
+    defaultValue?: SelectResultType | SelectResultType[];
+}) => {
+    const [value, setValue] = useState<SelectResultType | SelectResultType[]>(
+        defaultValue || {
+            value: "all-team-members",
+            label: "All Team Members",
+        }
+    );
     useEffect(() => {
         const checkValue = value && checkSelectValue(value);
         if (checkValue) {
