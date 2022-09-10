@@ -8,11 +8,13 @@ import api from "../../../../api";
 import LodingAnimation from "../../../Shared/LodingAnimation";
 import { toast } from "react-toastify";
 import { getLocal } from "../../../../utils/localStorage";
+import { useAtom } from "jotai";
+import { team_state } from "../../../../state";
 
 const FunnelStage = () => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [iconColor, setIconColor] = useState(false);
-    const teamId = getLocal("team");
+    const [teamData] = useAtom(team_state);
     const onOver = (e: any) => {
         if (e) setIconColor(true);
     };
@@ -27,11 +29,9 @@ const FunnelStage = () => {
         setModalIsOpen(false);
     }
 
-    const { data, isLoading } = useQuery(["funnel-item-get"], () =>
+    const { data, isLoading, remove } = useQuery(["funnel-item-get"], () =>
         api
-            .get(
-                `https://oda-center.herokuapp.com/api/application-settings?team_id=${teamId?.id}`
-            )
+            .get(`/api/application-settings?team_id=${teamData.id}`)
             .then((res) => {
                 const regionData = res?.data;
                 const filterData = regionData?.filter(
@@ -41,7 +41,10 @@ const FunnelStage = () => {
                 return filterData;
             })
             .catch((res) => {
-                toast.error(res.message);
+                console.log(res);
+                // if (res?.response.status === 500) {
+                //     remove();
+                // }
             })
     );
 
@@ -54,7 +57,7 @@ const FunnelStage = () => {
                 closeModal={closeModal}
                 modalIsOpen={modalIsOpen}
                 modalCloseFuncton={setModalIsOpen}
-                teamId={teamId?.id}
+                teamId={teamData?.id}
                 type={data?.type}
             />
 

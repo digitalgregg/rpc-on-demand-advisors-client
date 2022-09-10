@@ -2,8 +2,22 @@ import React from "react";
 import Pagination from "../../../Shared/Pagination";
 import CollectionItem from "../CollectionItem";
 import { useWindowDimensions } from "../../../Shared/DimentionHook/index";
+import { IsArray } from "../../../Shared/Pagination/index";
+import LodingAnimation from "../../../Shared/LodingAnimation";
 
-function ViewCollection() {
+type ViewCollectionType = {
+    data: any;
+    isLoading: boolean;
+    isSuccess: boolean;
+    isError: boolean;
+};
+
+function ViewCollection({
+    data,
+    isLoading,
+    isSuccess,
+    isError,
+}: ViewCollectionType) {
     const { width } = useWindowDimensions();
     function getItemsPerPage(): number {
         if (width < 680) {
@@ -39,20 +53,34 @@ function ViewCollection() {
                     </select>
                 </div>
             </div>
+            {isSuccess ? (
+                <Pagination
+                    dataArr={IsArray(data)}
+                    itemsPerPage={getItemsPerPage()}
+                >
+                    {(currentItems) => (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 3xl:grid-cols-4 gap-[30px] pb-[30px] sm:gap-[36px] xl:gap-[35px] ">
+                            {currentItems.map((collectionId: any, index) => (
+                                <CollectionItem key={index} />
+                            ))}
+                        </div>
+                    )}
+                </Pagination>
+            ) : (
+                <div>
+                    <div className="flex items-baseline justify-center w-full relative top-[calc((100vh-300px)/2)]">
+                        <LodingAnimation
+                            color="#E51937"
+                            height={50}
+                            width={50}
+                        />
+                        {/* <div className="text-black">No data found</div> */}
+                    </div>
+                </div>
+            )}
 
             {/* Filter section  */}
-            <Pagination
-                dataArr={[...Array(50)]}
-                itemsPerPage={getItemsPerPage()}
-            >
-                {(currentItems) => (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 3xl:grid-cols-4 gap-[30px] pb-[30px] sm:gap-[36px] xl:gap-[35px] ">
-                        {currentItems.map((collectionId: any, index) => (
-                            <CollectionItem key={index} />
-                        ))}
-                    </div>
-                )}
-            </Pagination>
+
             <div className="pt-[100px]"></div>
         </div>
     );

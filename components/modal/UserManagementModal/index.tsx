@@ -57,6 +57,7 @@ function UserManageModal({ isOpen, onClose, type }: ModalProps) {
             };
             await inviteUserApi(reqData);
             setButtonLoading(false);
+            onClose();
         }
     };
 
