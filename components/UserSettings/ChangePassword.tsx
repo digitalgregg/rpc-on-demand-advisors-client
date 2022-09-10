@@ -26,7 +26,7 @@ const ChangePassword = () => {
   });
 
   return (
-    <div className="bg-[#FFFFFF] p-[20px]">
+    <div className="bg-[#FFFFFF] p-[20px] rounded-[4px]">
       <h2 className="text-semibold text-[18px] leading-[25px] mb-[20px] text-[#000000]">
         Change Password
       </h2>

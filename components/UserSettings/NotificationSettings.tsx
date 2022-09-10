@@ -8,7 +8,7 @@ const NotificationSettings = () => {
   const handleToggle2 = () => setToggle2(!toggle2);
   
   return (
-    <div className="bg-[#FFFFFF] p-[20px]">
+    <div className="bg-[#FFFFFF] p-[20px] rounded-[4px]">
       <h3 className="text-semibold text-[18px] leading-[25px] mb-[26px] text-[#000000]">
         Notification Settings
       </h3>

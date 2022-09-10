@@ -2,7 +2,7 @@ import React from "react";
 
 const ProfilePhoto = () => {
   return (
-    <div className="bg-[#FFFFFF] divide-y divide-[#DEDEDE]">
+    <div className="bg-[#FFFFFF] divide-y divide-[#DEDEDE] rounded-[4px]">
       <h2 className="font-semibold text-[16px] leading-[22px] text-[#000805] xs:px-[16.65px] sm:px-[27px] md:px-[30.9px] lg:px-[36px] xl:px-[21.25px] 2xl:px-[20px] 3xl:px-[32.5px] 4xl:px-[38.5px] py-[20.9px]">
         Profile Photo
       </h2>
