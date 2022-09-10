@@ -31,7 +31,7 @@ const GlovalTagSelect = ({
     value: `${index}`,
     label: (
       <div className={labelStyle}>
-        <TagBadges color={item.tagColor} /> {item.label}
+        <TagBadges color={item.color} /> {item.title}
       </div>
     ),
   }));
