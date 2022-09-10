@@ -11,6 +11,8 @@ import api from "./../../../api/index";
 import LodingAnimation from "./../../Shared/LodingAnimation/index";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { removeEmpty } from "./../../../utils/removeEmpty";
+import { useQuery } from "react-query";
 
 const initialWishlist = {
     content_request: "",
@@ -44,7 +46,7 @@ function WishlistModal({
     const team = getLocal("team");
     const user = getLocal("user-info");
     const [error, setError] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoadings, setisLoadings] = useState(false);
     const router = useRouter();
     const wishListId = router.query.id;
     const requestOptions = [
@@ -52,16 +54,31 @@ function WishlistModal({
         { value: "need", label: "Need" },
         { value: "urgent", label: "Urgently need" },
     ];
-    const typeOptions = [
-        { value: "all-team-members", label: "All Team Members" },
-        { value: "no-team-members", label: "No Team Members" },
-        { value: "hell", label: "Rashed Iqbal" },
-        { value: "helld", label: "Rakib Islam" },
-        { value: "helldgf", label: "Asif 1Ahmed" },
-        { value: "helldfs", label: "Asif2 Ahmed" },
-        { value: "hellrth", label: "Asif 3Ahmed" },
-        { value: "helldf", label: "Asif 4Ahmed" },
-    ];
+    // const typeOptions = [
+    //     { value: "all-team-members", label: "All Team Members" },
+    //     { value: "no-team-members", label: "No Team Members" },
+    //     { value: "hell", label: "Rashed Iqbal" },
+    //     { value: "helld", label: "Rakib Islam" },
+    //     { value: "helldgf", label: "Asif 1Ahmed" },
+    //     { value: "helldfs", label: "Asif2 Ahmed" },
+    //     { value: "hellrth", label: "Asif 3Ahmed" },
+    //     { value: "helldf", label: "Asif 4Ahmed" },
+    // ];
+    const { isLoading, data } = useQuery(
+        ["get content ", team.id],
+        () =>
+            api.get(
+                `/api/application-settings?team_id=${team.id}&type=content`
+            ),
+        { enabled: !!team.id }
+    );
+
+    const contentData = data?.data[0].settingsItems;
+    console.log(contentData.length, "......");
+    const typeOptions = contentData.map((item: any, index: any) => ({
+        value: `${item.title}`,
+        label: `${item.title}`,
+    }));
     return (
         <CustomModal
             isOpen={modalOpen}
@@ -77,7 +94,7 @@ function WishlistModal({
                     initialValues={initialWishlist}
                     validationSchema={wishlistSchema}
                     onSubmit={(value) => {
-                        setIsLoading(true);
+                        setisLoadings(true);
                         const wishtlistData = {
                             urgency: value.content_request,
                             content_type: value.content_type,
@@ -103,25 +120,31 @@ function WishlistModal({
                         if (type === "create") {
                             api.post("/api/wish", wishtlistData)
                                 .then((res: any) => {
-                                    setIsLoading(false);
+                                    setisLoadings(false);
                                     toast.success(
-                                        "Wishlist updated successfully"
+                                        "Wishlist created successfully"
                                     );
                                     handleModal();
                                     setError("");
                                 })
                                 .catch((error: any) => {
                                     setError(error.message);
-                                    setIsLoading(false);
+                                    setisLoadings(false);
                                     console.log(error);
                                 });
                         }
 
                         if (type === "update") {
-                            api.put(`/api/wish/${wishListId}`, updateWishList)
+                            api.put(
+                                `/api/wish/${wishListId}`,
+                                removeEmpty(updateWishList)
+                            )
                                 .then((res: any) => {
                                     console.log(res, "res from update");
-                                    setIsLoading(false);
+                                    setisLoadings(false);
+                                    toast.success(
+                                        "Wishlist updated successfully"
+                                    );
                                     refetch();
                                     handleModal();
                                 })
@@ -201,7 +224,7 @@ function WishlistModal({
                                 >
                                     {type == "create" ? (
                                         <span>
-                                            {isLoading === true ? (
+                                            {isLoadings === true ? (
                                                 <LodingAnimation color="white" />
                                             ) : (
                                                 "Add to wish"
@@ -209,7 +232,7 @@ function WishlistModal({
                                         </span>
                                     ) : (
                                         <span>
-                                            {isLoading === true ? (
+                                            {isLoadings === true ? (
                                                 <LodingAnimation color="white" />
                                             ) : (
                                                 "Update wish"

@@ -14,6 +14,8 @@ import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import api from "./../../../../api/index";
 import LodingAnimation from "./../../../../components/Shared/LodingAnimation/index";
+import { removeEmpty } from "./../../../../utils/removeEmpty";
+import { toast } from "react-toastify";
 
 const updateWish = {
     status: "",
@@ -140,10 +142,13 @@ function ViewWish() {
                                                     };
                                                     api.put(
                                                         `/api/wish/${wishListId}`,
-                                                        updateData
+                                                        removeEmpty(updateData)
                                                     ).then((res: any) => {
                                                         setLoaadingButton(
                                                             false
+                                                        );
+                                                        toast.success(
+                                                            "Wishlist updated successfully"
                                                         );
                                                         refetch();
                                                     });
