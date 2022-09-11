@@ -33,17 +33,15 @@ const TagsSelect = ({
     const labelStyle = "flex items-center gap-[8px]";
     // const label = "text-[16px] font-semibold text-[#000805]";
     useEffect(() => {
-        const filerData = mapData.filter(
-            (e: any) => e.type === typeFilter
-        )[0];
-        setDatas(filerData)
+        const filerData = mapData.filter((e: any) => e.type === typeFilter)[0];
+        setDatas(filerData);
     }, [mapData]);
-    
-    const options = datas?.settingsItems?.map((item: any, index:any) => ({
+
+    const options = datas?.settingsItems?.map((item: any, index: any) => ({
         value: `${index}`,
         label: (
             <div className={labelStyle}>
-                <TagBadges color={item.tagColor} /> {item.title}
+                <TagBadges color={item.color} /> {item.title}
             </div>
         ),
     }));
