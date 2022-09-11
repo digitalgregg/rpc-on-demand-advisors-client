@@ -10,6 +10,7 @@ import CopyIcon from "../../CustomIcons/CopyIcon";
 import NewDeleteIcon from "../../CustomIcons/NewDeleteIcon";
 import NewEditIcon from "../../CustomIcons/NewEditIcon";
 import { useRouter } from "next/router";
+import Skeleton from "react-loading-skeleton";
 
 type ItemDataType = {
     id: string;
@@ -50,7 +51,7 @@ function CollectionItem({ data }: { data: ItemDataType }) {
                 <Link href={`/dashboard/collections/view-contents/${data.id}`}>
                     <div className="w-full cursor-default h-[121px] bg-[#FFFFFF] relative rounded-[4px]  shadow-[0px_2px_25px_rgba(0,0,0,0.06)] hover:shadow-[0px_2px_20px_rgba(229,25,55,0.2)] border border-transparent  transition ease-in-out duration-200 hover:border hover:border-primary px-[20px] py-[20px]">
                         <h3 className="text-[16px] font-semibold text-[#222222] w-[269px] truncate ">
-                            Test Collection name
+                            Test Collection
                         </h3>
                         <p className="text-[14px] font-normal text-[#222222] mt-[10px] mb-[10px]">
                             Total content{" "}

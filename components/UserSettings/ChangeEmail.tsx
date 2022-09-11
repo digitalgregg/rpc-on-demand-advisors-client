@@ -29,7 +29,7 @@ const ChangeEmail = () => {
       .required("Email is required"),
   });
   return (
-    <div className="bg-[#FFFFFF] p-[20px] xs:order-last xl:order-none">
+    <div className="bg-[#FFFFFF] p-[20px] xs:order-last xl:order-none rounded-[4px]">
       <h2 className="text-semibold text-[18px] leading-[25px] mb-[15px] text-[#000000]">
         Change Email
       </h2>

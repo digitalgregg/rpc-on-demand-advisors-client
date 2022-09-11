@@ -27,11 +27,11 @@ const GlovalTagSelect = ({
 }: TagProps) => {
   const labelStyle = "flex items-center gap-[8px]";
 
-  const options = mapData.map((item: any, index) => ({
+  const options = mapData?.map((item: any, index) => ({
     value: `${index}`,
     label: (
       <div className={labelStyle}>
-        <TagBadges color={item.tagColor} /> {item.label}
+        <TagBadges color={item.color} /> {item.title}
       </div>
     ),
   }));

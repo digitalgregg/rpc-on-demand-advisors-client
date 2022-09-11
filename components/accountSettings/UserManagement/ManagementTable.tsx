@@ -1,7 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
+import Avatar from "react-avatar";
+import LodingAnimation from "../../Shared/LodingAnimation";
+import Pagination, { IsArray } from "../../Shared/Pagination";
 
-function ManagementTable() {
+type TablePropsType = {
+    userData: any;
+    isSuccess: boolean;
+    isLoading: boolean;
+};
+
+function ManagementTable({ userData, isLoading, isSuccess }: TablePropsType) {
     const tableHeader =
         "sm:text-xs sm:leading-[16.34px] md:text-sm md:leading-[19.07px] xl:text-base xl:leading-[21.79px] text-white  font-semibold";
 
@@ -11,23 +20,42 @@ function ManagementTable() {
                 <div className={`${tableHeader} w-[22%]`}>User Name</div>
                 <div className={`${tableHeader} w-[28%]`}>Email</div>
                 <div className={`${tableHeader} w-[20%]`}>User type</div>
-                <div className={`${tableHeader} w-[20%]`}>Online Status</div>
-                <div className={`${tableHeader} w-[10%]`}>Action</div>
+                <div className={`${tableHeader} w-[20%]`}>Status</div>
+                <div
+                    className={`${tableHeader} w-[10%] text-center xl:text-right xl:pr-3`}
+                >
+                    Action
+                </div>
             </div>
             <div>
-                <TableItem />
+                {isLoading ? (
+                    <div className="h-[59px] text-[12px] leading-[16.34px] md:text-sm md:leading-[19.07px]  xl:h-[65px]  text-[#222] flex items-center px-5">
+                        <div className="flex items-center gap-[10px]">
+                            <LodingAnimation /> <span>Loading...</span>
+                        </div>
+                    </div>
+                ) : userData.length > 0 ? (
+                    <Pagination
+                        className="pt-1 sm:pt-[20px]"
+                        dataArr={IsArray(userData)}
+                    >
+                        {(currentData) =>
+                            currentData.map((data: any, i: number) => (
+                                <TableItem data={data} key={i} />
+                            ))
+                        }
+                    </Pagination>
+                ) : (
+                    <div className="h-[59px] text-[12px] leading-[16.34px] md:text-sm md:leading-[19.07px]  xl:h-[65px]  text-[#222] flex items-center px-5">
+                        <div className="flex items-center gap-[10px]">
+                            No data found
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
 }
-
-const tableItemData = {
-    profile: "/assets/account-settings/profile-img.jpg",
-    name: "Rashed",
-    email: "rashediq6al@gmail.com",
-    userType: "admin",
-    onlineStatus: "offline",
-};
 
 function TableItem({ data }: any) {
     return (
@@ -35,11 +63,22 @@ function TableItem({ data }: any) {
             <div className="sm:flex px-5 hidden text-[12px] leading-[16.34px] md:text-sm md:leading-[19.07px] h-[59px] border-b xl:h-[65px] border-[#BDBDBD] items-center text-[#222] font-semibold">
                 <div className={` w-[22%]`}>
                     <div className="flex items-center">
-                        <img
-                            src={data.profile}
-                            alt="user-avatar"
-                            className="w-[30px] h-[30px] rounded-full"
-                        />
+                        {data.profile ? (
+                            <img
+                                src={data.profile}
+                                alt="user-avatar"
+                                className="w-[30px] h-[30px] rounded-full"
+                            />
+                        ) : (
+                            <Avatar
+                                name={data.name}
+                                maxInitials={1}
+                                size="30px"
+                                round={true}
+                                className="[&>*]:!text-sm"
+                            />
+                        )}
+
                         <h3 className="ml-[12px]">{data.name}</h3>
                     </div>
                 </div>
@@ -47,12 +86,12 @@ function TableItem({ data }: any) {
                     <h3 className="truncate ">{data.email}</h3>
                 </div>
                 <div className={` w-[20%]`}>
-                    <div>{data.userType}</div>
+                    <div>{data.role}</div>
                 </div>
                 <div className={` w-[20%]`}>
-                    <div>{data.onlineStatus}</div>
+                    <div>{data.status}</div>
                 </div>
-                <div className={` w-[10%] flex`}>
+                <div className={` w-[10%] flex justify-end`}>
                     <img
                         src="/icon/edit.svg"
                         alt="edit"
@@ -65,15 +104,24 @@ function TableItem({ data }: any) {
                     />
                 </div>
             </div>
-            <div className="sm:hidden rounded overflow-hidden">
+            <div className="sm:hidden rounded overflow-hidden mb-4">
                 <div className="flex items-center gap-[10px] text-white p-[10px_15px] bg-[#000]">
-                    <img
-                        src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
-                        alt="profile image"
-                        width={38}
-                        height={38}
-                        className="rounded-full"
-                    />
+                    {data.profile ? (
+                        <img
+                            src={data.profile}
+                            alt="user-avatar"
+                            className="w-[38px] h-[38px] rounded-full"
+                        />
+                    ) : (
+                        <Avatar
+                            round={true}
+                            name={data.name}
+                            maxInitials={1}
+                            size="38px"
+                            className="[&>*]:!text-base"
+                        />
+                    )}
+
                     <div className="text-lg leading-[24.51px] font-semibold">
                         {data.name}
                     </div>
@@ -94,16 +142,16 @@ function TableItem({ data }: any) {
                                 User Type
                             </div>
                             <div className="table-cell text-sm leading-[19px] font-semibold p-0 pl-6">
-                                {data.userType}
+                                {data.role}
                             </div>
                         </div>
                         <div className="pt-4"></div>
                         <div className="table-row">
                             <div className="table-cell text-xs leading-[16px] font-normal">
-                                Online Status
+                                Active Status
                             </div>
                             <div className="table-cell text-sm leading-[19px] font-semibold p-0 pl-6">
-                                {data.onlineStatus}
+                                {data.status}
                             </div>
                         </div>
                     </div>
@@ -121,9 +169,5 @@ function TableItem({ data }: any) {
         </>
     );
 }
-
-TableItem.defaultProps = {
-    data: tableItemData,
-};
 
 export default ManagementTable;

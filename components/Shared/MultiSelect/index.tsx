@@ -2,6 +2,7 @@
 import { useField, FieldHookConfig, ErrorMessage } from "formik";
 import { FC, ReactElement } from "react";
 import CustomSelect from "./CustomSelect";
+import { useEffect } from "react";
 
 interface MultiSelectType {
     label?: string;
@@ -19,6 +20,10 @@ interface MultiSelectType {
 
 function MultiSelect(props: MultiSelectType & FieldHookConfig<string>) {
     const [field, meta, helpers] = useField(props);
+
+    useEffect(() => {
+        helpers.setValue(props.value);
+    }, []);
 
     return (
         <div className={props.className}>
