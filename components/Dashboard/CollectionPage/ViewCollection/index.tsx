@@ -60,8 +60,11 @@ function ViewCollection({
                 >
                     {(currentItems) => (
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 3xl:grid-cols-4 gap-[30px] pb-[30px] sm:gap-[36px] xl:gap-[35px] ">
-                            {currentItems.map((collectionId: any, index) => (
-                                <CollectionItem key={index} />
+                            {currentItems.map((collectionData: any, index) => (
+                                <CollectionItem
+                                    key={index}
+                                    data={collectionData}
+                                />
                             ))}
                         </div>
                     )}

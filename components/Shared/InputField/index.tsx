@@ -10,6 +10,7 @@ interface InputFieldType {
     inputClass?: string;
     value?: any;
     onChange?: any;
+    myChange?: (v: string) => any;
 }
 
 function InputField(props: InputFieldType & FieldHookConfig<string>) {
@@ -33,7 +34,13 @@ function InputField(props: InputFieldType & FieldHookConfig<string>) {
                     id={id}
                     {...field}
                     value={props.value || field.value}
-                    onChange={props.onChange || field.onChange}
+                    onChange={
+                        props.onChange ||
+                        ((v) => {
+                            field.onChange(v);
+                            props.myChange && props.myChange(v.target.value);
+                        })
+                    }
                     type={props.type}
                     readOnly={props.readOnly}
                     className={` ${

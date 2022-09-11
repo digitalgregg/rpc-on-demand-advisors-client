@@ -9,8 +9,15 @@ import FileUploadModal, {
 import TopForm from "./TopForm";
 import CContentCard from "./CContentCard";
 import { useWindowDimensions } from "../../../Shared/DimentionHook/index";
+import { useRouter } from "next/router";
+import { useQuery } from "react-query";
 
 function EditCollection() {
+    const router = useRouter();
+    const id = router.query.id;
+
+    // const {} = useQuery('get-collection')
+
     const [removeModal, setRemoveModal] = useState(false);
 
     const [selectedContent, setSelectedContent] = useState<any>([

@@ -11,7 +11,6 @@ function Collections() {
         "get-collections",
         () => fetchMyCollections(userData._id)
     );
-
     return (
         <DashboardLayout>
             <ViewCollection
