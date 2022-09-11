@@ -17,3 +17,7 @@ export const fetchSharedCollections = async (
             user_id
     );
 };
+
+export const deleteCollection = async (id: string) => {
+    return await api.delete("/api/collection/" + id);
+};

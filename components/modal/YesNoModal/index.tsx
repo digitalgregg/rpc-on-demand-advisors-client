@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
+import React, { useEffect } from "react";
 import CustomModal from "../../Shared/CustomUtils/CustomModal";
+import LodingAnimation from "../../Shared/LodingAnimation";
+import { useState } from "react";
 
 type YesNoModalType = {
     isOpen: boolean;
@@ -8,7 +10,7 @@ type YesNoModalType = {
     header: string;
     description: string;
     data?: any;
-    onYesClick?: (data?: any) => void;
+    onYesClick?: (data?: any, setLoading?: any) => void;
 };
 
 function YesNoModal({
@@ -19,6 +21,14 @@ function YesNoModal({
     data,
     onYesClick,
 }: YesNoModalType) {
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        return () => {
+            setLoading(false);
+        };
+    }, []);
+
     return (
         <CustomModal
             isOpen={isOpen}
@@ -51,10 +61,21 @@ function YesNoModal({
 
                 <div className="flex gap-[14px] text-xs leading-[16.34px] sm:text-sm sm:leading-[19.07px] font-bold">
                     <button
-                        onClick={() => onYesClick && onYesClick(data)}
+                        onClick={() =>
+                            onYesClick && onYesClick(data, setLoading)
+                        }
                         className="w-full h-[40px] sm:h-[43px] border border-primary bg-primary text-white rounded-[4px] hover:bg-[#890F21]  transition-all duration-100"
                     >
-                        Yes
+                        {loading ? (
+                            <LodingAnimation
+                                color="white"
+                                height={30}
+                                width={30}
+                            />
+                        ) : (
+                            "Yes"
+                        )}
+                        {/* Yes */}
                     </button>
                     <button
                         onClick={handleModal}

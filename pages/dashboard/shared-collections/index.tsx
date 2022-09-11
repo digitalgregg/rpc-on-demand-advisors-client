@@ -3,10 +3,7 @@ import DashboardLayout from "../../../components/Dashboard/DashboardLayout";
 import { useAtom } from "jotai";
 import { signupState, team_state } from "../../../state/index";
 import { useQuery } from "react-query";
-import {
-    fetchMyCollections,
-    fetchSharedCollections,
-} from "../../../api-call/CollectionApi";
+import { fetchSharedCollections } from "../../../api-call/CollectionApi";
 
 function SharedCollection() {
     const [userData] = useAtom(signupState);
@@ -16,8 +13,6 @@ function SharedCollection() {
         "fetch-shared-collection",
         () => fetchSharedCollections(userData._id, teamData.id)
     );
-
-    console.log(data);
 
     return (
         <DashboardLayout>
