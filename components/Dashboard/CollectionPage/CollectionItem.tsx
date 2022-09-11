@@ -11,15 +11,24 @@ import NewDeleteIcon from "../../CustomIcons/NewDeleteIcon";
 import NewEditIcon from "../../CustomIcons/NewEditIcon";
 import { useRouter } from "next/router";
 import Skeleton from "react-loading-skeleton";
+import { useEffect } from "react";
+import { deleteCollection } from "../../../api-call/CollectionApi";
+import { toast } from "react-toastify";
 
-type ItemDataType = {
-    id: string;
-    name: string;
-    totalContent: number;
-    lastUpdated: string;
-};
+export interface CollectionData {
+    _id: string;
+    user_id: string;
+    team_id: string;
+    title: string;
+    contents: any[];
+    shareWith: string;
+    sharedUser: any[];
+    publish: any;
+    sharingDetails: any[];
+    __v: number;
+}
 
-function CollectionItem({ data }: { data: ItemDataType }) {
+function CollectionItem({ data }: { data: CollectionData }) {
     const router = useRouter();
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -38,24 +47,39 @@ function CollectionItem({ data }: { data: ItemDataType }) {
             case "Delete":
                 return handleDeleteModal();
             case "Edit":
-                return router.push("/dashboard/collections/edit/" + data.id);
+                return router.push(
+                    editCollectionPath(data.shareWith) + data._id
+                );
 
             default:
                 break;
         }
     };
 
+    const collectionDelete = async (_: any, setLoading: any) => {
+        setLoading(true);
+        try {
+            await deleteCollection(data._id);
+            toast.success("Collection deleted successfully");
+        } catch (error) {
+            setLoading(false);
+            console.log(error);
+        }
+    };
+
     return (
         <>
             <div className="relative">
-                <Link href={`/dashboard/collections/view-contents/${data.id}`}>
+                <Link href={viewCollectionPath(data.shareWith) + data._id}>
                     <div className="w-full cursor-default h-[121px] bg-[#FFFFFF] relative rounded-[4px]  shadow-[0px_2px_25px_rgba(0,0,0,0.06)] hover:shadow-[0px_2px_20px_rgba(229,25,55,0.2)] border border-transparent  transition ease-in-out duration-200 hover:border hover:border-primary px-[20px] py-[20px]">
                         <h3 className="text-[16px] font-semibold text-[#222222] w-[269px] truncate ">
-                            Test Collection
+                            {data.title}
                         </h3>
                         <p className="text-[14px] font-normal text-[#222222] mt-[10px] mb-[10px]">
                             Total content{" "}
-                            <span className="font-semibold ">(12)</span>{" "}
+                            <span className="font-semibold ">
+                                ({data.contents.length || 0})
+                            </span>{" "}
                         </p>
                         <p className="text-[#676767] text-[13px]">
                             Last updated: 23m ago
@@ -79,6 +103,7 @@ function CollectionItem({ data }: { data: ItemDataType }) {
                     {dropdownOpen && (
                         <EditColDropdown
                             onDropdownClick={dropdownClickHandle}
+                            data={data}
                         />
                     )}
                 </OutSider>
@@ -86,11 +111,27 @@ function CollectionItem({ data }: { data: ItemDataType }) {
             <YesNoModal
                 isOpen={deleteModal}
                 handleModal={handleDeleteModal}
-                header="Remove my collection" // TODO: 'my collection' -> collection name
-                description="Are you sure you want to remove my collection? This action cannot be undone"
+                onYesClick={collectionDelete}
+                header={`Remove ${data.title}`} // TODO: 'my collection' -> collection name
+                description={`Are you sure you want to remove ${data.title}? This action cannot be undone`}
             />
         </>
     );
+}
+
+function editCollectionPath(shareWith: string) {
+    if (shareWith == "no") {
+        return "/dashboard/collections/edit/";
+    } else {
+        return "/dashboard/shared-collections/edit/";
+    }
+}
+function viewCollectionPath(shareWith: string) {
+    if (shareWith == "no") {
+        return "/dashboard/collections/view-contents/";
+    } else {
+        return "/dashboard/shared-collections/view-contents/";
+    }
 }
 
 type DropdownItemType = {
@@ -99,35 +140,46 @@ type DropdownItemType = {
     img: (stroke: string) => ReactElement;
 };
 
-const dropdownList: DropdownItemType[] = [
-    {
-        id: 1,
-        title: "Edit",
-        img: (stroke = "#222222") => (
-            <NewEditIcon stroke={stroke} width="16px" height="16px" />
-        ),
-    },
-    {
-        id: 1,
-        title: "Copy",
-        img: (stroke = "#222222") => (
-            <CopyIcon stroke={stroke} width="16px" height="16px" />
-        ),
-    },
-    {
-        id: 4,
-        title: "Delete",
-        img: (stroke = "#222222") => (
-            <NewDeleteIcon stroke={stroke} width="16px" height="16px" />
-        ),
-    },
-];
-
 const EditColDropdown = ({
     onDropdownClick,
+    data,
 }: {
+    data: CollectionData;
     onDropdownClick?: (v: DropdownItemType) => void;
 }) => {
+    const [dropdownList, setDropdownList] = useState([
+        {
+            id: 1,
+            title: "Edit",
+            img: (stroke = "#222222") => (
+                <NewEditIcon stroke={stroke} width="16px" height="16px" />
+            ),
+        },
+
+        {
+            id: 4,
+            title: "Delete",
+            img: (stroke = "#222222") => (
+                <NewDeleteIcon stroke={stroke} width="16px" height="16px" />
+            ),
+        },
+    ]);
+    useEffect(() => {
+        data.publish &&
+            setDropdownList((prev) => [
+                ...prev,
+                {
+                    id: 1,
+                    title: "Copy",
+                    img: (stroke = "#222222") => (
+                        <CopyIcon stroke={stroke} width="16px" height="16px" />
+                    ),
+                },
+            ]);
+
+        return () => {};
+    }, [data]);
+
     return (
         <div className="z-50 shadow-[4px_4px_8px_rgba(0,0,0,0.25)] overflow-hidden p-[5px] bg-white rounded absolute top-[44px] right-[37px]">
             {dropdownList.map((v, i) => (

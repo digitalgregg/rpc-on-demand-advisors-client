@@ -139,8 +139,7 @@ export async function fetchContents({
     user_id && url.searchParams.append("user_id", user_id);
     team_id && url.searchParams.append("team_id", team_id);
 
-    const res = await fetch(url);
-    return res.json();
+    return await api.get(url.toString());
 }
 
 interface AdditionalInfo {
