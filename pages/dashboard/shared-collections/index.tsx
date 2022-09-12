@@ -9,9 +9,18 @@ function SharedCollection() {
     const [userData] = useAtom(signupState);
     const [teamData] = useAtom(team_state);
 
-    const { data, isSuccess, isLoading, isError } = useQuery(
+    const { data, isSuccess, isLoading, isError, refetch } = useQuery(
         "fetch-shared-collection",
-        () => fetchSharedCollections(userData._id, teamData.id)
+        () => fetchSharedCollections(userData._id, teamData.id),
+        {
+            retry(failureCount, error: any) {
+                if (error.response.data.success === false) {
+                    return false;
+                } else {
+                    return true;
+                }
+            },
+        }
     );
 
     return (
@@ -20,6 +29,7 @@ function SharedCollection() {
                 isSuccess={isSuccess}
                 isError={isError}
                 isLoading={isLoading}
+                refetch={refetch}
                 data={data?.data}
             />
         </DashboardLayout>

@@ -7,7 +7,7 @@ import { fetchMyCollections } from "../../../api-call/CollectionApi";
 
 function Collections() {
     const [userData] = useAtom(signupState);
-    const { data, isSuccess, isLoading, isError } = useQuery(
+    const { data, isSuccess, isLoading, isError, refetch } = useQuery(
         "get-collections",
         () => fetchMyCollections(userData._id)
     );
@@ -18,6 +18,7 @@ function Collections() {
                 isSuccess={isSuccess}
                 isLoading={isLoading}
                 isError={isError}
+                refetch={refetch}
             />
         </DashboardLayout>
     );

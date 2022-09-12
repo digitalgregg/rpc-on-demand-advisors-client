@@ -28,9 +28,14 @@ export interface CollectionData {
     __v: number;
 }
 
-function CollectionItem({ data }: { data: CollectionData }) {
+function CollectionItem({
+    data,
+    refetch,
+}: {
+    data: CollectionData;
+    refetch: () => any;
+}) {
     const router = useRouter();
-
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const handleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
@@ -61,6 +66,9 @@ function CollectionItem({ data }: { data: CollectionData }) {
         try {
             await deleteCollection(data._id);
             toast.success("Collection deleted successfully");
+            setLoading(false);
+            handleDeleteModal();
+            refetch();
         } catch (error) {
             setLoading(false);
             console.log(error);

@@ -22,6 +22,7 @@ import { useEffect } from "react";
 import api from "../../../api";
 import { useQuery } from "react-query";
 import LodingAnimation from "../../../components/Shared/LodingAnimation";
+import DataNotFound from "../../../components/Shared/DataNotFound";
 
 const options = [
     { value: "Newest", label: "Newest" },
@@ -86,7 +87,7 @@ function Contents() {
     const {
         data: contentData,
         isLoading,
-        error,
+        isError,
         isSuccess,
         refetch,
     } = useQuery(
@@ -97,6 +98,13 @@ function Contents() {
                 Array.isArray(response.data)
                     ? response.data.reverse()
                     : response.data,
+            retry(failureCount, error: any) {
+                if (error.response.data.success === false) {
+                    return false;
+                } else {
+                    return true;
+                }
+            },
         }
     );
 
@@ -193,16 +201,24 @@ function Contents() {
                                 )}
                             </Pagination>
                         ) : (
-                            <div>
-                                <div className="flex items-baseline justify-center w-full relative top-[calc((100vh-350px)/2)]">
-                                    <LodingAnimation
-                                        color="#E51937"
-                                        height={50}
-                                        width={50}
-                                    />
-                                    {/* <div className="text-black">No data found</div> */}
+                            isLoading && (
+                                <div>
+                                    <div className="flex items-baseline justify-center w-full relative top-[calc((100vh-350px)/2)]">
+                                        <LodingAnimation
+                                            color="#E51937"
+                                            height={50}
+                                            width={50}
+                                        />
+                                        {/* <div className="text-black">No data found</div> */}
+                                    </div>
                                 </div>
-                            </div>
+                            )
+                        )}
+                        {isError && (
+                            <DataNotFound
+                                imgClass="w-[350px] "
+                                className="top-[50px]"
+                            />
                         )}
                     </div>
                 </div>

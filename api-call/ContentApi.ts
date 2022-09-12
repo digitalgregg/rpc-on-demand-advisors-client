@@ -74,6 +74,7 @@ export function updateFileObj(response: any) {
 export async function deleteContent(content_id: string) {
     try {
         await api.delete(BASE_URL + "/api/content/" + content_id);
+        toast.success("Content deleted successfully");
     } catch (err: any) {
         console.log(err);
         toast.error(err?.response.data.message);
