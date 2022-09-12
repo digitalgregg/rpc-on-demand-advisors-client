@@ -4,18 +4,21 @@ import CollectionItem from "../CollectionItem";
 import { useWindowDimensions } from "../../../Shared/DimentionHook/index";
 import { IsArray } from "../../../Shared/Pagination/index";
 import LodingAnimation from "../../../Shared/LodingAnimation";
+import DataNotFound from "../../../Shared/DataNotFound";
 
 type ViewCollectionType = {
     data: any;
     isLoading: boolean;
     isSuccess: boolean;
     isError: boolean;
+    refetch: () => any;
 };
 
 function ViewCollection({
     data,
     isLoading,
     isSuccess,
+    refetch,
     isError,
 }: ViewCollectionType) {
     const { width } = useWindowDimensions();
@@ -64,22 +67,28 @@ function ViewCollection({
                                 <CollectionItem
                                     key={index}
                                     data={collectionData}
+                                    refetch={refetch}
                                 />
                             ))}
                         </div>
                     )}
                 </Pagination>
             ) : (
-                <div>
-                    <div className="flex items-baseline justify-center w-full relative top-[calc((100vh-300px)/2)]">
-                        <LodingAnimation
-                            color="#E51937"
-                            height={50}
-                            width={50}
-                        />
-                        {/* <div className="text-black">No data found</div> */}
+                isLoading && (
+                    <div>
+                        <div className="flex items-baseline justify-center w-full relative top-[calc((100vh-300px)/2)]">
+                            <LodingAnimation
+                                color="#E51937"
+                                height={50}
+                                width={50}
+                            />
+                            {/* <div className="text-black">No data found</div> */}
+                        </div>
                     </div>
-                </div>
+                )
+            )}
+            {isError && (
+                <DataNotFound imgClass="w-[350px]" className="top-[80px]" />
             )}
 
             {/* Filter section  */}

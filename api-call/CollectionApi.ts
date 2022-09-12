@@ -21,3 +21,7 @@ export const fetchSharedCollections = async (
 export const deleteCollection = async (id: string) => {
     return await api.delete("/api/collection/" + id);
 };
+
+export const getCollection = async (id: string) => {
+    return await api.get("/api/collection/" + id);
+};
