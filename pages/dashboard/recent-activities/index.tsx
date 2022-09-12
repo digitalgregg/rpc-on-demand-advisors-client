@@ -9,6 +9,7 @@ import api from "../../../api";
 import LodingAnimation from "../../../components/Shared/LodingAnimation";
 import { toast } from 'react-toastify';
 import { useRouter } from "next/router";
+import DataNotFound from './../../../components/Shared/DataNotFound/index';
 
 export default function Index() {
   const router = useRouter();
@@ -149,13 +150,10 @@ export default function Index() {
             )}
           </Pagination>
         ) : (
-          <div className="h-[59px] text-[12px] leading-[16.34px] md:text-sm md:leading-[19.07px]  xl:h-[65px]  text-[#222] flex items-center px-5">
-            <div className="flex items-center gap-[10px]">No activity</div>
-          </div>
+          <DataNotFound imgClass="w-[350px]" className="top-[80px]" />
         )}
       </>
     </DashboardLayout>
   );
 }
 
-// className={`w-full relative bg-[#e519371a] rounded-[4px] my-[16px] py-[18px] px-[10px] flex flex-row ${views === true && _id === selectId && "bg-[#FFFFFF]"}`}
