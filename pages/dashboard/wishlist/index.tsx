@@ -11,6 +11,7 @@ import { getLocal } from "./../../../utils/localStorage";
 import LodingAnimation from "./../../../components/Shared/LodingAnimation/index";
 import { useEffect } from "react";
 import { Router, useRouter } from "next/router";
+import DataNotFound from "./../../../components/Shared/DataNotFound/index";
 
 // flex flex-col gap-5 sm:flex-row sm:flex-wrap sm:[&>div]:basis-[calc(50%-10px)] lg:[&>div]:basis-[calc((100%/3)-(40px/3))]
 function WishList() {
@@ -41,7 +42,9 @@ function WishList() {
             return 16;
         }
     }
-
+    if (!data) {
+        console.log("data length");
+    }
     return (
         <DashboardLayout>
             <div className="">
@@ -75,9 +78,14 @@ function WishList() {
                             />
                         </div>
                     ) : (
-                        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 ">
-                            <WishListItem wishes={data} />
-                        </div>
+                        <>
+                            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 ">
+                                <WishListItem wishes={data} />
+                            </div>
+                            <div className="w-[100%] h-full place-items-center text-center">
+                                {!data && <DataNotFound />}
+                            </div>
+                        </>
                     )}
                 </div>
             </div>
