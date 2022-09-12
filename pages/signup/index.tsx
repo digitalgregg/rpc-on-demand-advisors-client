@@ -39,9 +39,7 @@ const Signup = () => {
     const [signupData, setSignupData] = useAtom(signupState);
     const [buttonLoading, setButtonLoading] = useState(false);
     const [error, setError] = useState("");
-    console.log("error",error)
     const splitError = error.split(" ");
-    console.log("error2",splitError)
     const errorIndex = splitError[0];
     const {
         register,
