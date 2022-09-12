@@ -1,35 +1,65 @@
 import React, { useState } from "react";
 import DashboardLayout from "../../../components/Dashboard/DashboardLayout";
-// import { RecentActivities } from "../../../components/fake";
 import Pagination from "../../../components/Shared/Pagination";
 import { OutSideClick } from "../../../components/Shared/OutSideClick";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { useQuery } from "react-query";
 import { getLocal } from "../../../utils/localStorage";
 import api from "../../../api";
 import LodingAnimation from "../../../components/Shared/LodingAnimation";
+import { toast } from 'react-toastify';
+import { useRouter } from "next/router";
 
 export default function Index() {
+  const router = useRouter();
   const team = getLocal("team");
   const [isOpen, setIsOpen] = useState(false);
   const [selectId, setSelectId] = useState(null);
 
   const handleMenu = (id: any) => {
-    console.log(id);
     setSelectId(id);
     setIsOpen(!isOpen);
   };
-  const { isLoading, data } = useQuery(
+  //get all recent activity by team id
+  const { isLoading, data,refetch } = useQuery(
     ["get recent activity", team.id],
     () => api.get(`/api/recent-activity/${team.id}`),
     { enabled: !!team.id }
   );
   const recentActivities = data?.data;
 
-  const handleMarkAsRead = (id: any) => {
-    api.put(`/api/recent-activity/${id}`, { views: true })
-    .then((data) => console.log(data))
+  const handleMarkAsRead = async(id: any) => {
+    try {
+     const updateResult = await api.put(`/api/recent-activity/${id}`, { views: true })
+     refetch()
+     setIsOpen(!isOpen);
+    } catch (err) {
+      console.log(err)
+    }
   };
+   //remove recent activity
+  const handleRemoveActivity = async(id: any) => {
+    try {
+      const deleteResult = await api.delete(`/api/recent-activity/${id}`)
+      toast.success(deleteResult?.data.message);
+      refetch()
+      setIsOpen(false)
+    } catch (err) {
+      console.log(err)
+    }
+   };
+   //handle view item 
+   const handleViewItem = (id:any,activity_type:any) => {
+      if(activity_type === "wish"){
+        router.push(`/dashboard/wishlist/view/${id}`)
+      }
+      if(activity_type === "collections"){
+        router.push(`/dashboard/collections/view-contents/${id}`)
+      }
+      if(activity_type === "contents"){
+        router.push(`/dashboard/contents/view-details/${id}`)
+      }
+   }
   return (
     <DashboardLayout>
       <>
@@ -52,13 +82,12 @@ export default function Index() {
               <>
                 {currentItems?.map(
                   (
-                    { _id, title, createdAt, activity_type, status_type }: any,
-                    index
+                    { _id, title, createdAt, activity_type, status_type,views }: any
                   ) => {
                     return (
                       <div
                         className={`${
-                          _id === selectId ? "bg-[#FFFFFF]" : "bg-[#e519371a]"
+                          views === true ? "bg-[#FFFFFF]" : "bg-[#e519371a]"
                         } w-full relative rounded-[4px] my-[16px] py-[18px] px-[10px] flex flex-row`}
                         key={_id}
                       >
@@ -84,27 +113,9 @@ export default function Index() {
                           />
                         </div>
                         {/* drop down items  */}
-                        <OutSideClick onOutSideClick={() => setIsOpen(false)}>
                           <AnimatePresence initial={false}>
                             {_id === selectId && isOpen === true && (
-                              <motion.div
-                                initial={{
-                                  opacity: 0,
-                                  height: 0,
-                                }}
-                                animate={{
-                                  opacity: 1,
-                                  height: "fit-content",
-                                }}
-                                exit={{
-                                  opacity: 0,
-                                  height: 0,
-                                }}
-                                transition={{
-                                  duration: 0.2,
-                                }}
-                                className="overflow-hidden shadow-[0px_4px_20px_rgba(0,0,0,0.1)]"
-                              >
+                              <OutSideClick onOutSideClick={() => setIsOpen(false)}>
                                 <div
                                   className="bg-[#ffffff] rounded px-[8px] py-[8px] absolute top-[40px]  right-[25px] z-50"
                                   style={{
@@ -119,18 +130,17 @@ export default function Index() {
                                     >
                                       Mark as read
                                     </li>
-                                    <li className="p-3 rounded cursor-pointer hover-transition hover:bg-primary hover:text-White">
+                                    <li onClick={() => handleViewItem(_id,activity_type)} className="p-3 rounded cursor-pointer hover-transition hover:bg-primary hover:text-White">
                                       View item
                                     </li>
-                                    <li className="p-3 rounded cursor-pointer hover-transition hover:bg-primary hover:text-White">
+                                    <li onClick={() => handleRemoveActivity(_id)} className="p-3 rounded cursor-pointer hover-transition hover:bg-primary hover:text-White">
                                       Remove
                                     </li>
                                   </ul>
                                 </div>
-                              </motion.div>
+                              </OutSideClick>
                             )}
                           </AnimatePresence>
-                        </OutSideClick>
                       </div>
                     );
                   }
