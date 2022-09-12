@@ -37,6 +37,7 @@ const input =
 
 const Signup = () => {
   const [isHiddenPassword, setIsHiddenPassword] = useState(true);
+  const [isHiddenConfirmPassword, setIsHiddenConfirmPassword] = useState(true);
   const router = useRouter();
   const id = router.query.id;
   const [buttonLoading, setButtonLoading] = useState(false);
@@ -64,6 +65,7 @@ const Signup = () => {
       name: data.name,
       email: data.email,
       password: data.password,
+      confirm_password: data.confirm_password,
       role: role,
       team_id: team_id,
     };
@@ -147,7 +149,6 @@ const Signup = () => {
               className={`${input} flex justify-between w-[100%]`}
               style={{
                 boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
-                marginBottom: "0px",
                 border:
                   (errorIndex === '"Password"' && "1px solid #E51937") ||
                   (errors.password && "1px solid #E51937"),
@@ -170,6 +171,41 @@ const Signup = () => {
             {errors.password && (
               <h3 className="text-primary mt-[10px] text-[12px]">
                 Password is required
+              </h3>
+            )}
+            <label className={label} htmlFor="confirm_password">
+              Confirm Password
+            </label>
+            <div
+              className={`${input} flex justify-between w-[100%]`}
+              style={{
+                boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
+                marginBottom: "0px",
+                border:
+                  (errorIndex === '"confirm_password"' &&
+                    "1px solid #E51937") ||
+                  (errors.confirm_password && "1px solid #E51937"),
+              }}
+            >
+              <input
+                {...register("confirm_password", { required: true })}
+                type={isHiddenConfirmPassword ? "password" : "text"}
+                className="bg-transparent border-none outline-none sm:w-[94%] xs:w-[90%]"
+              />
+              <img
+                onClick={() =>
+                  setIsHiddenConfirmPassword(!isHiddenConfirmPassword)
+                }
+                src={`/img/${
+                  isHiddenConfirmPassword ? "invisible.svg" : "visible.svg"
+                }`}
+                alt="icon"
+                className="cursor-pointer w-[16px] h-[16px] ml-[10px]"
+              />
+            </div>
+            {errors.confirm_password && (
+              <h3 className="text-primary mt-[10px] text-[12px]">
+                Confirm Password is required
               </h3>
             )}
             {error && (
