@@ -98,9 +98,11 @@ function ContentViewCard({
         router.push("/dashboard/contents/view-details/" + data._id);
     };
 
-    const onDeleteContent = async () => {
+    const onDeleteContent = async (_: any, setLoading: any) => {
+        setLoading(true);
         await deleteContent(data._id);
         setDeleteModal(false);
+        setLoading(false);
         refetch();
     };
 

@@ -11,12 +11,13 @@ import CContentCard from "./CContentCard";
 import { useWindowDimensions } from "../../../Shared/DimentionHook/index";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
+import { getCollection } from "../../../../api-call/CollectionApi";
+import { CollectionData } from "../CollectionItem";
+import CollectionDataProvider from "../../../Context/CollectionDataProvider";
 
 function EditCollection() {
     const router = useRouter();
     const id = router.query.id;
-
-    // const {} = useQuery('get-collection')
 
     const [removeModal, setRemoveModal] = useState(false);
 
@@ -123,7 +124,7 @@ function EditCollection() {
     }
 
     return (
-        <>
+        <CollectionDataProvider>
             <div className="min-h-screen">
                 <div>
                     <TopForm />
@@ -239,7 +240,7 @@ function EditCollection() {
                 </div>
             </div>
             <FileUploadModal />
-        </>
+        </CollectionDataProvider>
     );
 }
 
