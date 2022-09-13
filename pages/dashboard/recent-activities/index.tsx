@@ -50,15 +50,15 @@ export default function Index() {
     }
    };
    //handle view item 
-   const handleViewItem = (id:any,activity_type:any) => {
+   const handleViewItem = (id:any,activity_type:any,activity_id:any) => {
       if(activity_type === "wish"){
-        router.push(`/dashboard/wishlist/view/${id}`)
+        router.push(`/dashboard/wishlist/view/${activity_id}`)
       }
       if(activity_type === "collections"){
-        router.push(`/dashboard/collections/view-contents/${id}`)
+        router.push(`/dashboard/collections/view-contents/${activity_id}`)
       }
       if(activity_type === "contents"){
-        router.push(`/dashboard/contents/view-details/${id}`)
+        router.push(`/dashboard/contents/view-details/${activity_id}`)
       }
    }
   return (
@@ -83,7 +83,7 @@ export default function Index() {
               <>
                 {currentItems?.map(
                   (
-                    { _id, title, createdAt, activity_type, status_type,views }: any
+                    { _id, title, createdAt, activity_type,activity_id,status_type,views }: any
                   ) => {
                     return (
                       <div
@@ -131,7 +131,7 @@ export default function Index() {
                                     >
                                       Mark as read
                                     </li>
-                                    <li onClick={() => handleViewItem(_id,activity_type)} className="p-3 rounded cursor-pointer hover-transition hover:bg-primary hover:text-White">
+                                    <li onClick={() => handleViewItem(_id,activity_type,activity_id)} className="p-3 rounded cursor-pointer hover-transition hover:bg-primary hover:text-White">
                                       View item
                                     </li>
                                     <li onClick={() => handleRemoveActivity(_id)} className="p-3 rounded cursor-pointer hover-transition hover:bg-primary hover:text-White">
