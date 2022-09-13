@@ -84,6 +84,7 @@ function isOtherDocument(filename: string) {
         case "pdf":
         case "html":
         case "css":
+        case "csv":
             return true;
     }
     return false;
