@@ -117,7 +117,7 @@ function WishlistModal({
                         };
                         
                         if (type === "create") {
-                            api.post("http://localhost:8080/api/wish", wishtlistData)
+                            api.post("/api/wish", wishtlistData)
                                 .then((res: any) => {
                                     setisLoadings(false);
                                     const recentActivityData = {
