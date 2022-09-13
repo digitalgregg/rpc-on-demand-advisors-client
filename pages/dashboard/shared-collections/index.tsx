@@ -13,6 +13,10 @@ function SharedCollection() {
         "fetch-shared-collection",
         () => fetchSharedCollections(userData._id, teamData.id),
         {
+            select: (response) =>
+                Array.isArray(response.data)
+                    ? response.data.reverse()
+                    : response.data,
             retry(failureCount, error: any) {
                 if (error.response.data.success === false) {
                     return false;
@@ -30,7 +34,7 @@ function SharedCollection() {
                 isError={isError}
                 isLoading={isLoading}
                 refetch={refetch}
-                data={data?.data}
+                data={data}
             />
         </DashboardLayout>
     );

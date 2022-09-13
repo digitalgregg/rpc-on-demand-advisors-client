@@ -10,6 +10,7 @@ import { useAtom } from "jotai";
 import { team_state } from "../../../state";
 import { useState } from "react";
 import LodingAnimation from "../../Shared/LodingAnimation";
+import { GetUserManageContext } from "../../Context/UserManageProvider";
 
 type ModalProps = {
     isOpen: boolean;
@@ -38,6 +39,8 @@ const validateSchema = Yup.object({
 function UserManageModal({ isOpen, onClose, type }: ModalProps) {
     const [teamData] = useAtom(team_state);
 
+    const { data, refetch } = GetUserManageContext();
+
     const [buttonLoading, setButtonLoading] = useState(false);
 
     const labelStyle =
@@ -56,6 +59,7 @@ function UserManageModal({ isOpen, onClose, type }: ModalProps) {
                 team_id: teamData.id,
             };
             await inviteUserApi(reqData);
+            refetch();
             setButtonLoading(false);
             onClose();
         }
