@@ -61,7 +61,6 @@ function FooterTrackersEditor() {
                 }
                 setApiTrackersId(res?.data?._id);
                 setCodeTrackersState(res?.data?.footer_html);
-                return;
             })
             .catch((res) => {
                 toast.error(res.message);

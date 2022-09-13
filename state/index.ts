@@ -22,3 +22,8 @@ export const team_state = atomWithStorage("team", {
 
 export const TrackersStateHeaderAtom = atom<any>("");
 export const TrackersStateFooterAtom = atom<any>("");
+export const NotificationWebAtom = atom<boolean>(false);
+export const NotificationEmailAtom = atom<boolean>(false);
+// export const  = atom<any>("notifations", {
+//     web_notification: ""
+// })
