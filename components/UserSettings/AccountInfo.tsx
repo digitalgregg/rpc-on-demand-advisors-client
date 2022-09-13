@@ -51,7 +51,7 @@ const AccountInfo = () => {
     }
   };
   return (
-    <div className="w-[100%] bg-[#FFFFFF] p-[20px] mb-[30px]">
+    <div className="w-[100%] bg-[#FFFFFF] p-[20px] mb-[30px] rounded-[4px]">
       <h3 className="font-semibold text-[18px] leading-[25px] text-[#000805] mb-[15px]">
         Account Info
       </h3>

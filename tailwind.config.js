@@ -60,22 +60,22 @@ module.exports = {
     plugins: [
         function ({ addUtilities }) {
             const newUtilities = {
-              '.shape-auto': {
-                'shape-rendering': 'auto',
-              },
-              '.shape-optimize-speed': {
-                'shape-rendering': 'optimizeSpeed',
-              },
-              '.shape-crisp-edges': {
-                'shape-rendering': 'crispEdges',
-              },
-              '.shape-geometric-precision': {
-                'shape-rendering': 'geometricPrecision',
-              },
-            }
-          
-            addUtilities(newUtilities)
-          },
+                ".shape-auto": {
+                    "shape-rendering": "auto",
+                },
+                ".shape-optimize-speed": {
+                    "shape-rendering": "optimizeSpeed",
+                },
+                ".shape-crisp-edges": {
+                    "shape-rendering": "crispEdges",
+                },
+                ".shape-geometric-precision": {
+                    "shape-rendering": "geometricPrecision",
+                },
+            };
+
+            addUtilities(newUtilities);
+        },
         require("@tailwindcss/line-clamp"),
         function ({ addComponents }) {
             addComponents({
@@ -113,6 +113,26 @@ module.exports = {
                         "scrollbar-width": "auto",
                         "&::-webkit-scrollbar": {
                             display: "block",
+                        },
+                    },
+                },
+                ["responsive"]
+            );
+        },
+        function ({ addUtilities }) {
+            addUtilities(
+                {
+                    ".hidden-arrows": {
+                        "&::-webkit-outer-spin-button": {
+                            "-webkit-appearance": "none",
+                            margin: 0,
+                        },
+                        "&::-webkit-inner-spin-button": {
+                            "-webkit-appearance": "none",
+                            margin: 0,
+                        },
+                        "&[type=number] ": {
+                            "-moz-appearance": "textfield",
                         },
                     },
                 },

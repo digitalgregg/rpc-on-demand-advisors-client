@@ -21,6 +21,8 @@ import {
 import { useEffect } from "react";
 import api from "../../../api";
 import { useQuery } from "react-query";
+import LodingAnimation from "../../../components/Shared/LodingAnimation";
+import DataNotFound from "../../../components/Shared/DataNotFound";
 
 const options = [
     { value: "Newest", label: "Newest" },
@@ -85,14 +87,24 @@ function Contents() {
     const {
         data: contentData,
         isLoading,
-        error,
+        isError,
+        isSuccess,
         refetch,
     } = useQuery(
         "fetch-contents",
         () => fetchContents({ team_id: teamData.id }),
         {
             select: (response) =>
-                Array.isArray(response) ? response.reverse() : response,
+                Array.isArray(response.data)
+                    ? response.data.reverse()
+                    : response.data,
+            retry(failureCount, error: any) {
+                if (error.response.data.success === false) {
+                    return false;
+                } else {
+                    return true;
+                }
+            },
         }
     );
 
@@ -165,28 +177,49 @@ function Contents() {
 
                     {/* content cards  */}
                     <div className="">
-                        <Pagination
-                            dataArr={IsArray(contentData)}
-                            itemsPerPage={getItemsPerPage()}
-                        >
-                            {(currentItems) => (
-                                <div className="grid grid-cols-1 place-items-center lg:grid-cols-2 2xl:grid-cols-3 4xl:grid-cols-4 gap-[25px] pb-[20px]">
-                                    {currentItems.map(
-                                        (item: any, index: number) => (
-                                            <div
-                                                key={index}
-                                                className="relative w-[100%]"
-                                            >
-                                                <ContentViewCard
-                                                    data={item}
-                                                    refetch={refetch}
-                                                />
-                                            </div>
-                                        )
-                                    )}
+                        {isSuccess ? (
+                            <Pagination
+                                dataArr={IsArray(contentData)}
+                                itemsPerPage={getItemsPerPage()}
+                            >
+                                {(currentItems) => (
+                                    <div className="grid grid-cols-1 place-items-center lg:grid-cols-2 2xl:grid-cols-3 4xl:grid-cols-4 gap-[25px] pb-[20px]">
+                                        {currentItems.map(
+                                            (item: any, index: number) => (
+                                                <div
+                                                    key={index}
+                                                    className="relative w-[100%]"
+                                                >
+                                                    <ContentViewCard
+                                                        data={item}
+                                                        refetch={refetch}
+                                                    />
+                                                </div>
+                                            )
+                                        )}
+                                    </div>
+                                )}
+                            </Pagination>
+                        ) : (
+                            isLoading && (
+                                <div>
+                                    <div className="flex items-baseline justify-center w-full relative top-[calc((100vh-350px)/2)]">
+                                        <LodingAnimation
+                                            color="#E51937"
+                                            height={50}
+                                            width={50}
+                                        />
+                                        {/* <div className="text-black">No data found</div> */}
+                                    </div>
                                 </div>
-                            )}
-                        </Pagination>
+                            )
+                        )}
+                        {isError && (
+                            <DataNotFound
+                                imgClass="w-[350px] "
+                                className="top-[50px]"
+                            />
+                        )}
                     </div>
                 </div>
                 <div className="pt-[50px]"></div>

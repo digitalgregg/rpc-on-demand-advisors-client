@@ -74,8 +74,7 @@ function WishlistModal({
     );
 
     const contentData = data?.data[0].settingsItems;
-    console.log(contentData.length, "......");
-    const typeOptions = contentData.map((item: any, index: any) => ({
+    const typeOptions = contentData?.map((item: any, index: any) => ({
         value: `${item.title}`,
         label: `${item.title}`,
     }));

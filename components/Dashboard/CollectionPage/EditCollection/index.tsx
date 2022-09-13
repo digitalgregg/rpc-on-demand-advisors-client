@@ -9,8 +9,16 @@ import FileUploadModal, {
 import TopForm from "./TopForm";
 import CContentCard from "./CContentCard";
 import { useWindowDimensions } from "../../../Shared/DimentionHook/index";
+import { useRouter } from "next/router";
+import { useQuery } from "react-query";
+import { getCollection } from "../../../../api-call/CollectionApi";
+import { CollectionData } from "../CollectionItem";
+import CollectionDataProvider from "../../../Context/CollectionDataProvider";
 
 function EditCollection() {
+    const router = useRouter();
+    const id = router.query.id;
+
     const [removeModal, setRemoveModal] = useState(false);
 
     const [selectedContent, setSelectedContent] = useState<any>([
@@ -116,7 +124,7 @@ function EditCollection() {
     }
 
     return (
-        <>
+        <CollectionDataProvider>
             <div className="min-h-screen">
                 <div>
                     <TopForm />
@@ -232,7 +240,7 @@ function EditCollection() {
                 </div>
             </div>
             <FileUploadModal />
-        </>
+        </CollectionDataProvider>
     );
 }
 
