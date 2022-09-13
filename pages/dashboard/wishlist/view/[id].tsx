@@ -16,6 +16,7 @@ import api from "./../../../../api/index";
 import LodingAnimation from "./../../../../components/Shared/LodingAnimation/index";
 import { removeEmpty } from "./../../../../utils/removeEmpty";
 import { toast } from "react-toastify";
+import { getLocal } from "../../../../utils/localStorage";
 
 const updateWish = {
     status: "",
@@ -28,6 +29,7 @@ const updateWishSchema = Yup.object({
 });
 
 function ViewWish() {
+    const team = getLocal("team");
     const statusOptions = [
         { value: "wished", label: "Wished" },
         { value: "in progress", label: "In Progress" },
@@ -147,6 +149,16 @@ function ViewWish() {
                                                         setLoaadingButton(
                                                             false
                                                         );
+                                                        const recentActivityData = {
+                                                            team_id: team.id,
+                                                            user_id: team.user_id,
+                                                            status_type : "updated",
+                                                            activity_id: res.data?.updatedWish._id,
+                                                            activity_type:"wish",
+                                                            action_status:"none",
+                                                            title:res.data?.updatedWish.wish_title
+                                                        }
+                                                        api.post("/api/recent-activity",recentActivityData)
                                                         toast.success(
                                                             "Wishlist updated successfully"
                                                         );
