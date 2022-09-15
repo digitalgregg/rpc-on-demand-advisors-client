@@ -103,7 +103,7 @@ const ContactUs = () => {
                   onSubmit={(values) => {
                     api
                       .post(
-                        "https://oda-center.herokuapp.com/api/get-touch",
+                        "/api/get-touch",
                         values
                       )
                       .then((res) => {
