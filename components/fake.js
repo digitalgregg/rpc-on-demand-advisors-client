@@ -102,58 +102,6 @@ export const SupportData = [
   },
 ];
 
-export const RecentActivities = [
-  {
-    id: 0,
-    title: "Title here",
-    data: " 28 July 2022, 10:20 AM",
-    description: "Your wishlist has been added",
-  },
-  {
-    id: 1,
-    title: "Title here",
-    data: " 28 July 2022, 10:20 AM",
-    description: "Your wishlist has been added",
-  },
-  {
-    id: 2,
-    title: "Title here",
-    data: " 28 July 2022, 10:20 AM",
-    description: "Your wishlist has been added",
-  },
-  {
-    id: 3,
-    title: "Title here",
-    data: " 28 July 2022, 10:20 AM",
-    description: "Your wishlist has been added",
-  },
-  {
-    id: 4,
-    title: "Title here",
-    data: " 28 July 2022, 10:20 AM",
-    description: "Your wishlist has been added",
-  },
-  {
-    id: 5,
-    title: "Title here",
-    data: " 28 July 2022, 10:20 AM",
-    description: "Your wishlist has been added",
-  },
-  {
-    id: 6,
-    title: "Title here",
-    data: " 28 July 2022, 10:20 AM",
-    description: "Your wishlist has been added",
-  },
-  {
-    id: 7,
-    title: "Title here",
-    data: " 28 July 2022, 10:20 AM",
-    description: "Your wishlist has been added",
-  },
-];
-
-
 export const activityFakeData = [
   {
       id: 0,
