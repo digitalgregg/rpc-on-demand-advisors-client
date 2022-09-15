@@ -51,6 +51,7 @@ const Trackers = () => {
                     <div className="pt-4"></div>
 
                     <FooterTrackersEditor />
+                    <div className="pb-[45px]"></div>
                 </div>
             </div>
         </div>

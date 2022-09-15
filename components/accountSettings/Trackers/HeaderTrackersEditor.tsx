@@ -31,7 +31,7 @@ function HeaderTrackersEditor() {
 
     const handlePut = () => {
         api.put(
-            `https://oda-center.herokuapp.com/api/trackers/${apiTrackersId}`,
+            `/api/trackers/${apiTrackersId}`,
             {
                 header_html: codeTrackersState,
             }
@@ -44,7 +44,7 @@ function HeaderTrackersEditor() {
             });
     };
     const handlePush = () => {
-        api.post(`https://oda-center.herokuapp.com/api/trackers`, {
+        api.post(`/api/trackers`, {
             team_id: teamId.id,
             header_html: codeTrackersState,
         })
@@ -56,7 +56,7 @@ function HeaderTrackersEditor() {
             });
     };
     useEffect(() => {
-        api.get(`https://oda-center.herokuapp.com/api/trackers/${teamId.id}`)
+        api.get(`/api/trackers/${teamId.id}`)
             .then((res) => {
                 if (res?.data?.team_id === teamId.id) {
                     setTeam_idBoolean(true);
@@ -85,13 +85,13 @@ function HeaderTrackersEditor() {
                     <>
                         <div className=" flex flex-row justify-end gap-[15px] mt-[12px]">
                             <div
-                                className=" cursor-pointer"
+                                className="cursor-pointer "
                                 onClick={handleEditable}
                             >
                                 <TrackerUploadIcon />
                             </div>
                             <div
-                                className=" cursor-pointer"
+                                className="cursor-pointer "
                                 onClick={handleEditable}
                             >
                                 <TrackerCloseIcon />
@@ -102,13 +102,13 @@ function HeaderTrackersEditor() {
                     <>
                         <div className=" flex flex-row justify-end gap-[15px] mt-[12px]">
                             <div
-                                className=" cursor-pointer"
+                                className="cursor-pointer "
                                 onClick={handleEditable}
                             >
                                 <TrackerEditeIcon />
                             </div>
                             <div
-                                className=" cursor-pointer"
+                                className="cursor-pointer "
                                 onClick={() => {
                                     team_idBoolean === true
                                         ? handlePut()
