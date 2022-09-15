@@ -66,7 +66,6 @@ const Notifications = () => {
     }
   );
   const toggle = data?.data?.isToggle;
-  console.log(toggle,"isToggle",isToggle)
 
   const handleToggle = async () => {
     setIsToggle(!isToggle);
