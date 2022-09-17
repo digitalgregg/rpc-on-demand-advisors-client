@@ -14,7 +14,7 @@ const InfoSectionMobile = () => {
                 Sharing Info
             </h3>
 
-            {contentData?.sharingDetails ? (
+            {contentData?.sharingDetails.length === 0 ? (
                 <div className="bg-[#f1f1f1] rounded-[4px] px-[14px] py-[15px] mb-[16px] ">
                     <div className="grid grid-cols-2 ">
                         {/* <h3 className={h3Style}>Recipient Name</h3> */}
@@ -22,23 +22,32 @@ const InfoSectionMobile = () => {
                     </div>
                 </div>
             ) : (
-                sharingData.map((item: any) => (
+                contentData?.sharingDetails.map((item: any) => (
                     <>
                         <div className="bg-[#f1f1f1] rounded-[4px] px-[14px] py-[15px] mb-[16px] ">
                             {/* <h3 className="block w-full ">adfa <span className="ml-4">asdfasdfasd</span></h3> */}
                             <div className="grid grid-cols-2 ">
-                                <h3 className={h3Style}>Recipient Naame</h3>
-                                <p className={pStyle}>{item.recipent}</p>
+                                <h3 className={h3Style}>Recipient Name</h3>
+                                <p className={pStyle}>{item.recipient}</p>
                             </div>
                             <hr className="divider2" />
                             <div className="grid grid-cols-2 ">
                                 <h3 className={h3Style}>Last viewed</h3>
-                                <p className={pStyle}>{item.lastView}</p>
+                                <p className={pStyle}>
+                                    <Moment fromNow date={item.updatedAt} />
+                                </p>
                             </div>
                             <hr className="divider2" />
                             <div className="grid grid-cols-2 ">
                                 <h3 className={h3Style}>Views</h3>
-                                <p className={pStyle}>{item.view}</p>
+                                <p className={pStyle}>{item.views}</p>
+                            </div>
+                            <hr className="divider2" />
+                            <div className="grid grid-cols-2 ">
+                                <h3 className={h3Style}>Link</h3>
+                                <p className={`${pStyle} cursor-pointer`}>
+                                    Copy
+                                </p>
                             </div>
                         </div>
                     </>
@@ -54,7 +63,7 @@ const InfoSectionMobile = () => {
                 <div className="bg-[#f1f1f1] rounded-[4px] px-[14px] py-[15px] mb-[16px] ">
                     <div className="grid grid-cols-2 ">
                         <h3 className={h3Style}>File Name</h3>
-                        <p className={pStyle}>
+                        <p className={`${pStyle} truncate`}>
                             {contentData?.additional_info.file_name}
                         </p>
                     </div>

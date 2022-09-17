@@ -40,7 +40,6 @@ export function getShareWithData(value: any): ShareWithReturn {
         (shareWith = "user"),
             (sharedUser = finalArr.map((v) => v.value && v.value));
     }
-    console.log(typeof value);
     return {
         shareWith,
         sharedUser,

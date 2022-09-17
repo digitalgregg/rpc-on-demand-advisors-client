@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useReducer } from "react";
 import {
     customStyles,
     options,
@@ -11,27 +11,69 @@ import TagsSelect from "../TagsSelect";
 import GlobalSelect from "./../GlobalSelect/index";
 import { tagCustomStyle } from "./../../utils/reactSelectCustomSyle";
 import { GetContentContext } from "../Context/ContentDataProvider";
+import { ContentDataType } from "../../api-call/ContentApi";
+import { toCapitalized } from "../modal/UserManagementModal";
+import { useAtom } from "jotai";
+import { team_state } from "../../state";
+import { fetchAppSettings } from "../../api-call/AppSettingsApi";
+import { useQuery } from "react-query";
+import EditTagField from "../Shared/EditTagField";
+import TagBadges from "../CustomIcons/TagBadges";
+import {
+    detailsAction,
+    INITIAL_DETAILS,
+} from "../Context/ContentDetailsReducer";
 
 const FilterFields = () => {
-    const { contentData } = GetContentContext();
+    const { contentData, context } = GetContentContext();
+
+    const [teamData] = useAtom(team_state);
+
+    const { data, refetch, isLoading, isSuccess, isError } = useQuery(
+        "application-settings-query",
+        () => fetchAppSettings(teamData.id),
+        {
+            select: (response) => response.data,
+            retry(failureCount, error: any) {
+                if (
+                    error?.response?.data?.message ===
+                    "Application Settings not found"
+                ) {
+                    return false;
+                } else {
+                    return true;
+                }
+            },
+        }
+    );
 
     const labelClass = "text-[16px] text-[#101010] font-semibold";
     const label = "text-[16px] font-semibold text-[#000805]";
-    const handleAsetChange = (e: any) => {};
-    const handleContentChange = (e: any) => {};
-    const handleFunnelChange = (e: any) => {};
-
-    const handleOnChange = (e: any) => {
-        console.log(e);
-    };
-    const nandleTagOnChange = (e: any) => {
-        console.log(e);
-    };
 
     const assetUseOptions = [
         { value: "external", label: "External" },
         { value: "enternal", label: "Internal" },
     ];
+
+    function getOptionsByType(data: any, type: string): Object[] | undefined {
+        if (!data) return undefined;
+        const findData = data.find((v: any) => v.type === type);
+        if (!findData) return undefined;
+        if (findData.settingsItems.length === 0) return undefined;
+        return findData.settingsItems.map((v: any) => ({
+            value: v._id,
+            label: v.title,
+        }));
+    }
+
+    function getDefaultValue(contentData: any, type: string): any {
+        if (!contentData[type]) return undefined;
+
+        return {
+            label: contentData[type].title,
+            value: contentData[type]._id,
+        };
+    }
 
     return (
         <div className="w-full ">
@@ -45,89 +87,228 @@ const FilterFields = () => {
                 </h3>
             </div>
 
-            {/* asset and content type start */}
-            <div className="sm:flex gap-[20px]">
-                <div className="sm:w-[50%] h-auto mb-[20px] sm:mb-0">
+            {/* all input in flex  */}
+
+            <div className="flex flex-col sm:flex-row flex-wrap gap-[20px] justify-between mb-5 ">
+                <div className=" w-full sm:w-[calc(50%-10px)] h-auto ">
                     <GlobalSelect
                         selectClassName="text-[14px] text-[#676767] pt-[10px]"
-                        name="asset use"
+                        name="asset-use"
                         isMulti={false}
                         options={assetUseOptions}
                         labelStyles={labelClass}
                         isLabel={true}
                         customStyles={customStyles}
                         labelName="Asset use"
-                        handleOnChange={handleAsetChange}
+                        handleOnChange={(v) =>
+                            context.dispatchDetails({
+                                type: "asset_use",
+                                value: v.value,
+                            })
+                        }
+                        defaultValue={getAssetDefault(contentData)}
                         placeholder="Select type"
                         optionHoverColor="#E519371A"
                     />
                 </div>
-                <div className="sm:w-[50%] h-auto">
+                <div className=" w-full sm:w-[calc(50%-10px)] h-auto ">
                     <GlobalSelect
                         selectClassName="text-[14px] text-[#676767] pt-[10px]"
                         isMulti={false}
-                        options={options}
+                        options={getOptionsByType(data, "content")}
                         labelStyles={labelClass}
                         isLabel={true}
                         customStyles={customStyles}
                         labelName="Content Type"
-                        name="content type"
-                        handleOnChange={handleContentChange}
-                        placeholder="Select type"
+                        name="content-type"
+                        handleOnChange={(v) =>
+                            context.dispatchDetails({
+                                type: "content_type",
+                                value: v.value,
+                            })
+                        }
+                        defaultValue={getDefaultValue(
+                            contentData,
+                            "content_type"
+                        )}
+                        placeholder="Select content type"
                         optionHoverColor="#E519371A"
                     />
                 </div>
-            </div>
-            {/* asset and content type end */}
-
-            {/* funnel stage and short url  start */}
-            <div className="sm:flex gap-[20px] mb-[20px] mt-[20px]">
-                <div className="sm:w-[50%] h-auto mb-[20px] sm:mb-0">
+                <div className=" w-full sm:w-[calc(50%-10px)] h-auto ">
                     <GlobalSelect
                         selectClassName="text-[14px]  text-[#676767] mt-[10px]"
-                        name="funnel stgage"
+                        name="funnel-stage"
                         isMulti={false}
-                        options={options}
+                        options={getOptionsByType(data, "funnel")}
                         labelStyles={labelClass}
                         isLabel={true}
                         customStyles={customStyles}
                         labelName="Funnel Stage"
-                        handleOnChange={handleFunnelChange}
-                        placeholder="Select type"
+                        handleOnChange={(v) =>
+                            context.dispatchDetails({
+                                type: "funnel_stage",
+                                value: v.value,
+                            })
+                        }
+                        defaultValue={getDefaultValue(
+                            contentData,
+                            "funnel_stage"
+                        )}
+                        placeholder="Select funnel stage"
                         optionHoverColor="#E519371A"
                     />
                 </div>
-                <div className="sm:w-[50%] h-auto">
+                <div className=" w-full sm:w-[calc(50%-10px)] h-auto ">
+                    <GlobalSelect
+                        selectClassName="text-[14px] text-[#676767] pt-[10px]"
+                        name="product"
+                        isMulti={false}
+                        options={getOptionsByType(data, "product")}
+                        labelStyles={labelClass}
+                        isLabel={true}
+                        customStyles={customStyles}
+                        labelName="Product"
+                        defaultValue={getDefaultValue(contentData, "product")}
+                        handleOnChange={(v) =>
+                            context.dispatchDetails({
+                                type: "product",
+                                value: v.value,
+                            })
+                        }
+                        placeholder="Select product"
+                        optionHoverColor="#E519371A"
+                    />
+                </div>
+                <div className=" w-full sm:w-[calc(50%-10px)] h-auto ">
+                    <GlobalSelect
+                        selectClassName="text-[14px] text-[#676767] pt-[10px]"
+                        isMulti={false}
+                        options={getOptionsByType(data, "industry")}
+                        labelStyles={labelClass}
+                        isLabel={true}
+                        customStyles={customStyles}
+                        labelName="Industry"
+                        name="content type"
+                        defaultValue={getDefaultValue(contentData, "industry")}
+                        handleOnChange={(v) =>
+                            context.dispatchDetails({
+                                type: "industry",
+                                value: v.value,
+                            })
+                        }
+                        placeholder="Select industry"
+                        optionHoverColor="#E519371A"
+                    />
+                </div>
+                <div className=" w-full sm:w-[calc(50%-10px)] h-auto ">
+                    <GlobalSelect
+                        selectClassName="text-[14px] text-[#676767] pt-[10px]"
+                        name="asset use"
+                        isMulti={false}
+                        options={getOptionsByType(data, "region")}
+                        labelStyles={labelClass}
+                        isLabel={true}
+                        customStyles={customStyles}
+                        labelName="Region"
+                        defaultValue={getDefaultValue(contentData, "region")}
+                        handleOnChange={(v) =>
+                            context.dispatchDetails({
+                                type: "region",
+                                value: v.value,
+                            })
+                        }
+                        placeholder="Select region"
+                        optionHoverColor="#E519371A"
+                    />
+                </div>
+                <div className="w-full sm:w-[calc(50%-10px)]  h-auto">
                     <form action="">
-                        <label htmlFor="url" className={labelClass}>
+                        <label
+                            onClick={() => refetch()}
+                            htmlFor="url"
+                            className={labelClass}
+                        >
                             Short URL
                         </label>
                         <br />
                         <input
                             type="text"
                             name="url"
+                            onChange={(e) =>
+                                context.dispatchDetails({
+                                    type: "short_url",
+                                    value: e.target.value,
+                                })
+                            }
+                            defaultValue={contentData.short_url}
                             placeholder="https://loac.io/trpv"
                             className="text-[14px] text-[#676767] bg-white mt-[10px] h-[55px] border border-[#9E9E9E] rounded-[4px] w-full outline-0 px-[15px]"
                         />
                     </form>
                 </div>
             </div>
+
             {/* funnel stage and short url  end */}
             <div className="mb-[25px]">
-                <TagsSelect
-                    name="filter tag"
-                    onChangeFuction={nandleTagOnChange}
-                    customStyles={tagCustomStyle}
-                    mapData={fakeTagData}
-                    isLabel={true}
-                    labelClass={label}
-                    label="Tags"
-                    labelContainer="mb-[10px] "
-                    selectclass="mb-[30px]"
+                <div className="mb-[10px] ">
+                    <label className={label}>Tags</label>
+                </div>
+
+                <EditTagField
+                    options={getTagOptionsData(data, "tags")}
+                    placeholder="Select tags"
+                    defaultValue={getTagsDefaultValue(contentData, "tags")}
+                    handleOnChange={(v) => {
+                        context.dispatchDetails({
+                            type: "tags",
+                            value: Array.isArray(v)
+                                ? v.map((val) => val.value)
+                                : [],
+                        });
+                    }}
                 />
             </div>
         </div>
     );
 };
+
+function getAssetDefault(contents: ContentDataType) {
+    return {
+        value: contents.asset_use,
+        label: toCapitalized(contents.asset_use),
+    };
+}
+
+export function getTagOptionsData(
+    data: any,
+    type: string
+): object[] | undefined {
+    if (!data) return undefined;
+    const findData = data.find((v: any) => v.type === type);
+    if (!findData) return undefined;
+    if (findData.settingsItems.length === 0) return undefined;
+    return findData.settingsItems.map((v: any) => ({
+        value: v._id,
+        label: (
+            <div className={"flex items-center gap-[8px] text-[#000805]"}>
+                <TagBadges color={v.color} /> {v.title}
+            </div>
+        ),
+    }));
+}
+
+export function getTagsDefaultValue(contentData: any, type: string): any {
+    if (!contentData[type]) return undefined;
+
+    return contentData[type].map((v: any) => ({
+        label: (
+            <div className={"flex items-center gap-[8px] text-[#000805]"}>
+                <TagBadges color={v.color} /> {v.title}
+            </div>
+        ),
+        value: v._id,
+    }));
+}
 
 export default FilterFields;

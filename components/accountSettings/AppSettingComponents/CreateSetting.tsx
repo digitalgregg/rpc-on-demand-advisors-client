@@ -84,7 +84,7 @@ function CreateSetting({ isOpen, handleClose, type }: SettingModal) {
                                 <div
                                     className={`${
                                         type !== "tags" &&
-                                        "w-[calc(100%-82px)] sm:w-[calc(100%-112px)]"
+                                        "!w-[calc(100%-82px)] sm:!w-[calc(100%-112px)]"
                                     } w-[calc(100%-128px)]  sm:w-[calc(100%-204px)] flex flex-col gap-[10px]`}
                                 >
                                     <span className=" capitalize text-sm font-normal leading-[19px] text-[#000805]">

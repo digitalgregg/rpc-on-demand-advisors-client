@@ -23,18 +23,19 @@ import { useAtom } from "jotai";
 import { team_state } from "../../../../state/index";
 import LodingAnimation from "../../../../components/Shared/LodingAnimation";
 import { toast } from "react-toastify";
+import { defaultBrandingData } from "../../../../utils/defaultBrandingData";
 
 function Branding() {
-    const [color, setColor] = useState("#0D7BEA");
-
     const [teamData] = useAtom(team_state);
-    const [state, dispatch] = useReducer(brandingReducer, DefaultBranding);
+    const [state, dispatch] = useReducer(brandingReducer, defaultBrandingData);
 
     const [faviconFile, setFaviconFile] = useState<File>();
     const [brandLogoFile, setBrandLogoFile] = useState<File>();
 
-    const { data, isLoading, error, isError, isSuccess, status, refetch } =
-        useQuery("get-branding", () => fetchBranding(teamData.id), {
+    const { data, refetch } = useQuery(
+        "get-branding",
+        () => fetchBranding(teamData.id),
+        {
             enabled: teamData.id ? true : false,
             onSuccess: (data) => {
                 const inside = data.data;
@@ -53,11 +54,8 @@ function Branding() {
                         value: inside.branding_logo,
                     });
             },
-            onError: async (err: any) => {
-                await createBranding(teamData.id);
-                refetch();
-            },
-        });
+        }
+    );
 
     const faviconUpload = useCallback(async (acceptedFiles: File[]) => {
         const file = acceptedFiles[0];
@@ -91,7 +89,8 @@ function Branding() {
                 const brandRes = await fileToLink(brandLogoFile);
                 apiObj.branding_logo = brandRes.location;
             }
-            await api.put("/api/branding/" + data?.data._id, apiObj);
+            apiObj.team_id = teamData.id;
+            await api.put("/api/branding", apiObj);
             toast.success("Branding update successfully");
             setUpdateLoading(false);
             refetch();
@@ -106,12 +105,26 @@ function Branding() {
         try {
             await api.delete("/api/branding/" + data?.data._id);
             toast.success("Branding reset successfully");
-            setUpdateLoading(false);
+            setResetLoading(false);
+            dispatch({
+                field: "accent_color",
+                value: defaultBrandingData.accent_color,
+            });
+            dispatch({
+                field: "branding_logo",
+                value: defaultBrandingData.branding_logo,
+            });
+            dispatch({ field: "favicon", value: defaultBrandingData.favicon });
+            dispatch({
+                field: "site_title",
+                value: defaultBrandingData.site_title,
+            });
+
             refetch();
         } catch (err: any) {
             toast.error(err?.response?.data?.message);
             console.log(err);
-            setUpdateLoading(false);
+            setResetLoading(false);
         }
     };
 
@@ -251,25 +264,19 @@ function Branding() {
                                 <div className="flex flex-col items-center relative mb-[-50px] top-[-50px]">
                                     <div className="w-[100px] h-[100px] relative">
                                         <img
-                                            src={
-                                                state.branding_logo ||
-                                                "/assets/account-settings/profile-img.jpg"
-                                            }
+                                            src={state.branding_logo}
                                             alt=""
                                             className=" border-[5px] rounded-full border-[#fff] w-full h-full"
                                         />
                                         <img
-                                            src={
-                                                state.favicon ||
-                                                "/assets/account-settings/profile-img.jpg"
-                                            }
+                                            src={state.favicon}
                                             alt=""
                                             className="absolute bottom-0 right-0 w-[40px] h-[40px] border-[2px] rounded-full border-[#fff]"
                                         />
                                     </div>
                                     <div className="pt-[10px]"></div>
                                     <div className="text-lg font-bold leading-[24.51px] text-[#000]">
-                                        {state.site_title || "Brand Name"}
+                                        {state.site_title}
                                     </div>
                                 </div>
                             </div>

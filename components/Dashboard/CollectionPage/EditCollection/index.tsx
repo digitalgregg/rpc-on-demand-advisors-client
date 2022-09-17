@@ -11,100 +11,36 @@ import CContentCard from "./CContentCard";
 import { useWindowDimensions } from "../../../Shared/DimentionHook/index";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
-import { getCollection } from "../../../../api-call/CollectionApi";
+import {
+    getCollection,
+    removeAllContent,
+    selectAllContent,
+} from "../../../../api-call/CollectionApi";
 import { CollectionData } from "../CollectionItem";
 import CollectionDataProvider from "../../../Context/CollectionDataProvider";
+import api from "../../../../api";
+import { toast } from "react-toastify";
+import {
+    GetCollectionContext,
+    initialCollection,
+} from "../../../Context/CollectionDataProvider";
+import LodingAnimation from "../../../Shared/LodingAnimation";
+import {
+    createContent,
+    responseToObject,
+} from "../../../../api-call/ContentApi";
+import { useAtom } from "jotai";
+import { team_state } from "../../../../state";
 
 function EditCollection() {
-    const router = useRouter();
-    const id = router.query.id;
-
     const [removeModal, setRemoveModal] = useState(false);
+    const context = GetCollectionContext();
+    const data = context.collectionData || initialCollection;
+    const contentsData = context.contents || [];
 
-    const [selectedContent, setSelectedContent] = useState<any>([
-        {
-            title: "Give your blog the perfect",
-            type: "Blog",
-            img: "https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aW1nfGVufDB8fDB8fA%3D%3D&w=1000&q=80",
-        },
-        {
-            title: "Give your blog the perfect",
-            type: "Blog",
-            img: "https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aW1nfGVufDB8fDB8fA%3D%3D&w=1000&q=80",
-        },
-        {
-            title: "Give your blog the perfect",
-            type: "Blog",
-            img: "https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aW1nfGVufDB8fDB8fA%3D%3D&w=1000&q=80",
-        },
-        {
-            title: "Give your blog the perfect",
-            type: "Blog",
-            img: "https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aW1nfGVufDB8fDB8fA%3D%3D&w=1000&q=80",
-        },
-        {
-            title: "Give your blog the perfect",
-            type: "Blog",
-            img: "https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aW1nfGVufDB8fDB8fA%3D%3D&w=1000&q=80",
-        },
-        {
-            title: "Give your blog the perfect",
-            type: "Blog",
-            img: "https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aW1nfGVufDB8fDB8fA%3D%3D&w=1000&q=80",
-        },
-        {
-            title: "Give your blog the perfect",
-            type: "Blog",
-            img: "https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aW1nfGVufDB8fDB8fA%3D%3D&w=1000&q=80",
-        },
-        {
-            title: "Give your blog the perfect",
-            type: "Blog",
-            img: "https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aW1nfGVufDB8fDB8fA%3D%3D&w=1000&q=80",
-        },
-    ]);
-    const [content, setContent] = useState([
-        {
-            title: "Give your blog the perfect",
-            type: "Blog",
-            img: "https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aW1nfGVufDB8fDB8fA%3D%3D&w=1000&q=80",
-        },
-        {
-            title: "Give your blog the perfect",
-            type: "Blog",
-            img: "https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aW1nfGVufDB8fDB8fA%3D%3D&w=1000&q=80",
-        },
-        {
-            title: "Give your blog the perfect",
-            type: "Blog",
-            img: "https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aW1nfGVufDB8fDB8fA%3D%3D&w=1000&q=80",
-        },
-        {
-            title: "Give your blog the perfect",
-            type: "Blog",
-            img: "https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aW1nfGVufDB8fDB8fA%3D%3D&w=1000&q=80",
-        },
-        {
-            title: "Give your blog the perfect",
-            type: "Blog",
-            img: "https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aW1nfGVufDB8fDB8fA%3D%3D&w=1000&q=80",
-        },
-        {
-            title: "Give your blog the perfect",
-            type: "Blog",
-            img: "https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aW1nfGVufDB8fDB8fA%3D%3D&w=1000&q=80",
-        },
-        {
-            title: "Give your blog the perfect",
-            type: "Blog",
-            img: "https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aW1nfGVufDB8fDB8fA%3D%3D&w=1000&q=80",
-        },
-        {
-            title: "Give your blog the perfect",
-            type: "Blog",
-            img: "https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aW1nfGVufDB8fDB8fA%3D%3D&w=1000&q=80",
-        },
-    ]);
+    const [selectLoading, setSelectLoading] = useState(false);
+
+    const [teamData] = useAtom(team_state);
 
     const { width } = useWindowDimensions();
 
@@ -123,8 +59,39 @@ function EditCollection() {
         }
     }
 
+    const handleRemoveAll = async (_: any, setLoading: any) => {
+        setLoading(true);
+        try {
+            console.log(data);
+            await removeAllContent(data._id);
+            setLoading(false);
+            setRemoveModal(false);
+            context.refetch();
+        } catch (error) {
+            setLoading(false);
+            console.log(error);
+        }
+    };
+    const handleSelectAll = async () => {
+        setSelectLoading(true);
+        try {
+            const contentArr: string[] = context.contents.map((v) => v._id);
+            await selectAllContent(data._id, contentArr);
+            context.refetch();
+            setSelectLoading(false);
+        } catch (error) {
+            setSelectLoading(false);
+            console.log(error);
+        }
+    };
+
+    async function handleSingleUpload(response: any) {
+        await createContent(responseToObject(response, teamData));
+        context.refetch();
+    }
+
     return (
-        <CollectionDataProvider>
+        <>
             <div className="min-h-screen">
                 <div>
                     <TopForm />
@@ -139,7 +106,10 @@ function EditCollection() {
                             <div className="pl-5"></div>
                             <div
                                 className="flex items-center gap-[7px] cursor-pointer"
-                                onClick={() => setRemoveModal(!removeModal)}
+                                onClick={() =>
+                                    data.contents.length > 0 &&
+                                    setRemoveModal(!removeModal)
+                                }
                             >
                                 <img
                                     src="/assets/collections/delete.svg"
@@ -153,9 +123,7 @@ function EditCollection() {
                                 isOpen={removeModal}
                                 handleModal={() => setRemoveModal(!removeModal)}
                                 header={"Remove all selected content?"}
-                                onYesClick={() => {
-                                    console.log("Check");
-                                }}
+                                onYesClick={handleRemoveAll}
                                 description={
                                     "Are you sure you want to remove all select content? This action cannot be undone"
                                 }
@@ -164,27 +132,36 @@ function EditCollection() {
                     </div>
                     <div className="pt-5"></div>
                     <div>
-                        {selectedContent ? (
-                            <Pagination
-                                dataArr={selectedContent}
-                                itemsPerPage={getItemPerPageTop()}
-                                className="pt-[30px]"
-                            >
-                                {(currentItems) => (
-                                    <div className="grid gap-[10px] sm:grid-cols-2">
-                                        {currentItems.map((v: any, i: any) => (
-                                            <CContentCard data={v} key={i} />
-                                        ))}
-                                    </div>
-                                )}
-                            </Pagination>
-                        ) : (
-                            <div className="bg-[#F2F2F2] h-[200px] w-full flex justify-center items-center">
-                                <div className="text-lg lg:text-xl text-[#676767]">
-                                    No content selected
-                                </div>
-                            </div>
-                        )}
+                        <Pagination
+                            dataArr={data.contents || []}
+                            itemsPerPage={getItemPerPageTop()}
+                            className="pt-[30px]"
+                        >
+                            {(currentItems) => {
+                                if (currentItems.length > 0) {
+                                    return (
+                                        <div className="grid gap-[10px] sm:grid-cols-2">
+                                            {currentItems.map(
+                                                (v: any, i: any) => (
+                                                    <CContentCard
+                                                        data={v}
+                                                        key={i}
+                                                    />
+                                                )
+                                            )}
+                                        </div>
+                                    );
+                                } else {
+                                    return (
+                                        <div className="bg-[#F2F2F2] h-[200px] w-full flex justify-center items-center">
+                                            <div className="text-lg lg:text-xl text-[#676767]">
+                                                No content selected
+                                            </div>
+                                        </div>
+                                    );
+                                }
+                            }}
+                        </Pagination>
                     </div>
                 </div>
                 <div className="pt-[30px]"></div>
@@ -196,7 +173,14 @@ function EditCollection() {
                                 Select Content
                             </div>
                             <div className="pl-5"></div>
-                            <div className="flex items-center gap-[7px] cursor-pointer">
+                            <div
+                                onClick={() =>
+                                    context.contents.length > 0 &&
+                                    !selectLoading &&
+                                    handleSelectAll()
+                                }
+                                className="flex items-center gap-[7px] cursor-pointer"
+                            >
                                 <div className="h-[16px] w-[16px]">
                                     <CheckBox
                                         width={"100%"}
@@ -204,21 +188,28 @@ function EditCollection() {
                                         isChecked={false}
                                     />
                                 </div>
-                                <span className="text-sm leading-[19.07px] text-[#E51937]">
+                                <span className="text-sm leading-[20px] text-[#E51937]">
                                     SELECT ALL
                                 </span>
+                                {selectLoading && (
+                                    <LodingAnimation
+                                        height={20}
+                                        width={20}
+                                        color={"#E51937"}
+                                    />
+                                )}
                             </div>
                         </div>
                     </div>
                     <div className="pt-5"></div>
                     <Pagination
-                        dataArr={content}
+                        dataArr={contentsData}
                         itemsPerPage={getItemPerPageBottom()}
                         className="pt-[30px]"
                     >
                         {(currentItems) => (
                             <div className="grid gap-[10px] sm:grid-cols-2">
-                                {currentItems.map((v, i) => (
+                                {currentItems.map((v: any, i) => (
                                     <CContentCard
                                         key={i}
                                         isChecked={false}
@@ -239,8 +230,8 @@ function EditCollection() {
                     <div className="pt-[100px]"></div>
                 </div>
             </div>
-            <FileUploadModal />
-        </CollectionDataProvider>
+            <FileUploadModal onSingleUpload={handleSingleUpload} />
+        </>
     );
 }
 

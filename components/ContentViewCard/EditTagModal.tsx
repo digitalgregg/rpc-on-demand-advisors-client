@@ -1,12 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import OverflowModal from "../Shared/CustomUtils/OverflowModal";
 
 type ModalProps = {
     isOpen: boolean;
     onClose: () => void;
+    contentData: ContentDataType;
+    refetch: any;
 };
 
-function EditTagModal({ isOpen, onClose }: ModalProps) {
+function EditTagModal({ isOpen, onClose, contentData, refetch }: ModalProps) {
+    const [teamData] = useAtom(team_state);
+
+    const [buttonLoading, setButtonLoading] = useState(false);
+
+    const [tags, setTags] = useState<any>();
+
+    const { data, isLoading, isSuccess, isError } = useQuery(
+        "application-settings-query",
+        () => fetchAppSettings(teamData.id),
+        {
+            select: (response) => response.data,
+            retry(failureCount, error: any) {
+                if (
+                    error?.response?.data?.message ===
+                    "Application Settings not found"
+                ) {
+                    return false;
+                } else {
+                    return true;
+                }
+            },
+        }
+    );
+
+    const handleTagsUpdate = async () => {
+        if (!tags) return;
+        console.log(tags);
+        setButtonLoading(true);
+        await updateContentDetails(contentData._id, { tags });
+        setButtonLoading(false);
+        onClose();
+        refetch();
+    };
+
     return (
         <div className="">
             <OverflowModal
@@ -19,7 +55,21 @@ function EditTagModal({ isOpen, onClose }: ModalProps) {
                         Update tag
                     </h3>
                     <div className="w-full mb-[40px]">
-                        <EditTagField />
+                        <EditTagField
+                            options={getTagOptionsData(data, "tags")}
+                            defaultValue={getTagsDefaultValue(
+                                contentData,
+                                "tags"
+                            )}
+                            handleOnChange={(v) => {
+                                setTags(
+                                    Array.isArray(v)
+                                        ? v.map((val) => val.value)
+                                        : []
+                                );
+                            }}
+                            placeholder="Select tags"
+                        />
                     </div>
                     {/* buttons section  */}
                     <div className="flex justify-between gap-[10px] w-full mx-auto">
@@ -29,8 +79,20 @@ function EditTagModal({ isOpen, onClose }: ModalProps) {
                         >
                             Cancel
                         </button>
-                        <button className="w-full h-[45px] rounded-[4px] text-[16px]  border border-primary bg-primary hover:bg-[#890F21] text-[#FFFFFF] transition-all duration-150">
-                            Update
+                        <button
+                            onClick={handleTagsUpdate}
+                            className="w-full h-[45px] rounded-[4px] text-[16px]  border border-primary bg-primary hover:bg-[#890F21] text-[#FFFFFF] transition-all duration-150"
+                        >
+                            {buttonLoading ? (
+                                <span className="flex items-center gap-[10px] justify-center">
+                                    <div>
+                                        <LodingAnimation color="white" />
+                                    </div>
+                                    <div>Loading...</div>
+                                </span>
+                            ) : (
+                                "Update"
+                            )}
                         </button>
                     </div>
                 </div>
@@ -41,99 +103,17 @@ function EditTagModal({ isOpen, onClose }: ModalProps) {
 
 import Select, { StylesConfig } from "react-select";
 import TagBadges from "../CustomIcons/TagBadges";
-
-const EditTagField = () => {
-    const labelStyle = "flex items-center gap-[8px] text-[#000805]";
-    const label = "text-[16px] font-semibold text-[#000805]";
-    const options = [
-        {
-            value: "Demo text1",
-            label: (
-                <div className={labelStyle}>
-                    <TagBadges color="green" /> Demo text1
-                </div>
-            ),
-        },
-        {
-            value: "Demo text2",
-            label: (
-                <div className={labelStyle}>
-                    <TagBadges color="red" /> Demo text2
-                </div>
-            ),
-        },
-        {
-            value: "Demo text3",
-            label: (
-                <div className={labelStyle}>
-                    <TagBadges color="purple" /> Demo text3
-                </div>
-            ),
-        },
-        {
-            value: "Demo text4",
-            label: (
-                <div className={labelStyle}>
-                    <TagBadges color="dodgerblue" /> Demo text4
-                </div>
-            ),
-        },
-    ];
-
-    const customStyles: StylesConfig = {
-        control: (base: any, state: any) => ({
-            ...base,
-            border: "1px solid #9E9E9E",
-            boxShadow: "none",
-            minHeight: "55px",
-            ":hover": {
-                borderColor: "#9E9E9E",
-            },
-        }),
-        multiValue: (base) => ({
-            ...base,
-            background: "none",
-            border: "1px solid #9E9E9E",
-            borderRadius: "4px",
-        }),
-        multiValueRemove: (base) => ({
-            ...base,
-            "&>svg": {
-                background: "#222",
-                borderRadius: "50px",
-            },
-            ":hover": {
-                transform: "scale(1.1)",
-                transition: "all",
-                transitionDuration: ".2s",
-            },
-        }),
-
-        // indicatorsContainer: (provided:any) => ({
-        //     border: "none"
-        //   }),
-    };
-    const handleChange = (e: any) => {
-        console.log(e, "event name");
-    };
-    return (
-        <>
-            {/* <div className="mb-[10px] mt-[30px] text-#000805">
-        <label className={label}>Tags</label>
-      </div> */}
-            <Select
-                // defaultValue={[colourOptions[2], colourOptions[3]]}
-                onChange={handleChange}
-                isMulti
-                placeholder="Select Tags"
-                name="tags"
-                styles={customStyles}
-                options={options}
-                className="basic-multi-select"
-                classNamePrefix="select"
-            />
-        </>
-    );
-};
+import EditTagField from "../Shared/EditTagField";
+import {
+    ContentDataType,
+    updateContentDetails,
+} from "../../api-call/ContentApi";
+import { getTagOptionsData, getTagsDefaultValue } from "../FilterFields";
+import { useQuery } from "react-query";
+import { fetchAppSettings } from "../../api-call/AppSettingsApi";
+import { useAtom } from "jotai";
+import { team_state } from "../../state";
+import LodingAnimation from "../Shared/LodingAnimation";
+import { toast } from "react-toastify";
 
 export default EditTagModal;
