@@ -5,9 +5,13 @@ import InfoSectionMobile from "./../InfoSectionMobile";
 import { GetContentContext } from "../Context/ContentDataProvider";
 import Moment from "react-moment";
 import { ContentDataType } from "../../api-call/ContentApi";
+import CopyToClipboard from "react-copy-to-clipboard";
+import { toast } from "react-toastify";
 
 const InfoSection = () => {
     const { contentData } = GetContentContext();
+
+    console.log(contentData);
 
     const pStyle =
         "sm:text-[#222222] text-[#4F4F4F] text-[14px] leading-[19.07px]  sm:block";
@@ -23,7 +27,7 @@ const InfoSection = () => {
                     <p className="text-[14px]">Views</p>
                 </div>
 
-                {contentData?.sharingDetails ? (
+                {contentData?.sharingDetails.length === 0 ? (
                     <div>
                         <div className="grid grid-cols-3 mt-[15px] px-[11px]">
                             <p className={pStyle}>No details found</p>
@@ -33,12 +37,28 @@ const InfoSection = () => {
                 ) : (
                     contentData?.sharingDetails.map((item: any) => (
                         <div key={item.id}>
-                            <div className="grid grid-cols-3 mt-[15px] px-[11px]">
-                                <p className={pStyle}>{item.recipent}</p>
-                                <p className={pStyle}>{item.lastView}</p>
-                                <p className={pStyle}>{item.view}</p>
+                            <div className="grid grid-cols-3 items-center py-[10px] px-[11px]">
+                                <p className={pStyle}>{item.recipient}</p>
+                                <p className={pStyle}>
+                                    <Moment date={item.updatedAt} fromNow />
+                                </p>
+                                <p
+                                    className={`${pStyle} !flex justify-between items-center`}
+                                >
+                                    <div>{item.views}</div>
+                                    <CopyToClipboard
+                                        text={`${window.location.origin}/s/${item.link}`}
+                                        onCopy={() =>
+                                            toast.success("Link copied")
+                                        }
+                                    >
+                                        <button className="mr-4 leading-[1] text-xs p-[7px_10px] hover:bg-primary hover:text-white transition-all duration-200 rounded-[3px] hover text-primary font-semibold border-primary border">
+                                            Link
+                                        </button>
+                                    </CopyToClipboard>
+                                </p>
                             </div>
-                            <hr className="divider" />
+                            <hr className="divider !my-0" />
                         </div>
                     ))
                 )}
@@ -56,7 +76,7 @@ const InfoSection = () => {
                 <div>
                     <div className="grid grid-cols-3 mt-[15px] px-[11px]">
                         <p className={pStyle}>File Name</p>
-                        <p className={pStyle}>
+                        <p className={`${pStyle} !line-clamp-1`}>
                             {contentData?.additional_info.file_name}
                         </p>
                     </div>

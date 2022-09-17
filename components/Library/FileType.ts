@@ -17,7 +17,7 @@ export function isImage(filename: string) {
     return false;
 }
 
-function isVideo(filename: string) {
+export function isVideo(filename: string) {
     var ext = getExtension(filename);
     switch (ext.toLowerCase()) {
         case "m4v":
@@ -29,7 +29,7 @@ function isVideo(filename: string) {
     return false;
 }
 
-function isAudio(filename: string) {
+export function isAudio(filename: string) {
     var ext = getExtension(filename);
     switch (ext.toLowerCase()) {
         case "m4a":
@@ -84,6 +84,7 @@ function isOtherDocument(filename: string) {
         case "pdf":
         case "html":
         case "css":
+        case "csv":
             return true;
     }
     return false;

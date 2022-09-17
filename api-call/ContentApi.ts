@@ -149,7 +149,71 @@ interface AdditionalInfo {
     file_size: number;
 }
 
+
+export interface Tag {
+    _id: string;
+    title: string;
+    color: string;
+    __v: number;
+}
+
+interface Industry {
+    _id: string;
+    title: string;
+    __v: number;
+}
+
+interface Region {
+    _id: string;
+    title: string;
+    __v: number;
+}
+
+ interface ContentType {
+    _id: string;
+    title: string;
+    __v: number;
+}
+
+interface Product {
+    _id: string;
+    title: string;
+    __v: number;
+}
+
+interface FunnelStage {
+    _id: string;
+    title: string;
+    __v: number;
+}
+
 export interface ContentDataType {
+    _id: string;
+    user_id: string;
+    team_id: string;
+    thumbnail: string;
+    title: string;
+    short_url: string;
+    asset_use: string;
+    tags?: Tag[];
+    likes: any[];
+    favorites: any[];
+    sharingDetails: any[];
+    additional_info: AdditionalInfo;
+    file_url: string;
+    aws_key: string;
+    createdAt: Date;
+    updatedAt: Date;
+    __v: number;
+    industry?: Industry;
+    region?: Region;
+    content_type?: ContentType;
+    product?: Product;
+    description?: string;
+    funnel_stage?: FunnelStage;
+}
+
+interface ContentDataType1 {
     _id: string;
     user_id: string;
     team_id: string;
@@ -159,10 +223,10 @@ export interface ContentDataType {
     asset_use: string;
     positioning?: string;
     description?: string;
-    funnel_stage?: string;
-    content_type?: string;
-    product?: string;
-    industry?: string;
+    funnel_stage?: any;
+    content_type?: any;
+    product?: any;
+    industry?: any;
     region?: string;
     tags: any[];
     likes: any[];
@@ -174,4 +238,33 @@ export interface ContentDataType {
     createdAt: Date;
     updatedAt: Date;
     __v: number;
+}
+
+export type UpdateContentDetailsType = {
+    title?: string;
+    short_url?: string;
+    asset_use?: string;
+    description?: string;
+    funnel_stage?: string;
+    content_type?: string;
+    product?: string;
+    industry?: string;
+    region?: string;
+    tags?: any[];
+};
+
+export const updateContentDetails = async (
+    id: string,
+    data: UpdateContentDetailsType
+) => {
+    try {
+        await api.put("/api/content/" + id, data);
+        toast.success("Content details updated");
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const downloadFile = (link:string)=>{
+    return api.post('/api/content/download',{link})
 }

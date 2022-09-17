@@ -5,16 +5,24 @@ import OverflowModal from "../../Shared/CustomUtils/OverflowModal";
 import * as Yup from "yup";
 import InputField from "../../Shared/InputField";
 import MultiSelect from "../../Shared/MultiSelect";
-import { inviteUserApi } from "../../../api-call/InviteUserApi";
+import {
+    inviteUserApi,
+    updateInviteUser,
+} from "../../../api-call/InviteUserApi";
 import { useAtom } from "jotai";
 import { team_state } from "../../../state";
 import { useState } from "react";
 import LodingAnimation from "../../Shared/LodingAnimation";
+import {
+    GetUserManageContext,
+    UserManageType,
+} from "../../Context/UserManageProvider";
 
 type ModalProps = {
     isOpen: boolean;
     onClose: () => void;
     type: "invite" | "update";
+    prevData?: UserManageType;
 };
 
 type UserInitialType = {
@@ -32,11 +40,20 @@ const userInitial: UserInitialType = {
 const validateSchema = Yup.object({
     name: Yup.string().min(4).required("Name is required"),
     email: Yup.string().required("Email is required"),
-    role: Yup.string().required("User type is required"),
+    role: Yup.mixed().required("User type is required"),
 });
 
-function UserManageModal({ isOpen, onClose, type }: ModalProps) {
+function UserManageModal({ isOpen, onClose, type, prevData }: ModalProps) {
     const [teamData] = useAtom(team_state);
+
+    const [selectRole, setSelectRole] = useState(
+        prevData && {
+            value: prevData?.role,
+            label: toCapitalized(prevData?.role),
+        }
+    );
+
+    const { refetch } = GetUserManageContext();
 
     const [buttonLoading, setButtonLoading] = useState(false);
 
@@ -49,13 +66,29 @@ function UserManageModal({ isOpen, onClose, type }: ModalProps) {
     ];
 
     const handleSubmit = async (value: UserInitialType) => {
-        if (type == "invite") {
+        if (type === "invite") {
             setButtonLoading(true);
             const reqData = {
                 ...value,
                 team_id: teamData.id,
             };
             await inviteUserApi(reqData);
+            refetch();
+            setButtonLoading(false);
+            onClose();
+        }
+        if (type === "update") {
+            setButtonLoading(true);
+            const apiObj = {
+                role: selectRole?.value,
+                team_id: teamData.id,
+                _id: prevData?._id,
+                name: value.name,
+                status: prevData?.status,
+            };
+
+            await updateInviteUser(apiObj);
+            refetch();
             setButtonLoading(false);
             onClose();
         }
@@ -73,11 +106,19 @@ function UserManageModal({ isOpen, onClose, type }: ModalProps) {
                 </h2>
                 <div className="pt-5"></div>
                 <Formik
-                    initialValues={userInitial}
+                    initialValues={
+                        prevData
+                            ? {
+                                  name: prevData?.name,
+                                  email: prevData?.email,
+                                  role: prevData?.role,
+                              }
+                            : userInitial
+                    }
                     onSubmit={handleSubmit}
                     validationSchema={validateSchema}
                 >
-                    {() => (
+                    {({ setFieldValue, values }) => (
                         <Form>
                             <InputField
                                 name="name"
@@ -85,6 +126,11 @@ function UserManageModal({ isOpen, onClose, type }: ModalProps) {
                                 label="Enter user name"
                                 height="55px"
                                 labelClass={labelStyle}
+                                onChange={(e: any) =>
+                                    (!prevData ||
+                                        prevData.status !== "Activated") &&
+                                    setFieldValue("name", e.target.value)
+                                }
                                 required
                             />
                             <div className="pt-[30px]"></div>
@@ -95,6 +141,10 @@ function UserManageModal({ isOpen, onClose, type }: ModalProps) {
                                 label="Enter user email"
                                 height="55px"
                                 labelClass={labelStyle}
+                                onChange={(e: any) =>
+                                    !prevData &&
+                                    setFieldValue("email", e.target.value)
+                                }
                                 required
                             />
                             <div className="pt-[30px]"></div>
@@ -104,6 +154,14 @@ function UserManageModal({ isOpen, onClose, type }: ModalProps) {
                                 label="Enter user type"
                                 options={userTypeOptions}
                                 type="single"
+                                value={selectRole}
+                                valueChange={(v: any) => {
+                                    setFieldValue("role", v);
+                                    setSelectRole({
+                                        value: v,
+                                        label: toCapitalized(v),
+                                    });
+                                }}
                                 inputClass="border-[#E0E0E0]"
                             />
                             <div className="pt-[30px]"></div>
@@ -141,8 +199,12 @@ function UserManageModal({ isOpen, onClose, type }: ModalProps) {
     );
 }
 
+export function toCapitalized(str: string) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 UserManageModal.defaultProps = {
-    type: "create",
+    type: "invite",
 };
 
 export default UserManageModal;

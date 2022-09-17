@@ -113,19 +113,15 @@ function ContentViewCard({
                 className="h-[175px]  w-[100%]  bg-[#FFFFFF] rounded-[4px] p-[10px] relative shadow-[2px_2px_18px_rgba(0,0,0,0.08)]"
             >
                 <div className="flex gap-[4%] justify-between items-center relative">
-                    {isImage(data.thumbnail) ? (
-                        <img
-                            src={data.thumbnail}
-                            className="h-[155px] w-[48%] rounded-[4px] object-cover"
-                            alt="content"
-                        />
-                    ) : (
-                        <img
-                            src="/assets/no_preview.jpg"
-                            className="h-[155px] w-[48%] rounded-[4px] object-cover"
-                            alt="content"
-                        />
-                    )}
+                    <img
+                        src={
+                            isImage(data.thumbnail)
+                                ? data.thumbnail
+                                : "/assets/no_preview.jpg"
+                        }
+                        className="h-[155px] w-[48%] rounded-[4px] object-cover"
+                        alt="content"
+                    />
 
                     {/* <div className="w-[48%] h-[155px] rounded bg-[#a8a8a8] flex justify-center items-center">
                         <div className="uppercase text-white font-bold text-sm">
@@ -172,15 +168,20 @@ function ContentViewCard({
                         </div>
 
                         <div className="flex flex-wrap h-auto gap-[2px] mb-[15.33px] 4xl:mb-[13px]">
-                            <TagBadges color={"#E51937"} />
-                            <TagBadges color={"#21B979"} />
+                            {data.tags &&
+                                Array.isArray(data.tags) &&
+                                data.tags.map((v, i) => (
+                                    <TagBadges key={i} color={v.color} />
+                                ))}
                         </div>
                         <div className="flex items-center gap-[8px]">
                             <h3 className="xs:text-[12px] xs:font-bold  4xl:text-[14px] 4xl:font-semibold text-[#222222]">
                                 Type :
                             </h3>
                             <p className="text-[12px] 4xl:text-[14px] font-normal text-[#676767]">
-                                {data.content_type || "Not selected"}
+                                {(data.content_type &&
+                                    data.content_type.title) ||
+                                    "Not selected"}
                             </p>
                         </div>
                         <div className="flex gap-[10px] items-center mt-[10px] mb-[15.34px] 4xl:mb-[13px]">
@@ -224,7 +225,7 @@ function ContentViewCard({
                             className="flex flex-row gap-[2%]"
                         >
                             <CopyToClipboard
-                                text={data.file_url}
+                                text={`${window.location.origin}/f/${data.short_url}`}
                                 onCopy={() => toast.success("Link copied!")}
                             >
                                 <button className={buttonStyle}>Link</button>
@@ -255,6 +256,8 @@ function ContentViewCard({
             <EditTagModal
                 isOpen={tagModal}
                 onClose={() => setTagModal(!tagModal)}
+                contentData={data}
+                refetch={refetch}
             />
             <YesNoModal
                 header="Remove my content" // TODO: 'my collection' -> collection name
@@ -285,14 +288,21 @@ const SharingDetails = ({
             return setError(true);
         }
         setLoading(true);
-        await api.post("/api/content/sharing", {
-            content_id: content_id,
-            recipient,
-            link: "test",
-        });
-        setCopyText("link");
-        handleShare();
-        setLoading(false);
+
+        try {
+            const res = await api.post("/api/content/sharing", {
+                content_id: content_id,
+                recipient,
+            });
+            handleShare();
+            setLoading(false);
+            setCopyText(`${window.location.origin}/s/${res.data.link}`);
+            toast.success("Content shared and link copied");
+        } catch (error) {
+            console.log(error);
+            setLoading(false);
+            handleShare();
+        }
     };
 
     return (

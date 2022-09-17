@@ -14,6 +14,7 @@ import Skeleton from "react-loading-skeleton";
 import { useEffect } from "react";
 import { deleteCollection } from "../../../api-call/CollectionApi";
 import { toast } from "react-toastify";
+import Moment from "react-moment";
 
 export interface CollectionData {
     _id: string;
@@ -25,6 +26,8 @@ export interface CollectionData {
     sharedUser: any[];
     publish: any;
     sharingDetails: any[];
+    createdAt: Date;
+    updatedAt: Date;
     __v: number;
 }
 
@@ -90,7 +93,8 @@ function CollectionItem({
                             </span>{" "}
                         </p>
                         <p className="text-[#676767] text-[13px]">
-                            Last updated: 23m ago
+                            Last updated:{" "}
+                            <Moment date={data.updatedAt} fromNow />
                         </p>
                     </div>
                 </Link>
@@ -155,7 +159,7 @@ const EditColDropdown = ({
     data: CollectionData;
     onDropdownClick?: (v: DropdownItemType) => void;
 }) => {
-    const [dropdownList, setDropdownList] = useState([
+    let listArr = [
         {
             id: 1,
             title: "Edit",
@@ -171,23 +175,19 @@ const EditColDropdown = ({
                 <NewDeleteIcon stroke={stroke} width="16px" height="16px" />
             ),
         },
-    ]);
-    useEffect(() => {
-        data.publish &&
-            setDropdownList((prev) => [
-                ...prev,
-                {
-                    id: 1,
-                    title: "Copy",
-                    img: (stroke = "#222222") => (
-                        <CopyIcon stroke={stroke} width="16px" height="16px" />
-                    ),
-                },
-            ]);
+    ];
 
-        return () => {};
-    }, [data]);
+    listArr = data.publish
+        ? insert(listArr, 1, {
+              id: 1,
+              title: "Copy",
+              img: (stroke = "#222222") => (
+                  <CopyIcon stroke={stroke} width="16px" height="16px" />
+              ),
+          })
+        : listArr;
 
+    const [dropdownList, setDropdownList] = useState<any[]>(listArr);
     return (
         <div className="z-50 shadow-[4px_4px_8px_rgba(0,0,0,0.25)] overflow-hidden p-[5px] bg-white rounded absolute top-[44px] right-[37px]">
             {dropdownList.map((v, i) => (
@@ -233,5 +233,11 @@ CollectionItem.defaultProps = {
         lastUpdated: "23m ago",
     },
 };
+
+const insert = (arr: any[], index: number, newItem: any) => [
+    ...arr.slice(0, index),
+    newItem,
+    ...arr.slice(index),
+];
 
 export default CollectionItem;

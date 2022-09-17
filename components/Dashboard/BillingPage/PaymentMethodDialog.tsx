@@ -1,18 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 import { Form, Formik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import CustomModal from "../../Shared/CustomUtils/CustomModal";
 import * as Yup from "yup";
 import InputField from "../../Shared/InputField";
 import CountrySelect from "./CountrySelect";
 import OverflowModal from "../../Shared/CustomUtils/OverflowModal";
-
-const initialPaymentMethod = {
-    card_number: "",
-    expire: "",
-    cvv: "",
-    country: "",
-};
+import { getLocal } from "../../../utils/localStorage";
+import api from "../../../api";
+import LodingAnimation from "../../Shared/LodingAnimation";
+import { toast } from "react-toastify";
+import { useQuery } from "react-query";
 
 const paymentMethodSchema = Yup.object({
     card_number: Yup.string().required("Card Number is required"),
@@ -28,6 +26,83 @@ function PaymentMethodDialog({
     modalOpen: boolean;
     handleModal: () => void;
 }) {
+    const [ccNumber, setCcNumber] = useState("");
+    const [expireNumber, setExpireNumber] = useState("");
+
+    const [loadingButton, setLoadingButton] = useState(false);
+    const { _id, email, name } = getLocal("user-info");
+
+    const initialPaymentMethod = {
+        card_number: "",
+        expire: "",
+        cvv: "",
+        country: "",
+    };
+    const formatAndSetCcNumber = (e: any) => {
+        const inputVal = e.replace(/ /g, "");
+        let inputNumbersOnly = inputVal.replace(/\D/g, "");
+
+        if (inputNumbersOnly.length > 16) {
+            inputNumbersOnly = inputNumbersOnly.substr(0, 16);
+        }
+
+        const splits = inputNumbersOnly.match(/.{1,4}/g);
+
+        let spacedNumber = "";
+        if (splits) {
+            spacedNumber = splits.join(" ");
+        }
+
+        setCcNumber(spacedNumber);
+    };
+    const formateExpireNumber = (e: any) => {
+        const inputVal = e.replace(/ /g, "");
+        let inputNumbersOnly = inputVal.replace(/\D/g, "");
+
+        if (inputNumbersOnly.length > 6) {
+            inputNumbersOnly = inputNumbersOnly.substr(0, 6);
+        }
+
+        const splits = inputNumbersOnly.match(/^([0-9]{2})$/);
+
+        let spacedNumber = "";
+        if (splits) {
+            spacedNumber = splits.join("/");
+        }
+
+        setExpireNumber(spacedNumber);
+    };
+
+    const handleAddPayment = (value: any) => {
+        setLoadingButton(true);
+        const formateCardNumber = value.card_number;
+        const formate = formateCardNumber.split(" ");
+        const sumValue = formate.reduce(
+            (previous: any, current: any) => previous + current
+        );
+        const postData = {
+            user_id: _id,
+            card_number: sumValue,
+            expiry_date: value.expire,
+            cvc_number: value.cvv,
+            country: value.country,
+            card_name: name,
+        };
+        api.post(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/card-details`,
+            postData
+        )
+            .then((res: any) => {
+                console.log(res, "res");
+                toast.success("Your payment method added successfully");
+                setLoadingButton(false);
+                handleModal();
+            })
+            .catch((err: any) => {
+                console.log(err);
+                setLoadingButton(false);
+            });
+    };
     return (
         <OverflowModal
             className="w-[calc(100vw-40px)] max-w-[540px] bg-[#fff] rounded-[4px] "
@@ -44,7 +119,7 @@ function PaymentMethodDialog({
                         <Formik
                             initialValues={initialPaymentMethod}
                             validationSchema={paymentMethodSchema}
-                            onSubmit={(value) => console.log(value)}
+                            onSubmit={(value) => handleAddPayment(value)}
                         >
                             {() => (
                                 <Form>
@@ -57,6 +132,8 @@ function PaymentMethodDialog({
                                         required
                                         height="44px"
                                         inputImg={CardImg}
+                                        myChange={formatAndSetCcNumber}
+                                        value={ccNumber}
                                     />
                                     <div className="pt-4"></div>
                                     <div className="flex items-center gap-5 sm:gap-[30px] [&>div]:basis-1/2">
@@ -68,12 +145,14 @@ function PaymentMethodDialog({
                                             className="[&>label]:!text-[14px] [&>div>input]:!h-[44px]  "
                                             required
                                             height="44px"
+                                            myChange={formateExpireNumber}
+                                            value={expireNumber}
                                         />
                                         <InputField
                                             name="cvv"
                                             placeholder="•••"
                                             type="text"
-                                            label="CVV"
+                                            label="CVC"
                                             className="[&>label]:!text-[14px] [&>div>input]:!h-[44px] "
                                             required
                                             height="44px"
@@ -93,7 +172,13 @@ function PaymentMethodDialog({
                                         className="h-[44px] w-full text-[#fff] font-medium rounded-[4px]  text-base leading-[44px] transition-all duration-200 hover:bg-primary_dark bg-primary"
                                         type="submit"
                                     >
-                                        Add
+                                        {loadingButton === true ? (
+                                            <div>
+                                                <LodingAnimation color="white" />
+                                            </div>
+                                        ) : (
+                                            "Add"
+                                        )}
                                     </button>
                                     <div className="pt-3"></div>
 

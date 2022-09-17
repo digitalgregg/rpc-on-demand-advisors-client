@@ -1,16 +1,53 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
+import React, { useEffect } from "react";
 import CheckBox from "../../../CustomIcons/CheckBox";
+import { ContentDataType } from "../../../../api-call/ContentApi";
+import { motion } from "framer-motion";
+import {
+    GetCollectionContext,
+    CollectionContext,
+} from "../../../Context/CollectionDataProvider";
+import { pullContent, pushContent } from "../../../../api-call/CollectionApi";
+import { useState } from "react";
+import { isImage } from "../../../Library/FileType";
 type ContentCardType = {
     className?: string;
     isChecked: boolean;
-    data: any;
+    data: ContentDataType;
 };
 
 const CContentCard = ({ className, isChecked, data }: ContentCardType) => {
+    const context: CollectionContext = GetCollectionContext();
+    const [loading, setLoading] = useState(false);
+
+    const handleCardClick = async () => {
+        const content_id = data._id;
+        setLoading(true);
+        const team_id = context.collectionData._id;
+        try {
+            if (isChecked) {
+                await pullContent(team_id, content_id);
+                context.refetch();
+            }
+            if (!isChecked) {
+                await pushContent(team_id, content_id);
+                context.refetch();
+            }
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+            console.log(error);
+        }
+    };
+
+    const loadingClass =
+        "before:w-full before:h-full before:content-[''] after:content-[''] before:bg-[rgba(0,0,0,.1)] before:absolute after:absolute after:z-30  after:bg-[url('/assets/test.svg')] after:block after:w-[30px] after:h-[30px] after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 before:left-0 before:rounded";
+
     return (
-        <div
-            className={`bg-[#fff] p-[10px] cursor-pointer flex gap-[15px] items-center rounded-[4px] ${className}`}
+        <motion.div
+            whileTap={{ scale: 0.9 }}
+            onClick={handleCardClick}
+            className={`bg-[#fff]  p-[10px] relative cursor-pointer flex gap-[15px] items-center rounded-[4px] ${className}`}
         >
             <div className="w-[18px] h-[18px] lg:w-[24px] lg:h-[24px]">
                 <CheckBox
@@ -20,23 +57,27 @@ const CContentCard = ({ className, isChecked, data }: ContentCardType) => {
                 />
             </div>
             <img
-                src={data.img}
-                className="w-[60px] h-[60px] lg:w-[80px] lg:h-[80px] rounded-[4px]"
+                src={
+                    isImage(data.thumbnail)
+                        ? data.thumbnail
+                        : "/assets/default_poster.png"
+                }
+                className="w-[60px] h-[60px] lg:w-[80px] lg:h-[80px] rounded-[4px] object-cover"
                 alt=""
             />
             <div>
-                <div className="text-[14px] font-semibold xl:text-base xl:leading-[21.79px] line-clamp-2 leading-[19.07px] text-[#000000]">
+                <div className="text-[14px] font-semibold xl:text-base xl:leading-[21.79px] leading-[19.07px] text-[#000000] line-clamp-1">
                     {data.title}
                 </div>
                 <div className="pt-[10px]"></div>
                 <div className="text-xs font-semibold xl:text-sm xl:leading-[19.07px] text-[#222222] leading-[16.34px]">
                     Type:
                     <span className="text-[#676767] pl-[12px]">
-                        {data.type}
+                        {data.content_type?.title || "Not selected"}
                     </span>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 

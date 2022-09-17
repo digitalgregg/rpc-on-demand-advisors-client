@@ -1,16 +1,30 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import Avatar from "react-avatar";
+import YesNoModal from "../../modal/YesNoModal";
 import LodingAnimation from "../../Shared/LodingAnimation";
 import Pagination, { IsArray } from "../../Shared/Pagination";
+import { useState } from "react";
+import {
+    UserManageType,
+    GetUserManageContext,
+} from "../../Context/UserManageProvider";
+import { deleteInvitedUser } from "../../../api-call/UserManageApi";
+import UserManageModal from "../../modal/UserManagementModal";
 
 type TablePropsType = {
-    userData: any;
+    userData: UserManageType[];
     isSuccess: boolean;
     isLoading: boolean;
+    refetch: () => any;
 };
 
-function ManagementTable({ userData, isLoading, isSuccess }: TablePropsType) {
+function ManagementTable({
+    userData,
+    isLoading,
+    isSuccess,
+    refetch,
+}: TablePropsType) {
     const tableHeader =
         "sm:text-xs sm:leading-[16.34px] md:text-sm md:leading-[19.07px] xl:text-base xl:leading-[21.79px] text-white  font-semibold";
 
@@ -34,7 +48,7 @@ function ManagementTable({ userData, isLoading, isSuccess }: TablePropsType) {
                             <LodingAnimation /> <span>Loading...</span>
                         </div>
                     </div>
-                ) : userData.length > 0 ? (
+                ) : userData && userData.length > 0 ? (
                     <Pagination
                         className="pt-1 sm:pt-[20px]"
                         dataArr={IsArray(userData)}
@@ -57,7 +71,20 @@ function ManagementTable({ userData, isLoading, isSuccess }: TablePropsType) {
     );
 }
 
-function TableItem({ data }: any) {
+function TableItem({ data }: { data: UserManageType }) {
+    const [deleteModal, setDeleteModal] = useState<boolean>(false);
+    const { refetch } = GetUserManageContext();
+
+    const [editModal, setEditModal] = useState<boolean>(false);
+
+    const handleUserDelete = async (_: any, setLoading: any) => {
+        setLoading(true);
+        await deleteInvitedUser(data);
+        setLoading(false);
+        refetch();
+        setDeleteModal(false);
+    };
+
     return (
         <>
             <div className="sm:flex px-5 hidden text-[12px] leading-[16.34px] md:text-sm md:leading-[19.07px] h-[59px] border-b xl:h-[65px] border-[#BDBDBD] items-center text-[#222] font-semibold">
@@ -95,11 +122,13 @@ function TableItem({ data }: any) {
                     <img
                         src="/icon/edit.svg"
                         alt="edit"
+                        onClick={() => setEditModal(!editModal)}
                         className="w-[16px] h-[19.6px] sm:mr-[22px] md:mr-[26px] cursor-pointer"
                     />
                     <img
                         src="/icon/delete.svg"
                         alt="delete"
+                        onClick={() => setDeleteModal(!deleteModal)}
                         className="w-[20px] h-[20px] cursor-pointer"
                     />
                 </div>
@@ -157,15 +186,34 @@ function TableItem({ data }: any) {
                     </div>
                     <div className="pt-[40px]"></div>
                     <div className="flex gap-[9px]">
-                        <button className="text-xs leading-[40px] bg-primary  font-semibold w-full border-primary border  transition-all duration-200  text-white rounded-[4px] h-[40px]">
+                        <button
+                            onClick={() => setDeleteModal(!deleteModal)}
+                            className="text-xs leading-[40px] bg-primary  font-semibold w-full border-primary border  transition-all duration-200  text-white rounded-[4px] h-[40px]"
+                        >
                             Edit
                         </button>
-                        <button className="text-xs leading-[40px] text-primary  font-semibold w-full border-primary border transition-all duration-200 rounded-[4px] h-[40px]">
+                        <button
+                            onClick={() => setDeleteModal(!deleteModal)}
+                            className="text-xs leading-[40px] text-primary  font-semibold w-full border-primary border transition-all duration-200 rounded-[4px] h-[40px]"
+                        >
                             Delete
                         </button>
                     </div>
                 </div>
             </div>
+            <YesNoModal
+                header="Delete Invited User"
+                description={`Are you sure you want to delete ${data.name}? This action cannot be undone`}
+                isOpen={deleteModal}
+                onYesClick={handleUserDelete}
+                handleModal={() => setDeleteModal(!deleteModal)}
+            />
+            <UserManageModal
+                isOpen={editModal}
+                onClose={() => setEditModal(!editModal)}
+                type={"update"}
+                prevData={data}
+            />
         </>
     );
 }

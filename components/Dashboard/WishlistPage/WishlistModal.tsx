@@ -115,14 +115,24 @@ function WishlistModal({
                             needs_to: value.description,
                             revenue: value.revenue,
                         };
-
+                        
                         if (type === "create") {
                             api.post("/api/wish", wishtlistData)
                                 .then((res: any) => {
                                     setisLoadings(false);
+                                    const recentActivityData = {
+                                        team_id: team.id,
+                                        user_id: team.user_id,
+                                        status_type : "added",
+                                        activity_id: res.data?.addWish._id,
+                                        activity_type:"wish",
+                                        action_status:"none",
+                                        title:res.data?.addWish.wish_title
+                                    }
+                                    api.post("/api/recent-activity",recentActivityData)
                                     toast.success(
                                         "Wishlist created successfully"
-                                    );
+                                    )
                                     handleModal();
                                     setError("");
                                 })
@@ -139,8 +149,17 @@ function WishlistModal({
                                 removeEmpty(updateWishList)
                             )
                                 .then((res: any) => {
-                                    console.log(res, "res from update");
                                     setisLoadings(false);
+                                    const recentActivityData = {
+                                        team_id: team.id,
+                                        user_id: team.user_id,
+                                        status_type : "updated",
+                                        activity_id: res.data?.updatedWish._id,
+                                        activity_type:"wish",
+                                        action_status:"none",
+                                        title:res.data?.updatedWish.wish_title
+                                    }
+                                    api.post("/api/recent-activity",recentActivityData)
                                     toast.success(
                                         "Wishlist updated successfully"
                                     );

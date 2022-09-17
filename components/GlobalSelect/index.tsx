@@ -4,7 +4,7 @@ import Select from "react-select";
 type SelectProps = {
     customStyles: object;
     optionHoverColor: String;
-    options: Object[];
+    options?: Object[];
     isLabel?: boolean;
     labelStyles?: string;
     props?: any;
@@ -15,7 +15,7 @@ type SelectProps = {
     isMulti: boolean;
     selectClassName: string;
     name?: string;
-    defaultValue?: string;
+    defaultValue?: any;
 };
 
 const GlobalSelect = ({

@@ -103,7 +103,7 @@ const FileViewerContainer = () => {
                     </div>
                 </div>
             </div>
-            <div className="h-[calc(100%-70px)]">
+            <div className="h-[calc(100%-70px)] overflow-hidden">
                 {contentData?.file_url && (
                     <FileViewer src={contentData?.file_url} />
                 )}
