@@ -10,6 +10,7 @@ import {
     GetUserManageContext,
 } from "../../Context/UserManageProvider";
 import { deleteInvitedUser } from "../../../api-call/UserManageApi";
+import UserManageModal from "../../modal/UserManagementModal";
 
 type TablePropsType = {
     userData: UserManageType[];
@@ -71,8 +72,10 @@ function ManagementTable({
 }
 
 function TableItem({ data }: { data: UserManageType }) {
-    const [deleteModal, setDeleteModal] = useState<any>(false);
+    const [deleteModal, setDeleteModal] = useState<boolean>(false);
     const { refetch } = GetUserManageContext();
+
+    const [editModal, setEditModal] = useState<boolean>(false);
 
     const handleUserDelete = async (_: any, setLoading: any) => {
         setLoading(true);
@@ -119,6 +122,7 @@ function TableItem({ data }: { data: UserManageType }) {
                     <img
                         src="/icon/edit.svg"
                         alt="edit"
+                        onClick={() => setEditModal(!editModal)}
                         className="w-[16px] h-[19.6px] sm:mr-[22px] md:mr-[26px] cursor-pointer"
                     />
                     <img
@@ -203,6 +207,12 @@ function TableItem({ data }: { data: UserManageType }) {
                 isOpen={deleteModal}
                 onYesClick={handleUserDelete}
                 handleModal={() => setDeleteModal(!deleteModal)}
+            />
+            <UserManageModal
+                isOpen={editModal}
+                onClose={() => setEditModal(!editModal)}
+                type={"update"}
+                prevData={data}
             />
         </>
     );

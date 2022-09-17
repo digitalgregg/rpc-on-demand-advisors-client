@@ -14,6 +14,10 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     const [isLoading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
+        if (router.asPath.includes("/f/") || router.asPath.includes("/s/")) {
+            setLoading(true);
+            return;
+        }
         if (router.asPath.includes("dashboard") && token) {
             setLoading(true);
         }

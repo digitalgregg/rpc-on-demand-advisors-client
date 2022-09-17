@@ -17,7 +17,7 @@ const NotificationSettings = () => {
     const [toggleBtnWeb, setToogleBtnWeb] = useState<boolean>(false);
     const [toggleBtnEmail, setToggleBtnEmail] = useState<boolean>(false);
 
-    const { isLoading, isError } = useQuery(
+    const { data, isLoading, isError, refetch } = useQuery(
         "get-notification",
         () =>
             api.get(
@@ -44,15 +44,17 @@ const NotificationSettings = () => {
 
     const handleWebToggle = async () => {
         setToogleBtnWeb(!toggleBtnWeb);
+
         const apiObj = {
             team_id: teamData.id,
             user_id: teamData.user_id,
             role_type: teamData.role,
-            web_notification: toggleBtnWeb,
+            web_notification: !toggleBtnWeb,
         };
         try {
             await api.put("/api/notification/" + teamData.user_id, apiObj);
             toast.success("Notification updated successfully");
+            refetch();
         } catch (err) {
             setToogleBtnWeb(!toggleBtnWeb);
             console.log(err);
@@ -64,11 +66,12 @@ const NotificationSettings = () => {
             team_id: teamData.id,
             user_id: teamData.user_id,
             role_type: teamData.role,
-            email_notification: toggleBtnEmail,
+            email_notification: !toggleBtnEmail,
         };
         try {
             await api.put("/api/notification/" + teamData.user_id, apiObj);
             toast.success("Notification updated successfully");
+            refetch();
         } catch (err) {
             setToggleBtnEmail(!toggleBtnEmail);
             console.log(err);

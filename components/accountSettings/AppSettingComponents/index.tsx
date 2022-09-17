@@ -47,9 +47,7 @@ function AppSettingComponents() {
             </div>
             <div className="pt-5 sm:pt-[30px]"></div>
 
-            <div>
-                <BottomSettings />
-            </div>
+            <div>{/* <BottomSettings /> */}</div>
         </div>
     );
 }
