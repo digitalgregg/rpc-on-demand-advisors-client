@@ -3,6 +3,28 @@ import * as Yup from "yup";
 import { Form, Formik } from "formik";
 import InputField from "../../../Shared/InputField";
 import MultiSelect from "../../../Shared/MultiSelect";
+import {
+    GetCollectionContext,
+    initialCollection,
+} from "../../../Context/CollectionDataProvider";
+import { useAtom } from "jotai";
+import { signupState, team_state } from "../../../../state";
+import { fetchTeamUsers } from "../../../../api-call/UserManageApi";
+import {
+    getShareWithArr,
+    getShareWithData,
+} from "../../../../api-call/ReuseableApi";
+import { useQuery } from "react-query";
+import { removeEmpty } from "../../../../utils/removeEmpty";
+import api from "../../../../api";
+import LodingAnimation from "../../../Shared/LodingAnimation";
+import { toast } from "react-toastify";
+import useCopyToClipboard from "../../../Library/useCopyToClipboard";
+import {
+    updateCollection,
+    publishCollection,
+    unPublishCollection,
+} from "../../../../api-call/CollectionApi";
 
 const initialValues = {
     collection_title: "",
@@ -15,24 +37,97 @@ const validationSchema = Yup.object({
 });
 
 function TopForm() {
+    const context = GetCollectionContext();
+    const data = context.collectionData || initialCollection;
+
+    const [isSave, setSave] = useState(false);
+
+    const [copyValue, setCopyValue] = useCopyToClipboard();
+
+    const [userData] = useAtom(signupState);
+    const [teamData] = useAtom(team_state);
+
+    const [buttonLoading, setButtonLoading] = useState(false);
+
+    const [colTitleValue, setColTitleValue] = useState(data.title);
+    const [shareWithValue, setShareWithValue] = useState<
+        SelectResultType | SelectResultType[]
+    >();
+
+    const { data: shareWith, isSuccess } = useQuery("get-team-users", () =>
+        fetchTeamUsers(teamData.id)
+    );
+
+    useEffect(() => {
+        setColTitleValue(data.title);
+        context.collectionData &&
+            setShareWithValue(getDataToSelectObj(context.collectionData));
+    }, [data]);
+
+    useEffect(() => {
+        const leftShareWith = getShareWithData(shareWithValue);
+        const rightShareWith = {
+            shareWith: data.shareWith,
+            sharedUser: data.sharedUser.map((v) => v._id),
+        };
+        if (
+            colTitleValue === data.title &&
+            JSON.stringify(leftShareWith) === JSON.stringify(rightShareWith)
+        ) {
+            setSave(false);
+        } else if (
+            colTitleValue !== data.title ||
+            JSON.stringify(leftShareWith) !== JSON.stringify(rightShareWith)
+        ) {
+            setSave(true);
+        }
+    }, [colTitleValue, shareWithValue]);
+
     const options = [
         { value: "all-team-members", label: "All Team Members" },
         { value: "no-team-members", label: "No Team Members" },
-        { value: "62e101e037c8919ds737717187", label: "Rashed Iqbal" },
-        { value: "62e101e037c8919w757716187", label: "Rakib Islam" },
-        { value: "62e101e037c8913727f717187", label: "Asif 1Ahmed" },
-        { value: "62e101e037c89137s27717187", label: "Asif2 Ahmed" },
-        { value: "62e101e037c89137277c17187", label: "Asif 3Ahmed" },
-        { value: "62e101e037c8913f727717187", label: "Asif 4Ahmed" },
-    ];
+    ].concat(isSuccess ? getShareWithArr(shareWith?.data, userData._id) : []);
+
+    const handleCollectionUpdate = async (v: any) => {
+        setButtonLoading(true);
+        if (isSave) {
+            console.log("Update collection");
+            const shareWithApiObj = getShareWithData(shareWithValue);
+
+            const collectionUpdateObj = {
+                title: colTitleValue,
+                ...shareWithApiObj,
+            };
+            await updateCollection(data._id, collectionUpdateObj);
+            context.refetch();
+            setButtonLoading(false);
+        } else {
+            if (data.publish) {
+                await unPublishCollection(data._id);
+                context.refetch();
+                setButtonLoading(false);
+            } else {
+                const publishApiObj = {
+                    site_title: data.title,
+                    site_url: "2we23dde",
+                    profile_info: data.user_id,
+                    collection_id: data._id,
+                };
+                await publishCollection(publishApiObj);
+                context.refetch();
+                setCopyValue(publishApiObj.site_url);
+                setButtonLoading(false);
+            }
+        }
+    };
 
     return (
         <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={(value) => console.log(value)}
+            onSubmit={(v) => handleCollectionUpdate(removeEmpty(v))}
         >
-            {() => (
+            {({ setFieldValue }) => (
                 <Form>
                     <div className="flex flex-col sm:flex-row   w-full">
                         <InputField
@@ -41,15 +136,37 @@ function TopForm() {
                             inputClass="!border-[#676767] [background-color:transparent_!important]"
                             placeholder="Type here...."
                             className="basis-[40%]"
+                            value={colTitleValue}
+                            onChange={(e: any) => {
+                                setColTitleValue(e.target.value);
+                            }}
                         />
                         <div className="pt-[15px] sm:pt-0 sm:pl-[15px] lg:pl-[20px]"></div>
-                        <CollectionsSelect options={options} />
+                        <CollectionsSelect
+                            options={options}
+                            setValue={setShareWithValue}
+                            value={shareWithValue}
+                        />
                         <div className=" pt-[20px] sm:pt-0 sm:pl-[15px] lg:pl-[20px]"></div>
+
                         <button
                             type="submit"
                             className="h-[55px] sm:mt-[31.78px] sm:w-[130px] rounded-[4px] w-full md:text-sm leading-[54px] hover:bg-[#890F21] transition-all duration-200 text-xs text-[#fff] basis-[28%] font-semibold text-center bg-[#E51937]"
                         >
-                            Publish collection
+                            {buttonLoading ? (
+                                <span className="flex items-center gap-[10px] justify-center">
+                                    <div>
+                                        <LodingAnimation color="white" />
+                                    </div>
+                                    <div>Loading...</div>
+                                </span>
+                            ) : isSave ? (
+                                "Save Collection"
+                            ) : data.publish ? (
+                                "Unpublish Collection"
+                            ) : (
+                                "Publish collection"
+                            )}
                         </button>
                     </div>
                 </Form>
@@ -57,9 +174,15 @@ function TopForm() {
         </Formik>
     );
 }
-
-const CollectionsSelect = ({ options }: { options: object[] }) => {
-    const [value, setValue] = useState<SelectResultType | SelectResultType[]>();
+const CollectionsSelect = ({
+    options,
+    value,
+    setValue,
+}: {
+    options: object[];
+    value?: SelectResultType | SelectResultType[];
+    setValue: any;
+}) => {
     useEffect(() => {
         const checkValue = value && checkSelectValue(value);
         if (checkValue) {
@@ -68,7 +191,6 @@ const CollectionsSelect = ({ options }: { options: object[] }) => {
             }
         }
     }, [value]);
-
     return (
         <MultiSelect
             options={options}
@@ -110,3 +232,37 @@ const checkSelectValue = (value: SelectResultType[] | SelectResultType) => {
 };
 
 export default TopForm;
+
+function getDataToSelectObj(collectionData: {
+    _id: string;
+    user_id: string;
+    team_id: string;
+    title: string;
+    contents: any[];
+    shareWith: string;
+    sharedUser: any[];
+    sharingDetails: any[];
+    createdAt: Date;
+    updatedAt: Date;
+    __v: number;
+}): any {
+    switch (collectionData.shareWith) {
+        case "all":
+            return {
+                value: "all-team-members",
+                label: "All Team Members",
+            };
+        case "no":
+            return {
+                value: "no-team-members",
+                label: "No Team Members",
+            };
+        case "user":
+            return collectionData.sharedUser.map((v) => ({
+                value: v._id,
+                label: v.name,
+            }));
+        default:
+            return "";
+    }
+}

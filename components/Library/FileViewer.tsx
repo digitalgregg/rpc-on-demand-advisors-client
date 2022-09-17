@@ -3,12 +3,16 @@ import React, { useState } from "react";
 import { getFileType } from "./FileType";
 import PlyrReact from "plyr-react";
 import { DocumentViewer } from "react-documents";
+import { LoadingBox } from "../../pages/dashboard/contents/view-details/[id]";
+import LodingAnimation from "../Shared/LodingAnimation";
+import LoadingAnimation from "../Shared/LoadingAnimation";
 
 type FileViewerType = {
     src: string;
 };
 
 function FileViewer({ src }: FileViewerType) {
+    const [isLoading, setLoading] = useState(true);
     return (
         <>
             {getFileType(src, (type) => {
@@ -40,9 +44,29 @@ function FileViewer({ src }: FileViewerType) {
                             />
                         );
                     case "document":
-                        return <DocumentViewer url={src} viewer="office" />;
+                        return (
+                            <>
+                                {isLoading && <FileLoadingView />}
+                                <DocumentViewer
+                                    loaded={() => setLoading(false)}
+                                    url={src}
+                                    viewer="office"
+                                />
+                            </>
+                        );
                     case "all-document":
-                        return <DocumentViewer url={src} viewer="google" />;
+                        return (
+                            <>
+                                {isLoading && <FileLoadingView />}
+
+                                <DocumentViewer
+                                    loaded={() => setLoading(false)}
+                                    url={src}
+                                    viewer="google"
+                                />
+                            </>
+                        );
+
                     default:
                         break;
                 }
@@ -51,10 +75,13 @@ function FileViewer({ src }: FileViewerType) {
     );
 }
 
-// https://web-examples.pspdfkit.com/hello/example.pdf
+const FileLoadingView = () => {
+    return (
+        <div className="flex flex-col justify-center items-center h-full w-full">
+            <LoadingAnimation color="#E51937" height={50} width={50} />
+            <div>Loading file, Please wait.......</div>
+        </div>
+    );
+};
 
 export default FileViewer;
-
-// errorComponent={CustomErrorComponent}
-// onError={this.onError}/>
-// type

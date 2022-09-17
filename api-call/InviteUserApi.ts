@@ -19,3 +19,13 @@ export const inviteUserApi = async (data: InviteUserType) => {
         toast.error(err?.response.data.message);
     }
 };
+
+export const updateInviteUser = async (data: any) => {
+    try {
+        await api.put("/api/invite/update", data);
+        toast.success("Invited user updated successfully");
+    } catch (err: any) {
+        console.log(err);
+        toast.error(err?.response.data.message);
+    }
+};

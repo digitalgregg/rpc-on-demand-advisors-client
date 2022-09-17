@@ -39,7 +39,7 @@ function SettingItem({ data, type }: SItemType) {
         <>
             <div className=" rounded h-[50px] p-[10px] border border-solid border-[#9E9E9E] flex flex-row justify-between">
                 <div className=" flex items-center flex-row gap-[16px]">
-                    {data.order && (
+                    {data.order && (type === "funnel" || type === "content") && (
                         <div className=" w-[30px] h-[30px] flex justify-center items-center bg-[#E519371A] rounded">
                             <span className=" text-base leading-[22px] font-bold text-primary">
                                 {data.order}

@@ -1,5 +1,5 @@
 import { useField, FieldHookConfig, ErrorMessage } from "formik";
-import { FC, ReactElement } from "react";
+import { FC, ReactElement, useEffect } from "react";
 
 interface InputFieldType {
     label?: string;
@@ -16,6 +16,7 @@ interface InputFieldType {
 function InputField(props: InputFieldType & FieldHookConfig<string>) {
     const [field, meta] = useField(props);
     const id = props.label ? props.label.replace(" ", "-") : props.name;
+
     return (
         <div className={props.className}>
             <label

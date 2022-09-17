@@ -12,7 +12,7 @@ import NewCollectionModal from "../../../components/modal/NewCollection";
 import Pagination, { IsArray } from "../../../components/Shared/Pagination";
 import { useWindowDimensions } from "../../../components/Shared/DimentionHook/index";
 import { useAtom } from "jotai";
-import { team_state } from "../../../state/index";
+import { signupState, team_state } from "../../../state/index";
 import {
     createContent,
     fetchContents,
@@ -55,6 +55,7 @@ const customStyles = {
 };
 function Contents() {
     const [teamData] = useAtom(team_state);
+    const [userData] = useAtom(signupState);
 
     const [itemCount, setItemCount] = useState();
     const handleChange = (e: any) => {
@@ -119,7 +120,7 @@ function Contents() {
                 <div className="w-full">
                     <div className="flex flex-col sm:items-center justify-between sm:flex-row pb-[30px] w-full mx-auto">
                         <h3 className="text-[16px] md:text-[18px] lg:text-[24px] 2xl:text-[32px] mb-[30px] sm:mb-0 font-bold text-[#000]">
-                            Good Morning Gregg!{" "}
+                            {getGreetings()} {userData.name}!
                         </h3>
                         <div className="flex gap-[3%] sm:gap-[25px] ">
                             <button
@@ -149,7 +150,8 @@ function Contents() {
                     {/* filter section  */}
                     <div className="flex items-center justify-between pb-[20px] mx-auto">
                         <h3 className="text-[16px] font-semibold text-[#222222]">
-                            Your Content (100)
+                            Your Content (
+                            {(contentData && contentData.length) || 0})
                         </h3>
                         <div className="flex items-center gap-[10px] text-[#000]">
                             <h3 className="text-[14px]">Sorted by</h3>
@@ -232,5 +234,19 @@ function Contents() {
         </>
     );
 }
+
+const getGreetings = () => {
+    var day = new Date();
+    var hr = day.getHours();
+    if (hr >= 0 && hr < 12) {
+        return "Good Morning";
+    } else if (hr == 12) {
+        return "Good Noon";
+    } else if (hr >= 12 && hr <= 17) {
+        return "Good Afternoon";
+    } else {
+        return "Good Evening";
+    }
+};
 
 export default Contents;
