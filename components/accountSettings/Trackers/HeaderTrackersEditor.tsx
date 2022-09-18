@@ -30,12 +30,9 @@ function HeaderTrackersEditor() {
     };
 
     const handlePut = () => {
-        api.put(
-            `/api/trackers/${apiTrackersId}`,
-            {
-                header_html: codeTrackersState,
-            }
-        )
+        api.put(`/api/trackers/${apiTrackersId}`, {
+            header_html: codeTrackersState,
+        })
             .then((res) => {
                 toast.success(res.data.message);
             })

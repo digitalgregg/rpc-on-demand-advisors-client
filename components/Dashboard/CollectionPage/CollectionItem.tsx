@@ -15,6 +15,7 @@ import { useEffect } from "react";
 import { deleteCollection } from "../../../api-call/CollectionApi";
 import { toast } from "react-toastify";
 import Moment from "react-moment";
+import useCopyToClipboard from "../../Library/useCopyToClipboard";
 
 export interface CollectionData {
     _id: string;
@@ -50,6 +51,8 @@ function CollectionItem({
         setDeleteModal(!deleteModal);
     };
 
+    const [copyText, setCopyText] = useCopyToClipboard();
+
     const dropdownClickHandle = (v: DropdownItemType) => {
         switch (v.title) {
             case "Delete":
@@ -58,7 +61,13 @@ function CollectionItem({
                 return router.push(
                     editCollectionPath(data.shareWith) + data._id
                 );
-
+            case "Copy":
+                setCopyText(
+                    `${window.location.origin}/c/${data.publish.site_url}`
+                );
+                toast.success("Link copied");
+                handleDropdown();
+                break;
             default:
                 break;
         }

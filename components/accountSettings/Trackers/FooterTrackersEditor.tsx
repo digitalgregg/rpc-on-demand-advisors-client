@@ -28,12 +28,9 @@ function FooterTrackersEditor() {
         setCodeTrackersState(v);
     };
     const handlePut = () => {
-        api.put(
-            `/api/trackers/${apiTrackersId}`,
-            {
-                footer_html: codeTrackersState,
-            }
-        )
+        api.put(`/api/trackers/${apiTrackersId}`, {
+            footer_html: codeTrackersState,
+        })
             .then((res) => {
                 toast.success(res?.data?.message);
             })
@@ -53,19 +50,7 @@ function FooterTrackersEditor() {
                 toast.error(err.message);
             });
     };
-    useEffect(() => {
-        api.get(`/api/trackers/${teamId.id}`)
-            .then((res) => {
-                if (res?.data?.team_id === teamId.id) {
-                    setTeam_idBoolean(true);
-                }
-                setApiTrackersId(res?.data?._id);
-                setCodeTrackersState(res?.data?.footer_html);
-            })
-            .catch((res) => {
-                toast.error(res.message);
-            });
-    }, []);
+
     return (
         <>
             <div className="">
