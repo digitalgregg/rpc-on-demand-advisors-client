@@ -1,7 +1,10 @@
 import React, { createContext, useContext, ReactNode } from "react";
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
-import { getCollection } from "../../api-call/CollectionApi";
+import {
+    getCollection,
+    getContentsCollection,
+} from "../../api-call/CollectionApi";
 import { useState } from "react";
 import { useAtom } from "jotai";
 import { team_state } from "../../state/index";
@@ -50,39 +53,22 @@ export const GetCollectionContext = () =>
 function CollectionDataProvider({ children }: { children: ReactNode }) {
     const router = useRouter();
     const id = router.query.id;
-    const [teamData] = useAtom(team_state);
 
-    const [selectContents, setSelectContents] = useState<any[]>();
-
-    const {
-        data: collectionData,
-        refetch: refetch1,
-        isLoading,
-    } = useQuery(["get-collection", id], () => getCollection(`${id}`), {
-        enabled: id ? true : false,
-        select: (response) => response.data,
-
-        onSuccess: (data) => {
-            setSelectContents(data.contents.map((v: any) => v._id));
-        },
-    });
-    const { data: contents, refetch: refetch2 } = useQuery(
-        ["get-contents", selectContents],
-        () => getFilterContents(teamData.id, selectContents),
+    const { data, refetch, isLoading, isSuccess } = useQuery(
+        ["get-collection", id],
+        () => getContentsCollection(`${id}`),
         {
-            enabled: selectContents ? true : false,
+            enabled: id ? true : false,
             select: (response) => response.data,
         }
     );
-
-    const refetch = () => {
-        refetch1();
-        refetch2();
-    };
-
     return (
         <CollectionContext.Provider
-            value={{ collectionData, contents, refetch }}
+            value={{
+                collectionData: data && data.collection,
+                contents: data && data.contents,
+                refetch,
+            }}
         >
             {children}
         </CollectionContext.Provider>
@@ -90,12 +76,3 @@ function CollectionDataProvider({ children }: { children: ReactNode }) {
 }
 
 export default CollectionDataProvider;
-function getFilterContents(
-    team_id: string,
-    selectContents: any[] | undefined
-): any {
-    return api.post("/api/collection/content", {
-        team_id,
-        contents: selectContents,
-    });
-}
