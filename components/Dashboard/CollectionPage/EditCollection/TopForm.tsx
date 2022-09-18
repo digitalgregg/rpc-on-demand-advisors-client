@@ -109,14 +109,21 @@ function TopForm() {
             } else {
                 const publishApiObj = {
                     site_title: data.title,
-                    site_url: "2we23dde",
                     profile_info: data.user_id,
                     collection_id: data._id,
                 };
-                await publishCollection(publishApiObj);
-                context.refetch();
-                setCopyValue(publishApiObj.site_url);
-                setButtonLoading(false);
+                try {
+                    const res = await publishCollection(publishApiObj);
+                    const link = res.data.link;
+                    setButtonLoading(false);
+                    setCopyValue(`${window.location.origin}/c/${link}`);
+                    toast.success("Published and link copied");
+
+                    context.refetch();
+                } catch (error) {
+                    setButtonLoading(false);
+                    console.log(error);
+                }
             }
         }
     };

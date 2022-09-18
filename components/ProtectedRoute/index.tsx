@@ -14,7 +14,11 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     const [isLoading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
-        if (router.asPath.includes("/f/") || router.asPath.includes("/s/")) {
+        if (
+            router.asPath.includes("/f/") ||
+            router.asPath.includes("/s/") ||
+            router.asPath.includes("/c/")
+        ) {
             setLoading(true);
             return;
         }

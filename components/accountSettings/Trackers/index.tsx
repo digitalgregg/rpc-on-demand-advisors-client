@@ -1,9 +1,28 @@
-import React from "react";
-import FooterTrackersEditor from "./FooterTrackersEditor";
-import HeaderTrackersEditor from "./HeaderTrackersEditor";
+import { useAtom } from "jotai";
+import React, { useEffect } from "react";
+import { useQuery } from "react-query";
+import { fetchTrackers } from "../../../api-call/TrackersApi";
+import { team_state } from "../../../state";
+import TrackersEditor from "./TrackersEditor";
 
 const Trackers = () => {
-    
+    const [teamData] = useAtom(team_state);
+    const { data, isLoading, isSuccess, refetch } = useQuery(
+        ["fetch-trackers"],
+        async () => await fetchTrackers(teamData.id),
+        {
+            enabled: teamData.id ? true : false,
+            select: (response) => response.data,
+            retry(failureCount, error: any) {
+                if (error?.response?.data?.message === "Trackers not found") {
+                    return false;
+                } else {
+                    return true;
+                }
+            },
+        }
+    );
+
     return (
         <div className="overflow-hidden">
             <h4 className=" text-2xl leading-[33px] font-semibold text-black">
@@ -36,7 +55,11 @@ const Trackers = () => {
                     </p>
                     <div className="pt-4"></div>
 
-                    <HeaderTrackersEditor  />
+                    <TrackersEditor
+                        data={data}
+                        type={"header"}
+                        refetch={refetch}
+                    />
                 </div>
                 <div className="w-full">
                     <h3 className=" capitalize text-2xl leading-[32.68px] font-semibold text-black">
@@ -50,7 +73,12 @@ const Trackers = () => {
                     </p>
                     <div className="pt-4"></div>
 
-                    <FooterTrackersEditor />
+                    <TrackersEditor
+                        data={data}
+                        type={"footer"}
+                        refetch={refetch}
+                    />
+
                     <div className="pb-[45px]"></div>
                 </div>
             </div>

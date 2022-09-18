@@ -65,12 +65,7 @@ export const updateCollection = async (id: string, obj: object) => {
 };
 
 export const publishCollection = async (obj: object) => {
-    try {
-        await api.post("/api/collection/publish", obj);
-        toast.success("Published and link copied");
-    } catch (error) {
-        console.log(error);
-    }
+    return await api.post("/api/collection/publish", obj);
 };
 
 export const unPublishCollection = async (id: string) => {
@@ -80,4 +75,8 @@ export const unPublishCollection = async (id: string) => {
     } catch (error) {
         console.log(error);
     }
+};
+
+export const getContentsCollection = async (id: string) => {
+    return await api.get("/api/collection/contents-collection/" + id);
 };

@@ -131,38 +131,32 @@ function EditCollection() {
                         </div>
                     </div>
                     <div className="pt-5"></div>
-                    <div>
-                        <Pagination
-                            dataArr={data.contents || []}
-                            itemsPerPage={getItemPerPageTop()}
-                            className="pt-[30px]"
-                        >
-                            {(currentItems) => {
-                                if (currentItems.length > 0) {
-                                    return (
-                                        <div className="grid gap-[10px] sm:grid-cols-2">
-                                            {currentItems.map(
-                                                (v: any, i: any) => (
-                                                    <CContentCard
-                                                        data={v}
-                                                        key={i}
-                                                    />
-                                                )
-                                            )}
+
+                    <Pagination
+                        dataArr={data.contents || []}
+                        itemsPerPage={getItemPerPageTop()}
+                        className="pt-[30px]"
+                    >
+                        {(currentItems) => {
+                            if (currentItems.length > 0) {
+                                return (
+                                    <div className="grid gap-[10px] sm:grid-cols-2">
+                                        {currentItems.map((v: any, i: any) => (
+                                            <CContentCard data={v} key={i} />
+                                        ))}
+                                    </div>
+                                );
+                            } else {
+                                return (
+                                    <div className="bg-[#F2F2F2] h-[200px] w-full flex justify-center items-center">
+                                        <div className="text-lg lg:text-xl text-[#676767]">
+                                            No content selected
                                         </div>
-                                    );
-                                } else {
-                                    return (
-                                        <div className="bg-[#F2F2F2] h-[200px] w-full flex justify-center items-center">
-                                            <div className="text-lg lg:text-xl text-[#676767]">
-                                                No content selected
-                                            </div>
-                                        </div>
-                                    );
-                                }
-                            }}
-                        </Pagination>
-                    </div>
+                                    </div>
+                                );
+                            }
+                        }}
+                    </Pagination>
                 </div>
                 <div className="pt-[30px]"></div>
 
