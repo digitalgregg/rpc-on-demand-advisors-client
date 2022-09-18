@@ -82,25 +82,25 @@ const UserSettingsDropdown = () => {
     >
       <div className="p-[8px] ">
         {menuItems.map(({ id, Icon, title, url, baseUrl }: any) => (
-          <div
-            key={id}
-            onMouseOver={() => {
-              onOver(id), setItemCount(id);
-            }}
-            onMouseLeave={() => {
-              onLeave(id), setItemCount(id);
-            }}
-            className="my-[2px] "
-          >
-            <ul
-              className={` ${
-                router.asPath.includes(baseUrl)
-                  ? "!bg-primary"
-                  : " bg-transparent"
-              } px-[10px] py-[12px] hover:bg-primary mt-[5px] rounded-[4px] cursor-pointer`}
+            <div
+              onMouseOver={() => {
+                onOver(id), setItemCount(id);
+              }}
+              onMouseLeave={() => {
+                onLeave(id), setItemCount(id);
+              }}
+              className="my-[2px] "
+              key={id}
             >
-              <li className="flex text-[#222222]">
-                <Link href={url}>
+              <Link href={url}>
+              <ul
+                className={` ${
+                  router.asPath.includes(baseUrl)
+                    ? "!bg-primary"
+                    : " bg-transparent"
+                } px-[10px] py-[12px] hover:bg-primary mt-[5px] rounded-[4px] cursor-pointer`}
+              >
+                <li className="flex text-[#222222]">
                   <a className=" flex flex-row gap-[10px]">
                     {
                       <Icon
@@ -123,10 +123,10 @@ const UserSettingsDropdown = () => {
                       {title}
                     </span>
                   </a>
-                </Link>
-              </li>
-            </ul>
-          </div>
+                </li>
+              </ul>
+              </Link>
+            </div>
         ))}
       </div>
     </div>
