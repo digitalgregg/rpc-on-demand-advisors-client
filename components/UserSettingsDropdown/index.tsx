@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { removeLocal } from "../../utils/localStorage";
 import {
   AccountSetting,
   RecycleBin,
@@ -75,6 +76,17 @@ const UserSettingsDropdown = () => {
     if (e) setIconColor(false);
   };
 
+  function handleOnClick(title: any, url: any): void {
+    if (title === "Logout") {
+      removeLocal("user");
+      removeLocal("user-info");
+      removeLocal("team");
+      removeLocal("token");
+      router.push("/");
+    } else {
+      router.push(url);
+    }
+  }
   return (
     <div
       style={{ boxShadow: "2px 2px 20px rgba(0, 0, 0, 0.15)" }}
@@ -82,51 +94,50 @@ const UserSettingsDropdown = () => {
     >
       <div className="p-[8px] ">
         {menuItems.map(({ id, Icon, title, url, baseUrl }: any) => (
-            <div
-              onMouseOver={() => {
-                onOver(id), setItemCount(id);
-              }}
-              onMouseLeave={() => {
-                onLeave(id), setItemCount(id);
-              }}
-              className="my-[2px] "
-              key={id}
+          <div
+            onMouseOver={() => {
+              onOver(id), setItemCount(id);
+            }}
+            onMouseLeave={() => {
+              onLeave(id), setItemCount(id);
+            }}
+            className="my-[2px] "
+            key={id}
+          >
+            <ul
+              className={` ${
+                router.asPath.includes(baseUrl)
+                  ? "!bg-primary"
+                  : " bg-transparent"
+              } px-[10px] py-[12px] hover:bg-primary mt-[5px] rounded-[4px] cursor-pointer`}
+              onClick={() => handleOnClick(title, url)}
             >
-              <Link href={url}>
-              <ul
-                className={` ${
-                  router.asPath.includes(baseUrl)
-                    ? "!bg-primary"
-                    : " bg-transparent"
-                } px-[10px] py-[12px] hover:bg-primary mt-[5px] rounded-[4px] cursor-pointer`}
-              >
-                <li className="flex text-[#222222]">
-                  <a className=" flex flex-row gap-[10px]">
-                    {
-                      <Icon
-                        color={`${
-                          (id === itemCount && iconColor === true) ||
-                          router.asPath.includes(baseUrl)
-                            ? "#ffffff"
-                            : "#000"
-                        }`}
-                      />
-                    }
-                    <span
-                      className={` ${
+              <li className="flex text-[#222222]">
+                <a className=" flex flex-row gap-[10px]">
+                  {
+                    <Icon
+                      color={`${
                         (id === itemCount && iconColor === true) ||
                         router.asPath.includes(baseUrl)
-                          ? "text-[#FFFFFF]"
+                          ? "#ffffff"
                           : "#000"
-                      } text-[14px] font-semibold`}
-                    >
-                      {title}
-                    </span>
-                  </a>
-                </li>
-              </ul>
-              </Link>
-            </div>
+                      }`}
+                    />
+                  }
+                  <span
+                    className={` ${
+                      (id === itemCount && iconColor === true) ||
+                      router.asPath.includes(baseUrl)
+                        ? "text-[#FFFFFF]"
+                        : "#000"
+                    } text-[14px] font-semibold`}
+                  >
+                    {title}
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
         ))}
       </div>
     </div>
