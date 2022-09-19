@@ -89,3 +89,12 @@ function isOtherDocument(filename: string) {
     }
     return false;
 }
+
+export function isFileCsv(filename: string): boolean {
+    const ext = getExtension(filename);
+    switch (ext.toLowerCase()) {
+        case "csv":
+            return true;
+    }
+    return false;
+}
