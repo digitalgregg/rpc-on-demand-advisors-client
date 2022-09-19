@@ -1,7 +1,5 @@
 import React from "react";
 import {
-    BarChart,
-    Bar,
     XAxis,
     YAxis,
     CartesianGrid,
@@ -52,7 +50,7 @@ const AllTimeCard = ({
                                 height: 100,
                             }}
                             itemStyle={{
-                                color:"#fff"
+                                color: "#fff",
                             }}
                             contentStyle={{
                                 background: "#000",

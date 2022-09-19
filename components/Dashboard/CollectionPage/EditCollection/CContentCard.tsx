@@ -10,7 +10,6 @@ import {
 import { pullContent, pushContent } from "../../../../api-call/CollectionApi";
 import { useState } from "react";
 import { isImage } from "../../../Library/FileType";
-
 type ContentCardType = {
     className?: string;
     isChecked: boolean;
