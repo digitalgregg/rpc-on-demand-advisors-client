@@ -11,7 +11,7 @@ const ProfilePhoto = () => {
   const [loading,setIsLoading] = useState(false)
 
   const { data, refetch,} = useQuery("get profile", () =>
-    api.get("http://localhost:8080/api/profile/list")
+    api.get("/api/profile/list")
   );
   const profileKey = data?.data;
 
@@ -27,7 +27,7 @@ const ProfilePhoto = () => {
         fileData.name
       );
        await api.post(
-        "http://localhost:8080/api/profile/upload",
+        "/api/profile/upload",
         formData
       )
       .then((data) => {
@@ -48,7 +48,7 @@ const ProfilePhoto = () => {
   
   const handleRemoveProfile = async() => {
     try {
-       await api.delete(`http://localhost:8080/api/profile/remove/${profile?.key}`)
+       await api.delete(`/api/profile/remove/${profile?.key}`)
       .then((data) => {
         removeLocal("profile-data");
         toast.success(data?.data);
