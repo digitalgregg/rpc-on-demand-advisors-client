@@ -13,7 +13,7 @@ const ProfilePhoto = () => {
   const [profileData, setProfileData] = useAtom(profile_state);
 
   const { data, refetch,} = useQuery("get profile", () =>
-    api.get("http://localhost:8080/api/profile/list")
+    api.get("/api/profile/list")
   );
 
   const handleUpdateProfile = async (e: any) => {
@@ -28,7 +28,7 @@ const ProfilePhoto = () => {
         fileData.name
       );
        await api.post(
-        "http://localhost:8080/api/profile/upload",
+        "/api/profile/upload",
         formData
       )
       .then((data) => {
@@ -50,7 +50,7 @@ const ProfilePhoto = () => {
   
   const handleRemoveProfile = async() => {
     try {
-       await api.delete(`http://localhost:8080/api/profile/remove/${profileData?.key}`)
+       await api.delete(`/api/profile/remove/${profileData?.key}`)
       .then((data) => {
         const profileInfo = {
           originalname: "",
