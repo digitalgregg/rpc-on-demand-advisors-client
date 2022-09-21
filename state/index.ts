@@ -20,6 +20,12 @@ export const team_state = atomWithStorage("team", {
     role: "",
 });
 
+export const profile_state = atomWithStorage("profile-data", {
+    originalname: "",
+    key: "",
+    location: ""
+});
+
 export const TrackersStateHeaderAtom = atom<any>("");
 export const TrackersStateFooterAtom = atom<any>("");
 export const NotificationWebAtom = atom<boolean>(false);

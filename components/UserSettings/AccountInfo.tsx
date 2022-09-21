@@ -4,6 +4,9 @@ import api from "../../api";
 import { getLocal, setLocal } from "./../../utils/localStorage";
 import { toast } from "react-toastify";
 import LodingAnimation from "./../Shared/LodingAnimation/index";
+import { team_state } from "../../state";
+import { useAtom } from 'jotai';
+import { signupState } from './../../state/index';
 
 const AccountInfo = () => {
   const inputStyle =
@@ -13,6 +16,8 @@ const AccountInfo = () => {
   const user = getLocal("user");
   const team = getLocal("team");
   const userInfo = getLocal("user-info");
+  const [_1,setTeamObj] = useAtom(team_state);
+  const [_2, setSignupData] = useAtom(signupState);
   const [buttonLoading, setButtonLoading] = useState(false);
 
   const {
@@ -32,16 +37,18 @@ const AccountInfo = () => {
       user.companyName = data.companyName;
       setLocal("user", user);
 
-      const teamData = { team_name: data.team_name };
-      const updateTeamInfo = await api.put(`/api/team/${team.id}`, teamData);
-
+      const updataTeamData = { team_name: data.team_name };
+      const updatedTeamRes = await api.put(`/api/team/${team.id}`, updataTeamData);
+ 
       team.company_name = data.companyName;
       team.team_name = data.team_name;
       setLocal("team", team);
+      setTeamObj(team)
 
       userInfo.name = data.name;
       userInfo.companyName = data.companyName;
       setLocal("user-info", userInfo);
+      setSignupData(userInfo)
 
       toast.success("User updated successfully");
       setButtonLoading(false);
