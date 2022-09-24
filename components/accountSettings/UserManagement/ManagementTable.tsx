@@ -133,7 +133,7 @@ function TableItem({ data }: { data: UserManageType }) {
                     />
                 </div>
             </div>
-            <div className="sm:hidden rounded overflow-hidden mb-4">
+            <div className="mb-4 overflow-hidden rounded sm:hidden">
                 <div className="flex items-center gap-[10px] text-white p-[10px_15px] bg-[#000]">
                     {data.profile ? (
                         <img
@@ -187,7 +187,7 @@ function TableItem({ data }: { data: UserManageType }) {
                     <div className="pt-[40px]"></div>
                     <div className="flex gap-[9px]">
                         <button
-                            onClick={() => setDeleteModal(!deleteModal)}
+                            onClick={() => setEditModal(!editModal)}
                             className="text-xs leading-[40px] bg-primary  font-semibold w-full border-primary border  transition-all duration-200  text-white rounded-[4px] h-[40px]"
                         >
                             Edit
