@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import { useField, Formik, Form, FieldHookConfig, ErrorMessage } from "formik";
 import DashboardLayout from "../../../components/Dashboard/DashboardLayout";
 import * as Yup from "yup";
@@ -10,6 +10,8 @@ import api from "../../../api";
 import LodingAnimation from "../../../components/Shared/LodingAnimation";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
+import CheckoutForm from "../CheckoutForm";
 
 const billingInfoSchema = Yup.object({
     email: Yup.string().required("Email is required"),
@@ -50,41 +52,8 @@ function Payment() {
     const shippingAddress = data?.data[0];
     const cardDetails = card?.data[0];
     const [loddingButton, setLoadingButton] = useState(false);
-    const [currentPlan, setCurrentPlan] = useState({
-        PlanName: "react",
-        price: 10,
-        country: "Rakib",
-        card_name: "dadfasdfasdfa",
-        card_number: "234234234123",
-        expiry_date: "24234234234",
-        cvc_number: 12312,
-        email: "rakibabdur960@.com",
-        address_line: "adafdfasdfasd",
-        city: "asdfasdfasd",
-        state: "asdfasdfasd",
-        zip: 131232,
-    });
-    const makePaymet = (token: any) => {
-        const body = {
-            token,
-            currentPlan,
-        };
-        const headers = {
-            "content-Type": "application/json",
-        };
-
-        return fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/payment`, {
-            method: "POST",
-            headers,
-            body: JSON.stringify(body),
-        })
-            .then((response) => {
-                console.log(response, "response..............");
-                const { status } = response;
-                console.log("status", status);
-            })
-            .catch((err) => console.log(err));
-    };
+    const [updateLoading, setUpdateLoading] = useState(false);
+    const [myPlan, setMyPlan] = useState({});
 
     const initialBillingInfo = {
         email: `${
@@ -153,7 +122,7 @@ function Payment() {
     };
 
     const handleUpdateCard = (value: any) => {
-        setLoadingButton(true);
+        setUpdateLoading(true);
         const postData = {
             user_id: _id,
             card_number: value.card_number,
@@ -167,12 +136,12 @@ function Payment() {
             postData
         )
             .then((res: any) => {
-                setLoadingButton(false);
+                setUpdateLoading(false);
                 toast.success("Your payment method added successfully");
             })
             .catch((err: any) => {
                 console.log(err);
-                setLoadingButton(false);
+                setUpdateLoading(false);
             });
     };
 
@@ -314,37 +283,28 @@ function Payment() {
                                                 <div className="pt-[30px]"></div>
                                                 <ButtonField
                                                     text={`${
-                                                        loddingButton === true
+                                                        updateLoading === true
                                                             ? "Updating..."
                                                             : "Update Payment Method"
                                                     }`}
                                                 />
-                                                <StripeCheckout
-                                                    stripeKey="pk_test_51HZgKgCX3jxDeEgKR5ccvs5VS02BANybD1Ds1gISMlLrn1nCYqWy42ulvfSCkGnsjtcNnarI0WyAF4ew7ZZPXZPO00xI7RuDo7"
-                                                    name="Buy plan"
-                                                    email="rakibabdur960@gmail.com"
-                                                    token={makePaymet}
-                                                    amount={
-                                                        currentPlan.price * 100
-                                                    }
-                                                />
-                                                <div className="pt-[30px]"></div>
-
-                                                <div className="text-xs text-[#676767] font-semibold leading-[16.34px]">
-                                                    By confirming your
-                                                    subscription, you allow ODA
-                                                    Center to charge your card
-                                                    for this payment and future
-                                                    payments in accordance with
-                                                    their terms. You can always
-                                                    cancel your subscription.
-                                                    <span className="text-primary">
-                                                        Secure Payment Guarantee
-                                                    </span>
-                                                </div>
                                             </Form>
                                         )}
                                     </Formik>
+
+                                    <CheckoutForm />
+
+                                    <div className="pt-[30px]"></div>
+                                    <div className="text-xs text-[#676767] font-semibold leading-[16.34px]">
+                                        By confirming your subscription, you
+                                        allow ODA Center to charge your card for
+                                        this payment and future payments in
+                                        accordance with their terms. You can
+                                        always cancel your subscription.
+                                        <span className="text-primary">
+                                            Secure Payment Guarantee
+                                        </span>
+                                    </div>
                                 </div>
                             </ShadowCard>
                         </div>

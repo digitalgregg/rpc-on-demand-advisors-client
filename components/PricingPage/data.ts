@@ -4,6 +4,7 @@ export type PricingCardType = {
     monthPrice?: number;
     annualPrice?: number;
     featuresList: string[];
+    planLimit?: object;
 };
 
 export const pricingCardData: PricingCardType[] = [
@@ -14,13 +15,18 @@ export const pricingCardData: PricingCardType[] = [
         featuresList: [
             "Single user free",
             "1GB of Storage",
-            "100 Assets",
+            "50 Assets",
             "Content management",
             "Buyer engagement tools",
             "Engagement analytics",
             "Engagement analytics",
             "Chrome Extension",
         ],
+        planLimit: {
+            userLimit: "1",
+            storageLimit: "1GB",
+            assetLimit: "50",
+        },
     },
     {
         name: "Basic",
@@ -29,7 +35,7 @@ export const pricingCardData: PricingCardType[] = [
         annualPrice: 12,
         featuresList: [
             "Up to 100 users",
-            "1GB of Storage",
+            "2GB of Storage",
             "100 Assets",
             "Easy Content upload & Import",
             "Sort & Categorize Content",
@@ -40,6 +46,11 @@ export const pricingCardData: PricingCardType[] = [
             "Content Wishlist",
             "Weekly Content Email Reports",
         ],
+        planLimit: {
+            userLimit: "100",
+            storageLimit: "2GB",
+            assetLimit: "100",
+        },
     },
     {
         name: "Plus",
@@ -54,6 +65,11 @@ export const pricingCardData: PricingCardType[] = [
             "Advanced Analytics",
             "Integrations (Hubspot, Marketo, Salesforce)",
         ],
+        planLimit: {
+            userLimit: "1",
+            storageLimit: "1GB",
+            assetLimit: "50",
+        },
     },
 ];
 

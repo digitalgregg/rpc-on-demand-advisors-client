@@ -1,7 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
-
+import { setLocal } from "../../../utils/localStorage";
+import secureLocalStorage from "react-secure-storage";
 import { PricingCardType } from "../../PricingPage/data";
+import { useRouter } from "next/router";
 
 const PricingCard = ({
     data,
@@ -16,6 +18,20 @@ const PricingCard = ({
     isSmallLg?: boolean;
     isSmallXl?: boolean;
 }) => {
+    const router = useRouter();
+    const handleSubscription = (value: any) => {
+        console.log(value, "value.....");
+        secureLocalStorage.setItem("plan", {
+            name: value.name,
+            monthPrice: value.monthPrice,
+            annualPrice: value.annualPrice,
+            assetLimit: value.planLimit.assetLimit,
+            storageLimit: value.planLimit.storageLimit,
+            userLimit: value.planLimit.userLimit,
+            isAnnual: isAnnual,
+        });
+        router.push(`http://localhost:3000/dashboard/billing/payment`);
+    };
     return (
         <div
             className={
@@ -177,6 +193,7 @@ const PricingCard = ({
             </div>
             <div className="flex justify-center">
                 <button
+                    onClick={() => handleSubscription(data)}
                     className={`rounded-[4px] p-[11px_62px] ${
                         isSmallLg && "lg:p-[9.5px_53.4px]  xl:p-[11px_62px] "
                     }  ${
