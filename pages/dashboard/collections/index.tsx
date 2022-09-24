@@ -3,27 +3,23 @@ import ViewCollection from "../../../components/Dashboard/CollectionPage/ViewCol
 import { useQuery } from "react-query";
 import { useAtom } from "jotai";
 import { signupState, team_state } from "../../../state/index";
-import { fetchMyCollections } from "../../../api-call/CollectionApi";
+import {
+    fetchMyCollections,
+    useFilterCollections,
+} from "../../../api-call/CollectionApi";
+import { useState } from "react";
+import { SelectOption } from "../../../components/Shared/SortedSelect";
 
 function Collections() {
     const [userData] = useAtom(signupState);
-    const { data, error, isSuccess, isLoading, isError, refetch } = useQuery(
-        "get-collections",
-        () => fetchMyCollections(userData._id),
-        {
-            select: (response) =>
-                Array.isArray(response.data)
-                    ? response.data.reverse()
-                    : response.data,
-            retry(failureCount, error: any) {
-                if (error.response.data.success === false) {
-                    return false;
-                } else {
-                    return true;
-                }
-            },
-        }
-    );
+
+    const [filter, setFilter] = useState<SelectOption>({
+        value: "newest",
+        label: "Newest",
+    });
+
+    const { data, error, isSuccess, isLoading, isError, refetch } =
+        useFilterCollections(userData._id, filter);
     return (
         <DashboardLayout>
             <ViewCollection
@@ -32,6 +28,8 @@ function Collections() {
                 isLoading={isLoading}
                 isError={isError}
                 refetch={refetch}
+                filter={filter}
+                setFilter={setFilter}
             />
         </DashboardLayout>
     );

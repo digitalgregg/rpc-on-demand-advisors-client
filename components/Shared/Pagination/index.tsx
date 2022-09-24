@@ -3,8 +3,8 @@ import ReactPaginate from "react-paginate";
 
 type PaginationType = {
     itemsPerPage: number;
-    children?: (data: object[]) => ReactNode;
-    dataArr: object[];
+    children?: (data: any[]) => ReactNode;
+    dataArr: any[];
     className?: string;
 };
 
@@ -20,16 +20,12 @@ function Pagination({
 
     useEffect(() => {
         const endOffset = itemOffset + itemsPerPage;
-        // console.log(`Loading items from ${itemOffset} to ${endOffset}`);
         setCurrentItems(dataArr.slice(itemOffset, endOffset));
         setPageCount(Math.ceil(dataArr.length / itemsPerPage));
     }, [dataArr, itemOffset, itemsPerPage]);
 
     const handlePageClick = (event: any) => {
         const newOffset = (event.selected * itemsPerPage) % dataArr.length;
-        // console.log(
-        //     `User requested page number ${event.selected}, which is offset ${newOffset}`
-        // );
         setItemOffset(newOffset);
     };
 
@@ -66,6 +62,6 @@ Pagination.defaultProps = {
 
 export default Pagination;
 
-export function IsArray(data: object[]) {
-    return Array.isArray(data) ? data : [];
+export function IsArray(data: object[]): any[] {
+    return Array.isArray(data) ? [...data] : [];
 }

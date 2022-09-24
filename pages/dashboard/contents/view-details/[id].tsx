@@ -97,9 +97,9 @@ const ContentDetails = ({ query }: { query: any }) => {
                                     isImage(data.file_url) ||
                                     isAudio(data.file_url) ||
                                     isVideo(data.file_url)
-                                        ? "h-fit"
-                                        : "h-full"
-                                }  rounded-[4px] !max-h-[364px] sm:!max-h-[495px] md:!max-h-[620px] xl:!max-h-[542px] 2xl:!max-h-[620px] flex gap-[20px] file-viewer-media`}
+                                        ? "h-fit max-h-[364px] sm:max-h-[495px] md:max-h-[620px] xl:max-h-[542px] 2xl:max-h-[620px]"
+                                        : "h-[364px] sm:h-[495px] md:h-[620px] xl:h-[542px] 2xl:h-[620px]"
+                                }  rounded-[4px]  flex gap-[20px] file-viewer-media`}
                             >
                                 <FileViewerContainer />
                             </div>
