@@ -88,7 +88,8 @@ function ContentViewCard({
             case "Update":
                 return handleViewContent();
             case "Download":
-                return saveAs(data.file_url, data.additional_info.file_name);
+                // return saveAs(data.file_url, data.additional_info.file_name);
+                return router.push(data.file_url);
             default:
                 break;
         }
@@ -178,6 +179,7 @@ function ContentViewCard({
                             <h3 className="xs:text-[12px] xs:font-bold  4xl:text-[14px] 4xl:font-semibold text-[#222222]">
                                 Type :
                             </h3>
+
                             <p className="text-[12px] 4xl:text-[14px] font-normal text-[#676767]">
                                 {(data.content_type &&
                                     data.content_type.title) ||

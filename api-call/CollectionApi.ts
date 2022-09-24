@@ -1,5 +1,8 @@
 import api from "../api";
 import { toast } from "react-toastify";
+import { useQuery } from "react-query";
+import { SelectOption } from "../components/Shared/SortedSelect";
+import { collectionFilter } from "../utils/filter";
 
 export const fetchMyCollections = async (user_id: string) => {
     return await api.get(
@@ -79,4 +82,42 @@ export const unPublishCollection = async (id: string) => {
 
 export const getContentsCollection = async (id: string) => {
     return await api.get("/api/collection/contents-collection/" + id);
+};
+
+export const useSharedFilterCollections = (
+    data: { user_id: string; team_id: string },
+    filter: SelectOption
+) => {
+    return useQuery(
+        ["filter-collections"],
+        () => fetchSharedCollections(data.user_id, data.team_id),
+        {
+            select: (response) => {
+                const result = collectionFilter(response.data, filter.value);
+                return result;
+            },
+            retry(failureCount, error: any) {
+                if (error.response.data.success === false) {
+                    return false;
+                } else {
+                    return true;
+                }
+            },
+        }
+    );
+};
+export const useFilterCollections = (user_id: string, filter: SelectOption) => {
+    return useQuery(["filter-collections"], () => fetchMyCollections(user_id), {
+        select: (response) => {
+            const result = collectionFilter(response.data, filter.value);
+            return result;
+        },
+        retry(failureCount, error: any) {
+            if (error.response.data.success === false) {
+                return false;
+            } else {
+                return true;
+            }
+        },
+    });
 };

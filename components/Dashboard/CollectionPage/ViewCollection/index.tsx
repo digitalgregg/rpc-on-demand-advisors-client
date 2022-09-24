@@ -1,10 +1,13 @@
-import React from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import Pagination from "../../../Shared/Pagination";
 import CollectionItem from "../CollectionItem";
 import { useWindowDimensions } from "../../../Shared/DimentionHook/index";
 import { IsArray } from "../../../Shared/Pagination/index";
 import LodingAnimation from "../../../Shared/LodingAnimation";
 import DataNotFound from "../../../Shared/DataNotFound";
+import Select from "react-select";
+import SortedSelect, { SelectOption } from "../../../Shared/SortedSelect";
+import { collectionFilter } from "../../../../utils/filter";
 
 type ViewCollectionType = {
     data: any;
@@ -12,6 +15,8 @@ type ViewCollectionType = {
     isSuccess: boolean;
     isError: boolean;
     refetch: () => any;
+    filter: SelectOption;
+    setFilter: Dispatch<SetStateAction<SelectOption>>;
 };
 
 function ViewCollection({
@@ -20,6 +25,8 @@ function ViewCollection({
     isSuccess,
     refetch,
     isError,
+    filter,
+    setFilter,
 }: ViewCollectionType) {
     const { width } = useWindowDimensions();
     function getItemsPerPage(): number {
@@ -45,15 +52,10 @@ function ViewCollection({
                 </h3>
                 <div className="flex items-center gap-[10px] text-[#000]">
                     <h3 className="text-[14px]">Sorted by</h3>
-                    <select
-                        placeholder="Sorted"
-                        className="w-[111px] focus:outline-none h-[30px] bg-transparent rounded-[4px] border border-[#DEDEDE] px-[5px]"
-                    >
-                        <option>Newest</option>
-                        <option>Oldest</option>
-                        <option>Favorites</option>
-                        <option>Voted</option>
-                    </select>
+                    <SortedSelect
+                        value={filter}
+                        onChange={(e: any) => setFilter(e)}
+                    />
                 </div>
             </div>
             {isSuccess ? (
@@ -62,15 +64,19 @@ function ViewCollection({
                     itemsPerPage={getItemsPerPage()}
                 >
                     {(currentItems) => (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 3xl:grid-cols-4 gap-[30px] pb-[30px] sm:gap-[36px] xl:gap-[35px] ">
-                            {currentItems.map((collectionData: any, index) => (
-                                <CollectionItem
-                                    key={index}
-                                    data={collectionData}
-                                    refetch={refetch}
-                                />
-                            ))}
-                        </div>
+                        <>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 3xl:grid-cols-4 gap-[30px] pb-[30px] sm:gap-[36px] xl:gap-[35px] ">
+                                {currentItems.map(
+                                    (collectionData: any, index) => (
+                                        <CollectionItem
+                                            key={index}
+                                            data={collectionData}
+                                            refetch={refetch}
+                                        />
+                                    )
+                                )}
+                            </div>
+                        </>
                     )}
                 </Pagination>
             ) : (

@@ -34,7 +34,6 @@ function EditSettingItem({
     isExpand,
     handleExpand,
 }: EditSettingType) {
-    const [color, setColor] = useState("#E51937");
     const [buttonLoading, setButtonLoading] = useState(false);
     const { refetch } = GetSettingsContext();
 
@@ -63,7 +62,7 @@ function EditSettingItem({
                         initialValues={getInitialValue(data, type)}
                         onSubmit={(v) => handleUpdateSetting(removeEmpty(v))}
                     >
-                        {() => (
+                        {({ values }) => (
                             <Form>
                                 <div className="bg-white_secondary p-5 rounded-lg flex flex-col gap-[10px]">
                                     <div className=" flex flex-row w-full items-start gap-[12px]">
@@ -106,14 +105,11 @@ function EditSettingItem({
                                                 <InputField
                                                     inputClass="!w-[42px] sm:!w-[30px] !h-[42px] !p-0 !mt-[6px] !border-none !text-[14px] !font-normal !leading-[19px] !text-[#676767] input-color-rounded-[4px] input-color-padding rounded-[4px] !outline-none"
                                                     name="color"
-                                                    myChange={(v) =>
-                                                        setColor(v)
-                                                    }
                                                     type="color"
                                                     placeholder="Color"
                                                 />
                                                 <span className=" hidden sm:block capitalize text-sm font-normal leading-[19px] text-[#000805]">
-                                                    {color}
+                                                    {values.color || "#000000"}
                                                 </span>
                                             </div>
                                         )}

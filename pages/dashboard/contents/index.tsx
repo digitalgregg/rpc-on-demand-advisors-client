@@ -17,73 +17,45 @@ import {
     createContent,
     fetchContents,
     responseToObject,
+    useFilterContents,
 } from "../../../api-call/ContentApi";
 import { useEffect } from "react";
 import api from "../../../api";
 import { useQuery } from "react-query";
 import LodingAnimation from "../../../components/Shared/LodingAnimation";
 import DataNotFound from "../../../components/Shared/DataNotFound";
+import SortedSelect, {
+    SelectOption,
+} from "../../../components/Shared/SortedSelect";
 
 const options = [
-    { value: "Newest", label: "Newest" },
-    { value: "Oldest", label: "Oldest" },
-    { value: "Favorites", label: "Favorites" },
-    { value: "Voted", label: "Voted" },
+    { value: "newest", label: "Newest" },
+    { value: "oldest", label: "Oldest" },
+    { value: "favorites", label: "Favorites" },
+    { value: "voted", label: "Voted" },
 ];
-const customStyles = {
-    control: (base: any, state: any) => ({
-        ...base,
-        border: "1px solid #9E9E9E",
-        boxShadow: "none",
-    }),
-    option: (provided: any, state: any) => ({
-        ...provided,
-        color: state.isSelected ? "#fff" : "#000000",
-        fontSize: "14px",
-        fontWeight: state.isSelected ? 700 : 400,
-        width: "95%",
-        borderRadius: "4px",
-        margin: "0 auto",
-        "&:hover": {
-            color: state.isSelected ? "#fff" : "#E51937",
-            fontWeight: state.isSelected ? 700 : 600,
-        },
-    }),
-    indicatorsContainer: (provided: any) => ({
-        border: "none",
-    }),
-};
+
 function Contents() {
     const [teamData] = useAtom(team_state);
     const [userData] = useAtom(signupState);
 
-    const [itemCount, setItemCount] = useState();
-    const handleChange = (e: any) => {
-        // setItemCount(e);
-    };
-
+    const { width } = useWindowDimensions();
     const [collectionModal, setCollectionModal] = useState(false);
+
     const handleCollection = () => {
-        console.log(teamData);
         setCollectionModal(!collectionModal);
     };
 
-    const { width } = useWindowDimensions();
-    function getItemsPerPage(): number {
-        if (width < 680) {
-            return 6;
-        } else if (width < 768) {
-            return 10;
-        } else if (width < 1024) {
-            return 4;
-        } else if (width < 1440) {
-            return 8;
-        } else if (width < 1920) {
-            return 12;
-        } else {
-            return 16;
-        }
+    async function handleSingleUpload(response: any) {
+        await createContent(responseToObject(response, teamData));
+        refetch();
     }
+
+    // filter section
+    const [sortedFilter, setSortedFilter] = useState<SelectOption>({
+        value: "newest",
+        label: "Newest",
+    });
 
     const {
         data: contentData,
@@ -91,36 +63,14 @@ function Contents() {
         isError,
         isSuccess,
         refetch,
-    } = useQuery(
-        "fetch-contents",
-        () => fetchContents({ team_id: teamData.id }),
-        {
-            select: (response) =>
-                Array.isArray(response.data)
-                    ? response.data.reverse()
-                    : response.data,
-            retry(failureCount, error: any) {
-                if (error.response.data.success === false) {
-                    return false;
-                } else {
-                    return true;
-                }
-            },
-        }
-    );
-
-    async function handleSingleUpload(response: any) {
-        await createContent(responseToObject(response, teamData));
-        refetch();
-    }
-
+    } = useFilterContents(teamData.id, sortedFilter);
     return (
         <>
             <DashboardLayout>
                 <div className="w-full">
                     <div className="flex flex-col sm:items-center justify-between sm:flex-row pb-[30px] w-full mx-auto">
                         <h3 className="text-[16px] md:text-[18px] lg:text-[24px] 2xl:text-[32px] mb-[30px] sm:mb-0 font-bold text-[#000]">
-                            {getGreetings()} {userData.name}!
+                            {getGreetings()} {getFirstName(userData.name)}!
                         </h3>
                         <div className="flex gap-[3%] sm:gap-[25px] ">
                             <button
@@ -156,23 +106,10 @@ function Contents() {
                         <div className="flex items-center gap-[10px] text-[#000]">
                             <h3 className="text-[14px]">Sorted by</h3>
 
-                            <Select
-                                value={itemCount}
-                                onChange={handleChange}
-                                placeholder="Newest"
+                            <SortedSelect
+                                value={sortedFilter}
+                                onChange={(e: any) => setSortedFilter(e)}
                                 options={options}
-                                className="!text-[#fff] text-[14px]"
-                                name="funnel type"
-                                styles={customStyles}
-                                theme={(theme) => ({
-                                    ...theme,
-                                    borderRadius: 4,
-                                    colors: {
-                                        ...theme.colors,
-                                        primary25: "#E519371A",
-                                        primary: "#E51937",
-                                    },
-                                })}
                             />
                         </div>
                     </div>
@@ -182,7 +119,7 @@ function Contents() {
                         {isSuccess ? (
                             <Pagination
                                 dataArr={IsArray(contentData)}
-                                itemsPerPage={getItemsPerPage()}
+                                itemsPerPage={getItemsPerPage(width)}
                             >
                                 {(currentItems) => (
                                     <div className="grid grid-cols-1 place-items-center lg:grid-cols-2 2xl:grid-cols-3 4xl:grid-cols-4 gap-[25px] pb-[20px]">
@@ -235,6 +172,10 @@ function Contents() {
     );
 }
 
+export const getFirstName = (name: string) => {
+    return name.split(" ")[0];
+};
+
 const getGreetings = () => {
     var day = new Date();
     var hr = day.getHours();
@@ -248,5 +189,21 @@ const getGreetings = () => {
         return "Good Evening";
     }
 };
+
+function getItemsPerPage(width: number): number {
+    if (width < 680) {
+        return 6;
+    } else if (width < 768) {
+        return 10;
+    } else if (width < 1024) {
+        return 4;
+    } else if (width < 1440) {
+        return 8;
+    } else if (width < 1920) {
+        return 12;
+    } else {
+        return 16;
+    }
+}
 
 export default Contents;

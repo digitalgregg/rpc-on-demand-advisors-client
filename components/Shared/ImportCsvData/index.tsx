@@ -4,7 +4,7 @@ function ImportCsvData({ data }: { data: any[] }) {
     return (
         <div>
             <div className="pt-[30px]"></div>
-            <div className="grid grid-cols-8 rounded gap-[5px] bg-[#222] p-[20px_20px]">
+            <div className="grid grid-cols-8 text-white rounded gap-[5px] bg-[#222] p-[20px_20px]">
                 <div className="text-sm">Url</div>
                 <div className="text-sm">Title</div>
                 <div className="text-sm">Content Type</div>
