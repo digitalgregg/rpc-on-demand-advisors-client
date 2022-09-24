@@ -46,11 +46,16 @@ function SettingItem({ data, type }: SItemType) {
                             </span>
                         </div>
                     )}
-                    {data.color && (
-                        <div className="pl-3">
-                            <TagBadges color={data.color} />
-                        </div>
-                    )}
+                    {type === "tags" &&
+                        (data.color ? (
+                            <div className="pl-3">
+                                <TagBadges color={data.color} />
+                            </div>
+                        ) : (
+                            <div className="pl-3">
+                                <TagBadges color={"black"} />
+                            </div>
+                        ))}
 
                     <span className=" text-sm leading-[19px] font-normal text-black">
                         {data.title}

@@ -5,8 +5,13 @@ import UserSettingsDropdown from "./../UserSettingsDropdown/index";
 import RecentActivityStatus from "./../RecentActivityStatus/index";
 import { OutSideClick } from "../Shared/OutSideClick";
 import { AnimatePresence, motion } from "framer-motion";
+import { useAtom } from "jotai";
+import { signupState } from "../../state";
+import { getFirstName } from "../../pages/dashboard/contents";
 
 const NavLeftItem = () => {
+    const [userData] = useAtom(signupState);
+
     const [isOpen, setIsOpen] = useState(false);
     const [openDropdown, setOpenDropdown] = useState(false);
     const [openActivity, setOpenActivity] = useState(false);
@@ -61,7 +66,7 @@ const NavLeftItem = () => {
                         onClick={handleDropDown}
                         className="text-[16px] cursor-pointer xs:hidden sm:flex font-semibold text-[#222222] flex items-center relative"
                     >
-                        Gregg
+                        {getFirstName(userData.name)}
                         <span>
                             <img
                                 src="/img/dropdown.svg"

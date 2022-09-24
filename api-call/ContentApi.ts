@@ -1,6 +1,8 @@
 import api from "../api/index";
 import { toast } from "react-toastify";
 import { useQuery } from "react-query";
+import { SelectOption } from "../components/Shared/SortedSelect";
+import { sortedContentFilter } from "../utils/filter";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -56,6 +58,16 @@ export async function updateContent(
         toast.error(err?.response.data.message);
     }
 }
+
+export const restoreContent = async (id: string, refetch: () => void) => {
+    try {
+        await api.put("/api/content/recycle/restore/" + id);
+        toast.success("Content restored successfully");
+        refetch();
+    } catch (err) {
+        toast.error("Something went wrong");
+    }
+};
 
 export function updateFileObj(response: any) {
     const { size, key, location, mimetype, originalname } = response.body;
@@ -149,7 +161,6 @@ interface AdditionalInfo {
     file_size: number;
 }
 
-
 export interface Tag {
     _id: string;
     title: string;
@@ -169,7 +180,7 @@ interface Region {
     __v: number;
 }
 
- interface ContentType {
+interface ContentType {
     _id: string;
     title: string;
     __v: number;
@@ -265,6 +276,27 @@ export const updateContentDetails = async (
     }
 };
 
-export const downloadFile = (link:string)=>{
-    return api.post('/api/content/download',{link})
-}
+export const downloadFile = (link: string) => {
+    return api.post("/api/content/download/file", { link });
+};
+
+export const fetchRecycleBin = async (team_id: string) => {
+    return await api.get("/api/content/get/recycle?team_id=" + team_id);
+};
+
+export const useFilterContents = (
+    team_id: string,
+    sortedFilter: SelectOption
+) => {
+    return useQuery(["fetch-contents"], () => fetchContents({ team_id }), {
+        select: (response) =>
+            sortedContentFilter(response.data, sortedFilter.value),
+        retry(failureCount, error: any) {
+            if (error.response.data.success === false) {
+                return false;
+            } else {
+                return true;
+            }
+        },
+    });
+};

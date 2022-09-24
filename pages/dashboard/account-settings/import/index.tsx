@@ -11,26 +11,103 @@ import { isFileCsv } from "../../../../components/Library/FileType";
 import { parseCsv } from "../../../../components/Library/parseCsv";
 import ImportCsvData from "../../../../components/Shared/ImportCsvData";
 import YesNoModal from "../../../../components/modal/YesNoModal";
+import { useAtom } from "jotai";
+import { team_state } from "../../../../state";
+import { toast } from "react-toastify";
+import { useQuery } from "react-query";
+import { fetchImportHistory } from "../../../../api-call/ImportHistoryApi";
+import LodingAnimation from "../../../../components/Shared/LodingAnimation";
+import LoadingAnimation from "../../../../components/Shared/LoadingAnimation";
+import ImportHistoryCard, {
+    ImportHistoryType,
+} from "../../../../components/Dashboard/ImportPage/ImportHistoryCard";
 
 function Import() {
+    const [buttonLoading, setButtonLoading] = useState(false);
+
     const [csvData, setCsvData] = useState<any[]>([]);
+    const [teamData] = useAtom(team_state);
+
+    const [confirmModal, setConfirmModal] = useState(false);
+
+    const handleConfirmModal = () => {
+        setConfirmModal(!confirmModal);
+    };
+
+    const [csvFileName, setCsvFileName] = useState("");
 
     const handleOnDrop = useCallback(async (acceptedFiles: File[]) => {
         const file = acceptedFiles[0];
         if (isFileCsv(file.name)) {
-            const data: any = await parseCsv(file);
-            setCsvData(data);
+            const result: any = await parseCsv(file);
+            if (result.inValidData.length > 0) {
+                toast.error("Csv file not valid");
+            } else {
+                const data = result.data;
+                setCsvFileName(file.name);
+                setCsvData(data);
+            }
+        } else {
+            toast.error("This is not csv file");
         }
     }, []);
 
     const handleOnChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.length && e.target.files[0];
         if (file && isFileCsv(file.name)) {
-            const data: any = await parseCsv(file);
-            setCsvData(data);
+            const result: any = await parseCsv(file);
+            if (result.inValidData.length > 0) {
+                toast.error("Csv file not valid");
+            } else {
+                const data = result.data;
+                setCsvFileName(file.name);
+                setCsvData(data);
+            }
 
             e.target.value = "";
         }
+    };
+
+    const closeImport = () => {
+        setCsvData([]);
+    };
+
+    const { data, isSuccess, isError, isLoading, refetch } = useQuery(
+        "fetch-import",
+        () => fetchImportHistory(teamData.id),
+        {
+            select: (res) => res.data,
+            retry(failureCount, error: any) {
+                if (error.response.data.success === false) {
+                    return false;
+                } else {
+                    return true;
+                }
+            },
+        }
+    );
+
+    const handleCsvImport = async () => {
+        setButtonLoading(true);
+        const importData = {
+            csvData,
+            team_id: teamData.id,
+            user_id: teamData.user_id,
+            csvFileName,
+        };
+        if (!buttonLoading) {
+            await toast.promise(
+                handleImportApi(importData, closeImport, refetch),
+                {
+                    success: "Import csv successfully",
+                    pending: "Importing csv",
+                    error: "Import csv failed",
+                }
+            );
+            setButtonLoading(false);
+        }
+        // const response = await api.post("/api/importcsv/import", importData);
+        // console.log(response);
     };
 
     return (
@@ -41,10 +118,27 @@ function Import() {
                         <div className="text-xl leading-[27.24px] sm:text-[24px] sm:leading-[32.68px] font-semibold text-[#000]">
                             Import CSV
                         </div>
-                        {csvData.length && (
-                            <button className="border border-primary text-primary rounded w-[100px] h-[40px] hover:bg-primary hover:text-white transition-all duration-200">
-                                Import
-                            </button>
+                        {csvData.length ? (
+                            <div className="flex gap-3">
+                                <button
+                                    onClick={() => setCsvData([])}
+                                    className="border border-primary text-primary rounded w-[80px] h-[36px] hover:bg-primary hover:text-white transition-all duration-200"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={handleCsvImport}
+                                    className="border border-primary bg-primary text-white rounded w-[80px] h-[36px]  hover:bg-primary_dark hover:text-white transition-all duration-200"
+                                >
+                                    {buttonLoading ? (
+                                        <LodingAnimation color="white" />
+                                    ) : (
+                                        "Import"
+                                    )}
+                                </button>
+                            </div>
+                        ) : (
+                            ""
                         )}
                     </div>
 
@@ -125,100 +219,89 @@ function Import() {
                                         Status
                                     </div>
                                     <div className="w-[20%] text-white">
-                                        Status Details
+                                        Status Action
                                     </div>
                                 </div>
                                 <div className="flex flex-col gap-[16px] sm:gap-0">
-                                    <Pagination
-                                        dataArr={[...Array(5)]}
-                                        itemsPerPage={4}
-                                        className=" my-3"
-                                    >
-                                        {(currentItems) => (
-                                            <div className=" flex flex-col gap-[10px] sm:gap-[15px] md:gap-[20px]">
-                                                {currentItems.map(
-                                                    (v, i: any) => (
-                                                        <ImportHistoryCard
-                                                            key={i}
-                                                        />
-                                                    )
-                                                )}
+                                    {isLoading && (
+                                        <div>
+                                            <div className="flex items-center sm:bg-white gap-3 sm:py-[20px] sm:px-5 ">
+                                                <LoadingAnimation />
+                                                <div className="text-black">
+                                                    Loading...
+                                                </div>
                                             </div>
-                                        )}
-                                    </Pagination>
+                                        </div>
+                                    )}
+                                    {isError && (
+                                        <div>
+                                            <div className="text-black sm:bg-white text-sm md:text-base py-5 px-5">
+                                                No histories found
+                                            </div>
+                                        </div>
+                                    )}
+                                    {isSuccess && (
+                                        <Pagination
+                                            dataArr={data || []}
+                                            itemsPerPage={4}
+                                            className=" my-3"
+                                        >
+                                            {(currentItems) => (
+                                                <div className=" flex flex-col gap-[10px] sm:gap-[15px] md:gap-[20px]">
+                                                    {currentItems.map(
+                                                        (v: any, i) => (
+                                                            <ImportHistoryCard
+                                                                key={i}
+                                                                data={v}
+                                                                refetch={
+                                                                    refetch
+                                                                }
+                                                            />
+                                                        )
+                                                    )}
+                                                </div>
+                                            )}
+                                        </Pagination>
+                                    )}
                                 </div>
+                                <div className="pt-[50px]"></div>
                             </div>
                         </div>
                     )}
                 </Layout>
             </DashboardLayout>
+            <YesNoModal
+                isOpen={confirmModal}
+                handleModal={handleConfirmModal}
+                header="Import CSV file"
+                description={`${csvData.length} records will be imported, ok? This action cannot be undone
+                `}
+            />
         </>
     );
 }
 
-type ImportHistoryType = {
-    date: string;
-    filename: string;
-    status: "Deleted" | "Completed";
-    onDelete?: () => void;
-};
-
-const ImportHistoryCard = ({
-    date,
-    filename,
-    status,
-    onDelete,
-}: ImportHistoryType) => {
-    return (
-        <div className="bg-[#fff] sm:[background:none] p-[22px] sm:py-4 text-[#000]">
-            <div className="sm:flex sm:items-center text-sm leading-[19.07px]">
-                <div className="flex items-center sm:w-[calc(80%/3)]">
-                    <div className=" w-[40%] sm:hidden  font-semibold">
-                        Date
-                    </div>
-                    <div className="w-1/2 sm:max-w-[90px] sm:w-full text-[#676767]">
-                        {date}
-                    </div>
-                </div>
-                <div className="flex  pt-4 sm:pt-0 items-center sm:w-[calc(80%/3)]">
-                    <div className=" w-[40%] sm:hidden font-semibold">
-                        Filename
-                    </div>
-                    <div className=" w-1/2 sm:w-full  text-[#676767]">
-                        {filename}
-                    </div>
-                </div>
-                <div className="flex pt-4 sm:pt-0 items-center sm:w-[calc(80%/3)]">
-                    <div className=" w-[40%] sm:hidden font-semibold">
-                        Status
-                    </div>
-                    <div className=" w-1/2 sm:w-full   text-[#676767]">
-                        {status}
-                    </div>
-                </div>
-
-                <div className="pt-5 sm:hidden"></div>
-
-                <div className="sm:w-[20%]">
-                    <button
-                        className={` ${
-                            status == "Deleted"
-                                ? "text-[#828282] border-[#828282] hover:bg-[#828282] hover:text-White"
-                                : "text-primary border-primary hover:bg-primary hover:text-White"
-                        } transition ease-in-out duration-200 text-sm h-[39px] text-center sm:w-[70px] sm:h-[30px] border rounded-[4px] w-full`}
-                    >
-                        Delete
-                    </button>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-ImportHistoryCard.defaultProps = {
-    date: "2022-08-03,20:14:11",
-    filename: "test.csv",
-    status: "Completed",
-};
+const handleImportApi = (
+    importData: object,
+    closeImport: () => void,
+    refetch: () => void
+) =>
+    new Promise((resolve, reject) => {
+        const worker = new Worker("/check-script.js", { type: "module" });
+        worker.postMessage({ type: "import", importData });
+        worker.onerror = (err) => {
+            reject();
+        };
+        worker.onmessage = (e) => {
+            const { success } = e.data;
+            if (success) {
+                resolve(success);
+                closeImport();
+                refetch();
+            } else {
+                reject();
+            }
+        };
+    });
 
 export default Import;

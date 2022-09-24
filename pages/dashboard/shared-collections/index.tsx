@@ -3,29 +3,27 @@ import DashboardLayout from "../../../components/Dashboard/DashboardLayout";
 import { useAtom } from "jotai";
 import { signupState, team_state } from "../../../state/index";
 import { useQuery } from "react-query";
-import { fetchSharedCollections } from "../../../api-call/CollectionApi";
+import {
+    fetchSharedCollections,
+    useFilterCollections,
+    useSharedFilterCollections,
+} from "../../../api-call/CollectionApi";
+import { useState } from "react";
+import { SelectOption } from "../../../components/Shared/SortedSelect";
 
 function SharedCollection() {
-    const [userData] = useAtom(signupState);
     const [teamData] = useAtom(team_state);
 
-    const { data, isSuccess, isLoading, isError, refetch } = useQuery(
-        "fetch-shared-collection",
-        () => fetchSharedCollections(userData._id, teamData.id),
-        {
-            select: (response) =>
-                Array.isArray(response.data)
-                    ? response.data.reverse()
-                    : response.data,
-            retry(failureCount, error: any) {
-                if (error.response.data.success === false) {
-                    return false;
-                } else {
-                    return true;
-                }
-            },
-        }
-    );
+    const [filter, setFilter] = useState<SelectOption>({
+        value: "newest",
+        label: "Newest",
+    });
+
+    const { data, isSuccess, isLoading, isError, refetch } =
+        useSharedFilterCollections(
+            { user_id: teamData.user_id, team_id: teamData.id },
+            filter
+        );
 
     return (
         <DashboardLayout>
@@ -35,6 +33,8 @@ function SharedCollection() {
                 isLoading={isLoading}
                 refetch={refetch}
                 data={data}
+                filter={filter}
+                setFilter={setFilter}
             />
         </DashboardLayout>
     );

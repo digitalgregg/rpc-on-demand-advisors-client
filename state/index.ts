@@ -20,6 +20,13 @@ export const team_state = atomWithStorage("team", {
     role: "",
 });
 
+export const AppSettingToggle = atomWithStorage("app-setting-toggle", {
+    product: false,
+    industry: false,
+    tags: false,
+    region: false,
+});
+
 export const TrackersStateHeaderAtom = atom<any>("");
 export const TrackersStateFooterAtom = atom<any>("");
 export const NotificationWebAtom = atom<boolean>(false);
