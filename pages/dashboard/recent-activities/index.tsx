@@ -97,7 +97,7 @@ export default function Index() {
                             {title}
                           </h2>
                           <h4 className="font-normal text-[12px] leading-[16px] text-[#676767] mb-[2px]">
-                            {createdAt}
+                            {new Date(createdAt).toDateString()}
                           </h4>
                           <h3 className="font-normal text-[14px] leading-[19px] text-[#222222]">
                             Your {activity_type} has been {status_type}
