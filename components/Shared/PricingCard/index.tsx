@@ -20,7 +20,6 @@ const PricingCard = ({
 }) => {
     const router = useRouter();
     const handleSubscription = (value: any) => {
-        console.log(value, "value.....");
         secureLocalStorage.setItem("plan", {
             name: value.name,
             monthPrice: value.monthPrice,
@@ -30,7 +29,7 @@ const PricingCard = ({
             userLimit: value.planLimit.userLimit,
             isAnnual: isAnnual,
         });
-        router.push(`http://localhost:3000/dashboard/billing/payment`);
+        router.push(`/dashboard/billing/payment`);
     };
     return (
         <div

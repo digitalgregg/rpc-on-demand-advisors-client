@@ -33,6 +33,15 @@ export const profile_state = atomWithStorage("profile-data", {
     location: "",
 });
 
+export const planLocalData = atom({
+    assetLimit: "",
+    isAnnual: false,
+    monthPrice: 0,
+    name: "",
+    storageLimit: "",
+    userLimit: "",
+});
+
 export const TrackersStateHeaderAtom = atom<any>("");
 export const TrackersStateFooterAtom = atom<any>("");
 export const NotificationWebAtom = atom<boolean>(false);
