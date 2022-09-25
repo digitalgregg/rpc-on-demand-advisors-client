@@ -5,8 +5,8 @@ import { getLocal, setLocal } from "./../../utils/localStorage";
 import { toast } from "react-toastify";
 import LodingAnimation from "./../Shared/LodingAnimation/index";
 import { team_state } from "../../state";
-import { useAtom } from 'jotai';
-import { signupState } from './../../state/index';
+import { useAtom } from "jotai";
+import { signupState } from "./../../state/index";
 
 const AccountInfo = () => {
   const inputStyle =
@@ -16,7 +16,7 @@ const AccountInfo = () => {
   const user = getLocal("user");
   const team = getLocal("team");
   const userInfo = getLocal("user-info");
-  const [_1,setTeamObj] = useAtom(team_state);
+  const [_1, setTeamObj] = useAtom(team_state);
   const [_2, setSignupData] = useAtom(signupState);
   const [buttonLoading, setButtonLoading] = useState(false);
 
@@ -36,19 +36,26 @@ const AccountInfo = () => {
       user.name = data.name;
       user.companyName = data.companyName;
       setLocal("user", user);
+      
+      if (team?.team_name) {
+        const updataTeamData = { team_name: data.team_name };
+        const updatedTeamRes = await api.put(
+          `/api/team/${team.id}`,
+          updataTeamData
+        );
 
-      const updataTeamData = { team_name: data.team_name };
-      const updatedTeamRes = await api.put(`/api/team/${team.id}`, updataTeamData);
- 
+        team.team_name = data.team_name;
+        setLocal("team", team);
+        setTeamObj(team);
+      }
       team.company_name = data.companyName;
-      team.team_name = data.team_name;
       setLocal("team", team);
-      setTeamObj(team)
+      setTeamObj(team);
 
       userInfo.name = data.name;
       userInfo.companyName = data.companyName;
       setLocal("user-info", userInfo);
-      setSignupData(userInfo)
+      setSignupData(userInfo);
 
       toast.success("User updated successfully");
       setButtonLoading(false);
@@ -109,7 +116,7 @@ const AccountInfo = () => {
               Team name
             </label>
             <input
-              {...register("team_name", { required: true })}
+              {...register("team_name")}
               className={inputStyle}
               defaultValue={team?.team_name}
               placeholder="Team name"
@@ -117,12 +124,6 @@ const AccountInfo = () => {
                 boxShadow: " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
               }}
             />
-            <br />
-            {errors.team_name && (
-              <h3 className="text-primary mb-[10px] text-[12px]">
-                Team name is required
-              </h3>
-            )}
           </div>
           <div>
             <label className={labelStyle} htmlFor="role">
