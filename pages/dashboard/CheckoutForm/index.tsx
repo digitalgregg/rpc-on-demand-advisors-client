@@ -1,69 +1,45 @@
-import React, { useEffect, useState } from "react";
-import { loadStripe } from "@stripe/stripe-js";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import secureLocalStorage from "react-secure-storage";
-import { getLocal } from "../../../utils/localStorage";
-import { useQuery } from "react-query";
-import api from "../../../api";
+import usePlanData from "../../../hooks/usePlanData";
+import LoadingAnimation from "../../../components/Shared/LoadingAnimation";
+import LodingAnimation from "../../../components/Shared/LodingAnimation";
 
 const CheckoutForm = () => {
-    const planData: any = secureLocalStorage.getItem("plan");
-    const { email, name, _id } = getLocal("user-info");
+    const planItem: any = secureLocalStorage.getItem("plan");
+    const [loadingButoon, setLoadingButton] = useState(false);
+    const [priceId, setPriceId] = useState("");
 
-    const { data, refetch } = useQuery(
-        ["get-shipping-address", _id],
-        () => api.get(`http://localhost:8080/api/shipping-address/${_id}`),
-        { enabled: !!_id }
-    );
+    const router = useRouter();
 
-    const shippingData = data?.data[0];
-    const stripePromise = loadStripe(
-        `${process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}`
-    );
+    useEffect(() => {
+        if (planItem?.name === "Basic" && planItem?.isAnnual === false) {
+            console.log("monthly basic packge");
+            setPriceId("price_1LjUL2CX3jxDeEgKKbvieqjS");
+        } else if (planItem?.name === "Basic" && planItem?.isAnnual === true) {
+            setPriceId("price_1LjUMJCX3jxDeEgK7Vgum0oi");
+            console.log("yearly basic packge");
+        } else if (planItem?.name === "Lite" && planItem?.isAnnual === false) {
+            setPriceId("price_1Lle7kCX3jxDeEgKjoLF0rk1");
+            console.log("free trail lite packge");
+        }
+        if (!planItem) {
+            router.push(`/dashboard/billing/subscription-plan`);
+        }
+    }, [planItem]);
+
     const handleSubmit = async () => {
-        const stripe = await stripePromise;
-        const postData = {
-            amount:
-                planData?.isAnnual === false
-                    ? planData?.monthPrice
-                    : planData?.annualPrice,
-            // assetLimit: planData?.assetLimit,
-            planName: planData?.name,
-            logo: "https://oda-center.herokuapp.com/logo2.png",
-            // storageLimit: planData?.storageLimit,
-            // userLimit: planData?.userLimit,
-            // user_name: name,
-            // user_email: email,
-            // address_line: shippingData?.address_line,
-            // city: shippingData?.city,
-            // state: shippingData?.state,
-            // zip: shippingData?.zip,
-            // user_id: shippingData?.user_id,
-        };
-        console.log(postData, "**********************");
-        fetch("http://localhost:8080/api/payment", {
-            headers: { "Content-Type": "application/json" },
-            method: "POST",
-            body: JSON.stringify({
-                currentPlan: postData,
-            }),
-        })
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (session) {
-                return (
-                    stripe &&
-                    stripe.redirectToCheckout({ sessionId: session.id })
-                );
-            })
-            .then(function (result) {
-                if (result && result.error) {
-                    alert(result.error.message);
-                }
-            })
-            .catch(function (error) {
-                console.error("Error:", error);
-            });
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/checkout`,
+            {
+                method: "POST",
+                body: JSON.stringify({ priceId }),
+                headers: { "Content-Type": "application/json" },
+            }
+        );
+        const session = await response.json();
+        router.push(session.url);
+        setLoadingButton(true);
     };
     return (
         <div>
@@ -71,7 +47,13 @@ const CheckoutForm = () => {
                 onClick={handleSubmit}
                 className="mt-[30px] h-[58px] hover:bg-primary bg-[#ffffff] border border-primary font-bold w-full rounded-[4px] text-[16px] leading-[58px] text-primary hover:text-[#FFFFFF]"
             >
-                Checkout
+                {loadingButoon === true ? (
+                    <span>
+                        <LodingAnimation color="white" />
+                    </span>
+                ) : (
+                    "Checkout"
+                )}
             </button>
         </div>
     );
