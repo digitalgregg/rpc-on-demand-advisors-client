@@ -7,9 +7,10 @@ import { useQuery } from "react-query";
 import { getLocal } from "../../../utils/localStorage";
 import api from "../../../api";
 import LodingAnimation from "../../../components/Shared/LodingAnimation";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import DataNotFound from './../../../components/Shared/DataNotFound/index';
+import DataNotFound from "./../../../components/Shared/DataNotFound/index";
+import Moment from "react-moment";
 
 export default function Index() {
   const router = useRouter();
@@ -22,45 +23,47 @@ export default function Index() {
     setIsOpen(!isOpen);
   };
   //get all recent activity by team id
-  const { isLoading, data,refetch } = useQuery(
+  const { isLoading, data, refetch } = useQuery(
     ["get recent activity", team.id],
     () => api.get(`/api/recent-activity/${team.id}`),
     { enabled: !!team.id }
   );
   const recentActivities = data?.data;
 
-  const handleMarkAsRead = async(id: any) => {
+  const handleMarkAsRead = async (id: any) => {
     try {
-     const updateResult = await api.put(`/api/recent-activity/${id}`, { views: true })
-     refetch()
-     setIsOpen(!isOpen);
+      const updateResult = await api.put(`/api/recent-activity/${id}`, {
+        views: true,
+      });
+      refetch();
+      setIsOpen(!isOpen);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   };
-   //remove recent activity
-  const handleRemoveActivity = async(id: any) => {
+  //remove recent activity
+  const handleRemoveActivity = async (id: any) => {
     try {
-      const deleteResult = await api.delete(`/api/recent-activity/${id}`)
+      const deleteResult = await api.delete(`/api/recent-activity/${id}`);
       toast.success(deleteResult?.data.message);
-      refetch()
-      setIsOpen(false)
+      refetch();
+      setIsOpen(false);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-   };
-   //handle view item 
-   const handleViewItem = (id:any,activity_type:any,activity_id:any) => {
-      if(activity_type === "wish"){
-        router.push(`/dashboard/wishlist/view/${activity_id}`)
-      }
-      if(activity_type === "collections"){
-        router.push(`/dashboard/collections/view-contents/${activity_id}`)
-      }
-      if(activity_type === "contents"){
-        router.push(`/dashboard/contents/view-details/${activity_id}`)
-      }
-   }
+  };
+  //handle view item
+  const handleViewItem = (id: any, activity_type: any, activity_id: any) => {
+    if (activity_type === "wish") {
+      router.push(`/dashboard/wishlist/view/${activity_id}`);
+    }
+    if (activity_type === "collections") {
+      router.push(`/dashboard/collections/view-contents/${activity_id}`);
+    }
+    if (activity_type === "contents") {
+      router.push(`/dashboard/contents/view-details/${activity_id}`);
+    }
+  };
   return (
     <DashboardLayout>
       <>
@@ -82,9 +85,15 @@ export default function Index() {
             {(currentItems) => (
               <>
                 {currentItems?.map(
-                  (
-                    { _id, title, createdAt, activity_type,activity_id,status_type,views }: any
-                  ) => {
+                  ({
+                    _id,
+                    title,
+                    createdAt,
+                    activity_type,
+                    activity_id,
+                    status_type,
+                    views,
+                  }: any) => {
                     return (
                       <div
                         className={`${
@@ -97,7 +106,9 @@ export default function Index() {
                             {title}
                           </h2>
                           <h4 className="font-normal text-[12px] leading-[16px] text-[#676767] mb-[2px]">
-                            {new Date(createdAt).toDateString()}
+                            <Moment format="MMM DD YYYY, h:mm a">
+                              {createdAt.toString()}
+                            </Moment>
                           </h4>
                           <h3 className="font-normal text-[14px] leading-[19px] text-[#222222]">
                             Your {activity_type} has been {status_type}
@@ -114,34 +125,47 @@ export default function Index() {
                           />
                         </div>
                         {/* drop down items  */}
-                          <AnimatePresence initial={false}>
-                            {_id === selectId && isOpen === true && (
-                              <OutSideClick onOutSideClick={() => setIsOpen(false)}>
-                                <div
-                                  className="bg-[#ffffff] rounded px-[8px] py-[8px] absolute top-[40px]  right-[25px] z-50"
-                                  style={{
-                                    boxShadow:
-                                      "2px 2px 16px rgba(0, 0, 0, 0.08)",
-                                  }}
-                                >
-                                  <ul className="text-semibold text-[12px] flex flex-col gap-[2px] leading-[16px] text-[#000805]">
-                                    <li
-                                      onClick={() => handleMarkAsRead(_id)}
-                                      className="p-3 rounded cursor-pointer hover-transition hover:bg-primary hover:text-White"
-                                    >
-                                      Mark as read
-                                    </li>
-                                    <li onClick={() => handleViewItem(_id,activity_type,activity_id)} className="p-3 rounded cursor-pointer hover-transition hover:bg-primary hover:text-White">
-                                      View item
-                                    </li>
-                                    <li onClick={() => handleRemoveActivity(_id)} className="p-3 rounded cursor-pointer hover-transition hover:bg-primary hover:text-White">
-                                      Remove
-                                    </li>
-                                  </ul>
-                                </div>
-                              </OutSideClick>
-                            )}
-                          </AnimatePresence>
+                        <AnimatePresence initial={false}>
+                          {_id === selectId && isOpen === true && (
+                            <OutSideClick
+                              onOutSideClick={() => setIsOpen(false)}
+                            >
+                              <div
+                                className="bg-[#ffffff] rounded px-[8px] py-[8px] absolute top-[40px]  right-[25px] z-50"
+                                style={{
+                                  boxShadow: "2px 2px 16px rgba(0, 0, 0, 0.08)",
+                                }}
+                              >
+                                <ul className="text-semibold text-[12px] flex flex-col gap-[2px] leading-[16px] text-[#000805]">
+                                  <li
+                                    onClick={() => handleMarkAsRead(_id)}
+                                    className="p-3 rounded cursor-pointer hover-transition hover:bg-primary hover:text-White"
+                                  >
+                                    Mark as read
+                                  </li>
+                                  <li
+                                    onClick={() =>
+                                      handleViewItem(
+                                        _id,
+                                        activity_type,
+                                        activity_id
+                                      )
+                                    }
+                                    className="p-3 rounded cursor-pointer hover-transition hover:bg-primary hover:text-White"
+                                  >
+                                    View item
+                                  </li>
+                                  <li
+                                    onClick={() => handleRemoveActivity(_id)}
+                                    className="p-3 rounded cursor-pointer hover-transition hover:bg-primary hover:text-White"
+                                  >
+                                    Remove
+                                  </li>
+                                </ul>
+                              </div>
+                            </OutSideClick>
+                          )}
+                        </AnimatePresence>
                       </div>
                     );
                   }
@@ -156,4 +180,3 @@ export default function Index() {
     </DashboardLayout>
   );
 }
-
