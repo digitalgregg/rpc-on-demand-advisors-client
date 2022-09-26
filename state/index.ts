@@ -23,7 +23,7 @@ export const team_state = atomWithStorage("team", {
 export const AppSettingToggle = atomWithStorage("app-setting-toggle", {
     product: false,
     industry: false,
-    tags: false,
+    tag: false,
     region: false,
 });
 
@@ -40,3 +40,27 @@ export const NotificationEmailAtom = atom<boolean>(false);
 // export const  = atom<any>("notifations", {
 //     web_notification: ""
 // })
+
+// For filter
+export const SearchTextFilter = atomWithStorage("search-string", "");
+
+export type FilterOriginType = {
+    funnel_stages: any[];
+    content_type: any[];
+    product: any[];
+    industry: any[];
+    region: any[];
+    tags: any[];
+};
+
+export const FilterOrigin = atomWithStorage<FilterOriginType>(
+    "filter-content",
+    {
+        funnel_stages: [],
+        content_type: [],
+        product: [],
+        industry: [],
+        region: [],
+        tags: [],
+    }
+);

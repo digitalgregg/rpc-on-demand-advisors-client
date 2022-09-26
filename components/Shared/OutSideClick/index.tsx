@@ -2,10 +2,9 @@ import React, { ReactNode, useEffect, useRef } from "react";
 
 type OutSideClickType = {
     children: ReactNode;
-    onOutSideClick?: () => any;
+    onOutSideClick?: (v: any) => any;
     className?: string;
 };
-
 
 export const OutSideClick = ({
     children,
@@ -22,7 +21,7 @@ export const OutSideClick = ({
                 ref.current.contains &&
                 !ref.current.contains(event.target)
             ) {
-                onOutSideClick && onOutSideClick();
+                onOutSideClick && onOutSideClick(event.target);
             }
         };
         document.addEventListener("mousedown", handleClickOutside);
@@ -34,5 +33,3 @@ export const OutSideClick = ({
         </div>
     );
 };
-
- 

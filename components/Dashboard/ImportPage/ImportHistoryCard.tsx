@@ -49,7 +49,7 @@ const ImportHistoryCard = ({ data, refetch }: ImportHistoryType) => {
                             Date
                         </div>
                         <div className="w-1/2 sm:w-full text-[#676767]">
-                            <Moment format="MMM M YYYY, h:mm a">
+                            <Moment format="MMM D YYYY, h:mm a">
                                 {data.date}
                             </Moment>
                         </div>

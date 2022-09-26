@@ -123,12 +123,12 @@ const InfoSection = () => {
                 <div>
                     <div className="grid grid-cols-3 mt-[15px] px-[11px]">
                         <p className={classnames(pStyle, "col-span-2")}>
-                            <Moment format="MMM M YYYY, h:mm a">
+                            <Moment format="MMM D YYYY, h:mm a">
                                 {contentData?.createdAt?.toString()}
                             </Moment>
                         </p>
                         <p className={classnames(pStyle, "col-span-1")}>
-                            <Moment format="MMM M YYYY, h:mm a">
+                            <Moment format="MMM D YYYY, h:mm a">
                                 {contentData?.updatedAt?.toString()}
                             </Moment>
                         </p>

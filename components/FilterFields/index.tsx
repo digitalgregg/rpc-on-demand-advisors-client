@@ -55,17 +55,6 @@ const FilterFields = () => {
         { value: "enternal", label: "Internal" },
     ];
 
-    function getOptionsByType(data: any, type: string): Object[] | undefined {
-        if (!data) return undefined;
-        const findData = data.find((v: any) => v.type === type);
-        if (!findData) return undefined;
-        if (findData.settingsItems.length === 0) return undefined;
-        return findData.settingsItems.map((v: any) => ({
-            value: v._id,
-            label: v.title,
-        }));
-    }
-
     function getDefaultValue(contentData: any, type: string): any {
         if (!contentData[type]) return undefined;
 
@@ -272,6 +261,20 @@ const FilterFields = () => {
         </div>
     );
 };
+
+export function getOptionsByType(
+    data: any,
+    type: string
+): Object[] | undefined {
+    if (!data) return undefined;
+    const findData = data.find((v: any) => v.type === type);
+    if (!findData) return undefined;
+    if (findData.settingsItems.length === 0) return undefined;
+    return findData.settingsItems.map((v: any) => ({
+        value: v._id,
+        label: v.title,
+    }));
+}
 
 function getAssetDefault(contents: ContentDataType) {
     return {

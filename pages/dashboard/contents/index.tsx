@@ -1,9 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
 import DashboardLayout from "../../../components/Dashboard/DashboardLayout";
-import TopNav from "./../../../components/Dashboard/TopNav";
-import ContentCard from "./../../../components/ContentCard/index";
-import Select from "react-select";
 import ContentViewCard from "../../../components/ContentViewCard";
 import FileUploadModal, {
     handleUppyModal,
@@ -15,13 +12,9 @@ import { useAtom } from "jotai";
 import { signupState, team_state } from "../../../state/index";
 import {
     createContent,
-    fetchContents,
     responseToObject,
     useFilterContents,
 } from "../../../api-call/ContentApi";
-import { useEffect } from "react";
-import api from "../../../api";
-import { useQuery } from "react-query";
 import LodingAnimation from "../../../components/Shared/LodingAnimation";
 import DataNotFound from "../../../components/Shared/DataNotFound";
 import SortedSelect, {
@@ -64,6 +57,7 @@ function Contents() {
         isSuccess,
         refetch,
     } = useFilterContents(teamData.id, sortedFilter);
+
     return (
         <>
             <DashboardLayout>

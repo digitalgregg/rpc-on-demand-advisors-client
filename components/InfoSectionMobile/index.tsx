@@ -100,7 +100,7 @@ const InfoSectionMobile = () => {
                 <div className="grid grid-cols-2 ">
                     <h3 className={h3Style}>Date Added</h3>
                     <p className={pStyle}>
-                        <Moment format="MMM M YYYY, h:mm a">
+                        <Moment format="MMM D YYYY, h:mm a">
                             {contentData?.createdAt?.toString()}
                         </Moment>
                     </p>
@@ -109,7 +109,7 @@ const InfoSectionMobile = () => {
                 <div className="grid grid-cols-2 ">
                     <h3 className={h3Style}>Last Updated</h3>
                     <p className={pStyle}>
-                        <Moment format="MMM M YYYY, h:mm a">
+                        <Moment format="MMM D YYYY, h:mm a">
                             {contentData?.updatedAt?.toString()}
                         </Moment>
                     </p>
