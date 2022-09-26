@@ -1,148 +1,92 @@
-import React, { useEffect, useState } from "react";
-import FunnelStage from "./../FunnelStage/index";
-import ContentTypeStage from "./../ContentTypeStage/index";
-import TagBadges from "./../CustomIcons/TagBadges";
-import TagsSelect from "./../TagsSelect/index";
-import GlobalSelect from "./../GlobalSelect/index";
-import ApplicationSettingsGlobalSelect from "../Shared/ApplicationSettingsGlobalSelect";
-import ApplicationSettingsGlobalSelectTags from "../Shared/ApplicationSettingsGlobalSelectTags";
-import {
-    customFilterBoxStyles,
-    options,
-    customStyles,
-} from "./../../utils/GlobalReactSelectData/AssetUse";
-import { fakeTagData } from "../fake";
-import { tagCustomStyle } from "./../../utils/reactSelectCustomSyle";
-import { getLocal } from "./../../utils/localStorage";
-import api from "../../api";
+import React, { useReducer } from "react";
+import { useAtom } from "jotai";
+import { AppSettingToggle, FilterOrigin } from "../../state";
+import TopNavSelect from "../Shared/TopNavSelect";
+import { getOptionsByType, getTagOptionsData } from "../FilterFields";
+import { SettingResponse } from "../../api-call/AppSettingsApi";
+import { FilterAction } from "./FilterReducer";
+import TagBadges from "../CustomIcons/TagBadges";
 
-const FilterBox = () => {
-    const [apiData, setApiData] = useState<any>([]);
-    const labelClass = "text-[16px] text-[#101010] font-semibold";
-    const label = "text-[16px] font-semibold text-[#000805]";
-    const teamId = getLocal("team");
-    const nandleOnChange = (e: any) => {
-        console.log(e);
-    };
-    const handleFunnelChange = (e: any) => {
-        console.log(e);
-    };
-    const handleContentChange = (e: any) => {
-        console.log(e);
-    };
-    const handleProducttChange = (e: any) => {
-        console.log(e);
-    };
+const FilterBox = ({ data }: { data: SettingResponse[] }) => {
+    const [appSetting] = useAtom(AppSettingToggle);
+    const [filterOrigin, setFilterOrigin] = useAtom(FilterOrigin);
 
-    const productToggle = getLocal("product-toggle");
-    const tagToggle = getLocal("tag-toggle");
-    const industryToggle = getLocal("industry-toggle");
-    const regionToggle = getLocal("region-toggle");
+    const [state, dispatch] = useReducer(FilterAction, filterOrigin);
 
-    useEffect(() => {
-        api.get(
-            `https://oda-center.herokuapp.com/api/application-settings?team_id=${teamId.id}`
-        ).then((res) => {
-            setApiData(res?.data);
-        });
-    }, [teamId.id]);
-
-    
+    const handleFind = () => {
+        const newState = state;
+        newState.tags = optionsToTags(newState.tags);
+        setFilterOrigin(newState);
+    };
 
     return (
         <>
-            <div className=" flex flex-col gap-[10px]">
+            <div className=" flex flex-col gap-[30px]">
                 {/* FUNNEL STAGE SELECT  */}
-                <ApplicationSettingsGlobalSelect
-                    name="funnel type Stgage"
-                    onChangeFuction={nandleOnChange}
-                    customStyles={tagCustomStyle}
-                    typeFilter="funnel"
-                    mapData={apiData}
-                    isLabel={true}
-                    labelClass={label}
-                    label="Funnel Type Stages"
-                    labelContainer=" mt-[20px]"
-                    selectclass="mb-0"
+                <TopNavSelect
+                    label="Funnel Stages"
+                    onChange={(e) =>
+                        dispatch({ type: "funnel_stages", value: e })
+                    }
+                    defaultValue={filterOrigin.funnel_stages}
+                    options={getOptionsByType(data, "funnel")}
                 />
 
                 {/* CONTENT TYPE STAGE  */}
-
-                <ApplicationSettingsGlobalSelect
-                    name="content type Stgage"
-                    onChangeFuction={nandleOnChange}
-                    customStyles={tagCustomStyle}
-                    typeFilter="content"
-                    mapData={apiData}
-                    isLabel={true}
-                    labelClass={label}
-                    label="Content Type Stages"
-                    labelContainer=" mt-[20px]"
-                    selectclass="mb-0"
+                <TopNavSelect
+                    label="Content Type"
+                    onChange={(e) =>
+                        dispatch({ type: "content_type", value: e })
+                    }
+                    defaultValue={filterOrigin.content_type}
+                    options={getOptionsByType(data, "content")}
                 />
 
                 {/* PRODUCT TYPE STAGE  */}
-                {productToggle === true && (
-                    <ApplicationSettingsGlobalSelect
-                        name="product type Stgage"
-                        onChangeFuction={nandleOnChange}
-                        customStyles={tagCustomStyle}
-                        mapData={apiData}
-                        typeFilter="product"
-                        isLabel={true}
-                        labelClass={label}
-                        label="Product Type Stages"
-                        labelContainer=" mt-[20px]"
-                        selectclass="mb-0"
+                {appSetting.product === true && (
+                    <TopNavSelect
+                        label="Product"
+                        defaultValue={filterOrigin.product}
+                        onChange={(e) =>
+                            dispatch({ type: "product", value: e })
+                        }
+                        options={getOptionsByType(data, "product")}
                     />
                 )}
+
                 {/* INDUSTRY TYPE STAGE  */}
-                {industryToggle === true && (
-                    <ApplicationSettingsGlobalSelect
-                        name="industry type Stgage"
-                        onChangeFuction={nandleOnChange}
-                        customStyles={tagCustomStyle}
-                        typeFilter="industry"
-                        mapData={apiData}
-                        isLabel={true}
-                        labelClass={label}
-                        label="Industry Type Stages"
-                        labelContainer=" mt-[20px]"
-                        selectclass="mb-0"
+                {appSetting.industry === true && (
+                    <TopNavSelect
+                        label="Industry"
+                        onChange={(e) =>
+                            dispatch({ type: "industry", value: e })
+                        }
+                        defaultValue={filterOrigin.industry}
+                        options={getOptionsByType(data, "industry")}
                     />
                 )}
+
                 {/* REGION TYPE STAGE  */}
-                {regionToggle === true && (
-                    <ApplicationSettingsGlobalSelect
-                        name="region type Stgage"
-                        onChangeFuction={nandleOnChange}
-                        customStyles={tagCustomStyle}
-                        typeFilter="region"
-                        mapData={apiData}
-                        isLabel={true}
-                        labelClass={label}
-                        label="Region Type Stages"
-                        labelContainer=" mt-[20px]"
-                        selectclass="mb-0"
+                {appSetting.region === true && (
+                    <TopNavSelect
+                        label="Region"
+                        onChange={(e) => dispatch({ type: "region", value: e })}
+                        defaultValue={filterOrigin.region}
+                        options={getOptionsByType(data, "region")}
                     />
                 )}
+
                 {/* TAG TYPE STATE filter tag */}
-                {tagToggle === true && (
-                    <ApplicationSettingsGlobalSelectTags
-                        name="filter tags"
-                        onChangeFuction={nandleOnChange}
-                        customStyles={tagCustomStyle}
-                        typeFilter="tags"
-                        mapData={apiData}
-                        isLabel={true}
-                        labelClass={label}
-                        label="Tags Type Stages"
-                        labelContainer="mt-[20px]"
-                        selectclass="mb-0"
+                {appSetting.tag === true && (
+                    <TopNavSelect
+                        label="Tags"
+                        onChange={(e) => dispatch({ type: "tags", value: e })}
+                        defaultValue={tagsToOptions(filterOrigin.tags)}
+                        options={tagsToOptions(getTagsForNav(data) || [])}
                     />
                 )}
             </div>
-            <div className="flex flex-col gap-4 md:gap-0  md:flex-row justify-between mt-[38px] items-center">
+            <div className="flex flex-col gap-4 md:gap-0  md:flex-row justify-between mt-[30px] items-center">
                 <div>
                     <h3 className="text-[16px] cursor-pointer underline  decoration-1 leading-[21.79px] font-semibold text-[#101010]  ">
                         Set default search filters...
@@ -152,13 +96,49 @@ const FilterBox = () => {
                     <button className="w-[69.63px] h-[38px] bg-[#222222] rounded-[4px] text-[16px] text-[#FFFFFF] font-medium	border border-solid border-[#222222] hover:bg-transparent hover:text-[#222222]	 transition duration-200 ease-in-out">
                         Reset
                     </button>
-                    <button className="w-[69.63px] h-[38px] ml-[24px] bg-primary rounded-[4px] text-[16px] text-[#FFFFFF] font-medium border border-solid border-primary hover:bg-transparent hover:text-black	 transition duration-200 ease-in-out">
+                    <button
+                        onClick={handleFind}
+                        className="w-[69.63px] h-[38px] ml-[24px] bg-primary rounded-[4px] text-[16px] text-[#FFFFFF] font-medium border border-solid border-primary hover:bg-transparent hover:text-primary	 transition duration-200 ease-in-out"
+                    >
                         Find
                     </button>
                 </div>
             </div>
         </>
     );
+};
+
+export function getTagsForNav(data: any): object[] | undefined {
+    if (!data) return undefined;
+    const findData = data.find((v: any) => v.type === "tags");
+    if (!findData) return undefined;
+    if (findData.settingsItems.length === 0) return undefined;
+    return findData.settingsItems.map((v: any) => ({
+        value: v._id,
+        data: { title: v.title, color: v.color },
+    }));
+}
+
+export const tagsToOptions = (data: any[]) => {
+    return data.map((v) => {
+        return {
+            ...v,
+            label: (
+                <div className={"flex items-center gap-[8px] text-[#000805]"}>
+                    <TagBadges color={v.data.color} /> {v.data.title}
+                </div>
+            ),
+        };
+    });
+};
+
+export const optionsToTags = (data: any[]) => {
+    return data.map((v) => {
+        return {
+            value: v.value,
+            data: v.data,
+        };
+    });
 };
 
 export default FilterBox;
