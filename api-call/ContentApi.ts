@@ -2,7 +2,13 @@ import api from "../api/index";
 import { toast } from "react-toastify";
 import { useQuery } from "react-query";
 import { SelectOption } from "../components/Shared/SortedSelect";
-import { sortedContentFilter } from "../utils/filter";
+import {
+    filterOriginContent,
+    searchContentFilter,
+    sortedContentFilter,
+} from "../utils/filter";
+import { useAtom } from "jotai";
+import { FilterOrigin, SearchTextFilter } from "../state";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -288,9 +294,19 @@ export const useFilterContents = (
     team_id: string,
     sortedFilter: SelectOption
 ) => {
+    const [searchText] = useAtom(SearchTextFilter);
+    const [filterOrigin] = useAtom(FilterOrigin);
+
     return useQuery(["fetch-contents"], () => fetchContents({ team_id }), {
-        select: (response) =>
-            sortedContentFilter(response.data, sortedFilter.value),
+        select: (response) => {
+            return filterOriginContent(
+                sortedContentFilter(
+                    searchContentFilter(response.data, searchText),
+                    sortedFilter.value
+                ),
+                filterOrigin
+            );
+        },
         retry(failureCount, error: any) {
             if (error.response.data.success === false) {
                 return false;

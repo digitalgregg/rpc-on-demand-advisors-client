@@ -50,6 +50,7 @@ function Trackers() {
         }),
         [isDragAccept, isDragReject]
     );
+
     return (
         <DashboardLayout>
             <div className="">

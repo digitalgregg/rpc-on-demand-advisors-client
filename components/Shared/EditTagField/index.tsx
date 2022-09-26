@@ -12,8 +12,6 @@ type EditFieldProps = {
 };
 
 const EditTagField = (props: EditFieldProps) => {
-    const labelStyle = "flex items-center gap-[8px] text-[#000805]";
-
     const customStyles: StylesConfig = {
         control: (base: any, state: any) => ({
             ...base,
@@ -35,6 +33,7 @@ const EditTagField = (props: EditFieldProps) => {
             "&>svg": {
                 background: "#222",
                 borderRadius: "50px",
+                color: "white",
             },
             ":hover": {
                 transform: "scale(1.1)",

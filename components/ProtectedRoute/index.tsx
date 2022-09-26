@@ -34,7 +34,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
         router.events.on("routeChangeComplete", () => {
             setLoading(true);
         });
-    }, [token]);
+    }, [router, token]);
 
     return <>{!isLoading ? <LoadingBox /> : children}</>;
 };
