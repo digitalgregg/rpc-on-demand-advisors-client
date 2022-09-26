@@ -5,6 +5,7 @@ import api from "../../api";
 import { getLocal } from "../../utils/localStorage";
 import DataNotFound from "../Shared/DataNotFound";
 import LodingAnimation from "../Shared/LodingAnimation";
+import Moment  from 'react-moment';
 
 const RecentActivityStatus = () => {
   const team = getLocal("team");
@@ -55,7 +56,9 @@ const RecentActivityStatus = () => {
                   {item.title}
                 </h3>
                 <p className="text-[12px] text-[#676767] font-normal leading-[16.34px] mt-[2px] mb-[10px]">
-                  {item.createdAt}
+                  <Moment format="MMM DD YYYY, h:mm a">
+                    {item.createdAt.toString()}
+                  </Moment>
                 </p>
                 <p className="text-[#000000] text-[14px] font-normal leading-[19.7px]">
                   Your {item.activity_type} has been {item.status_type}
