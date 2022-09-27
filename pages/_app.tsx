@@ -4,13 +4,15 @@ import "react-toastify/dist/ReactToastify.css";
 import "../styles/uppy.min.css";
 import "plyr-react/plyr.css";
 import { ToastContainer } from "react-toastify";
-
+import ReactGA from "react-ga";
 import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Script from "next/script";
 import ProtectedRoute from "./../components/ProtectedRoute/index";
 
 const queryClient = new QueryClient();
+const TRACKING_ID = process.env.NEXT_PUBLIC_TRACKING_ID || "UA-243082730-1";
+ReactGA.initialize(TRACKING_ID);
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
