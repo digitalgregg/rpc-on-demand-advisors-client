@@ -19,6 +19,7 @@ import {
 import LodingAnimation from "../../Shared/LodingAnimation";
 import api from "../../../api";
 import { toast } from "react-toastify";
+import { createActivity } from "../../../api-call/RecentActivityApi";
 
 type ModalType = {
     isOpen: boolean;
@@ -60,7 +61,7 @@ function NewCollectionModal({ isOpen, handleClose }: ModalType) {
                 title: v.collection_title,
                 ...shareWith,
             };
-            console.log(apiObj);
+
             await api.post("/api/collection", apiObj);
             setButtonLoading(false);
             toast.success("New collection created");

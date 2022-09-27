@@ -75,7 +75,7 @@ const ContentDetails = ({ query }: { query: any }) => {
                         </div>
 
                         <div className="grid grid-cols-1 xl:grid-cols-2 sm:gap-[35px] ">
-                            <div className="w-full sm:bg-[#FFFFFF] sm:px-[10px] sm:py-[20px]">
+                            <div className="w-full sm:bg-[#FFFFFF] sm:px-[20px] sm:py-[20px]">
                                 <DetailsInput />
                                 <div className="mt-[20px] sm:mt-[25px] mb-[30px]">
                                     <FilterFields />

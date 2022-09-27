@@ -1,35 +1,23 @@
-import React, { useReducer } from "react";
-import {
-    customStyles,
-    options,
-} from "../../utils/GlobalReactSelectData/AssetUse";
-import { viewCustomStyles } from "../../utils/reactSelectCustomSyle";
-import ContentTypeStage from "../ContentTypeStage";
-import { fakeTagData } from "../fake";
-import FunnelStage from "../FunnelStage";
-import TagsSelect from "../TagsSelect";
+import React from "react";
+import { customStyles } from "../../utils/GlobalReactSelectData/AssetUse";
 import GlobalSelect from "./../GlobalSelect/index";
-import { tagCustomStyle } from "./../../utils/reactSelectCustomSyle";
 import { GetContentContext } from "../Context/ContentDataProvider";
 import { ContentDataType } from "../../api-call/ContentApi";
 import { toCapitalized } from "../modal/UserManagementModal";
 import { useAtom } from "jotai";
-import { team_state } from "../../state";
+import { AppSettingToggle, team_state } from "../../state";
 import { fetchAppSettings } from "../../api-call/AppSettingsApi";
 import { useQuery } from "react-query";
 import EditTagField from "../Shared/EditTagField";
 import TagBadges from "../CustomIcons/TagBadges";
-import {
-    detailsAction,
-    INITIAL_DETAILS,
-} from "../Context/ContentDetailsReducer";
 
 const FilterFields = () => {
+    const [appSetting] = useAtom(AppSettingToggle);
     const { contentData, context } = GetContentContext();
 
     const [teamData] = useAtom(team_state);
 
-    const { data, refetch, isLoading, isSuccess, isError } = useQuery(
+    const { data, refetch } = useQuery(
         "application-settings-query",
         () => fetchAppSettings(teamData.id),
         {
@@ -52,7 +40,7 @@ const FilterFields = () => {
 
     const assetUseOptions = [
         { value: "external", label: "External" },
-        { value: "enternal", label: "Internal" },
+        { value: "internal", label: "Internal" },
     ];
 
     function getDefaultValue(contentData: any, type: string): any {
@@ -124,6 +112,7 @@ const FilterFields = () => {
                         optionHoverColor="#E519371A"
                     />
                 </div>
+
                 <div className=" w-full sm:w-[calc(50%-10px)] h-auto ">
                     <GlobalSelect
                         selectClassName="text-[14px]  text-[#676767] mt-[10px]"
@@ -148,69 +137,86 @@ const FilterFields = () => {
                         optionHoverColor="#E519371A"
                     />
                 </div>
-                <div className=" w-full sm:w-[calc(50%-10px)] h-auto ">
-                    <GlobalSelect
-                        selectClassName="text-[14px] text-[#676767] pt-[10px]"
-                        name="product"
-                        isMulti={false}
-                        options={getOptionsByType(data, "product")}
-                        labelStyles={labelClass}
-                        isLabel={true}
-                        customStyles={customStyles}
-                        labelName="Product"
-                        defaultValue={getDefaultValue(contentData, "product")}
-                        handleOnChange={(v) =>
-                            context.dispatchDetails({
-                                type: "product",
-                                value: v.value,
-                            })
-                        }
-                        placeholder="Select product"
-                        optionHoverColor="#E519371A"
-                    />
-                </div>
-                <div className=" w-full sm:w-[calc(50%-10px)] h-auto ">
-                    <GlobalSelect
-                        selectClassName="text-[14px] text-[#676767] pt-[10px]"
-                        isMulti={false}
-                        options={getOptionsByType(data, "industry")}
-                        labelStyles={labelClass}
-                        isLabel={true}
-                        customStyles={customStyles}
-                        labelName="Industry"
-                        name="content type"
-                        defaultValue={getDefaultValue(contentData, "industry")}
-                        handleOnChange={(v) =>
-                            context.dispatchDetails({
-                                type: "industry",
-                                value: v.value,
-                            })
-                        }
-                        placeholder="Select industry"
-                        optionHoverColor="#E519371A"
-                    />
-                </div>
-                <div className=" w-full sm:w-[calc(50%-10px)] h-auto ">
-                    <GlobalSelect
-                        selectClassName="text-[14px] text-[#676767] pt-[10px]"
-                        name="asset use"
-                        isMulti={false}
-                        options={getOptionsByType(data, "region")}
-                        labelStyles={labelClass}
-                        isLabel={true}
-                        customStyles={customStyles}
-                        labelName="Region"
-                        defaultValue={getDefaultValue(contentData, "region")}
-                        handleOnChange={(v) =>
-                            context.dispatchDetails({
-                                type: "region",
-                                value: v.value,
-                            })
-                        }
-                        placeholder="Select region"
-                        optionHoverColor="#E519371A"
-                    />
-                </div>
+                {appSetting.product && (
+                    <div className=" w-full sm:w-[calc(50%-10px)] h-auto ">
+                        <GlobalSelect
+                            selectClassName="text-[14px] text-[#676767] pt-[10px]"
+                            name="product"
+                            isMulti={false}
+                            options={getOptionsByType(data, "product")}
+                            labelStyles={labelClass}
+                            isLabel={true}
+                            customStyles={customStyles}
+                            labelName="Product"
+                            defaultValue={getDefaultValue(
+                                contentData,
+                                "product"
+                            )}
+                            handleOnChange={(v) =>
+                                context.dispatchDetails({
+                                    type: "product",
+                                    value: v.value,
+                                })
+                            }
+                            placeholder="Select product"
+                            optionHoverColor="#E519371A"
+                        />
+                    </div>
+                )}
+                {appSetting.industry && (
+                    <div className=" w-full sm:w-[calc(50%-10px)] h-auto ">
+                        <GlobalSelect
+                            selectClassName="text-[14px] text-[#676767] pt-[10px]"
+                            isMulti={false}
+                            options={getOptionsByType(data, "industry")}
+                            labelStyles={labelClass}
+                            isLabel={true}
+                            customStyles={customStyles}
+                            labelName="Industry"
+                            name="content type"
+                            defaultValue={getDefaultValue(
+                                contentData,
+                                "industry"
+                            )}
+                            handleOnChange={(v) =>
+                                context.dispatchDetails({
+                                    type: "industry",
+                                    value: v.value,
+                                })
+                            }
+                            placeholder="Select industry"
+                            optionHoverColor="#E519371A"
+                        />
+                    </div>
+                )}
+
+                {appSetting.region && (
+                    <div className=" w-full sm:w-[calc(50%-10px)] h-auto ">
+                        <GlobalSelect
+                            selectClassName="text-[14px] text-[#676767] pt-[10px]"
+                            name="asset use"
+                            isMulti={false}
+                            options={getOptionsByType(data, "region")}
+                            labelStyles={labelClass}
+                            isLabel={true}
+                            customStyles={customStyles}
+                            labelName="Region"
+                            defaultValue={getDefaultValue(
+                                contentData,
+                                "region"
+                            )}
+                            handleOnChange={(v) =>
+                                context.dispatchDetails({
+                                    type: "region",
+                                    value: v.value,
+                                })
+                            }
+                            placeholder="Select region"
+                            optionHoverColor="#E519371A"
+                        />
+                    </div>
+                )}
+
                 <div className="w-full sm:w-[calc(50%-10px)]  h-auto">
                     <form action="">
                         <label
@@ -239,25 +245,27 @@ const FilterFields = () => {
             </div>
 
             {/* funnel stage and short url  end */}
-            <div className="mb-[25px]">
-                <div className="mb-[10px] ">
-                    <label className={label}>Tags</label>
-                </div>
+            {appSetting.tag && (
+                <div className="mb-[25px]">
+                    <div className="mb-[10px] ">
+                        <label className={label}>Tags</label>
+                    </div>
 
-                <EditTagField
-                    options={getTagOptionsData(data, "tags")}
-                    placeholder="Select tags"
-                    defaultValue={getTagsDefaultValue(contentData, "tags")}
-                    handleOnChange={(v) => {
-                        context.dispatchDetails({
-                            type: "tags",
-                            value: Array.isArray(v)
-                                ? v.map((val) => val.value)
-                                : [],
-                        });
-                    }}
-                />
-            </div>
+                    <EditTagField
+                        options={getTagOptionsData(data, "tags")}
+                        placeholder="Select tags"
+                        defaultValue={getTagsDefaultValue(contentData, "tags")}
+                        handleOnChange={(v) => {
+                            context.dispatchDetails({
+                                type: "tags",
+                                value: Array.isArray(v)
+                                    ? v.map((val) => val.value)
+                                    : [],
+                            });
+                        }}
+                    />
+                </div>
+            )}
         </div>
     );
 };
