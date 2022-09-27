@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from "react";
 import FilterPopup from "../FilterPopup";
 import MoboDraer from "../MoboDraer";
