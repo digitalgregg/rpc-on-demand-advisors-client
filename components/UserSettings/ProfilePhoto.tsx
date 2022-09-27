@@ -1,23 +1,23 @@
 import React, { useState } from "react";
 import api from "../../api";
-import { setLocal,removeLocal } from "./../../utils/localStorage";
+import { setLocal, removeLocal } from "./../../utils/localStorage";
 import { useQuery } from "react-query";
 import LodingAnimation from "./../Shared/LodingAnimation/index";
-import { toast } from 'react-toastify';
-import { useAtom } from 'jotai';
-import { profile_state, signupState } from './../../state/index';
+import { toast } from "react-toastify";
+import { useAtom } from "jotai";
+import { profile_state, signupState } from "./../../state/index";
 
 const ProfilePhoto = () => {
   const [userData] = useAtom(signupState);
-  const [loading,setIsLoading] = useState(false)
+  const [loading, setIsLoading] = useState(false);
   const [profileData, setProfileData] = useAtom(profile_state);
 
-  const { data, refetch,} = useQuery("get profile", () =>
+  const { data, refetch } = useQuery("get profile", () =>
     api.get("/api/profile/list")
   );
 
   const handleUpdateProfile = async (e: any) => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       const fileData = e.target.files[0];
       const arrayBuffer = await fileData.arrayBuffer();
@@ -27,45 +27,42 @@ const ProfilePhoto = () => {
         new Blob([arrayBuffer], { type: fileData.type }),
         fileData.name
       );
-       await api.post(
-        "/api/profile/upload",
-        formData
-      )
-      .then((data) => {
-        setIsLoading(false)
+      await api.post("/api/profile/upload", formData).then((data) => {
+        setIsLoading(false);
         const profileInfo = {
           originalname: data?.data?.originalname,
           key: data?.data?.key,
           location: data?.data?.location,
         };
         setLocal("profile-data", profileInfo);
-        setProfileData(profileInfo)
+        setProfileData(profileInfo);
         refetch();
-      })
+      });
     } catch (err) {
-      setIsLoading(false)
+      setIsLoading(false);
       console.log(err);
     }
   };
-  
-  const handleRemoveProfile = async() => {
+
+  const handleRemoveProfile = async () => {
     try {
-       await api.delete(`/api/profile/remove/${profileData?.key}`)
-      .then((data) => {
-        const profileInfo = {
-          originalname: "",
-          key: "",
-          location: "",
-        };
-        setProfileData(profileInfo)
-        removeLocal("profile-data");
-        toast.success(data?.data);
-        refetch()
-      })
+      await api
+        .delete(`/api/profile/remove/${profileData?.key}`)
+        .then((data) => {
+          const profileInfo = {
+            originalname: "",
+            key: "",
+            location: "",
+          };
+          setProfileData(profileInfo);
+          removeLocal("profile-data");
+          toast.success(data?.data);
+          refetch();
+        });
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
+  };
   return (
     <div className="bg-[#FFFFFF] divide-y divide-[#DEDEDE] rounded-[4px]">
       <h2 className="font-semibold text-[16px] leading-[22px] text-[#000805] xs:px-[16.65px] sm:px-[27px] md:px-[30.9px] lg:px-[36px] xl:px-[21.25px] 2xl:px-[20px] 3xl:px-[32.5px] 4xl:px-[38.5px] py-[20.9px]">
@@ -82,12 +79,11 @@ const ProfilePhoto = () => {
               />
             ) : (
               <img
-                src="/img/ellipse.svg"
-                alt="Profile Photo2"
-                className="w-[60px] h-[60px] rounded-full "
+                src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
+                alt="profile image"
+                className="w-[60px] h-[60px] rounded-full"
               />
             )}
-
             <img
               src="/img/cameraIcon.svg"
               alt=""
@@ -98,7 +94,10 @@ const ProfilePhoto = () => {
             <h3 className="font-semibold text-[16px] leading-[22px] text-[#101010] mb-[5px]">
               {userData?.name}
             </h3>
-            <h4 onClick={handleRemoveProfile} className="font-normal text-[12px] leading-[16px] text-primary cursor-pointer">
+            <h4
+              onClick={handleRemoveProfile}
+              className="font-normal text-[12px] leading-[16px] text-primary cursor-pointer"
+            >
               Remove
             </h4>
           </div>
@@ -113,7 +112,8 @@ const ProfilePhoto = () => {
             />
             {loading ? (
               <div className="flex items-center gap-[4px]">
-                <LodingAnimation color="red"/> <span className="">Loading...</span>
+                <LodingAnimation color="red" />{" "}
+                <span className="">Loading...</span>
               </div>
             ) : (
               "Update profile photo"
