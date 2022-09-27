@@ -115,7 +115,7 @@ const NavMenuItem = () => {
                             pera={
                                 "Watch a quick demo or schedule time with us."
                             }
-                            url={"/schedule-demo"}
+                            url={"/contact-Us"}
                         />
                     </ul>
                     </OutSideClick>

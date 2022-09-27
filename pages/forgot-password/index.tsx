@@ -110,14 +110,19 @@ const ForgotPassword = () => {
               Submit
             </button>
           </form>
-          <div className="flex items-center">
-            <Image src="/icon/back-icon.svg" alt="logo" width={9} height={12} />
-            <Link href="/signin">
+          <Link href="/signin">
+            <div className="flex items-center cursor-pointer">
+              <Image
+                src="/icon/back-icon.svg"
+                alt="logo"
+                width={9}
+                height={12}
+              />
               <span className="text-[#000000] cursor-pointer font-normal text-[14px] leading-[19px] ml-[18.49px]">
                 Back to Log In.
               </span>
-            </Link>
-          </div>
+            </div>
+          </Link>
         </div>
       </div>
       {/* second section   */}
