@@ -11,8 +11,6 @@ import { toast } from "react-toastify";
 const InfoSection = () => {
     const { contentData } = GetContentContext();
 
-    console.log(contentData);
-
     const pStyle =
         "sm:text-[#222222] text-[#4F4F4F] text-[14px] leading-[19.07px]  sm:block";
     return (
@@ -22,27 +20,27 @@ const InfoSection = () => {
                     Sharing Info
                 </h3>
                 <div className="grid grid-cols-3 h-[40px] rounded-[4px] bg-[#191919] text-[#FFFFFF] items-center px-[11px]  font-semibold">
-                    <p className="text-[14px]">Recipient Name</p>
-                    <p className="text-[14px]">Last Viewed</p>
-                    <p className="text-[14px]">Views</p>
+                    <div className="text-[14px]">Recipient Name</div>
+                    <div className="text-[14px]">Last Viewed</div>
+                    <div className="text-[14px]">Views</div>
                 </div>
 
                 {contentData?.sharingDetails.length === 0 ? (
                     <div>
                         <div className="grid grid-cols-3 mt-[15px] px-[11px]">
-                            <p className={pStyle}>No details found</p>
+                            <div className={pStyle}>No details found</div>
                         </div>
                         <hr className="divider" />
                     </div>
                 ) : (
-                    contentData?.sharingDetails.map((item: any) => (
-                        <div key={item.id}>
+                    contentData?.sharingDetails.map((item: any, i) => (
+                        <div key={i}>
                             <div className="grid grid-cols-3 items-center py-[10px] px-[11px]">
-                                <p className={pStyle}>{item.recipient}</p>
-                                <p className={pStyle}>
+                                <div className={pStyle}>{item.recipient}</div>
+                                <div className={pStyle}>
                                     <Moment date={item.updatedAt} fromNow />
-                                </p>
-                                <p
+                                </div>
+                                <div
                                     className={`${pStyle} !flex justify-between items-center`}
                                 >
                                     <div>{item.views}</div>
@@ -56,7 +54,7 @@ const InfoSection = () => {
                                             Link
                                         </button>
                                     </CopyToClipboard>
-                                </p>
+                                </div>
                             </div>
                             <hr className="divider !my-0" />
                         </div>
@@ -68,70 +66,70 @@ const InfoSection = () => {
                     Additional Info
                 </h3>
                 <div className="grid grid-cols-3 h-[40px] rounded-[4px] bg-[#191919] text-[#FFFFFF] items-center px-[11px]  font-semibold">
-                    <p className="text-[14px]">Name</p>
+                    <div className="text-[14px]">Name</div>
                     {/* <p className="text-[14px]">Last Viewed</p> */}
-                    <p className="text-[14px]">Value</p>
+                    <div className="text-[14px]">Value</div>
                 </div>
 
                 <div>
                     <div className="grid grid-cols-3 mt-[15px] px-[11px]">
-                        <p className={pStyle}>File Name</p>
-                        <p className={`${pStyle} !line-clamp-1`}>
+                        <div className={pStyle}>File Name</div>
+                        <div className={`${pStyle} !line-clamp-1`}>
                             {contentData?.additional_info.file_name}
-                        </p>
+                        </div>
                     </div>
                     <hr className="divider" />
                 </div>
                 <div>
                     <div className="grid grid-cols-3 mt-[15px] px-[11px]">
-                        <p className={pStyle}>File Size</p>
-                        <p className={pStyle}>
+                        <div className={pStyle}>File Size</div>
+                        <div className={pStyle}>
                             {formatBytes(
                                 contentData?.additional_info?.file_size || 0
                             )}
-                        </p>
+                        </div>
                     </div>
                     <hr className="divider" />
                 </div>
                 <div>
                     <div className="grid grid-cols-3 mt-[15px] px-[11px]">
-                        <p className={pStyle}>File Type</p>
-                        <p className={pStyle}>
+                        <div className={pStyle}>File Type</div>
+                        <div className={pStyle}>
                             {contentData?.additional_info.file_type}
-                        </p>
+                        </div>
                     </div>
                     <hr className="divider" />
                 </div>
                 <div>
                     <div className="grid grid-cols-3 mt-[15px] px-[11px]">
-                        <p className={pStyle}>Is Shared</p>
-                        <p className={pStyle}>
+                        <div className={pStyle}>Is Shared</div>
+                        <div className={pStyle}>
                             {contentData?.asset_use == "external"
                                 ? "true"
                                 : "false"}
-                        </p>
+                        </div>
                     </div>
                     <hr className="divider" />
                 </div>
 
                 {/* additionl info end */}
                 <div className="grid grid-cols-3 h-[40px] rounded-[4px] bg-[#191919] text-[#FFFFFF] items-center px-[11px]  font-semibold">
-                    <p className="text-[14px] col-span-2">Date added</p>
-                    <p className="text-[14px]">Last updated</p>
+                    <div className="text-[14px] col-span-2">Date added</div>
+                    <div className="text-[14px]">Last updated</div>
                 </div>
 
                 <div>
                     <div className="grid grid-cols-3 mt-[15px] px-[11px]">
-                        <p className={classnames(pStyle, "col-span-2")}>
+                        <div className={classnames(pStyle, "col-span-2")}>
                             <Moment format="MMM D YYYY, h:mm a">
                                 {contentData?.createdAt?.toString()}
                             </Moment>
-                        </p>
-                        <p className={classnames(pStyle, "col-span-1")}>
+                        </div>
+                        <div className={classnames(pStyle, "col-span-1")}>
                             <Moment format="MMM D YYYY, h:mm a">
                                 {contentData?.updatedAt?.toString()}
                             </Moment>
-                        </p>
+                        </div>
                     </div>
                 </div>
             </div>

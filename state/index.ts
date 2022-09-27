@@ -73,3 +73,20 @@ export const FilterOrigin = atomWithStorage<FilterOriginType>(
         tags: [],
     }
 );
+
+export type DefaultFilterType = {
+    product: any[];
+    industry: any[];
+    region: any[];
+    tags: any[];
+};
+
+export const DefaultFilter = atomWithStorage<DefaultFilterType>(
+    "default-filter",
+    {
+        product: [],
+        industry: [],
+        region: [],
+        tags: [],
+    }
+);

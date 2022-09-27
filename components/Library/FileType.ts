@@ -58,13 +58,21 @@ export function getFileType(
     filename: string,
     onFileType: (type: string) => any
 ) {
-    if (isImage(filename)) return onFileType("image");
-    if (isVideo(filename)) return onFileType("video");
-    if (isAudio(filename)) return onFileType("audio");
-    if (isOfficeDocument(filename)) return onFileType("document");
-    if (isOtherDocument(filename)) return onFileType("all-document");
+    if (isImage(filename)) {
+        return onFileType("image");
+    } else if (isVideo(filename)) {
+        return onFileType("video");
+    } else if (isAudio(filename)) {
+        return onFileType("audio");
+    } else if (isOfficeDocument(filename)) {
+        return onFileType("document");
+    } else if (isOtherDocument(filename)) {
+        return onFileType("all-document");
+    } else {
+        return onFileType("unknown");
+    }
 }
-function isOfficeDocument(filename: string) {
+export function isOfficeDocument(filename: string) {
     var ext = getExtension(filename);
     switch (ext.toLowerCase()) {
         case "ppt":
@@ -77,7 +85,7 @@ function isOfficeDocument(filename: string) {
     }
     return false;
 }
-function isOtherDocument(filename: string) {
+export function isOtherDocument(filename: string) {
     var ext = getExtension(filename);
     switch (ext.toLowerCase()) {
         case "txt":

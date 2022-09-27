@@ -9,6 +9,8 @@ import {
 } from "../utils/filter";
 import { useAtom } from "jotai";
 import { FilterOrigin, SearchTextFilter } from "../state";
+import { createActivity } from "./RecentActivityApi";
+import { getLocal } from "../utils/localStorage";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -90,6 +92,7 @@ export function updateFileObj(response: any) {
 }
 
 export async function deleteContent(content_id: string) {
+    const teamData = getLocal("team");
     try {
         await api.delete(BASE_URL + "/api/content/" + content_id);
         toast.success("Content deleted successfully");

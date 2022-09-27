@@ -1,15 +1,23 @@
 import React, { useReducer } from "react";
 import { useAtom } from "jotai";
-import { AppSettingToggle, FilterOrigin } from "../../state";
+import { AppSettingToggle, DefaultFilter, FilterOrigin } from "../../state";
 import TopNavSelect from "../Shared/TopNavSelect";
 import { getOptionsByType, getTagOptionsData } from "../FilterFields";
 import { SettingResponse } from "../../api-call/AppSettingsApi";
 import { FilterAction } from "./FilterReducer";
 import TagBadges from "../CustomIcons/TagBadges";
+import Link from "next/link";
 
-const FilterBox = ({ data }: { data: SettingResponse[] }) => {
+const FilterBox = ({
+    data,
+    setFilterOpen,
+}: {
+    data: SettingResponse[];
+    setFilterOpen: any;
+}) => {
     const [appSetting] = useAtom(AppSettingToggle);
     const [filterOrigin, setFilterOrigin] = useAtom(FilterOrigin);
+    const [defaultFilter] = useAtom(DefaultFilter);
 
     const [state, dispatch] = useReducer(FilterAction, filterOrigin);
 
@@ -17,6 +25,16 @@ const FilterBox = ({ data }: { data: SettingResponse[] }) => {
         const newState = state;
         newState.tags = optionsToTags(newState.tags);
         setFilterOrigin(newState);
+        setFilterOpen(false);
+    };
+
+    const handleFilterReset = () => {
+        setFilterOrigin({
+            funnel_stages: [],
+            content_type: [],
+            ...defaultFilter,
+        });
+        setFilterOpen(false);
     };
 
     return (
@@ -82,18 +100,23 @@ const FilterBox = ({ data }: { data: SettingResponse[] }) => {
                         label="Tags"
                         onChange={(e) => dispatch({ type: "tags", value: e })}
                         defaultValue={tagsToOptions(filterOrigin.tags)}
-                        options={tagsToOptions(getTagsForNav(data) || [])}
+                        options={tagsToOptions(getTagsOptions(data) || [])}
                     />
                 )}
             </div>
             <div className="flex flex-col gap-4 md:gap-0  md:flex-row justify-between mt-[30px] items-center">
                 <div>
-                    <h3 className="text-[16px] cursor-pointer underline  decoration-1 leading-[21.79px] font-semibold text-[#101010]  ">
-                        Set default search filters...
-                    </h3>
+                    <Link href={"/dashboard/user-settings#default-filter"}>
+                        <h3 className="text-[16px] cursor-pointer underline  decoration-1 leading-[21.79px] font-semibold text-[#101010]  ">
+                            Set default search filters...
+                        </h3>
+                    </Link>
                 </div>
                 <div>
-                    <button className="w-[69.63px] h-[38px] bg-[#222222] rounded-[4px] text-[16px] text-[#FFFFFF] font-medium	border border-solid border-[#222222] hover:bg-transparent hover:text-[#222222]	 transition duration-200 ease-in-out">
+                    <button
+                        onClick={handleFilterReset}
+                        className="w-[69.63px] h-[38px] bg-[#222222] rounded-[4px] text-[16px] text-[#FFFFFF] font-medium	border border-solid border-[#222222] hover:bg-transparent hover:text-[#222222]	 transition duration-200 ease-in-out"
+                    >
                         Reset
                     </button>
                     <button
@@ -108,7 +131,7 @@ const FilterBox = ({ data }: { data: SettingResponse[] }) => {
     );
 };
 
-export function getTagsForNav(data: any): object[] | undefined {
+export function getTagsOptions(data: any): object[] | undefined {
     if (!data) return undefined;
     const findData = data.find((v: any) => v.type === "tags");
     if (!findData) return undefined;

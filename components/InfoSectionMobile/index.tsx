@@ -22,8 +22,8 @@ const InfoSectionMobile = () => {
                     </div>
                 </div>
             ) : (
-                contentData?.sharingDetails.map((item: any) => (
-                    <>
+                contentData?.sharingDetails.map((item: any, i) => (
+                    <span key={i}>
                         <div className="bg-[#f1f1f1] rounded-[4px] px-[14px] py-[15px] mb-[16px] ">
                             {/* <h3 className="block w-full ">adfa <span className="ml-4">asdfasdfasd</span></h3> */}
                             <div className="grid grid-cols-2 ">
@@ -50,7 +50,7 @@ const InfoSectionMobile = () => {
                                 </p>
                             </div>
                         </div>
-                    </>
+                    </span>
                 ))
             )}
 

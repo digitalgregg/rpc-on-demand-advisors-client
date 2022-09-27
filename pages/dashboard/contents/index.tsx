@@ -155,7 +155,7 @@ function Contents() {
                         )}
                     </div>
                 </div>
-                <div className="pt-[50px]"></div>
+                <div className="pt-[70px]"></div>
             </DashboardLayout>
             <FileUploadModal onSingleUpload={handleSingleUpload} />
             <NewCollectionModal

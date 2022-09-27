@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
+import React, { useState } from "react";
 import ContentCard from "../../../ContentCard";
 import { motion } from "framer-motion";
 import ContentViewCard from "../../../ContentViewCard";
@@ -11,20 +11,32 @@ import DataNotFound from "../../../Shared/DataNotFound";
 import Pagination, { IsArray } from "../../../Shared/Pagination";
 import { useWindowDimensions } from "../../../Shared/DimentionHook";
 import LodingAnimation from "../../../Shared/LodingAnimation";
+import SortedSelect, { SelectOption } from "../../../Shared/SortedSelect";
+import { sortedContentFilter } from "../../../../utils/filter";
+
+const options = [
+    { value: "newest", label: "Newest" },
+    { value: "oldest", label: "Oldest" },
+    { value: "favorites", label: "Favorites" },
+    { value: "voted", label: "Voted" },
+];
 
 function ViewCollectionContent() {
     const router = useRouter();
     const id = router.query.id;
+
+    // filter section
+    const [sortedFilter, setSortedFilter] = useState<SelectOption>({
+        value: "newest",
+        label: "Newest",
+    });
 
     const { data, isSuccess, refetch, isLoading, isError } = useQuery(
         ["get-collection", id],
         () => getCollection(`${id}`),
         {
             enabled: !!id,
-            select: (response) =>
-                Array.isArray(response.data)
-                    ? response.data.reverse()
-                    : response.data,
+            select: (response) => response.data,
             retry(failureCount, error: any) {
                 if (error.response.data.success === false) {
                     return false;
@@ -34,8 +46,6 @@ function ViewCollectionContent() {
             },
         }
     );
-
-    console.log(data);
 
     const { width } = useWindowDimensions();
     function getItemsPerPage(): number {
@@ -87,15 +97,11 @@ function ViewCollectionContent() {
                 </h3>
                 <div className="flex items-center gap-[10px] text-[#000] ">
                     <h3 className="text-[14px]">Sorted by</h3>
-                    <select
-                        placeholder="Sorted"
-                        className="w-[111px] h-[30px] bg-transparent focus:outline-none rounded-[4px] border border-[#DEDEDE] px-[5px]"
-                    >
-                        <option>Newest</option>
-                        <option>Oldest</option>
-                        <option>Favorites</option>
-                        <option>Voted</option>
-                    </select>
+                    <SortedSelect
+                        value={sortedFilter}
+                        onChange={(e: any) => setSortedFilter(e)}
+                        options={options}
+                    />
                 </div>
             </div>
             {/* filter section  end*/}
@@ -104,7 +110,12 @@ function ViewCollectionContent() {
             <div className="">
                 {isSuccess && data.contents.length > 0 ? (
                     <Pagination
-                        dataArr={IsArray(data.contents)}
+                        dataArr={IsArray(
+                            sortedContentFilter(
+                                data.contents,
+                                sortedFilter.value
+                            )
+                        )}
                         itemsPerPage={getItemsPerPage()}
                     >
                         {(currentItems) => (
@@ -142,6 +153,7 @@ function ViewCollectionContent() {
                         className="top-[50px]"
                     />
                 )}
+                <div className="pt-[70px]"></div>
             </div>
         </div>
     );

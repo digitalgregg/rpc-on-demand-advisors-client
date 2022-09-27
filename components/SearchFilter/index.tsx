@@ -87,7 +87,10 @@ const SearchFilter = () => {
                             className={` xs:w-full shadow-[0px_4px_20px_rgba(0,0,0,0.1)] z-50 sm:w-[460px] md:w-[460px] lg:w-[530px] max-h-[455px] modal-scroll absolute left-0 top-[39px] rounded-[4px] bg-white`}
                         >
                             <div className="px-[10px] sm:px-[40px] py-[30px]">
-                                <FilterBox data={appSettingData} />
+                                <FilterBox
+                                    data={appSettingData}
+                                    setFilterOpen={setFilterBoxOpen}
+                                />
                             </div>
                         </motion.div>
                     )}

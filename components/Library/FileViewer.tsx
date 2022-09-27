@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
-import { getFileType } from "./FileType";
+import { getExtension, getFileType } from "./FileType";
 import PlyrReact from "plyr-react";
 import { DocumentViewer } from "react-documents";
 import { LoadingBox } from "../../pages/dashboard/contents/view-details/[id]";
@@ -66,7 +66,15 @@ function FileViewer({ src }: FileViewerType) {
                                 />
                             </>
                         );
-
+                    case "unknown":
+                        return (
+                            <div className="flex h-full w-full justify-center items-center">
+                                <div className="">
+                                    Sorry, no preview found for .
+                                    {getExtension(src)}
+                                </div>
+                            </div>
+                        );
                     default:
                         break;
                 }
