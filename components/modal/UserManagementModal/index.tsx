@@ -98,7 +98,7 @@ function UserManageModal({ isOpen, onClose, type, prevData }: ModalProps) {
         <OverflowModal
             isOpen={isOpen}
             onRequestClose={onClose}
-            className="w-[calc(100vw-40px)] max-w-[500px] bg-white px-5 xs:px-[30px] sm:px-10 pt-5 pb-10 rounded-[4px] overflow-y-auto sm:overflow-hidden"
+            className="w-[calc(100vw-40px)] max-w-[500px] bg-white px-5 xs:px-[30px] sm:px-10 pt-5 pb-10 rounded-[4px] modal-scroll overflow-hidden"
         >
             <div>
                 <h2 className=" text-center text-[#000] font-semibold text-[24px] leading-[32.68px]">

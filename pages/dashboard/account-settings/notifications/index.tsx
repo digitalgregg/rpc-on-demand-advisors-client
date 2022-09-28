@@ -90,7 +90,7 @@ const Notifications = () => {
       const updateData = {
         team_id: team.id,
         role_type: e.value.toLowerCase(),
-        isToggle: toggle,
+        isToggle: isToggle,
       };
       const res = await api.put(
         `/api/weekly-digests-notification/${team.id}`,
