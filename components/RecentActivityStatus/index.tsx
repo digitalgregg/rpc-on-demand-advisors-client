@@ -5,7 +5,7 @@ import api from "../../api";
 import { getLocal } from "../../utils/localStorage";
 import DataNotFound from "../Shared/DataNotFound";
 import LodingAnimation from "../Shared/LodingAnimation";
-import Moment  from 'react-moment';
+import Moment from "react-moment";
 
 const RecentActivityStatus = () => {
   const team = getLocal("team");
@@ -33,40 +33,41 @@ const RecentActivityStatus = () => {
           </Link>
         </div>
         <hr className="w-[100%] h-[4px] bg-primary text-primary border-0" />
-        {/* second part */}
-        {recentActivities?.length === 0 && (
-          <p className="py-2 text-center">No activity found</p>
-        )}
-        {/* map all activity  */}
-        {isLoading ? (
-          <div className="h-[59px] text-[12px] leading-[16.34px] md:text-sm md:leading-[19.07px]  xl:h-[65px]  text-[#222] flex items-center px-5">
-            <div className="flex items-center gap-[10px]">
-              <LodingAnimation /> <span>Loading...</span>
-            </div>
-          </div>
-        ) : (
-          recentActivities?.map((item: any) => (
-            <div
-              style={{ borderBottom: "1px solid lightgray" }}
-              key={item._id}
-              className="px-[20px] py-[10px] "
-            >
-              <div className="">
-                <h3 className="text-[16px] font-semibold text-[#222222]">
-                  {item.title}
-                </h3>
-                <p className="text-[12px] text-[#676767] font-normal leading-[16.34px] mt-[2px] mb-[10px]">
-                  <Moment format="MMM DD YYYY, h:mm a">
-                    {item.createdAt.toString()}
-                  </Moment>
-                </p>
-                <p className="text-[#000000] text-[14px] font-normal leading-[19.7px]">
-                  Your {item.activity_type} has been {item.status_type}
-                </p>
+        <div className="max-h-[56vh] modal-scroll">
+          {/* second part */}
+          {recentActivities?.length === 0 && (
+            <p className="py-2 text-center">No activity found</p>
+          )}
+          {/* map all activity  */}
+          {isLoading ? (
+            <div className="h-[59px] text-[12px] leading-[16.34px] md:text-sm md:leading-[19.07px]  xl:h-[65px]  text-[#222] flex items-center px-5">
+              <div className="flex items-center gap-[10px]">
+                <LodingAnimation /> <span>Loading...</span>
               </div>
             </div>
-          ))
-        )}
+          ) : (
+            recentActivities?.map((item: any) => (
+              <div
+                key={item._id}
+                className="px-[20px] py-[10px] last:border-b-0 border-b-[lightgray] border-b"
+              >
+                <div className="">
+                  <h3 className="text-[16px] font-semibold text-[#222222]">
+                    {item.title}
+                  </h3>
+                  <p className="text-[12px] text-[#676767] font-normal leading-[16.34px] mt-[2px] mb-[10px]">
+                    <Moment format="MMM DD YYYY, h:mm a">
+                      {item.createdAt.toString()}
+                    </Moment>
+                  </p>
+                  <p className="text-[#000000] text-[14px] font-normal leading-[19.7px]">
+                    Your {item.activity_type} has been {item.status_type}
+                  </p>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
