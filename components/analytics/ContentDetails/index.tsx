@@ -19,12 +19,11 @@ const wishlistSchema = Yup.object({
 const ContentDetails = () => {
     const ContentDetailsData = [{}, {}];
     return (
-        <div className=" bg-White rounded p-[30px]">
+        <div className=" bg-White rounded p-3 py-[24px]  sm:p-[30px]">
             <div>
                 <div>
                     <Formik
                         initialValues={initialWishlist}
-                        validationSchema={wishlistSchema}
                         onSubmit={(value) => {
                             console.log(value);
                         }}
@@ -32,39 +31,35 @@ const ContentDetails = () => {
                         {() => (
                             <Form>
                                 <div className="flex justify-between gap-[20px] w-full mb-[20px]">
-                                    <div className="text-xl text-[#000] leading-[27.24px] font-semibold">
-                                    Content Details
+                                    <div className="text-base sm:text-xl text-[#000] md:leading-[27.24px] font-semibold">
+                                        Content Details
                                     </div>
-                                    <button
-                                        type="submit"
-                                        className="basis-1/2 h-[45px] max-w-[152px] text-[16px] leading-[45px] text-center border border-primary hover:bg-primary  transition-all duration-200 hover:text-white text-primary rounded-[4px]"
-                                    >
-                                        View Heatmap
-                                    </button>
                                 </div>
 
-                                <div className=" flex flex-col md:flex-row justify-between w-full gap-[30px]">
+                                <div className=" flex flex-col md:flex-row justify-between w-full gap-[15px] md:gap-[30px]">
                                     <InputField
                                         name="title"
                                         label="Title"
+                                        inputClass="!h-[45px] md:!h-[55px]"
                                         placeholder="Piash"
-                                        height="52px"
                                         labelClass="!text-sm !leading-[19.07px]"
-                                        className=" w-full"
+                                        className="w-full"
                                     />
                                     <InputField
                                         name="funnel_stage"
                                         label="Funnel Stage"
+                                        inputClass="!h-[45px] md:!h-[55px]"
                                         placeholder="Type here...."
                                         labelClass="!text-sm !leading-[19.07px]"
-                                        className=" w-full"
+                                        className="w-full"
                                     />
                                     <InputField
                                         name="content_type"
                                         label="Content Type"
                                         placeholder="Type here...."
                                         labelClass="!text-sm !leading-[19.07px]"
-                                        className=" w-full"
+                                        className="w-full"
+                                        inputClass="!h-[45px] md:!h-[55px]"
                                     />
                                 </div>
                             </Form>
@@ -74,20 +69,20 @@ const ContentDetails = () => {
 
                 <div className="pt-4 sm:pt-[30px]"></div>
 
-                <ul className="flex items-center md:px-[20px] md:h-[72px] px-3 py-[17px] xl:h-[80px] bg-[#222222] rounded-[4px]">
-                    <li className="w-[calc(80%/2)] sm:w-[calc(80%/1)] text-white text-[10px] sm:text-base lg:text-base mr-[50px] sm:mr-0">
+                <ul className="flex gap-x-3 sm:gap-x-0 items-center md:px-[20px] px-3 py-[17px]  bg-[#222222] rounded-[4px]">
+                    <li className="w-[40%] text-white text-[10px] sm:text-sm lg:text-base ">
                         Title
                     </li>
-                    <li className="w-[calc(40%/2)] text-white text-[10px] sm:text-base lg:text-base">
+                    <li className="w-[15%] text-white text-[10px] sm:text-sm lg:text-base">
                         Details
                     </li>
-                    <li className="w-[calc(40%/2)] text-white text-[10px] sm:text-base lg:text-base">
+                    <li className="w-[15%] text-white text-[10px] sm:text-sm lg:text-base">
                         Views
                     </li>
-                    <li className="w-[calc(40%/2)] text-white text-[10px] sm:text-base lg:text-base">
+                    <li className="w-[15%] text-white text-[10px] sm:text-sm lg:text-base">
                         Shares
                     </li>
-                    <li className="w-[calc(40%/2)] text-white text-[10px] sm:text-base lg:text-base">
+                    <li className="w-[15%] text-white text-[10px] sm:text-sm lg:text-base">
                         Upvotes
                     </li>
                 </ul>

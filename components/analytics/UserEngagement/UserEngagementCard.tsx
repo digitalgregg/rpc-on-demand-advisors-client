@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Image from "next/image";
 import React from "react";
 import Pagination from "../../Shared/Pagination";
@@ -21,47 +22,31 @@ const UserEngagementCard = ({
 }: UserEngagementCardType) => {
     return (
         <>
-            <div className="bg-[#fff] sm:p-[22px] py-4 px-3 text-[#000]">
-                <div className="flex items-center justify-center text-sm leading-[19.07px]">
-                    <div className="flex items-center gap-[10px] w-[calc(40%/2)] sm:w-[calc(40%/1)]">
-                        <div className=" w-[30px] h-[30px]">
-                            <img
-                                src="/img/avater.svg"
-                                alt="avater"
-                                className=" w-full h-full object-cover rounded-full xs:hidden sm:flex"
-                            />
-                        </div>
-                        <div className=" max-w-[95%] sm:w-full text-[#676767] line-clamp-1 text-[10px] sm:text-[14px] md:text-[14px]">
-                            {user_name}
-                        </div>
+            <ul className="flex w-full gap-x-2 items-center md:px-[20px] px-3 py-[17px] lg:py-[14px] sm:py-[12px]  bg-white rounded-[4px]">
+                <li className="w-[17%]  text-[10px] sm:text-sm ">
+                    <div className="flex items-center gap-3">
+                        <img
+                            className="rounded-full hidden sm:block"
+                            src={userImage}
+                            alt=""
+                            width={30}
+                            height={30}
+                        />
+                        <div className="line-clamp-1">{user_name}</div>
                     </div>
-                    <div className="flex items-center w-[calc(40%/2)] sm:w-[calc(40%/1)]">
-                        <div className=" max-w-[95%] sm:w-full text-[#676767] line-clamp-1 text-[10px] sm:text-[14px] md:text-[14px]">
-                            {Title}
-                        </div>
-                    </div>
-                    <div className="flex  items-center w-[calc(40%/2)]">
-                        <div className=" w-1/2 sm:w-full  text-[#676767] text-[10px] sm:text-[14px] md:text-[14px]">
-                            {Details}
-                        </div>
-                    </div>
-                    <div className="flex items-center w-[calc(40%/2)]">
-                        <div className=" w-1/2 sm:w-full  text-[#676767] text-[10px] sm:text-[14px] md:text-[14px]">
-                            {Shares_white}
-                        </div>
-                    </div>
-                    <div className="flex items-center w-[calc(40%/2)]">
-                        <div className=" w-11/12 sm:w-full   text-[#676767] text-[10px] sm:text-[14px] md:text-[14px]">
-                            {date}
-                        </div>
-                    </div>
-                    <div className="flex items-center w-[calc(40%/2)]">
-                        <div className=" w-1/2 sm:w-full   text-[#676767] text-[10px] sm:text-[14px] md:text-[14px]">
-                            {Views}
-                        </div>
-                    </div>
-                </div>
-            </div>
+                </li>
+                <li className="w-[23%]  text-[10px] sm:text-sm ">
+                    <div className="line-clamp-1">{Title}</div>
+                </li>
+                <li className="w-[15%] text-[10px] sm:text-sm ">{Details}</li>
+                <li className="w-[15%]  text-[10px] sm:text-sm ">
+                    {Shares_white}
+                </li>
+                <li className="w-[20%]  text-[10px] sm:text-sm ">
+                    <div className="line-clamp-1">{date}</div>
+                </li>
+                <li className="w-[10%]  text-[10px] sm:text-sm ">{Views}</li>
+            </ul>
             <hr className=" h-[1px] text-[rgba(0,0,0,0.1)]" />
         </>
     );
@@ -73,6 +58,6 @@ UserEngagementCard.defaultProps = {
     Views: 3,
     Shares_white: 4,
     date: "07 July 2022",
-    userImage: "../../../public/assets/account-settings/profile-img.jpg",
+    userImage: "/assets/account-settings/profile-img.jpg",
 };
 export default UserEngagementCard;
