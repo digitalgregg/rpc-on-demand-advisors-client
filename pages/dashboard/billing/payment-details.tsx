@@ -4,12 +4,28 @@ import PricingLayout from "../../../components/Dashboard/PricingLayout";
 import { ReactNode } from "react";
 import { useState } from "react";
 import PaymentMethodDialog from "../../../components/Dashboard/BillingPage/PaymentMethodDialog";
+import { useQuery } from "react-query";
+import api from "../../../api";
+import { getLocal } from "../../../utils/localStorage";
 
 function PaymentDetails() {
+    const { _id } = getLocal("user-info");
+    const { isLoading, data } = useQuery("get-billing-data", () =>
+        api.get(`/api/billing-record/${_id}`)
+    );
+    const billingData = data?.data[0];
+    const purches_date = billingData?.purches_date;
+    const getPurchesDate = new Date(purches_date).getDate();
+
+    console.log(getPurchesDate, "billing data....^^^^^.....");
     const [modalOpen, setModalOpen] = useState(false);
     const handleModal = () => {
         setModalOpen(!modalOpen);
     };
+    function getNumber() {
+        const remainPlanStyle = getPurchesDate + 70;
+        return { width: `${remainPlanStyle}%` };
+    }
     return (
         <>
             <PricingLayout>
@@ -29,23 +45,34 @@ function PaymentDetails() {
                                 <div className="pt-[31px]"></div>
 
                                 <div className="font-bold text-[24px] leading-[32.68px] text-[#101010]">
-                                    Team
+                                    {billingData?.plan_name
+                                        ? `${billingData?.plan_name}`
+                                        : "Free"}
                                     <span className="text-sm leading-[19.07px] text-[#676767] font-semibold ml-[5px]">
                                         Monthly
                                     </span>
                                 </div>
                                 <div className="pt-[14px]"></div>
                                 <div className="text-xs font-semibold leading-[16.34px] text-[#676767] w-[181px] 2xl:w-[259px]">
-                                    After your current plan end on August 10,
-                                    2022, this plan will continue automatically.
+                                    After your current plan end on{" "}
+                                    {billingData?.expire_date
+                                        ? `${billingData?.expire_date}`
+                                        : `${new Date().toDateString()}`}
+                                    , this plan will continue automatically.
                                 </div>
                                 <div className="pt-[24px]"></div>
                                 <div className="text-sm font-semibold leading-[19.07px] text-[#676767]">
-                                    14 of 30 days
+                                    {getPurchesDate
+                                        ? `${30 - getPurchesDate}`
+                                        : 0}{" "}
+                                    of 30 days
                                 </div>
                                 <div className="pt-2"></div>
                                 <div className="relative">
-                                    <div className="absolute h-2 bg-primary top-[-1px] w-1/2 rounded-[20px]"></div>
+                                    <div
+                                        style={getNumber()}
+                                        className="absolute h-2 bg-primary top-[-1px]  rounded-[20px]"
+                                    ></div>
                                     <div className="bg-[#F8C5CD] w-full h-[6px] rounded-[20px]"></div>
                                 </div>
                                 <div className="absolute top-[137px] sm:top-[118px] right-[10px] sm:right-[30px]">
@@ -53,7 +80,12 @@ function PaymentDetails() {
                                         $
                                     </span>
                                     <span className="text-[28.36px] leading-[38.63px] sm:text-[40px] sm:leading-[54.47px] text-[#000805] font-bold">
-                                        15
+                                        {billingData?.amount_total
+                                            ? `${
+                                                  billingData?.amount_total /
+                                                  100
+                                              }`
+                                            : 0}
                                     </span>
                                     <span className="ml-[5px]"></span>
                                     <span className="text-[9.93px] leading-[13.52px] sm:text-[14px] sm:leading-[19.07px] text-[#676767] font-bold">
@@ -83,7 +115,7 @@ function PaymentDetails() {
                                     </button>
                                 </div>
 
-                                <div className=" justify-between hidden">
+                                <div className="justify-between hidden ">
                                     <div className="flex gap-4">
                                         <div>
                                             <div className="text-primary text-base leading-[21.79px] font-bold border-primary border rounded-[4px] p-[6px_12.5px]">
