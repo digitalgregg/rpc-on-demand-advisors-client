@@ -11,6 +11,7 @@ import { useAtom } from "jotai";
 import { FilterOrigin, SearchTextFilter } from "../state";
 import { createActivity } from "./RecentActivityApi";
 import { getLocal } from "../utils/localStorage";
+import ReactGA from "react-ga4";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -46,7 +47,14 @@ export async function getContent(id: string) {
 
 export async function createContent(contentData: CreateContentType) {
     try {
-        await api.post(BASE_URL + "/api/content", contentData);
+        const response = await api.post(BASE_URL + "/api/content", contentData);
+        if (response.data.content) {
+            ReactGA.event({
+                category: "content",
+                action: "create content",
+                label: response.data.content._id,
+            });
+        }
         toast.success("Content created successfully");
     } catch (err: any) {
         console.log(err);

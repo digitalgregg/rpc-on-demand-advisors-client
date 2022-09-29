@@ -3,7 +3,7 @@ import { getLocal } from "../../utils/localStorage";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import LodingAnimation from "../Shared/LodingAnimation/index";
-import ReactGA from "react-ga";
+import ReactGA from "react-ga4";
 
 type ProtectedRouteProps = {
     children: ReactNode;
@@ -41,7 +41,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     }, [router, token]);
 
     const CountPageView = () => {
-        ReactGA.pageview(window.location.pathname);
+        ReactGA.send({ hitType: "pageview", page: window.location.pathname });
     };
 
     return <>{!isLoading ? <LoadingBox /> : children}</>;
