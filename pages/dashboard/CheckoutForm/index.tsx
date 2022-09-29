@@ -4,8 +4,9 @@ import secureLocalStorage from "react-secure-storage";
 import usePlanData from "../../../hooks/usePlanData";
 import LoadingAnimation from "../../../components/Shared/LoadingAnimation";
 import LodingAnimation from "../../../components/Shared/LodingAnimation";
+import { toast } from "react-toastify";
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ shippingData }: any) => {
     const planItem: any = secureLocalStorage.getItem("plan");
     const [loadingButoon, setLoadingButton] = useState(false);
     const [priceId, setPriceId] = useState("");
@@ -29,17 +30,22 @@ const CheckoutForm = () => {
     }, [planItem]);
 
     const handleSubmit = async () => {
-        const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/api/checkout`,
-            {
-                method: "POST",
-                body: JSON.stringify({ priceId }),
-                headers: { "Content-Type": "application/json" },
-            }
-        );
-        const session = await response.json();
-        router.push(session.url);
-        setLoadingButton(true);
+        if (shippingData?.length === 0) {
+            toast.error("Please add shipping address before checkout");
+        }
+        if (shippingData?.length > 0) {
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_BASE_URL}/api/checkout`,
+                {
+                    method: "POST",
+                    body: JSON.stringify({ priceId }),
+                    headers: { "Content-Type": "application/json" },
+                }
+            );
+            const session = await response.json();
+            router.push(session.url);
+            setLoadingButton(true);
+        }
     };
     return (
         <div>

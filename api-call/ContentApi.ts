@@ -308,7 +308,7 @@ export const useFilterContents = (
             );
         },
         retry(failureCount, error: any) {
-            if (error.response.data.success === false) {
+            if (error.response.data?.success === false) {
                 return false;
             } else {
                 return true;
