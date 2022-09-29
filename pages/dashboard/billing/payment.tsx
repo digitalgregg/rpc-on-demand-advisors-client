@@ -292,7 +292,7 @@ function Payment() {
                                         )}
                                     </Formik>
 
-                                    <CheckoutForm />
+                                    <CheckoutForm shippingData={data?.data} />
 
                                     <div className="pt-[30px]"></div>
                                     <div className="text-xs text-[#676767] font-semibold leading-[16.34px]">
