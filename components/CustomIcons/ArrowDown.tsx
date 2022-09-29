@@ -1,7 +1,7 @@
 import React from "react";
 import CustomIcon, { IconType } from "./CustomIcon";
 
-const AnalyticsProgreshandDound = (props: IconType) => {
+const ArrowDown = (props: IconType) => {
     return (
         <CustomIcon
             {...props}
@@ -20,4 +20,4 @@ const AnalyticsProgreshandDound = (props: IconType) => {
     );
 };
 
-export default AnalyticsProgreshandDound;
+export default ArrowDown;

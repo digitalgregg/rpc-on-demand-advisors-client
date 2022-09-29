@@ -162,3 +162,22 @@ a {
     min-width: 100%;
     height: 100%;
 }
+
+.rs-picker-toggle.rs-btn.rs-btn-default {
+    height: 45px !important;
+    display: flex !important;
+    align-items: center;
+    padding-right: 36px !important;
+    background-color: transparent !important;
+    border-color: #9e9e9e !important;
+}
+.rs-picker-toggle.rs-btn.rs-btn-default span {
+    color: #101010 !important;
+}
+.rs-picker-toggle.rs-btn.rs-btn-default .rs-picker-toggle-clean.rs-btn-close {
+    display: none;
+}
+
+.rs-picker-toggle.rs-btn.rs-btn-default .rs-picker-toggle-caret.rs-icon {
+    top: 12px;
+}
