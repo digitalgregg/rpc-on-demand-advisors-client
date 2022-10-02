@@ -26,6 +26,7 @@ const NewsLetter = ({ status, message, onValidated }: any) => {
         initialValues={initialValue}
         validationSchema={validate}
         onSubmit={(value) => {
+          console.log("submit")
           onValidated({ EMAIL: value.email });
           toast.success("Thank you for subscribing!");
         }}
