@@ -124,7 +124,7 @@ const MoboDraer = ({ toggleDrawer, isOpen }: any) => {
                         />
                         <div className="flex items-center gap-[15px] mb-[20px]">
                             <img
-                                src={profileData.location || "/img/avater.svg"}
+                                src={profileData?.location || "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"}
                                 alt="avater"
                                 className="w-[50px] h-[50px] rounded-full"
                             />

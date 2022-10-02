@@ -109,6 +109,7 @@ const ContactUs = () => {
                       .then((res) => {
                         if (res.status === 200) {
                           toast.success("Your request has been successed!");
+                          openModal()
                           setTimeout(() => {
                             token
                               ? router.push("/dashboard/contents")
