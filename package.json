@@ -20,6 +20,7 @@
     "classnames": "^2.3.1",
     "csv-file-validator": "^2.0.0",
     "date-fns": "^2.29.3",
+    "easyinvoice": "^2.3.3",
     "file-saver": "^2.0.5",
     "formik": "^2.2.9",
     "framer-motion": "^7.2.0",

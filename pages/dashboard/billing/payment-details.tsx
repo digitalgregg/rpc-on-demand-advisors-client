@@ -7,23 +7,26 @@ import PaymentMethodDialog from "../../../components/Dashboard/BillingPage/Payme
 import { useQuery } from "react-query";
 import api from "../../../api";
 import { getLocal } from "../../../utils/localStorage";
+import { saveAs } from "file-saver";
+import LodingAnimation from "../../../components/Shared/LodingAnimation";
+import { toast } from "react-toastify";
 
 function PaymentDetails() {
     const { _id } = getLocal("user-info");
     const { isLoading, data } = useQuery("get-billing-data", () =>
-        api.get(`/api/billing-record/${_id}`)
+        api.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/billing-record/${_id}`)
     );
-    const billingData = data?.data[0];
-    const purches_date = billingData?.purches_date;
+    const billingData = data?.data;
+    const currentPlan = data?.data[0];
+    const purches_date = currentPlan?.purches_date;
     const getPurchesDate = new Date(purches_date).getDate();
 
-    console.log(getPurchesDate, "billing data....^^^^^.....");
     const [modalOpen, setModalOpen] = useState(false);
     const handleModal = () => {
         setModalOpen(!modalOpen);
     };
     function getNumber() {
-        const remainPlanStyle = getPurchesDate + 70;
+        const remainPlanStyle = 100 - getPurchesDate;
         return { width: `${remainPlanStyle}%` };
     }
     return (
@@ -45,8 +48,8 @@ function PaymentDetails() {
                                 <div className="pt-[31px]"></div>
 
                                 <div className="font-bold text-[24px] leading-[32.68px] text-[#101010]">
-                                    {billingData?.plan_name
-                                        ? `${billingData?.plan_name}`
+                                    {currentPlan?.plan_name
+                                        ? `${currentPlan?.plan_name}`
                                         : "Free"}
                                     <span className="text-sm leading-[19.07px] text-[#676767] font-semibold ml-[5px]">
                                         Monthly
@@ -55,8 +58,8 @@ function PaymentDetails() {
                                 <div className="pt-[14px]"></div>
                                 <div className="text-xs font-semibold leading-[16.34px] text-[#676767] w-[181px] 2xl:w-[259px]">
                                     After your current plan end on{" "}
-                                    {billingData?.expire_date
-                                        ? `${billingData?.expire_date}`
+                                    {currentPlan?.expire_date
+                                        ? `${currentPlan?.expire_date}`
                                         : `${new Date().toDateString()}`}
                                     , this plan will continue automatically.
                                 </div>
@@ -80,9 +83,9 @@ function PaymentDetails() {
                                         $
                                     </span>
                                     <span className="text-[28.36px] leading-[38.63px] sm:text-[40px] sm:leading-[54.47px] text-[#000805] font-bold">
-                                        {billingData?.amount_total
+                                        {currentPlan?.amount_total
                                             ? `${
-                                                  billingData?.amount_total /
+                                                  currentPlan?.amount_total /
                                                   100
                                               }`
                                             : 0}
@@ -160,17 +163,28 @@ function PaymentDetails() {
                                     <div className="text-lg sm:text-[24px] sm:leading-[32.68px] font-bold leading-[24.51px] text-[#101010] ">
                                         Billing History
                                     </div>
-                                    <button className="text-xs font-bold leading-[16.34px] p-[8px_24px] bg-primary rounded-[4px] text-[#FFFFFF] transition-all duration-200 hover:bg-primary_dark">
+                                    <button
+                                        style={{
+                                            display:
+                                                billingData?.length < 1
+                                                    ? "none"
+                                                    : "block",
+                                        }}
+                                        className="text-xs font-bold leading-[16.34px] p-[8px_24px] bg-primary rounded-[4px] text-[#FFFFFF] transition-all duration-200 hover:bg-primary_dark"
+                                    >
                                         Download all
                                     </button>
                                 </div>
-                                <div>
-                                    <HistoryItem />
-                                    <HistoryItem />
-                                    <HistoryItem />
-                                    <HistoryItem />
-                                    <HistoryItem />
-                                </div>
+                                {billingData?.length < 1 && (
+                                    <p className="mt-2">
+                                        No Billing history availabe !
+                                    </p>
+                                )}
+                                {billingData?.map((item: any, index: any) => (
+                                    <div key={index}>
+                                        <HistoryItem itemData={item} />
+                                    </div>
+                                ))}
                                 <div className="pt-[24px]"></div>
                             </ShadowCard>
                         </div>
@@ -188,27 +202,63 @@ function PaymentDetails() {
     );
 }
 
-type HistoryItemDataType = {
-    plan: string;
-    amount: number;
-    link: string;
-    date: string;
-};
+function HistoryItem({ itemData }: any) {
+    const createdDate = new Date(itemData?.createdAt).toDateString();
+    const [loadingBtn, setLoadingBtn] = useState(false);
+    const handleDownload = (item: any) => {
+        setLoadingBtn(true);
+        const formatDate = new Date(item?.createdAt).toDateString();
+        const invoiceNo = item?.expires_at;
+        const str_a = invoiceNo.toString();
+        const result = Number(str_a.slice(0, 5));
+        const postData = {
+            planName: item?.plan_name,
+            createDate: formatDate,
+            user_name: item?.name,
+            invoice_no: result,
+            total: item?.amount_total / 100,
+        };
+        api.post(`${process.env.NEXT_PUBLIC_BASE_URL}/create-pdf`, postData)
+            .then(() =>
+                api.get(`${process.env.NEXT_PUBLIC_BASE_URL}/fetch-pdf`, {
+                    responseType: "blob",
+                })
+            )
+            .then((res) => {
+                const pdfBlob = new Blob([res.data], {
+                    type: "application/pdf",
+                });
+                setLoadingBtn(false);
+                saveAs(pdfBlob, "newPdf.pdf");
+            })
+            .catch((err) => {
+                toast.error(err.message);
+            });
+    };
 
-function HistoryItem({ data }: { data?: HistoryItemDataType }) {
     return (
         <div className="flex justify-between items-center  py-[22.5px] sm:py-[19px] border-b border-[#9E9E9E]">
             <div>
                 <div className="text-sm sm:text-base sm:leading-[21.79px] leading-[19.07px] font-bold sm:font-semibold text-[#000]">
-                    Team Plan - USD $15.00
+                    {itemData?.plan_name} Plan - USD $
+                    {itemData?.amount_total / 100}
                 </div>
                 <div className="pt-1"></div>
                 <div className="text-xs font-semibold leading-[16.34px] text-[#676767]">
-                    July 30, 2022
+                    {createdDate}
                 </div>
             </div>
-            <button className="transition ease-in-out duration-200 hover:bg-primary hover:text-White text-xs leading-[16.34px] font-bold text-primary p-[7px_23px] border-primary border rounded-[4px]">
-                Download
+            <button
+                onClick={() => handleDownload(itemData)}
+                className="w-[109px] justify-center h-[32px] flex items-center transition ease-in-out duration-200 hover:bg-primary hover:text-White text-xs leading-[16.34px] font-bold text-primary p-[7px_23px] border-primary border rounded-[4px]"
+            >
+                {loadingBtn === true ? (
+                    <span>
+                        <LodingAnimation color="black" />
+                    </span>
+                ) : (
+                    "Download"
+                )}
             </button>
         </div>
     );

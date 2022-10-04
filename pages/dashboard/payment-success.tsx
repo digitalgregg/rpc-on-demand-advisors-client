@@ -18,13 +18,19 @@ export default function Index() {
 
     const { data: shippingData } = useQuery(
         ["get-shipping-address", _id],
-        () => api.get(`/api/shipping-address/${_id}`),
+        () =>
+            api.get(
+                `${process.env.NEXT_PUBLIC_BASE_URL}/api/shipping-address/${_id}`
+            ),
         { enabled: !!_id }
     );
     const shippinInfo = shippingData?.data[0];
     const { data, isLoading } = useQuery(
         ["get-checkout-session", sessionId],
-        () => api.get(`/api/checkout?sessionId=${sessionId}`),
+        () =>
+            api.get(
+                `${process.env.NEXT_PUBLIC_BASE_URL}/api/checkout?sessionId=${sessionId}`
+            ),
         { enabled: !!sessionId }
     );
     const sessionData = data?.data;
@@ -70,12 +76,18 @@ export default function Index() {
                         ? `${planItem?.monthPrice}`
                         : `${planItem?.annualPrice}`;
                 await api
-                    .post("/api/billing-record", billingPostData)
+                    .post(
+                        `${process.env.NEXT_PUBLIC_BASE_URL}/api/billing-record`,
+                        billingPostData
+                    )
                     .then((res) => {
-                        api.post("/api/billing-details", {
-                            price,
-                            email,
-                        });
+                        api.post(
+                            `${process.env.NEXT_PUBLIC_BASE_URL}/api/billing-details`,
+                            {
+                                price,
+                                email,
+                            }
+                        );
                         setButtonLoading(false);
                         toast.success(
                             "Your Plan has been updated successfully"
