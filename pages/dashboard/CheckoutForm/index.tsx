@@ -31,7 +31,7 @@ const CheckoutForm = ({ shippingData }: any) => {
 
     const handleSubmit = async () => {
         if (shippingData?.length === 0) {
-            toast.error("Please add shipping address before checkout");
+            toast.error("Please add Billing Information before checkout");
         }
         if (shippingData?.length > 0) {
             const response = await fetch(
