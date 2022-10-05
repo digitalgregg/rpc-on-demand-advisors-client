@@ -10,6 +10,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import Script from "next/script";
 import ProtectedRoute from "./../components/ProtectedRoute/index";
 import "../styles/rsuite.css";
+import { getLocal } from "../utils/localStorage";
 
 const queryClient = new QueryClient();
 

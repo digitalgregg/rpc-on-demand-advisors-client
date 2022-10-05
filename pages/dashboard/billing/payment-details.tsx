@@ -13,20 +13,27 @@ import { toast } from "react-toastify";
 
 function PaymentDetails() {
     const { _id } = getLocal("user-info");
-    const { isLoading, data } = useQuery("get-billing-data", () =>
-        api.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/billing-record/${_id}`)
+    const { isLoading, data } = useQuery(
+        ["get-billing-data", _id],
+        () =>
+            api.get(
+                `${process.env.NEXT_PUBLIC_BASE_URL}/api/billing-record/${_id}`
+            ),
+        { enabled: !!_id }
     );
     const billingData = data?.data;
     const currentPlan = data?.data[0];
     const purches_date = currentPlan?.purches_date;
     const getPurchesDate = new Date(purches_date).getDate();
+    const todayDate = new Date().getDate();
+    const remainingDate = todayDate - getPurchesDate;
 
     const [modalOpen, setModalOpen] = useState(false);
     const handleModal = () => {
         setModalOpen(!modalOpen);
     };
     function getNumber() {
-        const remainPlanStyle = 100 - getPurchesDate;
+        const remainPlanStyle = 100 - (todayDate - getPurchesDate);
         return { width: `${remainPlanStyle}%` };
     }
     return (
@@ -65,8 +72,8 @@ function PaymentDetails() {
                                 </div>
                                 <div className="pt-[24px]"></div>
                                 <div className="text-sm font-semibold leading-[19.07px] text-[#676767]">
-                                    {getPurchesDate
-                                        ? `${30 - getPurchesDate}`
+                                    {remainingDate
+                                        ? `${30 - remainingDate}`
                                         : 0}{" "}
                                     of 30 days
                                 </div>
