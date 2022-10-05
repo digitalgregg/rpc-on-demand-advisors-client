@@ -135,7 +135,7 @@ export default function Index() {
               className="bg-[#E51937] mb-[5px] text-[#FFFFFF] xs:w-[190px] xs:h-[44px] lg:w-[220px] lg:h-[48px] xl:w-[230px] rounded-[4px] xs:text-[14px] lg:text-[18px] font-semibold cursor-pointer"
             >
               {buttonLoading === true ? (
-                <span>
+                <span  className="flex justify-center">
                   <LoadingAnimation color="white" />
                 </span>
               ) : (

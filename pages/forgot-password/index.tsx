@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import api from "../../api";
+import LodingAnimation from "./../../components/Shared/LodingAnimation/index";
 
 const items = [
   {
@@ -34,6 +35,7 @@ const ForgotPassword = () => {
   const [error, setError] = useState("");
   const splitError = error.split(" ");
   const errorIndex = splitError[0];
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     formState: { errors },
@@ -45,18 +47,21 @@ const ForgotPassword = () => {
     "w-[100%] text-[#6D6D6D] text-[14px] bg-[#FFFFFF] outline-[#E0E0E0] font-normal border border-[#E0E0E0] h-[55px] mb-[20px] mt-[10px] px-[20px] py-[18px]";
 
   const onSubmit = (data: any) => {
+    setIsLoading(true);
     setError("");
     api
       .post("/api/user/forgot-password", data)
       .then((res) => {
         if (res.status === 200) {
+          setIsLoading(false);
           toast.success(res.data.message);
           setTimeout(() => {
-            router.push("/");
+            router.push("/signin");
           }, 4000);
         }
       })
       .catch((err) => {
+        setIsLoading(false);
         setError(err?.response.data.message);
       });
   };
@@ -107,7 +112,13 @@ const ForgotPassword = () => {
               className="w-[100%] h-[58px] bg-primary hover:bg-[#890F21] border-primary hover:border-[#890F21] hover:text-[#FFFFFF] text-[#FFFFFF] transition duration-700 rounded-[4px] font-bold text-[16px] mb-[20px]"
               style={{ boxShadow: "inset 1px 3px 3px rgba(0, 0, 0, 0.03)" }}
             >
-              Submit
+              {isLoading ? (
+                <span className="flex items-center justify-center">
+                  <LodingAnimation color="white" />
+                </span>
+              ) : (
+                "Submit"
+              )}
             </button>
           </form>
           <Link href="/signin">
