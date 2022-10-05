@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import api from "../api";
 import { useAtom } from "jotai";
 import { signupState, team_state } from "../state";
+import { getLocal } from "../utils/localStorage";
 
 const queryClient = new QueryClient();
 
