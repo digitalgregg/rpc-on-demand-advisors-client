@@ -23,7 +23,13 @@ function PaymentDetails() {
     );
     const billingData = data?.data;
     const currentPlan = data?.data[0];
-    const purches_date = currentPlan?.purches_date;
+    // console.log(currentPlan, "********currentplan");
+    const purches_date = currentPlan?.createdAt;
+
+    const setExpire = new Date(purches_date);
+    const expireDate = setExpire.setDate(setExpire.getDate() + 30);
+    const getDate = new Date(expireDate).toDateString();
+
     const getPurchesDate = new Date(purches_date).getDate();
     const todayDate = new Date().getDate();
     const remainingDate = todayDate - getPurchesDate;
@@ -65,8 +71,8 @@ function PaymentDetails() {
                                 <div className="pt-[14px]"></div>
                                 <div className="text-xs font-semibold leading-[16.34px] text-[#676767] w-[181px] 2xl:w-[259px]">
                                     After your current plan end on{" "}
-                                    {currentPlan?.expire_date
-                                        ? `${currentPlan?.expire_date}`
+                                    {currentPlan?.createdAt
+                                        ? `${getDate}`
                                         : `${new Date().toDateString()}`}
                                     , this plan will continue automatically.
                                 </div>
