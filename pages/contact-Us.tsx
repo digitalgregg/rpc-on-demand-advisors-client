@@ -56,7 +56,7 @@ const ContactUs = () => {
       <Modals closeModal={closeModal} modalIsOpen={modalIsOpen} />
       <div className="bg-black_secondary ">
         <div className="container mx-auto ">
-          <div className="h-[170px] lg:h-[375px] flex items-center ">
+          <div className="h-[170px] lg:h-[375px] flex items-center xs:justify-center lg:justify-start">
             <h1 className=" text-White">Contact Us</h1>
           </div>
         </div>

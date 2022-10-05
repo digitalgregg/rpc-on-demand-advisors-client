@@ -16,11 +16,11 @@ const Hero = () => {
                         roll out sales enablement solution to help guide sales
                         and close deals faster.
                     </p>
-                    <div className=" flex sm:flex-row flex-col gap-[22px] 2xl:gap-[46px] w-fit mx-auto">
-                        <button onClick={() => router.push("/signup")} className=" h-[56px] px-8 text-sm sm:text-base leading-[22px] font-semibold text-White rounded bg-primary hover:bg-primary_dark hover:border-primary_dark hover-transition border border-solid border-primary">
+                    <div className=" flex gap-[20px] 2xl:gap-[46px] w-fit mx-auto">
+                        <button onClick={() => router.push("/signup")} className="xs:w-[158px] xs:h-[44px] sm:w-[178px] sm:h-[56px] xs:text-[14px] sm:text-[16px] font-semibold text-White rounded bg-primary hover:bg-primary_dark hover:border-primary_dark hover-transition border border-solid border-primary">
                             Try for Free
                         </button>
-                        <button onClick={() => router.push("/schedule-demo")} className=" h-[56px] px-8 text-sm sm:text-base leading-[22px] font-semibold text-[#FFFFFF] rounded border-inherit border-[1px] border-solid border-White hover-transition hover:border-primary hover:bg-primary">
+                        <button onClick={() => router.push("/schedule-demo")} className="xs:w-[157px] xs:h-[44px] sm:w-[178px] sm:h-[56px] xs:text-[14px] sm:text-[16px] font-semibold text-[#FFFFFF] rounded border-inherit border-[1px] border-solid border-White hover-transition hover:border-primary hover:bg-primary">
                         Schedule Demo
                         </button>
                     </div>
