@@ -6,6 +6,7 @@ import LodingAnimation from "../Shared/LodingAnimation/index";
 import ReactGA from "react-ga4";
 import { useQuery } from "react-query";
 import api from "../../api";
+import { authorizePath } from "../../utils/pathAuthorize";
 
 type ProtectedRouteProps = {
     children: ReactNode;
@@ -25,16 +26,22 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
         { enabled: !!user?._id }
     );
     const currentPlan = data?.data[0];
-    const expireDate = currentPlan?.expire_date;
+    const expireDate = currentPlan?.createdAt;
 
-    const date1 = new Date();
-    const date2 = new Date(expireDate);
-    const Difference_In_Time = date2.getTime() - date1.getTime();
-    const Difference_In_Days = Math.floor(
-        Difference_In_Time / (1000 * 3600 * 24)
-    );
+    const getPurchesDate = new Date(expireDate).getTime();
+    const todayDate = new Date().getTime();
+    const totalUse = todayDate - getPurchesDate;
+    let TotalDays = Math.ceil(totalUse / (1000 * 3600 * 24));
 
     useEffect(() => {
+        if (TotalDays > 30) {
+            if (authorizePath.includes(router.pathname)) {
+                return setLoading(true);
+            } else {
+                router.replace(authorizePath[0]);
+                return;
+            }
+        }
         if (
             router.asPath.includes("/f/") ||
             router.asPath.includes("/s/") ||
@@ -48,13 +55,14 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
         if (!router.asPath.includes("dashboard") && !token) {
             return setLoading(true);
         }
+
         router.asPath.includes("dashboard")
             ? !token && router.push("/")
             : token && router.replace("/dashboard/contents");
         router.events.on("routeChangeComplete", () => {
             return setLoading(true);
         });
-    }, [router, token]);
+    }, [router, token, TotalDays]);
 
     return <>{!isLoading ? <LoadingBox /> : children}</>;
 };
