@@ -13,6 +13,8 @@ import {
 } from "../../../api-call/AppSettingsApi";
 import { removeEmpty } from "../../../utils/removeEmpty";
 import { GetSettingsContext } from "../../Context/SettingsDataProvider";
+import { useAtom } from "jotai";
+import { team_state } from "../../../state";
 
 const initialValues = {
     title: "",
@@ -36,6 +38,7 @@ function EditSettingItem({
 }: EditSettingType) {
     const [buttonLoading, setButtonLoading] = useState(false);
     const { refetch } = GetSettingsContext();
+    const [teamData] = useAtom(team_state);
 
     const handleUpdateSetting = async (v: any) => {
         setButtonLoading(true);
@@ -121,23 +124,25 @@ function EditSettingItem({
                                         placeholder="description..."
                                     />
                                     <div className=" flex justify-between gap-[15px]">
-                                        <motion.button
-                                            whileTap={{ scale: 0.9 }}
-                                            transition={{ duration: 0.2 }}
-                                            type="submit"
-                                            className=" w-full h-[45px] py-[11px] px-[32px] rounded border-[1px] border-solid border-primary bg-primary hover:bg-primary_dark capitalize text-sm leading-[19px] font-bold text-White"
-                                        >
-                                            {buttonLoading ? (
-                                                <span className="flex items-center gap-[10px] justify-center">
-                                                    <div>
-                                                        <LodingAnimation color="white" />
-                                                    </div>
-                                                    <div>Loading...</div>
-                                                </span>
-                                            ) : (
-                                                "Update"
-                                            )}
-                                        </motion.button>
+                                        {teamData.role === "admin" && (
+                                            <motion.button
+                                                whileTap={{ scale: 0.9 }}
+                                                transition={{ duration: 0.2 }}
+                                                type="submit"
+                                                className=" w-full h-[45px] py-[11px] px-[32px] rounded border-[1px] border-solid border-primary bg-primary hover:bg-primary_dark capitalize text-sm leading-[19px] font-bold text-White"
+                                            >
+                                                {buttonLoading ? (
+                                                    <span className="flex items-center gap-[10px] justify-center">
+                                                        <div>
+                                                            <LodingAnimation color="white" />
+                                                        </div>
+                                                        <div>Loading...</div>
+                                                    </span>
+                                                ) : (
+                                                    "Update"
+                                                )}
+                                            </motion.button>
+                                        )}
                                         <motion.button
                                             onClick={handleExpand}
                                             whileTap={{ scale: 0.9 }}

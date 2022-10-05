@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { use100vh } from "react-div-100vh";
 import { useQuery } from "react-query";
+import api from "../../api";
 import { fetchFile } from "../../api-call/FileViewApi";
 import { isAudio, isImage, isVideo } from "../../components/Library/FileType";
 import FileViewer from "../../components/Library/FileViewer";
@@ -23,6 +24,12 @@ function ViewFile() {
                 }
             },
             select: (response) => response.data,
+            onSuccess: async (res) => {
+                await api.put("api/content/short-url/" + res._id);
+                console.log("Views updated");
+            },
+            refetchOnWindowFocus: false,
+            refetchInterval: false,
         }
     );
     const viewHeight = use100vh();

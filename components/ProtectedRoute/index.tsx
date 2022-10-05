@@ -3,7 +3,6 @@ import { getLocal } from "../../utils/localStorage";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import LodingAnimation from "../Shared/LodingAnimation/index";
-import ReactGA from "react-ga4";
 
 type ProtectedRouteProps = {
     children: ReactNode;
@@ -20,29 +19,21 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
             router.asPath.includes("/s/") ||
             router.asPath.includes("/c/")
         ) {
-            CountPageView();
             return setLoading(true);
         }
         if (router.asPath.includes("dashboard") && token) {
-            CountPageView();
             return setLoading(true);
         }
         if (!router.asPath.includes("dashboard") && !token) {
-            CountPageView();
             return setLoading(true);
         }
         router.asPath.includes("dashboard")
             ? !token && router.push("/")
             : token && router.replace("/dashboard/contents");
         router.events.on("routeChangeComplete", () => {
-            CountPageView();
             return setLoading(true);
         });
     }, [router, token]);
-
-    const CountPageView = () => {
-        ReactGA.send({ hitType: "pageview", page: window.location.pathname });
-    };
 
     return <>{!isLoading ? <LoadingBox /> : children}</>;
 };

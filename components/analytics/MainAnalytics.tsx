@@ -1,5 +1,7 @@
 import dynamic from "next/dynamic";
 import React from "react";
+import { ContentDataType } from "../../api-call/ContentApi";
+import { GetAnalyticsContext } from "../Context/AnalyticsProvider";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 type ChartType = {
@@ -7,8 +9,17 @@ type ChartType = {
     series: ApexAxisChartSeries | ApexNonAxisChartSeries;
 };
 
-function MainAnalytics() {
-    const chartData: ChartType = {
+type MainAnalyticsType = {
+    chartData: any;
+    name: string;
+    color: string;
+};
+
+function MainAnalytics({ chartData, name, color }: MainAnalyticsType) {
+    const chartValue: any[] = Object.values(chartData);
+    const chartRow: any[] = Object.keys(chartData);
+
+    const chartOptions: ChartType = {
         options: {
             chart: {
                 id: "basic-bar",
@@ -21,6 +32,9 @@ function MainAnalytics() {
 
             stroke: {
                 width: 2,
+            },
+            grid: {
+                show: true,
             },
 
             fill: {
@@ -35,21 +49,15 @@ function MainAnalytics() {
             markers: {
                 strokeWidth: 3,
                 colors: ["#fff"],
-                strokeColors: ["#E51937"],
+                strokeColors: [color],
             },
             dataLabels: {
                 enabled: false,
             },
-
+            colors: [color],
             yaxis: {
                 labels: {
                     show: false,
-                    offsetX: -15,
-                },
-            },
-            grid: {
-                padding: {
-                    left: -0,
                 },
             },
 
@@ -57,60 +65,73 @@ function MainAnalytics() {
                 axisBorder: {
                     show: true,
                 },
-                categories: ["1", "2", "3", "4", "5", "6", "7"],
+                labels: {
+                    show: true,
+                },
+                categories: ["", ...chartRow, ""],
             },
         },
         series: [
             {
-                name: "series-1",
-                data: [45, 52, 38, 45, 19, 23, 2],
+                name: "Count",
+                data: [0, ...chartValue, 0],
             },
         ],
     };
 
+    const pieChartData: ChartType = {
+        options: {
+            labels: [...Object.keys(chartData)] || [0],
+            dataLabels: {},
+            plotOptions: {
+                pie: {
+                    donut: {
+                        size: "50%",
+                    },
+                },
+            },
+        },
+        series: ([...Object.values(chartData)] as any[]) || [],
+    };
+
     return (
         <div>
-            <div className=" bg-White rounded py-[20px] sm:py-[30px] flex flex-col gap-[30px]">
+            <div className=" bg-White rounded pt-[20px] pb-[10px] sm:pb-[15px] sm:pt-[30px] flex flex-col gap-[30px]">
                 <div>
-                    <h1 className="sm:px-[30px] px-[20px] font-semibold text-lg leading-[25px] text-[#000805]">
-                        Content By Funnel Stage ( All time)
+                    <h1 className="sm:px-[30px] mb-[5px] text-base leading-[21.75px] px-[20px] font-semibold sm:text-lg sm:leading-[25px] text-[#000805]">
+                        Content By {name} ( All time)
                     </h1>
-                    <div className="sm:px-[24px] px-[14px] w-full h-[200px]">
+                    <div className="w-full sm:pr-[20px] sm:pl-[10px] pr-[10px] ">
                         <Chart
-                            options={chartData.options}
-                            series={chartData.series}
+                            options={chartOptions.options}
+                            series={chartOptions.series}
                             type="area"
-                            height={220}
+                            height={250}
                         />
                     </div>
                 </div>
-                <div className="sm:px-[30px] px-[20px]  flex flex-col justify-start gap-4">
-                    <p className=" font-semibold text-lg leading-[25px] text-[#000805]">
-                        Funnel breakdown for this period
-                    </p>
-                    <div className="p-1 px-2 rounded bg-slate-200 flex justify-between w-full">
-                        <span className=" font-normal text-[10px] leading-[14px] text-[#000805]">
-                            None
-                        </span>
-                        <span className=" font-normal text-[10px] leading-[14px] text-[#000805]">
-                            01
-                        </span>
-                    </div>
-                </div>
-                <div className="sm:px-[30px] px-[20px]  flex flex-col justify-start gap-4">
-                    <p className=" font-semibold text-lg leading-[25px] text-[#000805]">
-                        Funnel breakdown for all time
-                    </p>
-                    <div className="p-1 px-2 rounded bg-[#E51937] flex justify-between w-full">
-                        <span className=" font-normal text-[10px] leading-[14px] text-White">
-                            None
-                        </span>
-                        <span className=" font-normal text-[10px] leading-[14px] text-White">
-                            01
-                        </span>
-                    </div>
-                </div>
             </div>
+            {Object.keys(chartData).length ? (
+                <div className="bg-white  mt-[30px] md:mt-5 lg:mt-[30px] py-[20px] sm:py-[30px] flex flex-col">
+                    <p className=" px-[30px] text-base leading-[21.75px] font-semibold sm:text-lg sm:leading-[25px] text-[#000805]">
+                        {name} breakdown for all time
+                    </p>
+                    <div className="pt-5"></div>
+
+                    <div className="flex justify-center">
+                        <div className="sm:w-[85%]">
+                            <Chart
+                                options={pieChartData.options}
+                                series={pieChartData.series}
+                                type="donut"
+                                height={250}
+                            />
+                        </div>
+                    </div>
+                </div>
+            ) : (
+                ""
+            )}
         </div>
     );
 }

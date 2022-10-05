@@ -9,6 +9,8 @@ import { useState } from "react";
 import YesNoModal from "../../modal/YesNoModal";
 import { GetSettingsContext } from "../../Context/SettingsDataProvider";
 import EditSettingItem from "./EditSettingItem";
+import { useAtom } from "jotai";
+import { team_state } from "../../../state";
 
 export type SItemType = {
     type: string;
@@ -16,6 +18,7 @@ export type SItemType = {
 };
 
 function SettingItem({ data, type }: SItemType) {
+    const [teamData] = useAtom(team_state);
     const { refetch } = GetSettingsContext();
     const [deleteModal, setDeleteModal] = useState(false);
     const handleDeleteModal = () => {
@@ -62,19 +65,37 @@ function SettingItem({ data, type }: SItemType) {
                     </span>
                 </div>
                 <div className=" flex items-center flex-row gap-5">
-                    <div onClick={handleExpand} className=" cursor-pointer">
-                        <EditIcon width="18px" height="18px" stroke="#E51937" />
-                    </div>
-                    <div
-                        onClick={handleDeleteModal}
-                        className=" cursor-pointer"
-                    >
-                        <DeleteIcon
-                            width="18px"
-                            height="18px"
-                            stroke="#E51937"
-                        />
-                    </div>
+                    {teamData.role === "admin" ? (
+                        <>
+                            <div
+                                onClick={handleExpand}
+                                className=" cursor-pointer"
+                            >
+                                <EditIcon
+                                    width="18px"
+                                    height="18px"
+                                    stroke="#E51937"
+                                />
+                            </div>
+                            <div
+                                onClick={handleDeleteModal}
+                                className=" cursor-pointer"
+                            >
+                                <DeleteIcon
+                                    width="18px"
+                                    height="18px"
+                                    stroke="#E51937"
+                                />
+                            </div>
+                        </>
+                    ) : (
+                        <div
+                            className="text-xs font-medium cursor-pointer"
+                            onClick={handleExpand}
+                        >
+                            View
+                        </div>
+                    )}
                 </div>
             </div>
             <YesNoModal

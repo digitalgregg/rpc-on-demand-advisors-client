@@ -92,49 +92,53 @@ function TrackersEditor({ data, type, refetch }: TE) {
                         value={editedCode}
                     />
                 </div>
-                {isEditable === true ? (
+                {teamData.role === "admin" && (
                     <>
-                        <div className=" flex flex-row justify-end gap-[15px] mt-[12px]">
-                            <div
-                                className="cursor-pointer "
-                                onClick={handleEditable}
-                            >
-                                <TrackerUploadIcon />
-                            </div>
-                            <div
-                                className="cursor-pointer "
-                                onClick={resetFunction}
-                            >
-                                <TrackerCloseIcon />
-                            </div>
-                        </div>
-                    </>
-                ) : (
-                    <>
-                        <div className=" flex flex-row justify-end items-center gap-[15px] mt-[12px]">
-                            <div
-                                className="cursor-pointer "
-                                onClick={handleEditable}
-                            >
-                                <TrackerEditeIcon />
-                            </div>
-                            {buttonLoading ? (
-                                <div>
-                                    <LodingAnimation
-                                        width={20}
-                                        height={20}
-                                        color={"#E51937"}
-                                    />
+                        {isEditable === true ? (
+                            <>
+                                <div className=" flex flex-row justify-end gap-[15px] mt-[12px]">
+                                    <div
+                                        className="cursor-pointer "
+                                        onClick={handleEditable}
+                                    >
+                                        <TrackerUploadIcon />
+                                    </div>
+                                    <div
+                                        className="cursor-pointer "
+                                        onClick={resetFunction}
+                                    >
+                                        <TrackerCloseIcon />
+                                    </div>
                                 </div>
-                            ) : (
-                                <div
-                                    className="cursor-pointer "
-                                    onClick={handleSubmit}
-                                >
-                                    <TrackerSaveIcon />
+                            </>
+                        ) : (
+                            <>
+                                <div className=" flex flex-row justify-end items-center gap-[15px] mt-[12px]">
+                                    <div
+                                        className="cursor-pointer "
+                                        onClick={handleEditable}
+                                    >
+                                        <TrackerEditeIcon />
+                                    </div>
+                                    {buttonLoading ? (
+                                        <div>
+                                            <LodingAnimation
+                                                width={20}
+                                                height={20}
+                                                color={"#E51937"}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div
+                                            className="cursor-pointer "
+                                            onClick={handleSubmit}
+                                        >
+                                            <TrackerSaveIcon />
+                                        </div>
+                                    )}
                                 </div>
-                            )}
-                        </div>
+                            </>
+                        )}
                     </>
                 )}
             </div>

@@ -1,11 +1,13 @@
 import React from "react";
 import ArrowDown from "../CustomIcons/ArrowDown";
 import dynamic from "next/dynamic";
+import { Whisper, Tooltip } from "rsuite";
 
 type AnalyticsCardType = {
     name: string;
-    itemCount: number;
-    data: any;
+    value?: number | string;
+    chartArr: any[];
+    // data: any;
 };
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
@@ -14,7 +16,7 @@ type ChartType = {
     series: ApexAxisChartSeries | ApexNonAxisChartSeries;
 };
 
-const AnalyticsCard = () => {
+const AnalyticsCard = ({ name, value, chartArr }: AnalyticsCardType) => {
     const newChart: ChartType = {
         options: {
             chart: {
@@ -32,8 +34,12 @@ const AnalyticsCard = () => {
                 curve: "straight",
             },
             grid: { show: false },
+            colors: isNegative(getPercentage(chartArr))
+                ? ["#E51937"]
+                : ["#21B979"],
             fill: {
                 type: "gradient",
+
                 gradient: {
                     shadeIntensity: 1,
                     opacityFrom: 0.7,
@@ -59,51 +65,66 @@ const AnalyticsCard = () => {
                 labels: {
                     show: false,
                 },
-                categories: [
-                    "01 Jan",
-                    "02 Jan",
-                    "03 Jan",
-                    "04 Jan",
-                    "05 Jan",
-                    "06 Jan",
-                    "07 Jan",
-                ],
             },
         },
         series: [
             {
                 name: "series-1",
-                data: [45, 52, 38, 45, 19, 23, 2].reverse(),
+                data: chartArr || [],
             },
         ],
     };
-
     return (
         <div className="  w-full max-h-[190px] rounded-[10px] bg-White p-[20px] xl:p-[27px]">
             <div className="flex justify-center flex-col items-center">
                 <div className=" flex flex-col justify-center items-center gap-[5px]">
                     <h1 className="text-sm leading-[19.07px] text-[#2f2f2f] md:text-base md:leading-[21.79px] font-semibold">
-                        Total share
+                        Total {name}
                     </h1>
                     <span className="text-[24px] leading-[32.68px] p-0 m-0 text-[#2f2f2f] md:leading-[43.58px] md:text-[32px] font-bold">
-                        10
+                        {value || 0}
                     </span>
                 </div>
                 <div className="pt-[10px]"></div>
 
                 <div className=" flex flex-row justify-end items-end gap-[15px]">
-                    <div className=" flex flex-row justify-end items-end gap-2">
-                        <div className={`${!true && "rotate-[180deg]"}  mb-2 `}>
-                            <ArrowDown color="#21b979" />
+                    <Whisper
+                        placement="left"
+                        trigger={"hover"}
+                        speaker={tooltip}
+                    >
+                        <div className=" cursor-pointer flex flex-row justify-end items-end gap-2">
+                            <div
+                                className={`${
+                                    isNegative(getPercentage(chartArr)) &&
+                                    "rotate-[180deg]"
+                                }  mb-2 `}
+                            >
+                                <ArrowDown
+                                    color={
+                                        isNegative(getPercentage(chartArr))
+                                            ? "#E51937"
+                                            : "#21B979"
+                                    }
+                                />
+                            </div>
+                            <span
+                                className={`${
+                                    isNegative(getPercentage(chartArr))
+                                        ? "text-[#E51937]"
+                                        : "text-[#21B979]"
+                                }  text-sm leading-5 font-semibold m-0 p-0`}
+                            >
+                                {Math.abs(
+                                    getPercentage(chartArr)
+                                ).toLocaleString("automuds", {
+                                    maximumFractionDigits: 1,
+                                })}
+                                %
+                            </span>
                         </div>
-                        <span
-                            className={`${
-                                (true && "text-[#21b979]") || "#E51937"
-                            }  text-sm leading-5 font-semibold m-0 p-0`}
-                        >
-                            {0.3}%
-                        </span>
-                    </div>
+                    </Whisper>
+
                     <div className="">
                         <Chart
                             options={newChart.options}
@@ -118,5 +139,25 @@ const AnalyticsCard = () => {
         </div>
     );
 };
+
+const tooltip = <Tooltip>From yesterday</Tooltip>;
+
+const getPercentage = (dataArr: any[]) => {
+    const lastValue = dataArr[dataArr.length - 1];
+    const secondLast = dataArr[dataArr.length - 2];
+    if (!lastValue && !secondLast) {
+        return 0;
+    } else if (!lastValue) {
+        return -100;
+    } else if (!secondLast) {
+        return 100;
+    } else {
+        return ((lastValue - secondLast) / lastValue) * 100;
+    }
+};
+
+function isNegative(num: number) {
+    return num >= 0 ? false : true;
+}
 
 export default AnalyticsCard;

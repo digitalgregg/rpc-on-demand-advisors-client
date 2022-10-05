@@ -4,7 +4,6 @@ import React from "react";
 import OverflowModal from "../../Shared/CustomUtils/OverflowModal";
 import * as Yup from "yup";
 import InputField from "../../Shared/InputField";
-import MultiSelect from "../../Shared/MultiSelect";
 import {
     inviteUserApi,
     updateInviteUser,
@@ -17,6 +16,7 @@ import {
     GetUserManageContext,
     UserManageType,
 } from "../../Context/UserManageProvider";
+import SelectField from "../../Shared/SelectField";
 
 type ModalProps = {
     isOpen: boolean;
@@ -34,7 +34,7 @@ type UserInitialType = {
 const userInitial: UserInitialType = {
     name: "",
     email: "",
-    role: "",
+    role: "user",
 };
 
 const validateSchema = Yup.object({
@@ -45,14 +45,6 @@ const validateSchema = Yup.object({
 
 function UserManageModal({ isOpen, onClose, type, prevData }: ModalProps) {
     const [teamData] = useAtom(team_state);
-
-    const [selectRole, setSelectRole] = useState(
-        prevData && {
-            value: prevData?.role,
-            label: toCapitalized(prevData?.role),
-        }
-    );
-
     const { refetch } = GetUserManageContext();
 
     const [buttonLoading, setButtonLoading] = useState(false);
@@ -80,7 +72,7 @@ function UserManageModal({ isOpen, onClose, type, prevData }: ModalProps) {
         if (type === "update") {
             setButtonLoading(true);
             const apiObj = {
-                role: selectRole?.value,
+                role: value.role,
                 team_id: teamData.id,
                 _id: prevData?._id,
                 name: value.name,
@@ -148,48 +140,39 @@ function UserManageModal({ isOpen, onClose, type, prevData }: ModalProps) {
                                 required
                             />
                             <div className="pt-[30px]"></div>
-                            <MultiSelect
+                            <SelectField
                                 name="role"
-                                placeholder="Select type..."
-                                label="Enter user type"
                                 options={userTypeOptions}
-                                type="single"
-                                value={selectRole}
-                                valueChange={(v: any) => {
-                                    setFieldValue("role", v);
-                                    setSelectRole({
-                                        value: v,
-                                        label: toCapitalized(v),
-                                    });
-                                }}
-                                inputClass="border-[#E0E0E0]"
+                                label="Enter user type"
                             />
                             <div className="pt-[30px]"></div>
                             <div className="flex gap-[15px]">
                                 <button
-                                    className="h-[45px] border-primary border basis-1/2 text-primary rounded hover:bg-primary hover:text-white transition-all duration-200"
+                                    className="h-[45px] border-primary border w-full text-primary rounded hover:bg-primary hover:text-white transition-all duration-200"
                                     type="button"
                                     onClick={onClose}
                                 >
                                     Cancel
                                 </button>
-                                <button
-                                    type="submit"
-                                    className="h-[45px] border-primary border basis-1/2 text-white rounded bg-primary hover:bg-primary_dark transition-all duration-200"
-                                >
-                                    {buttonLoading ? (
-                                        <span className="flex items-center gap-[10px] justify-center">
-                                            <div>
-                                                <LodingAnimation color="white" />
-                                            </div>
-                                            <div>Loading...</div>
-                                        </span>
-                                    ) : type === "invite" ? (
-                                        "Send Invite"
-                                    ) : (
-                                        "Update"
-                                    )}
-                                </button>
+                                {teamData.role === "admin" && (
+                                    <button
+                                        type="submit"
+                                        className="h-[45px] border-primary border w-full text-white rounded bg-primary hover:bg-primary_dark transition-all duration-200"
+                                    >
+                                        {buttonLoading ? (
+                                            <span className="flex items-center gap-[10px] justify-center">
+                                                <div>
+                                                    <LodingAnimation color="white" />
+                                                </div>
+                                                <div>Loading...</div>
+                                            </span>
+                                        ) : type === "invite" ? (
+                                            "Send Invite"
+                                        ) : (
+                                            "Update"
+                                        )}
+                                    </button>
+                                )}
                             </div>
                         </Form>
                     )}

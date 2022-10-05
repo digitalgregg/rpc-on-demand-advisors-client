@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { motion } from "framer-motion";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GetContentContext } from "../Context/ContentDataProvider";
 import FavouriteIcon from "../CustomIcons/FavouriteIcon";
 import FileViewer from "../Library/FileViewer";
@@ -18,14 +18,23 @@ const FileViewerContainer = () => {
     const iconStyle = "w-[20px] h-[20px]";
 
     const isLiked = () => {
-        return contentData?.likes.includes(userData._id) ? true : false;
+        return contentData.likes.includes(userData._id) ? true : false;
     };
 
     const isFavorited = () => {
-        return contentData?.favorites.includes(userData._id) ? true : false;
+        return contentData.favorites.includes(userData._id) ? true : false;
     };
 
+    const [likeFill, setLikeFill] = useState<boolean>(isLiked());
+    const [favoriteFill, setFavoriteFill] = useState<boolean>(isFavorited());
+
+    useEffect(() => {
+        setLikeFill(isLiked());
+        setFavoriteFill(isFavorited());
+    }, [contentData]);
+
     const handleLoveIcon = async () => {
+        setFavoriteFill(!favoriteFill);
         await likeFavoriteApi(
             userData._id,
             contentData._id,
@@ -36,6 +45,7 @@ const FileViewerContainer = () => {
     };
 
     const handleLikeIcon = async () => {
+        setLikeFill(!likeFill);
         await likeFavoriteApi(
             userData._id,
             contentData._id,
@@ -134,7 +144,7 @@ const FileViewerContainer = () => {
                             alt="view icon"
                             className="w-[24px]"
                         />
-                        <p>{getViewsCount(contentData)}</p>
+                        <p>{contentData.views?.length || 0}</p>
                     </div>
                     <div className="flex gap-[5px] items-center">
                         <motion.button
@@ -143,8 +153,8 @@ const FileViewerContainer = () => {
                             onClick={handleLoveIcon}
                         >
                             <FavouriteIcon
-                                stroke={isFavorited() ? "#E51937" : "black"}
-                                color={isFavorited() ? "#E51937" : "#f8f8f8"}
+                                stroke={favoriteFill ? "#E51937" : "black"}
+                                color={favoriteFill ? "#E51937" : "#f8f8f8"}
                             />
                         </motion.button>
 
@@ -157,8 +167,8 @@ const FileViewerContainer = () => {
                             onClick={handleLikeIcon}
                         >
                             <LikeIcon
-                                stroke={isLiked() ? "#E51937" : "black"}
-                                color={isLiked() ? "#E51937" : "#f8f8f8"}
+                                stroke={likeFill ? "#E51937" : "black"}
+                                color={likeFill ? "#E51937" : "#f8f8f8"}
                             />
                         </motion.button>
                         <p>{contentData?.likes.length || 0}</p>
