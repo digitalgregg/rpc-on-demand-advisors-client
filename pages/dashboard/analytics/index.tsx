@@ -6,7 +6,7 @@ import AnalyticsProvider from "../../../components/Context/AnalyticsProvider";
 function Analytics() {
     return (
         <DashboardLayout>
-            <AnalyticsProvider data={[]}>
+            <AnalyticsProvider>
                 <AnalyticsComponent />
             </AnalyticsProvider>
         </DashboardLayout>

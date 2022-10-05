@@ -223,36 +223,40 @@ function Branding() {
                         </div>
                         <div className="pt-[17px]"></div>
                         <div className="flex gap-[17px]">
-                            <button
-                                onClick={handleBrandingReset}
-                                className="hover-transition hover:bg-primary hover:text-White  border border-primary w-full rounded-[4px] text-primary font-semibold text-sm leading-[45px] h-[45px] text-center"
-                            >
-                                {resetLoading ? (
-                                    <span className="flex items-center gap-[10px] justify-center">
-                                        <div>
-                                            <LodingAnimation color="white" />
-                                        </div>
-                                        <div>Loading...</div>
-                                    </span>
-                                ) : (
-                                    "Reset"
-                                )}
-                            </button>
-                            <button
-                                onClick={handleBrandingUpdate}
-                                className="hover-transition hover:bg-primary hover:text-White  border border-primary w-full rounded-[4px] text-primary font-semibold text-sm leading-[45px] h-[45px] text-center"
-                            >
-                                {updateLoading ? (
-                                    <span className="flex items-center gap-[10px] justify-center">
-                                        <div>
-                                            <LodingAnimation color="white" />
-                                        </div>
-                                        <div>Loading...</div>
-                                    </span>
-                                ) : (
-                                    "Update"
-                                )}
-                            </button>
+                            {teamData.role === "admin" && (
+                                <>
+                                    <button
+                                        onClick={handleBrandingReset}
+                                        className="hover-transition hover:bg-primary hover:text-White  border border-primary w-full rounded-[4px] text-primary font-semibold text-sm leading-[45px] h-[45px] text-center"
+                                    >
+                                        {resetLoading ? (
+                                            <span className="flex items-center gap-[10px] justify-center">
+                                                <div>
+                                                    <LodingAnimation color="white" />
+                                                </div>
+                                                <div>Loading...</div>
+                                            </span>
+                                        ) : (
+                                            "Reset"
+                                        )}
+                                    </button>
+                                    <button
+                                        onClick={handleBrandingUpdate}
+                                        className="hover-transition hover:bg-primary hover:text-White  border border-primary w-full rounded-[4px] text-primary font-semibold text-sm leading-[45px] h-[45px] text-center"
+                                    >
+                                        {updateLoading ? (
+                                            <span className="flex items-center gap-[10px] justify-center">
+                                                <div>
+                                                    <LodingAnimation color="white" />
+                                                </div>
+                                                <div>Loading...</div>
+                                            </span>
+                                        ) : (
+                                            "Update"
+                                        )}
+                                    </button>
+                                </>
+                            )}
                         </div>
                     </div>
                     <div>

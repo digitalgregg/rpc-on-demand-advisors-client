@@ -69,12 +69,13 @@ function CustomSelect({
         option: (styles, state) => {
             return {
                 ...styles,
-                ":hover": {
-                    background: "rgba(229,25,55,0.1)",
-                    color: "#E51937",
-                    fontWeight: 600,
-                },
-
+                ":hover": state.isSelected
+                    ? {}
+                    : {
+                          background: "rgba(229,25,55,0.1)",
+                          color: "#E51937",
+                          fontWeight: 600,
+                      },
                 backgroundColor: state.isSelected ? "#E51937" : "transparent",
                 fontSize: 14,
                 borderRadius: 4,

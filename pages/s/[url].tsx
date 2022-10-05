@@ -25,9 +25,7 @@ function ViewShareFile() {
             },
             select: (response) => response.data,
             onSuccess: async (res) => {
-                await api.put("api/content/sharing/" + res.link, {
-                    views: res.views + 1,
-                });
+                await api.put("api/content/sharing/" + res.link);
                 console.log("Views updated");
             },
             refetchOnWindowFocus: false,
