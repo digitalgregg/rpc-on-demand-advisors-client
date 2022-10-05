@@ -1,4 +1,6 @@
+import { AnalyticsDataType } from "../api-call/AnalyticsApi";
 import { ContentDataType } from "../api-call/ContentApi";
+import { InitialDetailsType } from "../components/Context/AnalyticsProvider";
 import { CollectionData } from "../components/Context/CollectionDataProvider";
 import { FilterOriginType } from "../state";
 
@@ -112,4 +114,74 @@ export const filterOriginContent = (
         });
     }
     return filterData;
+};
+
+export function filterByDate(
+    data: AnalyticsDataType,
+    dateRange: [Date, Date]
+): AnalyticsDataType {
+    var startDate = new Date(dateRange[0]);
+    var endDate = new Date(dateRange[1]);
+
+    return {
+        contents: data.contents.filter((v) => {
+            var date = new Date(v.createdAt);
+            return date >= startDate && date <= endDate;
+        }),
+        users: data.users.filter((v) => {
+            var date = new Date(v.createdAt);
+            return date >= startDate && date <= endDate;
+        }),
+    };
+}
+
+export function filterByDateSingle(
+    data: any[],
+    dateRange: [Date, Date]
+): any[] {
+    var startDate = new Date(dateRange[0]);
+    var endDate = new Date(dateRange[1]);
+
+    return data.filter((v) => {
+        var date = new Date(v.createdAt);
+        return date >= startDate && date <= endDate;
+    });
+}
+
+export function filterContentAnalytics(
+    data: ContentDataType[],
+    filterObj: InitialDetailsType
+) {
+    let filterData = data;
+
+    if (filterObj.title) {
+        filterData = data.filter((v) =>
+            v.title.toLowerCase().includes(filterObj.title.toLowerCase())
+        );
+    }
+
+    if (filterObj.funnel_stage.length > 0) {
+        const funnelStage = filterObj.funnel_stage.map((v) => v.value);
+        filterData = filterData.filter((v) =>
+            funnelStage.includes(v.funnel_stage?._id)
+        );
+    }
+    if (filterObj.content_type.length > 0) {
+        const contentType = filterObj.content_type.map((v) => v.value);
+        filterData = filterData.filter((v) =>
+            contentType.includes(v.content_type?._id)
+        );
+    }
+    return filterData;
+}
+
+export const sortDataNewest: (
+    contents: ContentDataType[]
+) => ContentDataType[] = (contents: ContentDataType[]) => {
+    const result = contents.sort((a, b) => {
+        var dateA = new Date(a.createdAt).getTime();
+        var dateB = new Date(b.createdAt).getTime();
+        return dateA < dateB ? 1 : -1;
+    });
+    return result;
 };

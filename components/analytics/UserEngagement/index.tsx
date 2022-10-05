@@ -1,29 +1,20 @@
 import React, { useState } from "react";
-import { addDays } from "date-fns";
-import Pagination from "../../Shared/Pagination";
+import Pagination, { IsArray } from "../../Shared/Pagination";
 import UserEngagementCard from "./UserEngagementCard";
-import "react-date-range/dist/styles.css"; // main style file
-import "react-date-range/dist/theme/default.css"; // theme css file
+
 import { useWindowDimensions } from "../../Shared/DimentionHook";
 import { DateRangePicker } from "rsuite";
-const UserEngagement = () => {
-    const [state, setState] = useState([
-        {
-            startDate: new Date(),
-            endDate: addDays(new Date(), 7),
-            key: "selection",
-        },
-    ]);
-    const UserEngagementData = [{}, {}, {}, {}];
-    const handleSelect = (e: any) => {
-        console.log(e);
-    };
+import { GetAnalyticsContext } from "../../Context/AnalyticsProvider";
+import { filterByDateSingle } from "../../../utils/filter";
+
+const UserEngagement = ({ data }: { data: any }) => {
     const { width } = useWindowDimensions();
+    const { userDateRange, setUserDateRange } = GetAnalyticsContext();
     return (
         <div>
             <div className=" p-4 px-3 md:p-[30px] bg-White rounded">
                 <div className=" flex flex-row justify-between">
-                    <span className="text-[12px] sm:text-xl text-[#000] leading-[27.24px] font-semibold">
+                    <span className="text-[12px] sm:text-xl text-[#000]  font-semibold">
                         User Engagement
                     </span>
                     <div className=" flex flex-row gap-[23px]">
@@ -33,13 +24,15 @@ const UserEngagement = () => {
                                 editable={false}
                                 format="dd MMM yyyy"
                                 placement="bottomEnd"
+                                onChange={(v) => v && setUserDateRange(v)}
+                                value={userDateRange}
                             />
                         </div>
                     </div>
                 </div>
                 <div className="pt-4 sm:pt-[30px]"></div>
 
-                <ul className="flex w-full gap-x-2  items-center md:px-[20px]  px-3 py-[17px]  bg-[#222222] rounded-[4px]">
+                <ul className="flex w-full  items-center md:px-[20px]  px-3 py-[17px]  bg-[#222222] rounded-[4px]">
                     <li className="w-[17%] text-white text-[10px] sm:text-sm lg:text-base">
                         Username
                     </li>
@@ -61,15 +54,26 @@ const UserEngagement = () => {
                 </ul>
                 <div className="flex flex-col gap-[16px] sm:gap-0">
                     <Pagination
-                        dataArr={UserEngagementData}
+                        dataArr={IsArray(
+                            filterByDateSingle(data, userDateRange)
+                        )}
                         itemsPerPage={4}
                         className=" my-3"
                     >
                         {(currentItems) => (
                             <div className=" flex flex-col">
-                                {currentItems.map((i: any) => (
-                                    <UserEngagementCard key={i} />
-                                ))}
+                                {currentItems.length ? (
+                                    currentItems.map((current: any, i) => (
+                                        <UserEngagementCard
+                                            key={i}
+                                            data={current}
+                                        />
+                                    ))
+                                ) : (
+                                    <div className="p-5 text-sm">
+                                        No data found
+                                    </div>
+                                )}
                             </div>
                         )}
                     </Pagination>

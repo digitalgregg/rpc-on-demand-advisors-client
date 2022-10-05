@@ -11,6 +11,8 @@ import {
 } from "../../Context/UserManageProvider";
 import { deleteInvitedUser } from "../../../api-call/UserManageApi";
 import UserManageModal from "../../modal/UserManagementModal";
+import { useAtom } from "jotai";
+import { team_state } from "../../../state";
 
 type TablePropsType = {
     userData: UserManageType[];
@@ -74,7 +76,7 @@ function ManagementTable({
 function TableItem({ data }: { data: UserManageType }) {
     const [deleteModal, setDeleteModal] = useState<boolean>(false);
     const { refetch } = GetUserManageContext();
-
+    const [teamData] = useAtom(team_state);
     const [editModal, setEditModal] = useState<boolean>(false);
 
     const handleUserDelete = async (_: any, setLoading: any) => {
@@ -119,18 +121,29 @@ function TableItem({ data }: { data: UserManageType }) {
                     <div>{data.status}</div>
                 </div>
                 <div className={` w-[10%] flex justify-end`}>
-                    <img
-                        src="/icon/edit.svg"
-                        alt="edit"
-                        onClick={() => setEditModal(!editModal)}
-                        className="w-[16px] h-[19.6px] sm:mr-[22px] md:mr-[26px] cursor-pointer"
-                    />
-                    <img
-                        src="/icon/delete.svg"
-                        alt="delete"
-                        onClick={() => setDeleteModal(!deleteModal)}
-                        className="w-[20px] h-[20px] cursor-pointer"
-                    />
+                    {teamData.role === "admin" ? (
+                        <>
+                            <img
+                                src="/icon/edit.svg"
+                                alt="edit"
+                                onClick={() => setEditModal(!editModal)}
+                                className="w-[16px] h-[19.6px] sm:mr-[22px] md:mr-[26px] cursor-pointer"
+                            />
+                            <img
+                                src="/icon/delete.svg"
+                                alt="delete"
+                                onClick={() => setDeleteModal(!deleteModal)}
+                                className="w-[20px] h-[20px] cursor-pointer"
+                            />
+                        </>
+                    ) : (
+                        <div
+                            onClick={() => setEditModal(!editModal)}
+                            className="text-center cursor-pointer w-full"
+                        >
+                            View
+                        </div>
+                    )}
                 </div>
             </div>
             <div className="mb-4 overflow-hidden rounded sm:hidden">
@@ -186,18 +199,29 @@ function TableItem({ data }: { data: UserManageType }) {
                     </div>
                     <div className="pt-[40px]"></div>
                     <div className="flex gap-[9px]">
-                        <button
-                            onClick={() => setEditModal(!editModal)}
-                            className="text-xs leading-[40px] bg-primary  font-semibold w-full border-primary border  transition-all duration-200  text-white rounded-[4px] h-[40px]"
-                        >
-                            Edit
-                        </button>
-                        <button
-                            onClick={() => setDeleteModal(!deleteModal)}
-                            className="text-xs leading-[40px] text-primary  font-semibold w-full border-primary border transition-all duration-200 rounded-[4px] h-[40px]"
-                        >
-                            Delete
-                        </button>
+                        {teamData.role === "admin" ? (
+                            <>
+                                <button
+                                    onClick={() => setEditModal(!editModal)}
+                                    className="text-xs leading-[40px] bg-primary  font-semibold w-full border-primary border  transition-all duration-200  text-white rounded-[4px] h-[40px]"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    onClick={() => setDeleteModal(!deleteModal)}
+                                    className="text-xs leading-[40px] text-primary  font-semibold w-full border-primary border transition-all duration-200 rounded-[4px] h-[40px]"
+                                >
+                                    Delete
+                                </button>
+                            </>
+                        ) : (
+                            <button
+                                onClick={() => setEditModal(!editModal)}
+                                className="text-xs leading-[40px] bg-primary  font-semibold w-full border-primary border  transition-all duration-200  text-white rounded-[4px] h-[40px]"
+                            >
+                                View
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>

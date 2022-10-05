@@ -21,8 +21,11 @@ import LoadingAnimation from "../../../../components/Shared/LoadingAnimation";
 import ImportHistoryCard, {
     ImportHistoryType,
 } from "../../../../components/Dashboard/ImportPage/ImportHistoryCard";
+import { useRouter } from "next/router";
 
 function Import() {
+    const router = useRouter();
+
     const [buttonLoading, setButtonLoading] = useState(false);
 
     const [csvData, setCsvData] = useState<any[]>([]);
@@ -170,13 +173,18 @@ function Import() {
                                 <div className=" w-full">
                                     <div className="h-[231px] bg-[#DEDEDE] rounded flex justify-center items-center flex-col">
                                         <div className="text-base  sm:px-[49px] font-semibold leading-[21.79px] text-center text-[#000805] px-[80px] lg:text-lg lg:font-bold lg:leading-[24.51px] xl:px-[80px]">
-                                            Select your content items (CSV) to
-                                            upload.
+                                            Currently import is only supported
+                                            in our template format
                                         </div>
                                         <motion.button
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
                                             className="mt-[20px] flex items-center gap-[10px] cursor-pointer"
+                                            onClick={() =>
+                                                router.push(
+                                                    "/example-csv-template.csv"
+                                                )
+                                            }
                                         >
                                             <img
                                                 src="/assets/account-settings/download.svg"

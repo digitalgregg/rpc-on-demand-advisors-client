@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { createRef, useState } from "react";
+import React, { createRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { OutSideClick } from "../Shared/OutSideClick";
 import TagBadges from "../CustomIcons/TagBadges";
@@ -52,6 +52,14 @@ function ContentViewCard({
         return data.favorites.includes(userData._id) ? true : false;
     };
 
+    const [likeFill, setLikeFill] = useState<boolean>(isLiked());
+    const [favoriteFill, setFavoriteFill] = useState(isFavorited());
+
+    useEffect(() => {
+        setLikeFill(isLiked());
+        setFavoriteFill(isFavorited());
+    }, [data]);
+
     const handleDropdown = (e: any) => {
         e.stopPropagation();
         setDropdownOpen(!dropdownOpen);
@@ -62,6 +70,7 @@ function ContentViewCard({
 
     const handleLoveIcon = async (e: any) => {
         e.stopPropagation();
+        setFavoriteFill(!favoriteFill);
         await likeFavoriteApi(
             userData._id,
             data._id,
@@ -73,6 +82,7 @@ function ContentViewCard({
 
     const handleLikeIcon = async (e: any) => {
         e.stopPropagation();
+        setLikeFill(!likeFill);
         await likeFavoriteApi(userData._id, data._id, "likes", isLiked());
         refetch();
     };
@@ -195,10 +205,10 @@ function ContentViewCard({
                                 >
                                     <FavouriteIcon
                                         stroke={
-                                            isFavorited() ? "#E51937" : "black"
+                                            favoriteFill ? "#E51937" : "black"
                                         }
                                         color={
-                                            isFavorited() ? "#E51937" : "white"
+                                            favoriteFill ? "#E51937" : "white"
                                         }
                                     />
                                 </motion.button>
@@ -213,8 +223,8 @@ function ContentViewCard({
                                     onClick={handleLikeIcon}
                                 >
                                     <LikeIcon
-                                        stroke={isLiked() ? "#E51937" : "black"}
-                                        color={isLiked() ? "#E51937" : "white"}
+                                        stroke={likeFill ? "#E51937" : "black"}
+                                        color={likeFill ? "#E51937" : "white"}
                                     />
                                 </motion.button>
                                 <p className="text-[#676767] text-[12px]">

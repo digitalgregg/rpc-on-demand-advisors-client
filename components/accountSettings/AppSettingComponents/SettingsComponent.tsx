@@ -12,12 +12,15 @@ import Pagination, { IsArray } from "../../Shared/Pagination";
 import SettingItem from "./SettingItem";
 import { AnimatePresence } from "framer-motion";
 import AddStageBtn from "./AddStageBtn";
+import { team_state } from "../../../state";
+import { useAtom } from "jotai";
 
 type SettingComponentType = {
     type: string;
 };
 
 function SettingsComponent({ type }: SettingComponentType) {
+    const [teamData] = useAtom(team_state);
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState<SettingItemType[] | null>();
     const { settingsData, status } = GetSettingsContext();
@@ -72,7 +75,9 @@ function SettingsComponent({ type }: SettingComponentType) {
                     <div className="text-black">
                         {getTextWithType(type)} not found...
                     </div>
-                    <AddStageBtn onClick={() => handleClose(type)} />
+                    {teamData.role === "admin" && (
+                        <AddStageBtn onClick={() => handleClose(type)} />
+                    )}
                 </>
             )}
             {!isLoading && data && (
@@ -93,9 +98,11 @@ function SettingsComponent({ type }: SettingComponentType) {
                                         />
                                     ))}
                                 </div>
-                                <AddStageBtn
-                                    onClick={() => handleClose(type)}
-                                />
+                                {teamData.role === "admin" && (
+                                    <AddStageBtn
+                                        onClick={() => handleClose(type)}
+                                    />
+                                )}
                             </>
                         )}
                     </Pagination>

@@ -72,18 +72,18 @@ const InfoSection = () => {
                 </div>
 
                 <div>
-                    <div className="grid grid-cols-3 mt-[15px] px-[11px]">
-                        <div className={pStyle}>File Name</div>
-                        <div className={`${pStyle} !line-clamp-1`}>
+                    <div className=" flex mt-[15px] px-[11px]">
+                        <div className={`${pStyle} w-1/3`}>File Name</div>
+                        <div className={`${pStyle} w-2/3 !line-clamp-1`}>
                             {contentData?.additional_info.file_name}
                         </div>
                     </div>
                     <hr className="divider" />
                 </div>
                 <div>
-                    <div className="grid grid-cols-3 mt-[15px] px-[11px]">
-                        <div className={pStyle}>File Size</div>
-                        <div className={pStyle}>
+                    <div className="flex mt-[15px] px-[11px]">
+                        <div className={`${pStyle} w-1/3`}>File Size</div>
+                        <div className={`${pStyle} w-2/3`}>
                             {formatBytes(
                                 contentData?.additional_info?.file_size || 0
                             )}
@@ -92,18 +92,18 @@ const InfoSection = () => {
                     <hr className="divider" />
                 </div>
                 <div>
-                    <div className="grid grid-cols-3 mt-[15px] px-[11px]">
-                        <div className={pStyle}>File Type</div>
-                        <div className={pStyle}>
+                    <div className="flex mt-[15px] px-[11px]">
+                        <div className={`${pStyle} w-1/3`}>File Type</div>
+                        <div className={`${pStyle} w-2/3`}>
                             {contentData?.additional_info.file_type}
                         </div>
                     </div>
                     <hr className="divider" />
                 </div>
                 <div>
-                    <div className="grid grid-cols-3 mt-[15px] px-[11px]">
-                        <div className={pStyle}>Is Shared</div>
-                        <div className={pStyle}>
+                    <div className="flex mt-[15px] px-[11px]">
+                        <div className={`${pStyle} w-1/3`}>Is Shared</div>
+                        <div className={`${pStyle} w-2/3`}>
                             {contentData?.asset_use == "external"
                                 ? "true"
                                 : "false"}
