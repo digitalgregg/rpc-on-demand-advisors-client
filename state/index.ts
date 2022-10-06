@@ -107,3 +107,5 @@ export const PaymentMethod = atomWithStorage<PaymentMethodType>(
         clientSecret: "",
     }
 );
+
+export const PaymentData = atom<PMDTYPE | "">("");

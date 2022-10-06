@@ -12,7 +12,10 @@ import LodingAnimation from "../../../components/Shared/LodingAnimation";
 import { toast } from "react-toastify";
 import AddPaymentMethodDialog from "../../../components/Dashboard/BillingPage/AddPaymentMethodDialog";
 import { useAtom } from "jotai";
-import { PaymentMethod } from "../../../state";
+import { PaymentData, PaymentMethod } from "../../../state";
+import { PMDTYPE } from "../../../utils/interfaces";
+import UpdateMethodModal from "../../../components/Dashboard/BillingPage/UpdateMethodModal";
+import SubscribeButton from "../../../components/Dashboard/BillingPage/SubscribeButton";
 
 function PaymentDetails() {
     const { _id } = getLocal("user-info");
@@ -35,12 +38,17 @@ function PaymentDetails() {
     const handleModal = () => {
         setModalOpen(!modalOpen);
     };
+    const [updateModal, setUpdateModal] = useState(false);
+    const handleUpdateModal = () => {
+        setUpdateModal(!updateModal);
+    };
+
     function getNumber() {
         const remainPlanStyle = 100 - (todayDate - getPurchesDate);
         return { width: `${remainPlanStyle}%` };
     }
 
-    const [methodDetails] = useAtom(PaymentMethod);
+    const [paymentData] = useAtom(PaymentData);
 
     return (
         <>
@@ -110,61 +118,39 @@ function PaymentDetails() {
                                 </div>
                             </ShadowCard>
                             <ShadowCard className="h-[270px]">
-                                <div className="pt-[40px]"></div>
-                                <div className="font-bold text-[24px] leading-[32.68px] text-[#101010]">
-                                    Payment Method
+                                <div className="pt-[26px]"></div>
+                                <div className="flex justify-between">
+                                    <div className="font-bold text-[24px] leading-[32.68px] text-[#101010]">
+                                        Payment Method
+                                    </div>
+                                    {paymentData && (
+                                        <button
+                                            onClick={handleUpdateModal}
+                                            className="p-[7px_15px] text-base font-bold leading-[21.79px] text-primary border border-primary rounded-[4px]"
+                                        >
+                                            Edit
+                                        </button>
+                                    )}
+                                </div>
+                                {!paymentData && (
+                                    <div className="pt-[5px]"></div>
+                                )}
+                                <div className="text-xs font-semibold leading-[16.34px] text-[#676767]">
+                                    {paymentData
+                                        ? "Change how you pay for your plan."
+                                        : "No payment method added yet."}
                                 </div>
                                 <div className="pt-2"></div>
-                                {methodDetails.data ? (
+                                {paymentData ? (
                                     <>
-                                        <div className="text-xs font-semibold leading-[16.34px] text-[#676767]">
-                                            Change how you pay for your plan.
-                                        </div>
-                                        <div className="pt-[63px]"></div>
-
-                                        <div className="justify-between flex ">
-                                            <div className="flex gap-4">
-                                                <div>
-                                                    <div className="text-primary text-base leading-[21.79px] font-bold border-primary border rounded-[4px] p-[6px_12.5px]">
-                                                        VISA
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <div className="text-sm font-bold text-[#101010] leading-[19.07px]">
-                                                        Visa ending in 1234
-                                                    </div>
-                                                    <div className="pt-[5px]"></div>
-                                                    <div className="text-base font-semibold text-[#676767] leading-[21.79px]">
-                                                        Expiry 05/2025
-                                                    </div>
-                                                    <div className="pt-[5px]"></div>
-
-                                                    <div className="flex items-center gap-1">
-                                                        <img
-                                                            src="/assets/dashboard/mail.svg"
-                                                            alt="Mail icon"
-                                                        />
-                                                        <span className="text-sm font-bold text-[#676767] leading-[19.07px]">
-                                                            billing@email.com
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <button className="p-[7px_15px] text-base font-bold leading-[21.79px] text-primary border border-primary rounded-[4px]">
-                                                    Edit
-                                                </button>
-                                            </div>
-                                        </div>
+                                        <NewCardDetails data={paymentData} />
+                                        {/* <OldCardDetails
+                                            data={paymentData}
+                                        /> */}
                                     </>
                                 ) : (
                                     <>
-                                        <div className="text-xs font-semibold leading-[16.34px] text-[#676767]">
-                                            {/* Change how you pay for your plan. */}
-                                            No payment method added yet.
-                                        </div>
                                         <div className="pt-[63px]"></div>
-
                                         <div>
                                             <div className="pt-[29px]"></div>
                                             <button
@@ -220,6 +206,10 @@ function PaymentDetails() {
                 <AddPaymentMethodDialog
                     modalOpen={modalOpen}
                     handleModal={handleModal}
+                />
+                <UpdateMethodModal
+                    modalOpen={updateModal}
+                    handleModal={handleUpdateModal}
                 />
             </div>
         </>
@@ -309,3 +299,97 @@ function ShadowCard({
 }
 
 export default PaymentDetails;
+
+const NewCardDetails = ({ data }: { data: PMDTYPE }) => {
+    return (
+        <div className="">
+            <div className="flex gap-[30px] sm:gap-[50px]  pt-3">
+                <div>
+                    <div className="text-sm font-medium text-[#676767]">
+                        Card Number
+                    </div>
+                    <div className="font-semibold text-black">
+                        xxxx - xxxx - xxxxx - {data.card.last4}
+                    </div>
+                    <div className="pt-[30px]"></div>
+                    <div className="text-sm font-medium text-[#676767]">
+                        Billing Email
+                    </div>
+                    <div className="font-semibold  text-black">
+                        <div className="flex items-center gap-1">
+                            <img
+                                src="/assets/dashboard/mail.svg"
+                                alt="Mail icon"
+                            />
+                            <span className="max-w-[200px] truncate sm:max-w-full">
+                                {data.billing_details.email}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div className="text-sm font-medium text-[#676767]">
+                        Exp
+                    </div>
+                    <div className="font-semibold text-black">
+                        {data.card.exp_month}/{data.card.exp_year}
+                    </div>
+                    <div className="pt-[30px]"></div>
+
+                    <div className="text-sm font-medium text-[#676767]">
+                        Brand
+                    </div>
+                    <div className="font-semibold uppercase text-black">
+                        {data.card.brand}
+                    </div>
+                </div>
+            </div>
+            <div>
+                <SubscribeButton />
+            </div>
+        </div>
+    );
+};
+
+const OldCardDetails = ({ data }: { data: PMDTYPE }) => {
+    return (
+        <div className="">
+            <div className="pt-[63px]"></div>
+
+            <div className="justify-between flex ">
+                <div className="flex gap-4">
+                    <div>
+                        <div className="text-primary text-base leading-[21.79px] font-bold border-primary border rounded-[4px] p-[6px_12.5px] uppercase">
+                            {data.card.brand}
+                        </div>
+                    </div>
+                    <div>
+                        <div className="text-sm font-bold text-[#101010] leading-[19.07px]">
+                            Visa ending in {data.card.last4}
+                        </div>
+                        <div className="pt-[5px]"></div>
+                        <div className="text-base font-semibold text-[#676767] leading-[21.79px]">
+                            Expiry {data.card.exp_month}/{data.card.exp_year}
+                        </div>
+                        <div className="pt-[5px]"></div>
+
+                        <div className="flex items-center gap-1">
+                            <img
+                                src="/assets/dashboard/mail.svg"
+                                alt="Mail icon"
+                            />
+                            <span className="text-sm font-bold text-[#676767] leading-[19.07px]">
+                                {data.billing_details.email}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button className="p-[7px_15px] text-base font-bold leading-[21.79px] text-primary border border-primary rounded-[4px]">
+                        Edit
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};

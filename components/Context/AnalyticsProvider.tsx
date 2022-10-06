@@ -9,6 +9,10 @@ import React, {
 
 import { useFetchAnalytics } from "../../api-call/AnalyticsApi";
 import { team_state } from "../../state";
+import {
+    exampleAnalyticsContentDetails,
+    exampleAnalyticsData,
+} from "../../utils/ExampleData";
 
 type AnalyticsType = {
     data: any;
@@ -77,11 +81,11 @@ function AnalyticsProvider({ children }: { children: ReactNode }) {
         contentAction,
         initialDetails
     );
-
+    console.log(data, contentDetails);
     return (
         <AnalyticsContext.Provider
             value={{
-                data,
+                data: exampleAnalyticsData,
                 dateRange,
                 setDateRange,
                 isError,
@@ -89,7 +93,7 @@ function AnalyticsProvider({ children }: { children: ReactNode }) {
                 userDateRange,
                 setUserDateRange,
                 isLoading,
-                contentDetails,
+                contentDetails: exampleAnalyticsContentDetails,
                 dispatchDetails,
             }}
         >
