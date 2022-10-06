@@ -17,6 +17,7 @@ import LodingAnimation from "./../../../../components/Shared/LodingAnimation/ind
 import { removeEmpty } from "./../../../../utils/removeEmpty";
 import { toast } from "react-toastify";
 import { getLocal } from "../../../../utils/localStorage";
+import classNames from "classnames";
 
 const updateWish = {
     status: "",
@@ -30,6 +31,7 @@ const updateWishSchema = Yup.object({
 
 function ViewWish() {
     const team = getLocal("team");
+    const { _id } = getLocal("user-info");
     const statusOptions = [
         { value: "wished", label: "Wished" },
         { value: "in progress", label: "In Progress" },
@@ -49,6 +51,14 @@ function ViewWish() {
         { enabled: !!wishListId }
     );
     const wishData = data?.data;
+
+    const handleEditIcon = () => {
+        if (team?.role === "user" && wishData?.user_id !== _id) {
+            return toast.error("Only Admin can edit the wish list");
+        } else {
+            return setOpen(!isOpen);
+        }
+    };
 
     return (
         <>
@@ -77,10 +87,14 @@ function ViewWish() {
                                                     whileTap={{ scale: 0.9 }}
                                                     src="/assets/dashboard-wishlist/edit.svg"
                                                     alt="edit icon"
-                                                    className="cursor-pointer"
-                                                    onClick={() =>
-                                                        setOpen(!isOpen)
-                                                    }
+                                                    className={classNames(
+                                                        team?.role === "user" &&
+                                                            wishData?.user_id !==
+                                                                _id
+                                                            ? "cursor-not-allowed"
+                                                            : "cursor-pointer"
+                                                    )}
+                                                    onClick={handleEditIcon}
                                                 />
                                             </div>
                                             <div className="pt-4 sm:pt-5"></div>
@@ -149,16 +163,30 @@ function ViewWish() {
                                                         setLoaadingButton(
                                                             false
                                                         );
-                                                        const recentActivityData = {
-                                                            team_id: team.id,
-                                                            user_id: team.user_id,
-                                                            status_type : "updated",
-                                                            activity_id: res.data?.updatedWish._id,
-                                                            activity_type:"wish",
-                                                            action_status:"none",
-                                                            title:res.data?.updatedWish.wish_title
-                                                        }
-                                                        api.post("/api/recent-activity",recentActivityData)
+                                                        const recentActivityData =
+                                                            {
+                                                                team_id:
+                                                                    team.id,
+                                                                user_id:
+                                                                    team.user_id,
+                                                                status_type:
+                                                                    "updated",
+                                                                activity_id:
+                                                                    res.data
+                                                                        ?.updatedWish
+                                                                        ._id,
+                                                                activity_type:
+                                                                    "wish",
+                                                                action_status:
+                                                                    "none",
+                                                                title: res.data
+                                                                    ?.updatedWish
+                                                                    .wish_title,
+                                                            };
+                                                        api.post(
+                                                            "/api/recent-activity",
+                                                            recentActivityData
+                                                        );
                                                         toast.success(
                                                             "Wishlist updated successfully"
                                                         );
@@ -190,8 +218,23 @@ function ViewWish() {
                                                         />
                                                         <div className="flex justify-end pt-4 sm:pt-5">
                                                             <button
-                                                                className="h-[45px] leading-[45px] rounded-[4px] bg-primary text-base text-[#fff] hover:bg-[#890F21] transition-all duration-200 w-full sm:w-[129px]"
-                                                                type="submit"
+                                                                className={classNames(
+                                                                    "h-[45px] leading-[45px] rounded-[4px] bg-primary text-base text-[#fff] hover:bg-[#890F21] transition-all duration-200 w-full sm:w-[129px]",
+                                                                    team?.role ===
+                                                                        "user" &&
+                                                                        wishData?.user_id !==
+                                                                            _id
+                                                                        ? " cursor-not-allowed"
+                                                                        : "cursor-pointer"
+                                                                )}
+                                                                type={`${
+                                                                    team?.role ===
+                                                                        "user" &&
+                                                                    wishData?.user_id !==
+                                                                        _id
+                                                                        ? "button"
+                                                                        : "submit"
+                                                                }`}
                                                             >
                                                                 {loadingButton ===
                                                                 true ? (
