@@ -1,6 +1,7 @@
 // jotai will be used here for global state management
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
+import { PMDTYPE } from "../utils/interfaces";
 
 export const signupState = atomWithStorage("user-info", {
     name: "",
@@ -88,5 +89,21 @@ export const DefaultFilter = atomWithStorage<DefaultFilterType>(
         industry: [],
         region: [],
         tags: [],
+    }
+);
+
+type PaymentMethodType = {
+    customer: string;
+    id: string;
+    clientSecret: string;
+    data?: PMDTYPE;
+};
+
+export const PaymentMethod = atomWithStorage<PaymentMethodType>(
+    "payment-method",
+    {
+        customer: "",
+        id: "",
+        clientSecret: "",
     }
 );

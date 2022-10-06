@@ -10,6 +10,9 @@ import { getLocal } from "../../../utils/localStorage";
 import { saveAs } from "file-saver";
 import LodingAnimation from "../../../components/Shared/LodingAnimation";
 import { toast } from "react-toastify";
+import AddPaymentMethodDialog from "../../../components/Dashboard/BillingPage/AddPaymentMethodDialog";
+import { useAtom } from "jotai";
+import { PaymentMethod } from "../../../state";
 
 function PaymentDetails() {
     const { _id } = getLocal("user-info");
@@ -36,6 +39,9 @@ function PaymentDetails() {
         const remainPlanStyle = 100 - (todayDate - getPurchesDate);
         return { width: `${remainPlanStyle}%` };
     }
+
+    const [methodDetails] = useAtom(PaymentMethod);
+
     return (
         <>
             <PricingLayout>
@@ -109,56 +115,67 @@ function PaymentDetails() {
                                     Payment Method
                                 </div>
                                 <div className="pt-2"></div>
-                                <div className="text-xs font-semibold leading-[16.34px] text-[#676767]">
-                                    Change how you pay for your plan.
-                                    {/* No payment method added yet. */}
-                                </div>
-                                <div className="pt-[63px]"></div>
+                                {methodDetails.data ? (
+                                    <>
+                                        <div className="text-xs font-semibold leading-[16.34px] text-[#676767]">
+                                            Change how you pay for your plan.
+                                        </div>
+                                        <div className="pt-[63px]"></div>
 
-                                <div>
-                                    <div className="pt-[29px]"></div>
-                                    <button
-                                        className="text-base leading-[58px] font-bold bg-primary w-full h-[58px] rounded-[4px] transition-all duration-200 text-white hover:bg-primary_dark"
-                                        onClick={handleModal}
-                                    >
-                                        + Add Payment Method
-                                    </button>
-                                </div>
+                                        <div className="justify-between flex ">
+                                            <div className="flex gap-4">
+                                                <div>
+                                                    <div className="text-primary text-base leading-[21.79px] font-bold border-primary border rounded-[4px] p-[6px_12.5px]">
+                                                        VISA
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div className="text-sm font-bold text-[#101010] leading-[19.07px]">
+                                                        Visa ending in 1234
+                                                    </div>
+                                                    <div className="pt-[5px]"></div>
+                                                    <div className="text-base font-semibold text-[#676767] leading-[21.79px]">
+                                                        Expiry 05/2025
+                                                    </div>
+                                                    <div className="pt-[5px]"></div>
 
-                                <div className="justify-between hidden ">
-                                    <div className="flex gap-4">
-                                        <div>
-                                            <div className="text-primary text-base leading-[21.79px] font-bold border-primary border rounded-[4px] p-[6px_12.5px]">
-                                                VISA
+                                                    <div className="flex items-center gap-1">
+                                                        <img
+                                                            src="/assets/dashboard/mail.svg"
+                                                            alt="Mail icon"
+                                                        />
+                                                        <span className="text-sm font-bold text-[#676767] leading-[19.07px]">
+                                                            billing@email.com
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <button className="p-[7px_15px] text-base font-bold leading-[21.79px] text-primary border border-primary rounded-[4px]">
+                                                    Edit
+                                                </button>
                                             </div>
                                         </div>
-                                        <div>
-                                            <div className="text-sm font-bold text-[#101010] leading-[19.07px]">
-                                                Visa ending in 1234
-                                            </div>
-                                            <div className="pt-[5px]"></div>
-                                            <div className="text-base font-semibold text-[#676767] leading-[21.79px]">
-                                                Expiry 05/2025
-                                            </div>
-                                            <div className="pt-[5px]"></div>
-
-                                            <div className="flex items-center gap-1">
-                                                <img
-                                                    src="/assets/dashboard/mail.svg"
-                                                    alt="Mail icon"
-                                                />
-                                                <span className="text-sm font-bold text-[#676767] leading-[19.07px]">
-                                                    billing@email.com
-                                                </span>
-                                            </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className="text-xs font-semibold leading-[16.34px] text-[#676767]">
+                                            {/* Change how you pay for your plan. */}
+                                            No payment method added yet.
                                         </div>
-                                    </div>
-                                    <div>
-                                        <button className="p-[7px_15px] text-base font-bold leading-[21.79px] text-primary border border-primary rounded-[4px]">
-                                            Edit
-                                        </button>
-                                    </div>
-                                </div>
+                                        <div className="pt-[63px]"></div>
+
+                                        <div>
+                                            <div className="pt-[29px]"></div>
+                                            <button
+                                                className="text-base leading-[58px] font-bold bg-primary w-full h-[58px] rounded-[4px] transition-all duration-200 text-white hover:bg-primary_dark"
+                                                onClick={handleModal}
+                                            >
+                                                + Add Payment Method
+                                            </button>
+                                        </div>
+                                    </>
+                                )}
                             </ShadowCard>
                         </div>
                         <div className="pt-[35px]"></div>
@@ -200,7 +217,7 @@ function PaymentDetails() {
                 </div>
             </PricingLayout>
             <div>
-                <PaymentMethodDialog
+                <AddPaymentMethodDialog
                     modalOpen={modalOpen}
                     handleModal={handleModal}
                 />
