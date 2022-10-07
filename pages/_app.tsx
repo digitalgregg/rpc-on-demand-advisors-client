@@ -13,7 +13,7 @@ import "../styles/rsuite.css";
 import { useEffect } from "react";
 import api from "../api";
 import { useAtom } from "jotai";
-import { signupState, team_state } from "../state";
+import { signupState, team_state, UserPlanState } from "../state";
 import { getLocal } from "../utils/localStorage";
 
 const queryClient = new QueryClient();
@@ -23,6 +23,7 @@ const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
     const [teamData, setTeamObj] = useAtom(team_state);
+    const [planData, setPlanData] = useAtom(UserPlanState);
     useEffect(() => {
         (async function () {
             try {
@@ -31,6 +32,14 @@ function MyApp({ Component, pageProps }: AppProps) {
                 );
                 const teamObj = resultToObj(teamResponse.data);
                 setTeamObj(teamObj);
+                const planValidate = await api.post(
+                    "/api/billing-record/validate",
+                    {
+                        user_id: teamData.user_id,
+                        team_id: teamData.id,
+                    }
+                );
+                console.log(planValidate.data);
             } catch (error) {
                 console.log(error);
             }

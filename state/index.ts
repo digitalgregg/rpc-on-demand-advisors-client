@@ -90,3 +90,17 @@ export const DefaultFilter = atomWithStorage<DefaultFilterType>(
         tags: [],
     }
 );
+
+type UserPlanType = {
+    plan_name: String;
+    storage_limit: number;
+    user_limit: number;
+    asset_limit: number;
+};
+
+export const UserPlanState = atom<UserPlanType>({
+    plan_name: "",
+    storage_limit: 0,
+    user_limit: 0,
+    asset_limit: 0,
+});
