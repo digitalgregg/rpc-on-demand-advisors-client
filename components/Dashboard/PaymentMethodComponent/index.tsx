@@ -86,7 +86,7 @@ function PaymentMethodComponent() {
 
 export default PaymentMethodComponent;
 
-const NewCardDetails = ({ data }: { data: PMDTYPE }) => {
+export const NewCardDetails = ({ data }: { data: PMDTYPE }) => {
     return (
         <div className="">
             <div className="flex gap-[30px] sm:gap-[50px]  pt-3">

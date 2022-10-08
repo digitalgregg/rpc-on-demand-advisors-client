@@ -19,6 +19,7 @@ export const team_state = atomWithStorage("team", {
     user_id: "",
     team_name: "",
     role: "",
+    customer: "",
 });
 
 export const AppSettingToggle = atomWithStorage("app-setting-toggle", {
