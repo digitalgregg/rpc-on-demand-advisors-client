@@ -18,7 +18,7 @@ import {
 } from "../../api-call/ContentApi";
 import { isImage, getExtension } from "../Library/FileType";
 import { useAtom } from "jotai";
-import { signupState } from "../../state/index";
+import { RetrieveLimit, signupState } from "../../state/index";
 import api from "../../api";
 import { saveAs } from "file-saver";
 import LodingAnimation from "../Shared/LodingAnimation";
@@ -66,7 +66,9 @@ function ContentViewCard({
     };
     const handleShare = () => setShareOpen(!shareOpen);
     const handleTag = () => setTagModal(!tagModal);
-    const handleDelete = () => setDeleteModal(!deleteModal);
+    const handleDelete = () => {
+        setDeleteModal(!deleteModal);
+    };
 
     const handleLoveIcon = async (e: any) => {
         e.stopPropagation();
@@ -108,12 +110,14 @@ function ContentViewCard({
     const handleViewContent = () => {
         router.push("/dashboard/contents/view-details/" + data._id);
     };
-
+    const [retrieveLimit, setRetrieveLimit] = useAtom(RetrieveLimit);
     const onDeleteContent = async (_: any, setLoading: any) => {
         setLoading(true);
         await deleteContent(data._id);
         setDeleteModal(false);
         setLoading(false);
+        setRetrieveLimit(`${Math.random() * 100}`);
+
         refetch();
     };
 

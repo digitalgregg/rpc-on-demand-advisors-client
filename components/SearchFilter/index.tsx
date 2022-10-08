@@ -34,6 +34,7 @@ const SearchFilter = () => {
                     return true;
                 }
             },
+            refetchOnWindowFocus: false,
         }
     );
 
