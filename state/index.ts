@@ -108,4 +108,17 @@ export const PaymentMethod = atomWithStorage<PaymentMethodType>(
     }
 );
 
+type PMDetailsType = {
+    customer: "";
+    id: "";
+};
+
+export const PaymentMethodDetails = atomWithStorage<PMDetailsType>(
+    "payment-method-details",
+    {
+        customer: "",
+        id: "",
+    }
+);
+
 export const PaymentData = atom<PMDTYPE | "">("");

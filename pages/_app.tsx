@@ -3,6 +3,7 @@ import "../styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/uppy.min.css";
 import "plyr-react/plyr.css";
+import "react-loading-skeleton/dist/skeleton.css";
 import { ToastContainer } from "react-toastify";
 import ReactGA from "react-ga4";
 import type { AppProps } from "next/app";

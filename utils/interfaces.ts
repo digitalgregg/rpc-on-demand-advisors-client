@@ -44,8 +44,6 @@ interface Card {
     wallet?: any;
 }
 
-interface Metadata {}
-
 export interface PMDTYPE {
     id: string;
     object: string;
@@ -54,6 +52,6 @@ export interface PMDTYPE {
     created: number;
     customer: string;
     livemode: boolean;
-    metadata: Metadata;
+    metadata: any;
     type: string;
 }

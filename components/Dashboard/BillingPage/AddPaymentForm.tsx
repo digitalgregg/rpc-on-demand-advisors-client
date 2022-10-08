@@ -11,6 +11,8 @@ import { PaymentData, PaymentMethod, signupState } from "../../../state";
 import api from "../../../api";
 import { toast } from "react-toastify";
 import LoadingAnimation from "../../Shared/LoadingAnimation";
+import secureLocalStorage from "react-secure-storage";
+import { GetPaymentDetails } from "../../Context/PaymentDetailsProvider";
 
 const stripePromise = loadStripe(
     "pk_test_51LpbnJLpSmU6gOZ7D4ARj7x0qx27TiEswjs0pgt1UtH5P3lhkfBtcJcDUufn0ONqbsu7UwIF8FSd78o7q6uK7IUU0048KjfyYa"
@@ -44,12 +46,11 @@ export default AddPaymentForm;
 const SetupForm = ({ handleModal, type }: any) => {
     const stripe = useStripe();
     const elements = useElements();
-    const [paymentMethod, setPaymentMethod] = useAtom(PaymentMethod);
-    const [paymentData, setPaymentData] = useAtom(PaymentData);
-
     const [errorMessage, setErrorMessage] = useState(null);
     const [loadingButton, setLoadingButton] = useState(false);
     const [userData] = useAtom(signupState);
+
+    const { refetch } = GetPaymentDetails();
 
     const handleSubmit = async (event: any) => {
         setLoadingButton(true);
@@ -74,18 +75,12 @@ const SetupForm = ({ handleModal, type }: any) => {
             });
             if (error) throw new Error(error.message);
 
-            const response = await api.get(
-                "/api/payment/method/" + setupIntent.payment_method
-            );
-            const data = response.data;
-
-            setPaymentData(data);
-            setPaymentMethod({
-                clientSecret: setupIntent.client_secret,
-                customer: data.customer,
-                data: data,
-                id: data.id,
+            const localData: any = secureLocalStorage.getItem("payment-method");
+            secureLocalStorage.setItem("payment-method", {
+                customer: localData && localData.customer,
+                id: setupIntent.payment_method,
             });
+            refetch();
             setLoadingButton(false);
             toast.success(`Card ${type} successfully`);
             handleModal();

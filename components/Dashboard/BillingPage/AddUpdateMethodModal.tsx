@@ -1,5 +1,8 @@
+import { useAtom } from "jotai";
 import React, { useEffect, useState } from "react";
+import secureLocalStorage from "react-secure-storage";
 import api from "../../../api";
+import { signupState } from "../../../state";
 import OverflowModal from "../../Shared/CustomUtils/OverflowModal";
 import LoadingAnimation from "../../Shared/LoadingAnimation";
 import LodingAnimation from "../../Shared/LodingAnimation";
@@ -8,9 +11,11 @@ import AddPaymentForm from "./AddPaymentForm";
 function UpdateMethodModal({
     modalOpen,
     handleModal,
+    type,
 }: {
     modalOpen: boolean;
     handleModal: () => void;
+    type: "update" | "add";
 }) {
     return (
         <OverflowModal
@@ -18,19 +23,28 @@ function UpdateMethodModal({
             isOpen={modalOpen}
             onRequestClose={handleModal}
         >
-            <UpdateModal handleModal={handleModal} />
+            <UpdateModal type={type} handleModal={handleModal} />
         </OverflowModal>
     );
 }
 
-const UpdateModal = ({ handleModal }: any) => {
+const UpdateModal = ({ handleModal, type }: any) => {
     const [clientSecret, setClientSecret] = useState("");
-
+    const [userData] = useAtom(signupState);
     useEffect(() => {
         (async () => {
-            const response = await api.get("/api/payment/secret");
-            const { client_secret } = response.data;
+            const paymentMethod: any =
+                secureLocalStorage.getItem("payment-method");
+
+            const response = await api.post("/api/payment/secret", {
+                email: userData.email,
+                customer: paymentMethod && paymentMethod.customer,
+            });
+            const { client_secret, customer } = response.data;
             setClientSecret(client_secret);
+            if (!paymentMethod) {
+                secureLocalStorage.setItem("payment-method", { customer });
+            }
         })();
     }, []);
     return (
@@ -45,7 +59,7 @@ const UpdateModal = ({ handleModal }: any) => {
                         <AddPaymentForm
                             clientSecret={clientSecret}
                             handleModal={handleModal}
-                            type="update"
+                            type={type}
                         />
 
                         <button

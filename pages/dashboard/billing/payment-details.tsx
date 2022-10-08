@@ -14,8 +14,10 @@ import AddPaymentMethodDialog from "../../../components/Dashboard/BillingPage/Ad
 import { useAtom } from "jotai";
 import { PaymentData, PaymentMethod } from "../../../state";
 import { PMDTYPE } from "../../../utils/interfaces";
-import UpdateMethodModal from "../../../components/Dashboard/BillingPage/UpdateMethodModal";
+import UpdateMethodModal from "../../../components/Dashboard/BillingPage/AddUpdateMethodModal";
 import SubscribeButton from "../../../components/Dashboard/BillingPage/SubscribeButton";
+import PaymentMethodComponent from "../../../components/Dashboard/PaymentMethodComponent";
+import PaymentDetailsProvider from "../../../components/Context/PaymentDetailsProvider";
 
 function PaymentDetails() {
     const { _id } = getLocal("user-info");
@@ -117,52 +119,9 @@ function PaymentDetails() {
                                     </span>
                                 </div>
                             </ShadowCard>
-                            <ShadowCard className="h-[270px]">
-                                <div className="pt-[26px]"></div>
-                                <div className="flex justify-between">
-                                    <div className="font-bold text-[24px] leading-[32.68px] text-[#101010]">
-                                        Payment Method
-                                    </div>
-                                    {paymentData && (
-                                        <button
-                                            onClick={handleUpdateModal}
-                                            className="p-[7px_15px] text-base font-bold leading-[21.79px] text-primary border border-primary rounded-[4px]"
-                                        >
-                                            Edit
-                                        </button>
-                                    )}
-                                </div>
-                                {!paymentData && (
-                                    <div className="pt-[5px]"></div>
-                                )}
-                                <div className="text-xs font-semibold leading-[16.34px] text-[#676767]">
-                                    {paymentData
-                                        ? "Change how you pay for your plan."
-                                        : "No payment method added yet."}
-                                </div>
-                                <div className="pt-2"></div>
-                                {paymentData ? (
-                                    <>
-                                        <NewCardDetails data={paymentData} />
-                                        {/* <OldCardDetails
-                                            data={paymentData}
-                                        /> */}
-                                    </>
-                                ) : (
-                                    <>
-                                        <div className="pt-[63px]"></div>
-                                        <div>
-                                            <div className="pt-[29px]"></div>
-                                            <button
-                                                className="text-base leading-[58px] font-bold bg-primary w-full h-[58px] rounded-[4px] transition-all duration-200 text-white hover:bg-primary_dark"
-                                                onClick={handleModal}
-                                            >
-                                                + Add Payment Method
-                                            </button>
-                                        </div>
-                                    </>
-                                )}
-                            </ShadowCard>
+                            <PaymentDetailsProvider>
+                                <PaymentMethodComponent />
+                            </PaymentDetailsProvider>
                         </div>
                         <div className="pt-[35px]"></div>
 
@@ -202,16 +161,6 @@ function PaymentDetails() {
                     </div>
                 </div>
             </PricingLayout>
-            <div>
-                <AddPaymentMethodDialog
-                    modalOpen={modalOpen}
-                    handleModal={handleModal}
-                />
-                <UpdateMethodModal
-                    modalOpen={updateModal}
-                    handleModal={handleUpdateModal}
-                />
-            </div>
         </>
     );
 }
@@ -278,7 +227,7 @@ function HistoryItem({ itemData }: any) {
     );
 }
 
-function ShadowCard({
+export function ShadowCard({
     children,
     className,
 }: {
@@ -299,57 +248,6 @@ function ShadowCard({
 }
 
 export default PaymentDetails;
-
-const NewCardDetails = ({ data }: { data: PMDTYPE }) => {
-    return (
-        <div className="">
-            <div className="flex gap-[30px] sm:gap-[50px]  pt-3">
-                <div>
-                    <div className="text-sm font-medium text-[#676767]">
-                        Card Number
-                    </div>
-                    <div className="font-semibold text-black">
-                        xxxx - xxxx - xxxxx - {data.card.last4}
-                    </div>
-                    <div className="pt-[30px]"></div>
-                    <div className="text-sm font-medium text-[#676767]">
-                        Billing Email
-                    </div>
-                    <div className="font-semibold  text-black">
-                        <div className="flex items-center gap-1">
-                            <img
-                                src="/assets/dashboard/mail.svg"
-                                alt="Mail icon"
-                            />
-                            <span className="max-w-[200px] truncate sm:max-w-full">
-                                {data.billing_details.email}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div className="text-sm font-medium text-[#676767]">
-                        Exp
-                    </div>
-                    <div className="font-semibold text-black">
-                        {data.card.exp_month}/{data.card.exp_year}
-                    </div>
-                    <div className="pt-[30px]"></div>
-
-                    <div className="text-sm font-medium text-[#676767]">
-                        Brand
-                    </div>
-                    <div className="font-semibold uppercase text-black">
-                        {data.card.brand}
-                    </div>
-                </div>
-            </div>
-            <div>
-                <SubscribeButton />
-            </div>
-        </div>
-    );
-};
 
 const OldCardDetails = ({ data }: { data: PMDTYPE }) => {
     return (
