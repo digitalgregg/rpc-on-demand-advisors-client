@@ -19,7 +19,14 @@ const ScheduleDemo = () => {
     });
     return (
         <>
-            <InlineWidget url="https://calendly.com/greggMckee" />
+            <InlineWidget
+                url="https://calendly.com/greggMckee"
+                styles={{
+                    height: "720px",
+                    minWidth: "320px",
+                    marginBottom: "30px",
+                }}
+            />
         </>
     );
 };
