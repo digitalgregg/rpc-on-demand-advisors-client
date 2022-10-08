@@ -21,7 +21,7 @@ const PricingCard = ({
     const router = useRouter();
     const handleSubscription = (value: any) => {
         if (value.name === "Plus")
-            return router.push("/dashboard/schedule-demo");
+            return router.push("/dashboard/support/contact-support");
         secureLocalStorage.setItem("plan", {
             name: value.name,
             monthPrice: value.monthPrice,
