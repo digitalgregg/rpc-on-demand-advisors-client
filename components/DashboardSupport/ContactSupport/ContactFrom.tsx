@@ -61,8 +61,8 @@ const ContactFrom = ({ modalOpenfunction }:any) => {
 
     return (
         <>
-            <div className=" flex flex-col lg:flex-row ">
-                <div>
+            <div className="flex flex-col lg:flex-row">
+                <div className="mr-[9px]">
                     <h1 className=" text-2xl leading-[33px] font-semibold text-[#000000] mb-[20px]">
                         Questions. We all have them.
                     </h1>
@@ -88,7 +88,7 @@ const ContactFrom = ({ modalOpenfunction }:any) => {
                     </p>
                 </div>
                 <div className=" w-full lg:max-w-[600px] lg:w-[600px] bg-White rounded py-[50px] px-[40px]">
-                    <div className=" w-full">
+                    <div className="w-full ">
                         {/* {console.log(formik.values)} */}
                         <div className=" mb-[30px]">
                             <h1 className="mb-[4px] text-[32px] leading-[44px] font-bold text-black_primary">

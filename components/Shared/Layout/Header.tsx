@@ -31,7 +31,7 @@ const NavList = ({ title, url }: NavLinksType) => {
 const SubNavList = ({ title, url, pera }: SubNavLinksType) => {
     const router = useRouter();
     return (
-        <li className=" cursor-pointer hover:rounded lg:hover:bg-[#f8f8f8] hover:bg-[#2B2B2B]">
+        <li className="cursor-pointer hover:rounded lg:hover:bg-[#f8f8f8] hover:bg-[#2B2B2B]">
             <Link href={url}>
                 <div
                     className={`${
@@ -43,7 +43,7 @@ const SubNavList = ({ title, url, pera }: SubNavLinksType) => {
                     <span className=" lg:text-lg text-base font-semibold text-white lg:text-[#000805] leading-[24px]">
                         {title}
                     </span>
-                    <p className=" text-sm leading-[19px] text-[#676767] font-normal">
+                    <p className=" text-sm leading-[19px] lg:text-[#676767] xs:text-[#FAFAFA] font-normal">
                         {pera}
                     </p>
                 </div>
@@ -101,7 +101,7 @@ const NavMenuItem = () => {
                             subMenuState === false
                                 ? "hidden"
                                 : " lg:absolute lg:top-10 lg:right-0"
-                        } lg:w-[272px] w-full lg:p-[30px] lg:mt-0 mt-3 rounded shadow-sm lg:bg-[#ffffff] flex flex-col gap-[5px]`}
+                        } lg:w-[272px] w-full lg:p-[30px] lg:mt-0 mt-3 rounded shadow-sm lg:bg-[#ffffff] z-50 flex flex-col gap-[5px]`}
                     >
                         <SubNavList
                             title={"Demo"}

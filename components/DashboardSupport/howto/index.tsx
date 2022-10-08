@@ -8,8 +8,8 @@ const Howto = () => {
     const [sliderCount, setSliderCount] = useState();
     return (
         <div>
-            <div className=" flex flex-col gap-[5px] 2xl:gap-[10px] truncate">
-                <h3 className="truncate text-[32px] leading-[44px] font-bold text-[#101010]">
+            <div className="flex flex-col gap-[5px] 2xl:gap-[10px]">
+                <h3 className="xs:text-[16px] xs:leading-[22px] sm:text-[18px] sm:leading-[25px] lg:text-[24px] lg:leading-[33px] 2xl:text-[32px] 2xl:leading-[44px] font-bold text-[#101010]">
                     How does search work in On Demand Advisors ?
                 </h3>
             </div>

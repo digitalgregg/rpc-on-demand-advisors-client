@@ -34,7 +34,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
     return (
         <div className=" py-[30px]">
             <div className=" mb-[30px]">
-                <ul className=" flex flex-row flex-wrap gap-[15px] gap-y-[30px] xl:gap-y-0">
+                <ul className=" flex flex-row flex-wrap gap-[15px] gap-y-[30px] 2xl:gap-y-0">
                     {subNev.map((val: any, i) => (
                         <li
                             className="cursor-pointer w-fit text-[#000000]"
