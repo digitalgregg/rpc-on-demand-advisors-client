@@ -19,9 +19,14 @@ const PricingCard = ({
     isSmallXl?: boolean;
 }) => {
     const router = useRouter();
+    console.log(router, "router.........");
+    const pathName = router.pathname;
+    const getPath = pathName.split("/")[1];
+    console.log(getPath, "______");
     const handleSubscription = (value: any) => {
-        if (value.name === "Plus")
+        if (value.name === "Plus" && getPath === "dashboard")
             return router.push("/dashboard/support/contact-support");
+        if (getPath !== "dashboard") return router.push("/signup");
         secureLocalStorage.setItem("plan", {
             name: value.name,
             monthPrice: value.monthPrice,
