@@ -105,7 +105,7 @@ function PaymentMethodDialog({
     };
     return (
         <OverflowModal
-            className="w-[calc(100vw-40px)] max-w-[540px] bg-[#fff] rounded-[4px] "
+            className="w-[calc(100vw-40px)] max-w-[540px] bg-[#fff] rounded-[4px] modal-scroll"
             isOpen={modalOpen}
             onRequestClose={handleModal}
         >

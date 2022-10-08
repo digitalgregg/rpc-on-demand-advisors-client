@@ -11,8 +11,10 @@ import {
     questionsData,
 } from "../components/PricingPage/data";
 import ToggleButton from "../components/Shared/ToggleButton";
+import { useRouter } from "next/router";
 
 const PricingPage = () => {
+    const router = useRouter();
     const [toggle, setToggle] = useState(false);
     const handleToggle = () => setToggle(!toggle);
     return (
@@ -112,10 +114,10 @@ const PricingPage = () => {
                             <div className="pt-5"></div>
 
                             <div className="text-sm leading-[19.07px] flex justify-center sm:justify-start gap-5">
-                                <button className=" hover-transition hover:bg-primary_dark hover:border-primary_dark p-[13px_30px] border border-primary bg-primary text-[#fff] rounded-[4px] font-semibold">
+                                <button onClick={() => router.push("/signup")} className=" hover-transition hover:bg-primary_dark hover:border-primary_dark p-[13px_30px] border border-primary bg-primary text-[#fff] rounded-[4px] font-semibold">
                                     Try for Free
                                 </button>
-                                <button className="hover-transition hover:bg-primary hover:text-White p-[13px_30px] border border-primary text-primary font-semibold rounded-[4px]">
+                                <button onClick={() => router.push("/tour")} className="hover-transition hover:bg-primary hover:text-White p-[13px_30px] border border-primary text-primary font-semibold rounded-[4px]">
                                     Take a tour
                                 </button>
                             </div>
