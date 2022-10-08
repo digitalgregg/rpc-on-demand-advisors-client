@@ -22,7 +22,7 @@ function UppyFileUpload() {
                 </div>
             </div>
 
-            <FileUploadModal onUploadFinished={handleUpload} />
+            <FileUploadModal onSingleUpload={handleUpload} />
         </>
     );
 }

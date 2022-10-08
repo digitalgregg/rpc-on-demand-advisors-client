@@ -13,8 +13,7 @@ import "../styles/rsuite.css";
 import { useEffect } from "react";
 import api from "../api";
 import { useAtom } from "jotai";
-import { signupState, team_state } from "../state";
-import { getLocal } from "../utils/localStorage";
+import { RetrieveLimit, team_state, UserPlanState } from "../state";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +22,8 @@ const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
     const [teamData, setTeamObj] = useAtom(team_state);
+    const [planData, setPlanData] = useAtom(UserPlanState);
+    const [retrieveLimit] = useAtom(RetrieveLimit);
     useEffect(() => {
         (async function () {
             try {
@@ -38,6 +39,27 @@ function MyApp({ Component, pageProps }: AppProps) {
 
         return () => {};
     }, []);
+
+    useEffect(() => {
+        (async function () {
+            try {
+                const planValidate = await api.post(
+                    "/api/billing-record/validate",
+                    {
+                        user_id: teamData.user_id,
+                        team_id: teamData.id,
+                    }
+                );
+                setPlanData({
+                    asset_limit: planValidate.data.asset_limit,
+                    storage_limit: planValidate.data.storage_limit,
+                    user_limit: planValidate.data.user_limit,
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        })();
+    }, [retrieveLimit]);
 
     return (
         <>

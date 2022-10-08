@@ -8,12 +8,12 @@ const HeaderContent = ({ data }: { data: ReducerBranding }) => {
                 <div className=" transform -translate-y-12">
                     <div className="flex justify-center items-center flex-col">
                         <div className="border-[8px] border-inherit flex justify-center items-center  border-White w-[108px] h-[108px] overflow-hidden rounded-full">
-                            <Image
+                            <img
                                 width={108}
                                 height={108}
                                 src={data.branding_logo}
                                 alt="brand logo"
-                                className="rounded-full"
+                                className="rounded-full w-[108px] h-[108px]"
                             />
                         </div>
                         <h1 className=" text-black_primary text-center text-[24px] leading-[33px] font-semibold">
