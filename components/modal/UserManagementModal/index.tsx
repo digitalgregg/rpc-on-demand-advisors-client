@@ -9,7 +9,7 @@ import {
     updateInviteUser,
 } from "../../../api-call/InviteUserApi";
 import { useAtom } from "jotai";
-import { team_state } from "../../../state";
+import { team_state, UserPlanState } from "../../../state";
 import { useState } from "react";
 import LodingAnimation from "../../Shared/LodingAnimation";
 import {
@@ -56,6 +56,7 @@ function UserManageModal({ isOpen, onClose, type, prevData }: ModalProps) {
         { value: "admin", label: "Admin" },
         { value: "user", label: "User" },
     ];
+    const [planData] = useAtom(UserPlanState);
 
     const handleSubmit = async (value: UserInitialType) => {
         if (type === "invite") {
@@ -145,7 +146,14 @@ function UserManageModal({ isOpen, onClose, type, prevData }: ModalProps) {
                                 options={userTypeOptions}
                                 label="Enter user type"
                             />
-                            <div className="pt-[30px]"></div>
+                            {type === "invite" && !planData.user_limit ? (
+                                <div className="text-primary pt-1 pb-5 font-semibold text-sm">
+                                    User limit exceeded, Please upgrade plan to
+                                    further process
+                                </div>
+                            ) : (
+                                <div className="pt-[30px]"></div>
+                            )}
                             <div className="flex gap-[15px]">
                                 <button
                                     className="h-[45px] border-primary border w-full text-primary rounded hover:bg-primary hover:text-white transition-all duration-200"
@@ -157,7 +165,11 @@ function UserManageModal({ isOpen, onClose, type, prevData }: ModalProps) {
                                 {teamData.role === "admin" && (
                                     <button
                                         type="submit"
-                                        className="h-[45px] border-primary border w-full text-white rounded bg-primary hover:bg-primary_dark transition-all duration-200"
+                                        className="h-[45px] border-primary border w-full text-white rounded bg-primary hover:bg-primary_dark transition-all duration-200 disabled:opacity-30 disabled:hover:bg-primary"
+                                        disabled={
+                                            type === "invite" &&
+                                            !planData.user_limit
+                                        }
                                     >
                                         {buttonLoading ? (
                                             <span className="flex items-center gap-[10px] justify-center">

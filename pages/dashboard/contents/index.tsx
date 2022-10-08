@@ -3,13 +3,19 @@ import React, { useState } from "react";
 import DashboardLayout from "../../../components/Dashboard/DashboardLayout";
 import ContentViewCard from "../../../components/ContentViewCard";
 import FileUploadModal, {
+    abortFileUpload,
     handleUppyModal,
 } from "../../../components/FileUploadModal";
 import NewCollectionModal from "../../../components/modal/NewCollection";
 import Pagination, { IsArray } from "../../../components/Shared/Pagination";
 import { useWindowDimensions } from "../../../components/Shared/DimentionHook/index";
 import { useAtom } from "jotai";
-import { signupState, team_state } from "../../../state/index";
+import {
+    RetrieveLimit,
+    signupState,
+    team_state,
+    UserPlanState,
+} from "../../../state/index";
 import {
     createContent,
     responseToObject,
@@ -20,7 +26,8 @@ import DataNotFound from "../../../components/Shared/DataNotFound";
 import SortedSelect, {
     SelectOption,
 } from "../../../components/Shared/SortedSelect";
-
+import { toast } from "react-toastify";
+import { getLocal } from "../../../utils/localStorage";
 const options = [
     { value: "newest", label: "Newest" },
     { value: "oldest", label: "Oldest" },
@@ -32,6 +39,8 @@ function Contents() {
     const [teamData] = useAtom(team_state);
     const [userData] = useAtom(signupState);
 
+    const [retrieveLimit, setRetrieveLimit] = useAtom(RetrieveLimit);
+
     const { width } = useWindowDimensions();
     const [collectionModal, setCollectionModal] = useState(false);
 
@@ -40,9 +49,29 @@ function Contents() {
     };
 
     async function handleSingleUpload(response: any) {
+        handleContentValidate();
         await createContent(responseToObject(response, teamData));
+        setRetrieveLimit(`${Math.random() * 100}`);
         refetch();
     }
+
+    const handleContentValidate = () => {
+        const planData = getLocal("plan-limit");
+        if (planData.storage_limit) {
+            toast.error(
+                "Storage limit exceeded, Please upgrade plan to further process"
+            );
+        }
+        if (planData.asset_limit) {
+            toast.error(
+                "Storage limit exceeded, Please upgrade plan to further process"
+            );
+        }
+        if (planData.asset_limit || planData.storage_limit) {
+            abortFileUpload();
+        }
+        console.log(planData);
+    };
 
     // filter section
     const [sortedFilter, setSortedFilter] = useState<SelectOption>({
@@ -157,7 +186,10 @@ function Contents() {
                 </div>
                 <div className="pt-[70px]"></div>
             </DashboardLayout>
-            <FileUploadModal onSingleUpload={handleSingleUpload} />
+            <FileUploadModal
+                onSingleUpload={handleSingleUpload}
+                onFileUpload={handleContentValidate}
+            />
             <NewCollectionModal
                 isOpen={collectionModal}
                 handleClose={handleCollection}

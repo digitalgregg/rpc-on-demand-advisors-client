@@ -4,6 +4,7 @@ import CheckBox from "../../../../components/CustomIcons/CheckBox";
 import Pagination from "../../../../components/Shared/Pagination";
 import YesNoModal from "../../../../components/modal/YesNoModal";
 import FileUploadModal, {
+    abortFileUpload,
     handleUppyModal,
 } from "../../../../components/FileUploadModal";
 import TopForm from "./TopForm";
@@ -30,7 +31,8 @@ import {
     responseToObject,
 } from "../../../../api-call/ContentApi";
 import { useAtom } from "jotai";
-import { team_state } from "../../../../state";
+import { RetrieveLimit, team_state } from "../../../../state";
+import { getLocal } from "../../../../utils/localStorage";
 
 function EditCollection() {
     const [removeModal, setRemoveModal] = useState(false);
@@ -84,11 +86,30 @@ function EditCollection() {
             console.log(error);
         }
     };
-
+    const [retrieveLimit, setRetrieveLimit] = useAtom(RetrieveLimit);
     async function handleSingleUpload(response: any) {
+        handleContentValidate();
         await createContent(responseToObject(response, teamData));
+        setRetrieveLimit(`${Math.random() * 100}`);
         context.refetch();
     }
+
+    const handleContentValidate = () => {
+        const planData = getLocal("plan-limit");
+        if (planData.storage_limit) {
+            toast.error(
+                "Storage limit exceeded, Please upgrade plan to further process"
+            );
+        }
+        if (planData.asset_limit) {
+            toast.error(
+                "Storage limit exceeded, Please upgrade plan to further process"
+            );
+        }
+        if (planData.asset_limit || planData.storage_limit) {
+            abortFileUpload();
+        }
+    };
 
     return (
         <>
@@ -224,7 +245,10 @@ function EditCollection() {
                     <div className="pt-[100px]"></div>
                 </div>
             </div>
-            <FileUploadModal onSingleUpload={handleSingleUpload} />
+            <FileUploadModal
+                onFileUpload={handleContentValidate}
+                onSingleUpload={handleSingleUpload}
+            />
         </>
     );
 }

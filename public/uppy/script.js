@@ -35,8 +35,10 @@ var uppy = new Uppy.Uppy()
         companionUrl: BASE_URL,
         locale: {},
     })
+    .on("upload", (data) => {
+        window.myOnFileUpload(data);
+    })
     .on("complete", (result) => {
-        window.myOnFileUpload(result.successful);
         this.uppy.getState().files = {};
         this.uppy.getState().totalProgress = null;
     })

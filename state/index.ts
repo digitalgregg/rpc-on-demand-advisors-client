@@ -92,15 +92,15 @@ export const DefaultFilter = atomWithStorage<DefaultFilterType>(
 );
 
 type UserPlanType = {
-    plan_name: String;
-    storage_limit: number;
-    user_limit: number;
-    asset_limit: number;
+    storage_limit: boolean;
+    user_limit: boolean;
+    asset_limit: boolean;
 };
 
-export const UserPlanState = atom<UserPlanType>({
-    plan_name: "",
-    storage_limit: 0,
-    user_limit: 0,
-    asset_limit: 0,
+export const UserPlanState = atomWithStorage<UserPlanType>("plan-limit", {
+    storage_limit: false,
+    user_limit: false,
+    asset_limit: false,
 });
+
+export const RetrieveLimit = atom("abc");

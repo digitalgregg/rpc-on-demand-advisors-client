@@ -3,18 +3,18 @@ import React, { useEffect } from "react";
 import Script from "next/script";
 
 type FileUploadModalType = {
-    onUploadFinished?: (v: any) => any;
+    onFileUpload?: (v: any) => any;
     onSingleUpload?: (v: any) => any;
 };
 
 function FileUploadModal({
-    onUploadFinished,
+    onFileUpload,
     onSingleUpload,
 }: FileUploadModalType) {
     useEffect(() => {
         window.myOnFileUpload = (v) => {
-            if (onUploadFinished) {
-                onUploadFinished(v);
+            if (onFileUpload) {
+                onFileUpload(v);
             }
         };
         window.onSingleFileUpload = (v) => {
@@ -38,6 +38,19 @@ export const handleUppyModal = () => {
         const dashboard = window.myUppy.getPlugin("Dashboard");
         if (!dashboard.isModalOpen()) {
             dashboard.openModal();
+        }
+    }
+};
+
+export const abortFileUpload = () => {
+    console.log("text");
+    if (window.myUppy) {
+        window.myUppy.cancelAll();
+        window.myUppy.getState().files = {};
+        window.myUppy.getState().totalProgress = null;
+        const dashboard = window.myUppy.getPlugin("Dashboard");
+        if (dashboard.isModalOpen()) {
+            dashboard.closeModal();
         }
     }
 };
