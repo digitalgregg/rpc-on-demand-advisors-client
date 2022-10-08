@@ -14,8 +14,8 @@ const WelcomeCard = ({ children }: { children: ReactNode }) => {
                 <p className="mt-[7px] text-sm 2xl:text-base leading-[19.07px] 2xl:leading-[22px] text-[#101010]">
                     Explore the <b>ODA Center</b> solution
                 </p>
-                <hr className=" mt-[16px] mb-[21px] text-[#9E9E9E]" />
-                <h1 className="text-base 2xl:text-[18px]  leading-[21.79px] 2xl:leading-[25px] font-bold text-[#000]">
+                <hr className="mt-[16px] mb-[21px] text-[#9E9E9E]" />
+                <h1 className="xs:text-[14px] sm:text-[16px] text-base lg:text-[18px] leading-[21.79px] 2xl:leading-[25px] font-bold text-[#000]">
                     Explore the On Demand Center solution
                 </h1>
                 <div className="mt-[30px] 2xl:mt-[40px] flex flex-col sm:flex-row xl:flex-col gap-[30px]">
@@ -31,10 +31,10 @@ const WelcomeCard = ({ children }: { children: ReactNode }) => {
                         </div>
 
                         <div className=" flex flex-wrap gap-[10px]">
-                            <span className=" text-sm xl:text-xs 2xl:text-sm leading-[19px] xl:leading-[16.34px] 2xl:leading-[19px] font-bold text-[#000000]">
+                            <span className="text-sm xl:text-xs 2xl:text-sm leading-[19px] xl:leading-[16.34px] 2xl:leading-[19px] font-bold text-[#000000]">
                                 On Demand Center Basics
                             </span>
-                            <p className="text-sm xl:text-[10px] 2xl:text-sm font-normal leading-[13.62px] 2xl:leading-[19px] text-[#676767]">
+                            <p className="xs:leading-[19px] text-sm xl:text-[10px] 2xl:text-sm font-normal leading-[13.62px] 2xl:leading-[19px] text-[#676767]">
                                 Learn about each part of Content Camel and how
                                 it all fits together.
                             </p>
@@ -55,7 +55,7 @@ const WelcomeCard = ({ children }: { children: ReactNode }) => {
                             <span className=" text-sm xl:text-xs 2xl:text-sm leading-[19px] xl:leading-[16.34px] 2xl:leading-[19px] font-bold text-[#000000]">
                                 On Demand Center Basics
                             </span>
-                            <p className="text-sm xl:text-[10px] 2xl:text-sm font-normal leading-[13.62px] 2xl:leading-[19px] text-[#676767]">
+                            <p className="xs:leading-[19px] text-sm xl:text-[10px] 2xl:text-sm font-normal leading-[13.62px] 2xl:leading-[19px] text-[#676767]">
                                 Learn about each part of Content Camel and how
                                 it all fits together.
                             </p>

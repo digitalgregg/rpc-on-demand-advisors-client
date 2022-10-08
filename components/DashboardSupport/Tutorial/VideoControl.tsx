@@ -13,24 +13,24 @@ export const VideoControls = () => {
     };
 
     return (
-        <div className="h-full w-full relative rounded-[2.4px]">
-            <video className="w-full h-full" ref={videoRef} controls>
+        <div className="h-[100%] w-[100%] relative rounded-[2.4px]">
+            <video className="w-[100%] h-[100%]" ref={videoRef} controls>
                 <source src="/assets/videos/test-video.mp4" type="video/mp4" />
             </video>
             {!isPlay && (
                 <>
-                    <div className=" relative w-[35px] h-[35px]">
+                    {/* <div className=" relative w-[35px] h-[35px]">
                         <Image
                             layout="fill"
                             src="/assets/DashboardSupport/videobg.png"
                             alt="icons"
                             // onClick={handlePlay}
                         />
-                    </div>
-                    <div className="absolute z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:w-full lg:h-full">
+                    </div> */}
+                    <div className="absolute z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:w-[100%] lg:h-[100%]">
                         <div
                             onClick={handlePlay}
-                            className=" cursor-pointer flex flex-col justify-center items-center gap-[10px] lg:w-full lg:h-full"
+                            className=" cursor-pointer flex flex-col justify-center items-center gap-[10px] lg:w-[100%] lg:h-[100%]"
                         >
                             <div className=" relative lg:w-[60px] lg:h-[60px]">
                                 <Image
