@@ -19,30 +19,22 @@ export const VideoControls = () => {
             </video>
             {!isPlay && (
                 <>
-                    {/* <div className=" relative w-[35px] h-[35px]">
-                        <Image
-                            layout="fill"
+                    <div>
+                        <img
                             src="/assets/DashboardSupport/videobg.png"
-                            alt="icons"
-                            // onClick={handlePlay}
+                            className="absolute top-0 left-0 w-full h-full"
+                            alt=""
                         />
-                    </div> */}
-                    <div className="absolute z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lg:w-[100%] lg:h-[100%]">
-                        <div
-                            onClick={handlePlay}
-                            className=" cursor-pointer flex flex-col justify-center items-center gap-[10px] lg:w-[100%] lg:h-[100%]"
-                        >
-                            <div className=" relative lg:w-[60px] lg:h-[60px]">
-                                <Image
-                                    layout="fill"
-                                    src="/assets/DashboardSupport/videoPlay.svg"
-                                    alt=""
-                                />
-                            </div>
-                            <p className=" font-semibold leading-[19px] text-White text-sm">
+                    </div>
+                    <div onClick={handlePlay} className="absolute flex flex-col gap-[10px] justify-center items-center cursor-pointer -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
+                        <img
+                            src="/assets/DashboardSupport/videoPlay.svg"
+                            alt=""
+                            className="lg:w-[60px] lg:h-[60px]"
+                        />
+                        <p className=" font-semibold leading-[19px] text-White text-sm">
                                 Watch How
-                            </p>
-                        </div>
+                        </p>
                     </div>
                 </>
             )}
