@@ -53,15 +53,41 @@ export default function Index() {
     }
   };
   //handle view item
-  const handleViewItem = (id: any, activity_type: any, activity_id: any) => {
-    if (activity_type === "wish") {
-      router.push(`/dashboard/wishlist/view/${activity_id}`);
+  const handleViewItem = async(id: any, activity_type: any, activity_id: any) => {
+    if(activity_type === "wish"){
+      await api.get(`/api/wish/${activity_id}`)
+    .then((res) => {
+      if(res.status === 200) {
+        router.push(`/dashboard/wishlist/view/${activity_id}`)
+      }
+    })
+    .catch((err) => {
+      toast.error("This item was deleted!")
+    })
     }
-    if (activity_type === "collections") {
-      router.push(`/dashboard/collections/view-contents/${activity_id}`);
+ 
+    if(activity_type === "contents"){
+      await api.get(`/api/content/${activity_id}`)
+    .then((res) => {
+      if(res.status === 200) {
+        router.push(`/dashboard/contents/view-details/${activity_id}`)
+      }
+    })
+    .catch((err) => {
+      toast.error("This item was deleted!")
+    })
     }
-    if (activity_type === "contents") {
-      router.push(`/dashboard/contents/view-details/${activity_id}`);
+  
+    if(activity_type === "collections"){
+      await api.get(`/api/collection/${activity_id}`)
+      .then((res) => {
+        if(res.status === 200) {
+          router.push(`/dashboard/collections/view-contents/${activity_id}`)
+        }
+      })
+      .catch((err) => {
+        toast.error("This item was deleted!")
+      })
     }
   };
   return (
