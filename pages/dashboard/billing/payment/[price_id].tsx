@@ -10,7 +10,12 @@ import secureLocalStorage from "react-secure-storage";
 import { NewCardDetails } from "../../../../components/Dashboard/PaymentMethodComponent";
 import { useAtom } from "jotai";
 import { signupState } from "../../../../state";
-import { Elements, PaymentElement } from "@stripe/react-stripe-js";
+import {
+    Elements,
+    PaymentElement,
+    useElements,
+    useStripe,
+} from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
 const stripePromise = loadStripe(
@@ -36,37 +41,70 @@ function ConfirmPayment() {
 
     const localData: any = () => secureLocalStorage.getItem("payment-method");
 
-    const { data: paymentMethod, isSuccess } = useQuery(
+    const {
+        data: paymentMethod,
+        isSuccess,
+        isLoading,
+    } = useQuery(
         ["payment-method", localData],
         () => api.get(`/api/payment/method/${localData().id}`),
         {
             select: (res) => res.data,
             retry: false,
             refetchOnWindowFocus: false,
-            enabled: localData().id ? true : false,
+            enabled: localData() && localData().id ? true : false,
         }
     );
-
     const [clientSecret, setClientSecret] = useState("");
     const [userData] = useAtom(signupState);
     useEffect(() => {
         (async () => {
-            const paymentMethod: any =
+            const localMethod: any =
                 secureLocalStorage.getItem("payment-method");
-
-            const response = await api.post("/api/payment/secret", {
-                email: userData.email,
-                customer: paymentMethod && paymentMethod.customer,
-            });
-            const { client_secret, customer } = response.data;
-            setClientSecret(client_secret);
-            if (!paymentMethod) {
-                secureLocalStorage.setItem("payment-method", { customer });
+            if (!localMethod || !localMethod.id) {
+                const response = await api.post("/api/payment/secret", {
+                    email: userData.email,
+                    customer: localMethod && localMethod.customer,
+                });
+                const { client_secret, customer } = response.data;
+                setClientSecret(client_secret);
+                if (!localMethod) {
+                    secureLocalStorage.setItem("payment-method", { customer });
+                }
             }
         })();
     }, []);
 
     const loadingButton = false;
+
+    const handleConfirmPayment = async () => {
+        const localData: any = secureLocalStorage.getItem("payment-method");
+        try {
+            const stripe = await loadStripe(
+                "pk_test_51LpbnJLpSmU6gOZ7D4ARj7x0qx27TiEswjs0pgt1UtH5P3lhkfBtcJcDUufn0ONqbsu7UwIF8FSd78o7q6uK7IUU0048KjfyYa"
+            );
+
+            const res = await api.post("/api/payment/create-subscription", {
+                cus_id: localData.customer,
+                price_id,
+                payment_method: localData.id,
+            });
+
+            const clientSecret =
+                res.data.latest_invoice.payment_intent.client_secret;
+            console.log(clientSecret);
+            if (stripe) {
+                const { error, paymentIntent } =
+                    await stripe?.confirmCardPayment(clientSecret, {
+                        payment_method: localData.id,
+                    });
+
+                console.log(paymentIntent);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
         <DashboardLayout>
@@ -153,28 +191,62 @@ function ConfirmPayment() {
                                 <div className="text-[24px] leading-[32.68px] text-[#101010] font-bold">
                                     Plan Information
                                 </div>
-                                <div className="table border-spacing-r-5">
+                                <div className="table border-spacing-r-5 pt-[10px] text-sm">
                                     <div className="table-row">
-                                        <div className="table-cell">
+                                        <div className="table-cell text-[#676767]">
                                             Plan Name:
                                         </div>
 
-                                        <div className="table-cell pl-5">
+                                        <div className="table-cell pl-5 pb-[5px] font-medium">
                                             Super Expensive
                                         </div>
                                     </div>
                                     <div className="table-row">
-                                        <div className="table-cell">Price:</div>
-                                        <div className="table-cell pl-5">
+                                        <div className="table-cell text-[#676767]">
+                                            Price:
+                                        </div>
+                                        <div className="table-cell pl-5 pb-[5px] font-bold">
                                             100$ / per year
                                         </div>
                                     </div>
                                     <div className="table-row">
-                                        <div className="table-cell">
+                                        <div className="table-cell text-[#676767]">
                                             Asset Limit:
                                         </div>
-                                        <div className="table-cell pl-5">
+                                        <div className="table-cell pl-5 pb-[5px] font-medium">
                                             1000
+                                        </div>
+                                    </div>
+                                    <div className="table-row">
+                                        <div className="table-cell text-[#676767]">
+                                            Storage Limit:
+                                        </div>
+                                        <div className="table-cell pl-5 pb-[5px] font-medium">
+                                            2gb
+                                        </div>
+                                    </div>
+                                    <div className="table-row">
+                                        <div className="table-cell text-[#676767]">
+                                            User Limit:
+                                        </div>
+                                        <div className="table-cell pl-5 pb-[5px] font-medium">
+                                            100
+                                        </div>
+                                    </div>
+                                    <div className="table-row">
+                                        <div className="table-cell text-[#676767]">
+                                            Wishlist:
+                                        </div>
+                                        <div className="table-cell pl-5 pb-[5px] font-medium">
+                                            include
+                                        </div>
+                                    </div>
+                                    <div className="table-row">
+                                        <div className="table-cell text-[#676767]">
+                                            Analytics:
+                                        </div>
+                                        <div className="table-cell pl-5 pb-[5px] font-medium">
+                                            include
                                         </div>
                                     </div>
                                 </div>
@@ -242,7 +314,7 @@ function ConfirmPayment() {
                                         </Formik>
                                     </div>
 
-                                    {false && (
+                                    {paymentMethod && (
                                         <div>
                                             <NewCardDetails
                                                 data={paymentMethod}
@@ -250,6 +322,7 @@ function ConfirmPayment() {
                                             <div className="pt-[30px]"></div>
                                             <button
                                                 type="submit"
+                                                onClick={handleConfirmPayment}
                                                 className={`h-[58px] hover:bg-primary_dark bg-primary font-bold w-full rounded-[4px] text-[16px] leading-[58px] text-[#FFFFFF]`}
                                             >
                                                 Confirm Payment
@@ -266,7 +339,7 @@ function ConfirmPayment() {
                                             stripe={stripePromise}
                                             options={{ clientSecret }}
                                         >
-                                            <PaymentElement className=" [&_input]:!h-[55px]" />
+                                            <SubmitPayment />
                                         </Elements>
                                     )}
 
@@ -335,5 +408,85 @@ function ShadowCard({
         >
             {children}
         </div>
+    );
+}
+
+function SubmitPayment() {
+    const stripe = useStripe();
+    const elements = useElements();
+    const [userData] = useAtom(signupState);
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [loadingButton, setLoadingButton] = useState(false);
+    const router = useRouter();
+    const price_id = router.query.price_id;
+
+    const handleSubmit = async (e: any) => {
+        setLoadingButton(true);
+        e.preventDefault();
+        try {
+            if (!stripe || !elements) {
+                throw new Error("Stripe or elements not found");
+            }
+
+            const { error, setupIntent }: any = await stripe.confirmSetup({
+                elements,
+                confirmParams: {
+                    return_url: `${window.location.origin}/dashboard/billing/payment-details`,
+                    payment_method_data: {
+                        billing_details: {
+                            email: userData.email,
+                            name: userData.name,
+                        },
+                    },
+                },
+                redirect: "if_required",
+            });
+            if (error) throw new Error(error.message);
+
+            const localData: any = secureLocalStorage.getItem("payment-method");
+            secureLocalStorage.setItem("payment-method", {
+                customer: localData && localData.customer,
+                id: setupIntent.payment_method,
+            });
+
+            const res = await api.post("/api/payment/create-subscription", {
+                cus_id: localData.customer,
+                price_id,
+                payment_method: setupIntent.payment_method,
+            });
+
+            const clientSecret =
+                res.data.latest_invoice.payment_intent.client_secret;
+
+            const { error: endError, paymentIntent } =
+                await stripe?.confirmCardPayment(clientSecret, {
+                    payment_method: localData.id,
+                });
+            if (error) throw new Error(error.message);
+
+            console.log(paymentIntent);
+        } catch (err: any) {
+            setErrorMessage(err.message);
+            setLoadingButton(false);
+        }
+    };
+
+    return (
+        <form className="pt-5">
+            <PaymentElement />
+            {errorMessage && (
+                <div className="text-sm text-red-600 pt-[5px]">
+                    {errorMessage}
+                </div>
+            )}
+            <div className="pt-5"></div>
+            <button
+                onClick={handleSubmit}
+                type="submit"
+                className={`h-[55px] hover:bg-primary_dark bg-primary font-bold w-full rounded-[4px] text-[16px] leading-[55px] text-[#FFFFFF]`}
+            >
+                Confirm Payment
+            </button>
+        </form>
     );
 }

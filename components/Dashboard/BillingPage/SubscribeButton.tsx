@@ -27,16 +27,16 @@ function SubscribeButton() {
         //         apiObj
         //     );
 
-        //     const clientSecret =
-        //         res.data.latest_invoice.payment_intent.client_secret;
-        //     const stripe = await loadStripe(PUBLISHER_KEY);
-        //     if (stripe) {
-        //         const { error, paymentIntent } =
-        //             await stripe?.confirmCardPayment(clientSecret, {
-        //                 payment_method: paymentMethod.id,
-        //             });
-        //         console.log(error, paymentIntent);
-        //     }
+            // const clientSecret =
+            //     res.data.latest_invoice.payment_intent.client_secret;
+            // const stripe = await loadStripe(PUBLISHER_KEY);
+            // if (stripe) {
+            //     const { error, paymentIntent } =
+            //         await stripe?.confirmCardPayment(clientSecret, {
+            //             payment_method: paymentMethod.id,
+            //         });
+            //     console.log(error, paymentIntent);
+            // }
         // } catch (error) {
         //     console.log(error);
         // }

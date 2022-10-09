@@ -26,7 +26,7 @@ function PaymentDetailsProvider({ children }: { children: ReactNode }) {
             select: (res) => res.data,
             retry: false,
             refetchOnWindowFocus: false,
-            enabled: localData().id ? true : false,
+            enabled: localData() && localData().id ? true : false,
         }
     );
 

@@ -81,11 +81,10 @@ function AnalyticsProvider({ children }: { children: ReactNode }) {
         contentAction,
         initialDetails
     );
-    console.log(data, contentDetails);
     return (
         <AnalyticsContext.Provider
             value={{
-                data: exampleAnalyticsData,
+                data,
                 dateRange,
                 setDateRange,
                 isError,
@@ -93,7 +92,7 @@ function AnalyticsProvider({ children }: { children: ReactNode }) {
                 userDateRange,
                 setUserDateRange,
                 isLoading,
-                contentDetails: exampleAnalyticsContentDetails,
+                contentDetails,
                 dispatchDetails,
             }}
         >
