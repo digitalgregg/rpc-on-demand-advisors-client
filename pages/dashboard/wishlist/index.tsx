@@ -21,6 +21,12 @@ import UpgratePlan from "../../../components/UpgratePlan";
 function WishList() {
     const team = getLocal("team");
     const router = useRouter();
+    const { _id } = getLocal("user-info");
+    const { isLoading: billLoading, data: billingInfo } = useQuery(
+        ["check-plan", _id],
+        () => api.get(`http://localhost:8080/api/billing-record/${_id}`),
+        { enabled: !!_id }
+    );
 
     const handleModal = () => {
         if (
@@ -32,14 +38,7 @@ function WishList() {
         }
     };
     const { isLoading, data, refetch } = useQuery("get wish", () =>
-        api.get(`/api/wish?team_id=${team.id}`)
-    );
-
-    const { _id } = getLocal("user-info");
-    const { isLoading: billLoading, data: billingInfo } = useQuery(
-        ["check-plan", _id],
-        () => api.get(`/api/billing-record/${_id}`),
-        { enabled: !!_id }
+        api.get(`http://localhost:8080/api/wish?team_id=${team.id}`)
     );
 
     const [modalOpen, setModalOpen] = useState(false);
@@ -65,7 +64,7 @@ function WishList() {
     }
 
     const currentPlan = billingInfo?.data[0];
-    console.log(currentPlan, "currentPlan.......");
+    console.log(currentPlan?.length, "currentPlan.......");
 
     return (
         <DashboardLayout>
@@ -125,7 +124,11 @@ function WishList() {
                                 />
                             </div>
                             <div className="w-[100%] h-full place-items-center text-center">
-                                {!data && <DataNotFound />}
+                                {!data &&
+                                    billingInfo?.data?.length !== 0 &&
+                                    currentPlan?.plan_name !== "Lite" && (
+                                        <DataNotFound />
+                                    )}
                             </div>
                         </>
                     )}
@@ -221,8 +224,10 @@ function WishListItem({ wishes, billingInfo, currentPlan }: CardProps) {
                         </div>
                     </div>
                 ))}
-            {billingInfo?.data?.length === 0 ||
-                (currentPlan?.plan_name === "Lite" && <UpgratePlan topic="Wishlist" />)}
+            {(billingInfo?.data?.length === 0 ||
+                currentPlan?.plan_name === "Lite") && (
+                <UpgratePlan topic="Wishlist" />
+            )}
         </>
     );
 }
