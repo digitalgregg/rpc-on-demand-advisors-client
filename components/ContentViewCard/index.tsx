@@ -146,7 +146,8 @@ function ContentViewCard({
 
                     <div className="absolute top-[10px] left-[10px] w-[41px] h-[24px] rounded bg-[rgba(255,255,255,.6)] text-white flex justify-center items-center">
                         <div className="text-[10px] font-medium text-black uppercase">
-                            {getExtension(data.file_url)}
+                            {getExtension(data.file_url) &&
+                                getExtension(data.file_url).slice(0, 5)}
                         </div>
                     </div>
 
