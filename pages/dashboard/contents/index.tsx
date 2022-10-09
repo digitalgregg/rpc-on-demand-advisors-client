@@ -57,6 +57,7 @@ function Contents() {
 
     const handleContentValidate = () => {
         const planData = getLocal("plan-limit");
+        if (!planData) return;
         if (planData.storage_limit) {
             toast.error(
                 "Storage limit exceeded, Please upgrade plan to further process"
