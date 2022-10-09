@@ -86,7 +86,7 @@ function UserManageModal({ isOpen, onClose, type, prevData }: ModalProps) {
             onClose();
         }
     };
-
+    console.log(planData);
     return (
         <OverflowModal
             isOpen={isOpen}
@@ -146,7 +146,9 @@ function UserManageModal({ isOpen, onClose, type, prevData }: ModalProps) {
                                 options={userTypeOptions}
                                 label="Enter user type"
                             />
-                            {type === "invite" && !planData.user_limit ? (
+                            {type === "invite" &&
+                            planData &&
+                            planData.user_limit ? (
                                 <div className="text-primary pt-1 pb-5 font-semibold text-sm">
                                     User limit exceeded, Please upgrade plan to
                                     further process
@@ -168,7 +170,8 @@ function UserManageModal({ isOpen, onClose, type, prevData }: ModalProps) {
                                         className="h-[45px] border-primary border w-full text-white rounded bg-primary hover:bg-primary_dark transition-all duration-200 disabled:opacity-30 disabled:hover:bg-primary"
                                         disabled={
                                             type === "invite" &&
-                                            !planData.user_limit
+                                            planData &&
+                                            planData.user_limit
                                         }
                                     >
                                         {buttonLoading ? (
