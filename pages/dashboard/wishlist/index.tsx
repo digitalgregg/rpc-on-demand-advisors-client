@@ -24,7 +24,7 @@ function WishList() {
     const { _id } = getLocal("user-info");
     const { isLoading: billLoading, data: billingInfo } = useQuery(
         ["check-plan", _id],
-        () => api.get(`http://localhost:8080/api/billing-record/${_id}`),
+        () => api.get(`/api/billing-record/${_id}`),
         { enabled: !!_id }
     );
 
@@ -38,7 +38,7 @@ function WishList() {
         }
     };
     const { isLoading, data, refetch } = useQuery("get wish", () =>
-        api.get(`http://localhost:8080/api/wish?team_id=${team.id}`)
+        api.get(`/api/wish?team_id=${team.id}`)
     );
 
     const [modalOpen, setModalOpen] = useState(false);
