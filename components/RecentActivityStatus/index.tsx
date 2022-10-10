@@ -8,12 +8,12 @@ import LodingAnimation from "../Shared/LodingAnimation";
 import Moment from "react-moment";
 
 const RecentActivityStatus = () => {
-  const team = getLocal("team");
+  const { _id } = getLocal("user-info");
 
   const { isLoading, data, refetch } = useQuery(
-    ["get recent activity", team.id],
-    () => api.get(`/api/recent-activity/${team.id}`),
-    { enabled: !!team.id }
+    ["get recent activity", _id],
+    () => api.get(`/api/recent-activity/${_id}`),
+    { enabled: !!_id }
   );
   const recentActivities = data?.data;
   return (
