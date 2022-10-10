@@ -20,8 +20,8 @@ const Notifications = () => {
     const team = getLocal("team");
     const [isToggle, setIsToggle] = useState(false);
     const [selectUser, setSelectUser] = useState({
-        value: "All Users",
-        label: "All Users",
+        value: "All users",
+        label: "All users",
     });
     const lowerCaseValue = selectUser.value.toLowerCase();
     const customStyles: any = {
@@ -61,6 +61,7 @@ const Notifications = () => {
             enabled: !!team.id,
             onSuccess: (data) => {
                 setIsToggle(data?.data.isToggle);
+                setSelectUser({value:data?.data?.role_type, label:data?.data?.role_type.charAt(0).toUpperCase() + data?.data?.role_type.slice(1)})
             },
         }
     );
@@ -95,6 +96,7 @@ const Notifications = () => {
                 `/api/weekly-digests-notification/${team.id}`,
                 updateData
             );
+            refetch();
         } catch (err) {
             console.log(err);
         }

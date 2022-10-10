@@ -50,7 +50,7 @@ const Signup = () => {
   const label =
     "font-semibold text-[14px] leading-[19.07px] lg:text-[16px] lg:leading-[22px] text-[#101010]";
   const input =
-    "w-[100%] h-[55px] text-[#6D6D6D] bg-[#FFFFFF] text-[14px] font-normal border border-[#E0E0E0] rounded mt-[10px] px-[20px] py-[18px] mb-[10px]";
+    "outline-[#E0E0E0] w-[100%] h-[55px] text-[#6D6D6D] bg-[#FFFFFF] text-[14px] font-normal border border-[#E0E0E0] rounded mt-[10px] px-[20px] py-[18px] mb-[10px]";
 
   const onSubmit = (data: any) => {
     setButtonLoading(true);
