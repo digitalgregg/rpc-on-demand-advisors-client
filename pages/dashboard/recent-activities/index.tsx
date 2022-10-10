@@ -14,7 +14,7 @@ import Moment from "react-moment";
 
 export default function Index() {
   const router = useRouter();
-  const team = getLocal("team");
+  const { _id } = getLocal("user-info");
   const [isOpen, setIsOpen] = useState(false);
   const [selectId, setSelectId] = useState(null);
 
@@ -24,9 +24,9 @@ export default function Index() {
   };
   //get all recent activity by team id
   const { isLoading, data, refetch } = useQuery(
-    ["get recent activity", team.id],
-    () => api.get(`/api/recent-activity/${team.id}`),
-    { enabled: !!team.id }
+    ["get recent activity", _id],
+    () => api.get(`/api/recent-activity/${_id}`),
+    { enabled: !!_id }
   );
   const recentActivities = data?.data;
 
@@ -102,7 +102,7 @@ export default function Index() {
               <LodingAnimation /> <span>Loading...</span>
             </div>
           </div>
-        ) : recentActivities.length > 0 ? (
+        ) : recentActivities?.length > 0 ? (
           <Pagination
             dataArr={recentActivities}
             itemsPerPage={5}
