@@ -48,7 +48,7 @@ const imageUrl = [
 const feedbackSchema = Yup.object({
   user_id: Yup.string(),
   type: Yup.string(),
-  email: Yup.string().required("Email is required"),
+  email: Yup.string().email().required("Email is required"),
   message: Yup.string().required("Feedback note is required"),
 });
 
@@ -96,7 +96,7 @@ export const Modals = ({ modalIsOpen, closeModal, modalCloseFuncton }: any) => {
               "text-[#101010] text-base font-normal leading-[22px]"
             )}
           >
-            What do you think of the content camel website?
+            What do you think of the ODA Center website?
           </p>
           <Formik
             initialValues={initialValues}
@@ -112,7 +112,7 @@ export const Modals = ({ modalIsOpen, closeModal, modalCloseFuncton }: any) => {
                 })
                 .then((res) => {
                   setIsLoading(false);
-                  toast.success(res.data.message);
+                  toast.success("Thank you for your feedback");
                   modalCloseFuncton(false);
                 })
                 .catch((res) => {

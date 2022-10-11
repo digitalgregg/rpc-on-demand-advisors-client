@@ -28,6 +28,8 @@ import SortedSelect, {
 } from "../../../components/Shared/SortedSelect";
 import { toast } from "react-toastify";
 import { getLocal } from "../../../utils/localStorage";
+import ContactIcon from './../../../components/CustomIcons/ContactIcon';
+import CollectionIcon from './../../../components/CustomIcons/CollectionIcon';
 const options = [
     { value: "newest", label: "Newest" },
     { value: "oldest", label: "Oldest" },
@@ -38,6 +40,8 @@ const options = [
 function Contents() {
     const [teamData] = useAtom(team_state);
     const [userData] = useAtom(signupState);
+    const [isHover,setIsHover] = useState(false)
+    const [isCollectionHover,setCollectionHover] = useState(false)
 
     const [retrieveLimit, setRetrieveLimit] = useAtom(RetrieveLimit);
 
@@ -98,24 +102,33 @@ function Contents() {
                         </h3>
                         <div className="flex gap-[3%] sm:gap-[25px] ">
                             <button
+                            onMouseOver={() => {
+                                setIsHover(true);
+                              }}
+                              onMouseLeave={() => {
+                                setIsHover(false)
+                              }}
                                 onClick={handleUppyModal}
-                                className="w-[48.5%] sm:w-[143px] h-[48px] lg:w-[190px] lg:h-[54px] border-[1.5px] border-primary rounded-[4px] text-[12px] lg:text-[14px] font-semibold flex items-center justify-center gap-[5px]	lg:gap-[11px] text-primary"
+                                className="w-[48.5%] sm:w-[143px] h-[48px] lg:w-[190px] lg:h-[54px] hover:bg-primary hover:text-white transition duration-600 border-[1.5px] border-primary rounded-[4px] text-[12px] lg:text-[14px] font-semibold flex items-center justify-center gap-[5px]	lg:gap-[11px] text-primary"
                             >
                                 <span>
-                                    <img src="/img/addContactIcon.svg" alt="" />
+                                    <ContactIcon color={isHover === true ? "#FFFFFF" : "#E51937"}/>
                                 </span>{" "}
                                 Add new content
                             </button>
 
                             <button
+                            onMouseOver={() => {
+                                setCollectionHover(true);
+                              }}
+                              onMouseLeave={() => {
+                                setCollectionHover(false)
+                              }}
                                 onClick={handleCollection}
-                                className="w-[48.5%] sm:w-[168px] lg:w-[206px] h-[48px] lg:h-[54px] border-[1.5px] border-primary rounded-[4px] text-[12px] lg:text-[14px] font-semibold	flex items-center justify-center gap-[5px]	lg:gap-[11px] text-primary"
+                                className="w-[48.5%] sm:w-[168px] lg:w-[206px] h-[48px] lg:h-[54px] border-[1.5px] border-primary hover:bg-primary hover:text-white transition duration-600 rounded-[4px] text-[12px] lg:text-[14px] font-semibold	flex items-center justify-center gap-[5px]	lg:gap-[11px] text-primary"
                             >
                                 <span>
-                                    <img
-                                        src="/img/Collections.png"
-                                        alt="collection"
-                                    />
+                                    <CollectionIcon color={isCollectionHover === true ? "#FFFFFF" : "#E51937"}/>
                                 </span>{" "}
                                 Create new collection
                             </button>

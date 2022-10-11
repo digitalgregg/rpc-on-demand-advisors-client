@@ -8,16 +8,24 @@ import { OutSideClick } from "../Shared/OutSideClick";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAtom } from "jotai";
 import { getFirstName } from "../../pages/dashboard/contents";
-import { profile_state, signupState } from "./../../state/index";
+import { signupState } from "./../../state/index";
+import { useQuery } from 'react-query';
+import { getLocal } from './../../utils/localStorage';
+import api from "../../api";
 
 const NavLeftItem = () => {
   const [userData] = useAtom(signupState);
-  const [profileData] = useAtom(profile_state);
+  const userInfo = getLocal("user-info");
   const [isOpen, setIsOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(false);
   const [openActivity, setOpenActivity] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
+  const { isLoading, data, refetch } = useQuery(
+    ["get-user", userInfo?.email],
+    () => api.get(`/api/user?email=${userInfo?.email}`),
+    { enabled: !!userInfo?.email }
+  );
   const toggleDrawer = () => {
     setIsOpen((prevState) => !prevState);
   };
@@ -94,9 +102,9 @@ const NavLeftItem = () => {
               </>
             )}
           </AnimatePresence>
-          {profileData?.location ? (
+          {data?.data?.profile && data?.data?.profile !== " "  ? (
             <img
-              src={profileData?.location}
+              src={data?.data?.profile}
               alt="Profile Photo"
               className="w-[50px] h-[50px] rounded-full xs:hidden sm:flex"
             />

@@ -27,12 +27,6 @@ export const AppSettingToggle = atomWithStorage("app-setting-toggle", {
     region: false,
 });
 
-export const profile_state = atomWithStorage("profile-data", {
-    originalname: "",
-    key: "",
-    location: "",
-});
-
 export const planLocalData = atom({
     assetLimit: "",
     isAnnual: false,

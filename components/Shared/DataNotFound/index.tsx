@@ -10,12 +10,12 @@ function DataNotFound({ className, imgClass }: DNF) {
     return (
         <div>
             <div
-                className={`${className} flex items-baseline justify-center w-full relative `}
+                className={`${className} flex items-center justify-center w-full relative `}
             >
                 <img
-                    src="/assets/error-image.svg"
+                    src="/assets/no-data.svg"
                     alt=""
-                    className={`${imgClass}`}
+                    className={`xs:w-[190px] xs:h-[144px] sm:w-[260px] sm:h-[196px] lg:w-[280px] lg:h-[212px] ${imgClass}`}
                 />
             </div>
         </div>
