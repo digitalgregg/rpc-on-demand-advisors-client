@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { setLocal } from "../../utils/localStorage";
 import { useAtom } from "jotai";
 import LodingAnimation from "../../components/Shared/LodingAnimation";
-import { signupState, team_state } from "../../state";
+import { PaymentMethod, signupState, team_state } from "../../state";
 
 const items = [
     {
@@ -42,6 +42,7 @@ const Signin = () => {
 
     const [_1, setTeamObj] = useAtom(team_state);
     const [_2, setSignupData] = useAtom(signupState);
+    const [paymentMethod, setPaymentMethod] = useAtom(PaymentMethod);
 
     const {
         register,
@@ -80,6 +81,15 @@ const Signin = () => {
             // save team data to localstorage
             const teamObj = resultToObj(teamResponse.data);
             setTeamObj(teamObj);
+
+            // payment method
+            const resCustomer = await api.get(
+                `/api/payment/customer/${user_id}`
+            );
+            console.log(resCustomer);
+            if (resCustomer.data) {
+                setPaymentMethod(resCustomer.data);
+            }
 
             setButtonLoading(false);
             toast.success("User signin successfully");

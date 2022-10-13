@@ -1,7 +1,8 @@
 // jotai will be used here for global state management
-import { atom } from "jotai";
-import { atomWithStorage } from "jotai/utils";
+import { atom, SetStateAction, WritableAtom } from "jotai";
+import { atomWithStorage, RESET } from "jotai/utils";
 import { PMDTYPE } from "../utils/interfaces";
+import secureLocalStorage from "react-secure-storage";
 
 export const signupState = atomWithStorage("user-info", {
     name: "",
@@ -93,33 +94,42 @@ export const DefaultFilter = atomWithStorage<DefaultFilterType>(
     }
 );
 
+const atomWithLocalStorage: <Value>(
+    key: string,
+    initialValue: Value
+) => WritableAtom<Value, SetStateAction<Value> | typeof RESET> = (
+    key,
+    initialValue
+) => {
+    const getInitialValue = () => {
+        const item: any = secureLocalStorage.getItem(key);
+        if (item) {
+            return item;
+        }
+        return initialValue;
+    };
+    const baseAtom = atom(getInitialValue());
+    const derivedAtom = atom(
+        (get) => get(baseAtom),
+        (get, set, update) => {
+            const nextValue =
+                typeof update === "function" ? update(get(baseAtom)) : update;
+            set(baseAtom, nextValue);
+            secureLocalStorage.setItem(key, nextValue);
+        }
+    );
+    return derivedAtom;
+};
+
 type PaymentMethodType = {
     customer: string;
     id: string;
-    clientSecret: string;
-    data?: PMDTYPE;
 };
 
-export const PaymentMethod = atomWithStorage<PaymentMethodType>(
+export const PaymentMethod = atomWithLocalStorage<PaymentMethodType>(
     "payment-method",
     {
         customer: "",
         id: "",
-        clientSecret: "",
     }
 );
-
-type PMDetailsType = {
-    customer: "";
-    id: "";
-};
-
-export const PaymentMethodDetails = atomWithStorage<PMDetailsType>(
-    "payment-method-details",
-    {
-        customer: "",
-        id: "",
-    }
-);
-
-export const PaymentData = atom<PMDTYPE | "">("");

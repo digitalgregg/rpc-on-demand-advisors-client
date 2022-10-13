@@ -7,7 +7,7 @@ import {
     useElements,
 } from "@stripe/react-stripe-js";
 import { useAtom } from "jotai";
-import { PaymentData, PaymentMethod, signupState } from "../../../state";
+import { PaymentMethod, signupState } from "../../../state";
 import api from "../../../api";
 import { toast } from "react-toastify";
 import LoadingAnimation from "../../Shared/LoadingAnimation";
@@ -49,6 +49,7 @@ const SetupForm = ({ handleModal, type }: any) => {
     const [errorMessage, setErrorMessage] = useState(null);
     const [loadingButton, setLoadingButton] = useState(false);
     const [userData] = useAtom(signupState);
+    const [paymentMethod, setPaymentMethod] = useAtom(PaymentMethod);
 
     const { refetch } = GetPaymentDetails();
 
@@ -75,11 +76,11 @@ const SetupForm = ({ handleModal, type }: any) => {
             });
             if (error) throw new Error(error.message);
 
-            const localData: any = secureLocalStorage.getItem("payment-method");
-            secureLocalStorage.setItem("payment-method", {
-                customer: localData && localData.customer,
+            setPaymentMethod((state) => ({
+                ...state,
                 id: setupIntent.payment_method,
-            });
+            }));
+
             refetch();
             setLoadingButton(false);
             toast.success(`Card ${type} successfully`);

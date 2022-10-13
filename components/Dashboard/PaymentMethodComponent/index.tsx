@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { ShadowCard } from "../../../pages/dashboard/billing/payment-details";
 import { PMDTYPE } from "../../../utils/interfaces";
-import AddPaymentMethodDialog from "../BillingPage/AddPaymentMethodDialog";
+
 import AddUpdateMethodModal from "../BillingPage/AddUpdateMethodModal";
 import Skeleton from "react-loading-skeleton";
 import { GetPaymentDetails } from "../../Context/PaymentDetailsProvider";
@@ -48,10 +48,6 @@ function PaymentMethodComponent() {
             <div className="pt-2"></div>
             {isLoading && (
                 <div>
-                    {/* <NewCardDetails data={paymentData} /> */}
-                    {/* <OldCardDetails
-            data={paymentData}
-        /> */}
                     <LoadingSkeleton />
                 </div>
             )}
@@ -134,7 +130,7 @@ export const NewCardDetails = ({ data }: { data: PMDTYPE }) => {
     );
 };
 
-const LoadingSkeleton = () => {
+export const LoadingSkeleton = () => {
     return (
         <div className="pt-3 flex gap-[30px] sm:gap-[50px] overflow-hidden">
             <div>
@@ -159,7 +155,7 @@ const LoadingSkeleton = () => {
                     </div>
                     <div className="pt-1"></div>
 
-                    <Skeleton width={200} />
+                    <Skeleton width={150} />
                 </div>
                 <div className="pt-[30px]"></div>
 
@@ -169,7 +165,7 @@ const LoadingSkeleton = () => {
                     </div>
                     <div className="pt-1"></div>
 
-                    <Skeleton width={200} />
+                    <Skeleton width={150} />
                 </div>
             </div>
         </div>

@@ -13,23 +13,23 @@ const Index = () => {
     const id = path[2];
     const token = path[4];
 
-    const handleClick = () => {
+    const handleClick = async () => {
         setButtonLoading(true);
-        api.get(`/api/signup/${id}/verify/${token}`)
-            .then((res) => {
-                if (res.status === 200) {
-                    toast.success(res.data.message);
-                    setButtonLoading(false);
-                    setTimeout(() => {
-                        router.push("/signin");
-                    }, 100);
-                }
-            })
-            .catch((err) => {
-                console.log(err);
+        try {
+            const firstRes = await api.get(`/api/signup/${id}/verify/${token}`);
+            await api.post(`/api/payment/plan/create/${id}`);
+            if (firstRes.status === 200) {
+                toast.success(firstRes.data.message);
                 setButtonLoading(false);
-                toast.error(err?.response.data.message);
-            });
+                setTimeout(() => {
+                    router.push("/signin");
+                }, 100);
+            }
+        } catch (err: any) {
+            console.log(err);
+            setButtonLoading(false);
+            toast.error(err?.response.data.message);
+        }
     };
 
     return (

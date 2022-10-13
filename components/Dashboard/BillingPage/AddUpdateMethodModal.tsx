@@ -2,13 +2,13 @@ import { useAtom } from "jotai";
 import React, { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
 import api from "../../../api";
-import { signupState } from "../../../state";
+import { PaymentMethod, signupState } from "../../../state";
 import OverflowModal from "../../Shared/CustomUtils/OverflowModal";
 import LoadingAnimation from "../../Shared/LoadingAnimation";
 import LodingAnimation from "../../Shared/LodingAnimation";
 import AddPaymentForm from "./AddPaymentForm";
 
-function UpdateMethodModal({
+function AddUpdateMethodModal({
     modalOpen,
     handleModal,
     type,
@@ -30,23 +30,16 @@ function UpdateMethodModal({
 
 const UpdateModal = ({ handleModal, type }: any) => {
     const [clientSecret, setClientSecret] = useState("");
-    const [userData] = useAtom(signupState);
+    const [paymentMethod] = useAtom(PaymentMethod);
     useEffect(() => {
         (async () => {
-            const paymentMethod: any =
-                secureLocalStorage.getItem("payment-method");
-
             const response = await api.post("/api/payment/secret", {
-                email: userData.email,
-                customer: paymentMethod && paymentMethod.customer,
+                customer: paymentMethod.customer,
             });
-            const { client_secret, customer } = response.data;
-            setClientSecret(client_secret);
-            if (!paymentMethod) {
-                secureLocalStorage.setItem("payment-method", { customer });
-            }
+            const { client_secret } = response.data;
+            client_secret && setClientSecret(client_secret);
         })();
-    }, []);
+    }, [paymentMethod.customer]);
     return (
         <div>
             <div className="p-5">
@@ -86,4 +79,4 @@ const UpdateModal = ({ handleModal, type }: any) => {
     );
 };
 
-export default UpdateMethodModal;
+export default AddUpdateMethodModal;
