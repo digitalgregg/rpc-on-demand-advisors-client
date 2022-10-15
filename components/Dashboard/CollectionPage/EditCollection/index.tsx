@@ -112,11 +112,9 @@ function EditCollection() {
             console.log(error);
         }
     };
-    const [retrieveLimit, setRetrieveLimit] = useAtom(RetrieveLimit);
     async function handleSingleUpload(response: any) {
         handleContentValidate();
         await createContent(responseToObject(response, teamData));
-        setRetrieveLimit(`${Math.random() * 100}`);
         context.refetch();
         refetchPlanData();
     }
