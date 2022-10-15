@@ -42,27 +42,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         return () => {};
     }, []);
 
-    useEffect(() => {
-        (async function () {
-            try {
-                const planValidate = await api.post(
-                    "/api/billing-record/validate",
-                    {
-                        user_id: teamData.user_id,
-                        team_id: teamData.id,
-                    }
-                );
-                setPlanData({
-                    asset_limit: planValidate.data.asset_limit,
-                    storage_limit: planValidate.data.storage_limit,
-                    user_limit: planValidate.data.user_limit,
-                });
-            } catch (error) {
-                console.log(error);
-            }
-        })();
-    }, [retrieveLimit]);
-
     return (
         <>
             <ToastContainer

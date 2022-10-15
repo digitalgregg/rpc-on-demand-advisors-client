@@ -13,7 +13,7 @@ import { useEffect } from "react";
 import { Router, useRouter } from "next/router";
 import DataNotFound from "./../../../components/Shared/DataNotFound/index";
 import { useAtom } from "jotai";
-import { profile_state, UserPlanState } from "../../../state";
+import { UserPlanState } from "../../../state";
 import UpgradePlan from "../../../components/UpgradePlan";
 
 // flex flex-col gap-5 sm:flex-row sm:flex-wrap sm:[&>div]:basis-[calc(50%-10px)] lg:[&>div]:basis-[calc((100%/3)-(40px/3))]
@@ -115,7 +115,6 @@ type CardProps = {
     wishes: any;
 };
 function WishListItem({ wishes }: CardProps) {
-    const [profileData] = useAtom(profile_state);
     const router = useRouter();
     console.log(wishes);
     return (
@@ -125,7 +124,7 @@ function WishListItem({ wishes }: CardProps) {
                     <div className="flex items-center gap-[10px] text-white p-[10px_15px] bg-[#000]">
                         {wish?.user_id.profile ? (
                             <img
-                                src={profileData?.location}
+                                src={wish?.user_id.profile}
                                 alt="profile image"
                                 width={38}
                                 height={38}

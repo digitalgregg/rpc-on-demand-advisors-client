@@ -50,7 +50,6 @@ function UserManageModal({ isOpen, onClose, type, prevData }: ModalProps) {
     const { refetch } = GetUserManageContext();
     const { refetchPlanData } = GetGlobalContext();
     const [buttonLoading, setButtonLoading] = useState(false);
-    const [planData] = useAtom(UserPlanState);
     const [, setUpgradeModal] = useAtom(UpgradeModalState);
 
     const labelStyle =
