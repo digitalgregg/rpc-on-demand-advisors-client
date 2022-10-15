@@ -93,9 +93,12 @@ function PaymentDetails() {
                                 <div className="text-sm font-semibold leading-[19.07px] text-[#676767]">
                                     {/* 0 of 30 days */}
                                     {data ? (
-                                        betweenTwoDates(
-                                            new Date().toISOString(),
-                                            data.plan_end
+                                        Math.max(
+                                            betweenTwoDates(
+                                                new Date().toISOString(),
+                                                data.plan_end
+                                            ),
+                                            0
                                         ) +
                                         " of " +
                                         betweenTwoDates(

@@ -22,6 +22,7 @@ function PaymentMethodComponent() {
         setModalType("update");
         setModalOpen(!modalOpen);
     };
+    
 
     return (
         <ShadowCard className="h-[270px]">

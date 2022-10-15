@@ -126,6 +126,15 @@ type PaymentMethodType = {
     id: string;
 };
 
+type UserPlanType = {
+    storage_limit?: boolean;
+    user_limit?: boolean;
+    asset_limit?: boolean;
+    wishlist?: boolean;
+    analytics?: boolean;
+    weekly_email?: boolean;
+};
+
 export const PaymentMethod = atomWithLocalStorage<PaymentMethodType>(
     "payment-method",
     {
@@ -133,3 +142,12 @@ export const PaymentMethod = atomWithLocalStorage<PaymentMethodType>(
         id: "",
     }
 );
+
+export const UserPlanState = atomWithLocalStorage<UserPlanType>(
+    "user-plan-limit",
+    {}
+);
+
+export const RetrieveLimit = atom("abc");
+
+export const UpgradeModalState = atom("");

@@ -4,6 +4,7 @@ import CheckBox from "../../../../components/CustomIcons/CheckBox";
 import Pagination from "../../../../components/Shared/Pagination";
 import YesNoModal from "../../../../components/modal/YesNoModal";
 import FileUploadModal, {
+    abortFileUpload,
     handleUppyModal,
 } from "../../../../components/FileUploadModal";
 import TopForm from "./TopForm";
@@ -30,7 +31,12 @@ import {
     responseToObject,
 } from "../../../../api-call/ContentApi";
 import { useAtom } from "jotai";
-import { team_state } from "../../../../state";
+import {
+    team_state,
+    UpgradeModalState,
+    UserPlanState,
+} from "../../../../state";
+import { GetGlobalContext } from "../../../Context/GlobalContextProvider";
 
 function EditCollection() {
     const [removeModal, setRemoveModal] = useState(false);
@@ -38,9 +44,13 @@ function EditCollection() {
     const data = context.collectionData || initialCollection;
     const contentsData = context.contents || [];
 
+    const [, setUpgradeModal] = useAtom(UpgradeModalState);
     const [selectLoading, setSelectLoading] = useState(false);
 
     const [teamData] = useAtom(team_state);
+
+    const [userPlan] = useAtom(UserPlanState);
+    const { refetchPlanData } = GetGlobalContext();
 
     const { width } = useWindowDimensions();
 
@@ -58,6 +68,24 @@ function EditCollection() {
             return 10;
         }
     }
+
+    const handleContentValidate = () => {
+        if (!userPlan) return;
+        if (userPlan.storage_limit) {
+            toast.error(
+                "Storage limit exceeded, Please upgrade plan to further process"
+            );
+        }
+        if (userPlan.asset_limit) {
+            toast.error(
+                "Storage limit exceeded, Please upgrade plan to further process"
+            );
+        }
+        if (userPlan.asset_limit || userPlan.storage_limit) {
+            abortFileUpload();
+            setUpgradeModal("Content");
+        }
+    };
 
     const handleRemoveAll = async (_: any, setLoading: any) => {
         setLoading(true);
@@ -86,8 +114,10 @@ function EditCollection() {
     };
 
     async function handleSingleUpload(response: any) {
+        handleContentValidate();
         await createContent(responseToObject(response, teamData));
         context.refetch();
+        refetchPlanData();
     }
 
     return (
@@ -224,7 +254,10 @@ function EditCollection() {
                     <div className="pt-[100px]"></div>
                 </div>
             </div>
-            <FileUploadModal onSingleUpload={handleSingleUpload} />
+            <FileUploadModal
+                onSingleUpload={handleSingleUpload}
+                onFileUpload={handleContentValidate}
+            />
         </>
     );
 }

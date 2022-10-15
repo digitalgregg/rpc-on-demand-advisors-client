@@ -9,7 +9,7 @@ import {
     updateInviteUser,
 } from "../../../api-call/InviteUserApi";
 import { useAtom } from "jotai";
-import { team_state } from "../../../state";
+import { team_state, UpgradeModalState, UserPlanState } from "../../../state";
 import { useState } from "react";
 import LodingAnimation from "../../Shared/LodingAnimation";
 import {
@@ -17,6 +17,8 @@ import {
     UserManageType,
 } from "../../Context/UserManageProvider";
 import SelectField from "../../Shared/SelectField";
+import { GetGlobalContext } from "../../Context/GlobalContextProvider";
+import { toast } from "react-toastify";
 
 type ModalProps = {
     isOpen: boolean;
@@ -46,8 +48,10 @@ const validateSchema = Yup.object({
 function UserManageModal({ isOpen, onClose, type, prevData }: ModalProps) {
     const [teamData] = useAtom(team_state);
     const { refetch } = GetUserManageContext();
-
+    const { refetchPlanData } = GetGlobalContext();
     const [buttonLoading, setButtonLoading] = useState(false);
+    const [planData] = useAtom(UserPlanState);
+    const [, setUpgradeModal] = useAtom(UpgradeModalState);
 
     const labelStyle =
         "font-semibold text-[16px] leading-[22px] text-[#000000]";
@@ -59,6 +63,14 @@ function UserManageModal({ isOpen, onClose, type, prevData }: ModalProps) {
 
     const handleSubmit = async (value: UserInitialType) => {
         if (type === "invite") {
+            if (planData.user_limit) {
+                toast.error(
+                    "User limit exceeded, Please update plan to further process"
+                );
+                onClose();
+                setUpgradeModal("Invited User");
+                return;
+            }
             setButtonLoading(true);
             const reqData = {
                 ...value,
@@ -67,6 +79,7 @@ function UserManageModal({ isOpen, onClose, type, prevData }: ModalProps) {
             await inviteUserApi(reqData);
             refetch();
             setButtonLoading(false);
+            refetchPlanData();
             onClose();
         }
         if (type === "update") {

@@ -6,6 +6,8 @@ import LodingAnimation from "../Shared/LodingAnimation/index";
 import ReactGA from "react-ga4";
 import { useQuery } from "react-query";
 import api from "../../api";
+import { useAtom } from "jotai";
+import { signupState, team_state, UserPlanState } from "../../state";
 
 type ProtectedRouteProps = {
     children: ReactNode;
@@ -15,26 +17,26 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     const token = getLocal("token");
     const router = useRouter();
     const [isLoading, setLoading] = useState<boolean>(false);
-    const user = getLocal("user-info");
-    const { isLoading: billLoading, data } = useQuery(
-        ["billing-info-get", user?._id],
-        () =>
-            api.get(
-                `${process.env.NEXT_PUBLIC_BASE_URL}/api/billing-record/${user?._id}`
-            ),
-        { enabled: !!user?._id }
-    );
-    const currentPlan = data?.data[0];
-    const expireDate = currentPlan?.expire_date;
+    const [teamData] = useAtom(team_state);
 
-    const date1 = new Date();
-    const date2 = new Date(expireDate);
-    const Difference_In_Time = date2.getTime() - date1.getTime();
-    const Difference_In_Days = Math.floor(
-        Difference_In_Time / (1000 * 3600 * 24)
+    const { data } = useQuery(
+        ["fetch-user-plan", teamData],
+        () => api.get(`/api/payment/plan/${teamData.id}`),
+        { enabled: !!teamData.id, select: (res) => res.data }
     );
 
     useEffect(() => {
+        if (data && getLeftDay(data.plan_end)) {
+            if (
+                router.asPath.includes("billing") ||
+                router.asPath.includes("schedule-demo")
+            ) {
+                return setLoading(true);
+            } else {
+                router.replace("/dashboard/billing/subscription-plan");
+                return;
+            }
+        }
         if (
             router.asPath.includes("/f/") ||
             router.asPath.includes("/s/") ||
@@ -54,7 +56,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
         router.events.on("routeChangeComplete", () => {
             return setLoading(true);
         });
-    }, [router, token]);
+    }, [router, token, data]);
 
     return <>{!isLoading ? <LoadingBox /> : children}</>;
 };
@@ -66,3 +68,9 @@ const LoadingBox = () => (
 );
 
 export default ProtectedRoute;
+
+function getLeftDay(plan_end: string) {
+    const currentDate = new Date();
+    const endDate = new Date(plan_end);
+    return endDate.getTime() - currentDate.getTime() <= 0;
+}

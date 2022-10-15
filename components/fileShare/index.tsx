@@ -3,7 +3,7 @@ import Card from "./Card";
 import HeaderContent from "./headerContent";
 import Pagination from "../Shared/Pagination";
 import { FakeData } from "../fake";
-import { defaultBrandingData } from "../../utils/defaultBrandingData";
+import { defaultBrandingData } from "../../utils/defaultData";
 import { ReducerBranding } from "../../api-call/BrandingApi";
 import { ContentDataType } from "../../api-call/ContentApi";
 

@@ -15,11 +15,13 @@ import { useQuery } from "react-query";
 import secureLocalStorage from "react-secure-storage";
 import api from "../../../api";
 import { PaymentMethod, signupState } from "../../../state";
+import { GetGlobalContext } from "../../Context/GlobalContextProvider";
 import { GetPaymentDetails } from "../../Context/PaymentDetailsProvider";
 import InputField from "../../Shared/InputField";
 import LoadingAnimation from "../../Shared/LoadingAnimation";
 import { LoadingSkeleton, NewCardDetails } from "../PaymentMethodComponent";
 import AddUpdateMethodModal from "./AddUpdateMethodModal";
+import BillingInformation from "./BillingInformation";
 import PaymentInfoDialog from "./PaymentInfoDialog";
 
 const stripePromise = loadStripe(
@@ -32,11 +34,11 @@ function ConfirmPaymentCom() {
     const [paymentMethodData] = useAtom(PaymentMethod);
     const [userData] = useAtom(signupState);
     const [updateMethod, setUpdateMethod] = useState(false);
+    const { refetchPlanData } = GetGlobalContext();
     const handleUpdateModal = () => {
         setUpdateMethod(!updateMethod);
     };
-    console.log(paymentMethodData);
-    console.log(secureLocalStorage.getItem("payment-method"));
+
     const { data: priceData } = useQuery(
         ["fetch-subscription", price_id],
         () => api.get("/api/payment/subscription/" + price_id),
@@ -50,6 +52,16 @@ function ConfirmPaymentCom() {
             refetchOnWindowFocus: false,
         }
     );
+
+    const { data: billingData, refetch: billingRefetch } = useQuery(
+        ["fetch-billing-address"],
+        () =>
+            api.get(
+                `/api/payment/customer/address/${paymentMethodData.customer}`
+            ),
+        { select: (res) => res.data, enabled: !!paymentMethodData.customer }
+    );
+
     const productData = priceData && priceData.product;
     const { data: paymentMethod } = GetPaymentDetails();
     const { data: secretData } = useQuery(
@@ -73,6 +85,14 @@ function ConfirmPaymentCom() {
     );
 
     const [loadingButton, setLoadingButton] = useState(false);
+    const billingObj = {
+        user_id: userData._id,
+        plan_name: productData && productData.name,
+        plan_price:
+            priceData &&
+            `${priceData.unit_amount != 0 ? priceData.unit_amount / 100 : 0}`,
+        address: billingData,
+    };
 
     const handleConfirmPayment = async () => {
         setLoadingButton(true);
@@ -116,14 +136,9 @@ function ConfirmPaymentCom() {
                 `/api/payment/plan/update/${userData._id}`,
                 updatePlanObj
             );
-            const billingObj = {
-                user_id: userData._id,
-                plan_name: productData.name,
-                plan_price: `${
-                    priceData.unit_amount != 0 ? priceData.unit_amount / 100 : 0
-                }`,
-            };
+
             await api.post("/api/billing", billingObj);
+            refetchPlanData();
             router.push("/dashboard/billing/payment-success");
         } catch (error) {
             setLoadingButton(false);
@@ -141,75 +156,10 @@ function ConfirmPaymentCom() {
                     <div className="pt-[35px]"></div>
                     <div className="flex flex-col lg:flex-row gap-[35px]">
                         <div className="basis-1/2">
-                            <ShadowCard>
-                                <div className="text-[24px] leading-[32.68px] text-[#101010] font-bold">
-                                    Billing Information
-                                </div>
-                                <div className="pt-[30px]"></div>
-                                <div>
-                                    <Formik
-                                        initialValues={{}}
-                                        enableReinitialize
-                                        onSubmit={(value) => console.log(value)}
-                                    >
-                                        {() => (
-                                            <Form>
-                                                <InputField
-                                                    name="email"
-                                                    placeholder="example@mail.com"
-                                                    type="email"
-                                                    label="Email"
-                                                    required
-                                                />
-                                                <div className="pt-[30px]"></div>
-                                                <InputField
-                                                    name="country"
-                                                    placeholder="Bangladesh"
-                                                    type="text"
-                                                    label="Address"
-                                                    required
-                                                />
-                                                <div className="pt-[30px]"></div>
-                                                <InputField
-                                                    name="address_line"
-                                                    placeholder="Address Line"
-                                                    type="text"
-                                                    required
-                                                />
-                                                <div className="pt-[30px]"></div>
-                                                <InputField
-                                                    name="city"
-                                                    placeholder="City"
-                                                    type="text"
-                                                    required
-                                                />
-                                                <div className="pt-[30px]"></div>
-                                                <InputField
-                                                    name="state"
-                                                    placeholder="State"
-                                                    type="text"
-                                                    required
-                                                />
-                                                <div className="pt-[30px]"></div>
-                                                <InputField
-                                                    name="zip"
-                                                    placeholder="Zip"
-                                                    type="text"
-                                                    required
-                                                />
-                                                <div className="pt-[30px]"></div>
-                                                <ButtonField
-                                                    text={`${
-                                                        loadingButton
-                                                            ? `Saving....`
-                                                            : "Save Now"
-                                                    }`}
-                                                />
-                                            </Form>
-                                        )}
-                                    </Formik>
-                                </div>
-                            </ShadowCard>
+                            <BillingInformation
+                                data={billingData}
+                                refetch={billingRefetch}
+                            />
                         </div>
                         <div className="basis-1/2 flex flex-col gap-[30px]">
                             <ShadowCard>
@@ -442,6 +392,7 @@ function ConfirmPaymentCom() {
                                                     priceData &&
                                                     priceData.recurring.interval
                                                 }`}
+                                                billingObj={billingObj}
                                             />
                                         </Elements>
                                     ) : (
@@ -527,8 +478,10 @@ function SubmitPayment({
     planName,
     planPrice,
     planInterval,
+    billingObj,
 }: {
     planData: any;
+    billingObj: any;
     planName: string;
     planPrice: number;
     planInterval: string;
@@ -541,6 +494,9 @@ function SubmitPayment({
     const router = useRouter();
     const price_id = router.query.price_id;
     const [paymentMethod, setPaymentMethod] = useAtom(PaymentMethod);
+
+    const { refetchPlanData } = GetGlobalContext();
+
     const handleSubmit = async (e: any) => {
         setLoadingButton(true);
         e.preventDefault();
@@ -593,10 +549,12 @@ function SubmitPayment({
                 `/api/payment/plan/update/${userData._id}`,
                 updatePlanObj
             );
+            await api.post("/api/billing", billingObj);
             setPaymentMethod({
                 ...paymentMethod,
                 id: setupIntent.payment_method,
             });
+            refetchPlanData();
             router.push("/dashboard/billing/payment-success");
         } catch (err: any) {
             console.log(err);
@@ -607,7 +565,9 @@ function SubmitPayment({
 
     return (
         <form className="pt-4">
-            <PaymentElement />
+            <PaymentElement
+                options={{ defaultValues: { billingDetails: { address: {} } } }}
+            />
             {errorMessage && (
                 <div className="text-sm text-red-600 pt-[5px]">
                     {errorMessage}
