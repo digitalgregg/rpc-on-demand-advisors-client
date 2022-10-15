@@ -24,9 +24,11 @@ import AddUpdateMethodModal from "./AddUpdateMethodModal";
 import BillingInformation from "./BillingInformation";
 import PaymentInfoDialog from "./PaymentInfoDialog";
 
-const stripePromise = loadStripe(
-    "pk_test_51LpbnJLpSmU6gOZ7D4ARj7x0qx27TiEswjs0pgt1UtH5P3lhkfBtcJcDUufn0ONqbsu7UwIF8FSd78o7q6uK7IUU0048KjfyYa"
-);
+const STRIPE_PUBLISHER_KEY: string =
+    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ||
+    "pk_test_TYooMQauvdEDq54NiTphI7jx";
+
+const stripePromise = loadStripe(STRIPE_PUBLISHER_KEY);
 
 function ConfirmPaymentCom() {
     const router = useRouter();
@@ -97,9 +99,7 @@ function ConfirmPaymentCom() {
     const handleConfirmPayment = async () => {
         setLoadingButton(true);
         try {
-            const stripe = await loadStripe(
-                "pk_test_51LpbnJLpSmU6gOZ7D4ARj7x0qx27TiEswjs0pgt1UtH5P3lhkfBtcJcDUufn0ONqbsu7UwIF8FSd78o7q6uK7IUU0048KjfyYa"
-            );
+            const stripe = await loadStripe(STRIPE_PUBLISHER_KEY);
 
             if (!stripe) {
                 throw new Error("Stripe or elements not found");

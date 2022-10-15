@@ -14,9 +14,11 @@ import LoadingAnimation from "../../Shared/LoadingAnimation";
 import secureLocalStorage from "react-secure-storage";
 import { GetPaymentDetails } from "../../Context/PaymentDetailsProvider";
 
-const stripePromise = loadStripe(
-    "pk_test_51LpbnJLpSmU6gOZ7D4ARj7x0qx27TiEswjs0pgt1UtH5P3lhkfBtcJcDUufn0ONqbsu7UwIF8FSd78o7q6uK7IUU0048KjfyYa"
-);
+const STRIPE_PUBLISHER_KEY: string =
+    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ||
+    "pk_test_TYooMQauvdEDq54NiTphI7jx";
+
+const stripePromise = loadStripe(STRIPE_PUBLISHER_KEY);
 
 type APF = {
     clientSecret: string;
@@ -77,7 +79,7 @@ const SetupForm = ({ handleModal, type }: any) => {
             if (error) throw new Error(error.message);
 
             setPaymentMethod((state) => ({
-                ...state,
+                ...paymentMethod,
                 id: setupIntent.payment_method,
             }));
 
@@ -118,61 +120,4 @@ const SetupForm = ({ handleModal, type }: any) => {
             <div className="pt-3"></div>
         </form>
     );
-};
-
-export const PaymentStatus = () => {
-    const stripe = useStripe();
-    const [message, setMessage] = useState<null | string>(null);
-
-    useEffect(() => {
-        if (!stripe) {
-            return;
-        }
-
-        // Retrieve the "setup_intent_client_secret" query parameter appended to
-        // your return_url by Stripe.js
-        const clientSecret = new URLSearchParams(window.location.search).get(
-            "setup_intent_client_secret"
-        ) as string;
-
-        if (!clientSecret) {
-            return;
-        }
-
-        // Retrieve the SetupIntent
-        stripe
-            .retrieveSetupIntent(clientSecret)
-            .then(({ setupIntent }: any) => {
-                // Inspect the SetupIntent `status` to indicate the status of the payment
-                // to your customer.
-                //
-                // Some payment methods will [immediately succeed or fail][0] upon
-                // confirmation, while others will first enter a `processing` state.
-                //
-                // [0]: https://stripe.com/docs/payments/payment-methods#payment-notification
-                switch (setupIntent.status) {
-                    case "succeeded":
-                        setMessage(
-                            "Success! Your payment method has been saved."
-                        );
-                        break;
-
-                    case "processing":
-                        setMessage(
-                            "Processing payment details. We'll update you when processing is complete."
-                        );
-                        break;
-
-                    case "requires_payment_method":
-                        // Redirect your user back to your payment page to attempt collecting
-                        // payment again
-                        setMessage(
-                            "Failed to process payment details. Please try another payment method."
-                        );
-                        break;
-                }
-            });
-    }, [stripe]);
-
-    return message;
 };
