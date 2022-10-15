@@ -4,6 +4,7 @@ import { setLocal } from "../../../utils/localStorage";
 import secureLocalStorage from "react-secure-storage";
 import { PricingCardType } from "../../PricingPage/data";
 import { useRouter } from "next/router";
+import { subscriptionPlanId } from "../../../utils/defaultData";
 
 const PricingCard = ({
     data,
@@ -24,19 +25,22 @@ const PricingCard = ({
     const getPath = pathName.split("/")[1];
     console.log(getPath, "______");
     const handleSubscription = (value: any) => {
-        if (value.name === "Plus" && getPath === "dashboard")
-            return router.push("/dashboard/support/contact-support");
-        if (getPath !== "dashboard") return router.push("/signup");
-        secureLocalStorage.setItem("plan", {
-            name: value.name,
-            monthPrice: value.monthPrice,
-            annualPrice: value.annualPrice,
-            assetLimit: value.planLimit.assetLimit,
-            storageLimit: value.planLimit.storageLimit,
-            userLimit: value.planLimit.userLimit,
-            isAnnual: isAnnual,
-        });
-        router.push(`/dashboard/billing/payment`);
+        if (value.name === "Plus")
+            return router.push("/dashboard/schedule-demo");
+        if (value.id === "MlGmlkmzUA") {
+            return router.push(
+                `/dashboard/billing/payment/${subscriptionPlanId.lite}`
+            );
+        }
+        if (value.id === "wekQZeYvhL" && !isAnnual) {
+            return router.push(
+                `/dashboard/billing/payment/${subscriptionPlanId.basicMonth}`
+            );
+        } else {
+            return router.push(
+                `/dashboard/billing/payment/${subscriptionPlanId.basicYear}`
+            );
+        }
     };
     return (
         <div

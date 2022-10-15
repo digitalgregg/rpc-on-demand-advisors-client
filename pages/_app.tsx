@@ -3,8 +3,8 @@ import "../styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/uppy.min.css";
 import "plyr-react/plyr.css";
+import "react-loading-skeleton/dist/skeleton.css";
 import { ToastContainer } from "react-toastify";
-import ReactGA from "react-ga4";
 import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Script from "next/script";
@@ -13,7 +13,9 @@ import "../styles/rsuite.css";
 import { useEffect } from "react";
 import api from "../api";
 import { useAtom } from "jotai";
-import { RetrieveLimit, team_state, UserPlanState } from "../state";
+import { team_state, UpgradeModalState } from "../state";
+import GlobalContextProvider from "../components/Context/GlobalContextProvider";
+import UpgradeModal from "../components/modal/UpgradeModal";
 
 const queryClient = new QueryClient();
 
@@ -22,8 +24,8 @@ const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
     const [teamData, setTeamObj] = useAtom(team_state);
-    const [planData, setPlanData] = useAtom(UserPlanState);
-    const [retrieveLimit] = useAtom(RetrieveLimit);
+    const [upgradeModal, setUpgradeModal] = useAtom(UpgradeModalState);
+
     useEffect(() => {
         (async function () {
             try {
@@ -80,9 +82,15 @@ function MyApp({ Component, pageProps }: AppProps) {
             ></Script>
             <QueryClientProvider client={queryClient}>
                 <ProtectedRoute>
-                    <Component {...pageProps} />
+                    <GlobalContextProvider>
+                        <Component {...pageProps} />
+                    </GlobalContextProvider>
                 </ProtectedRoute>
             </QueryClientProvider>
+            <UpgradeModal
+                modalOpen={!!upgradeModal}
+                handleModal={() => setUpgradeModal("")}
+            />
         </>
     );
 }
@@ -96,6 +104,7 @@ function resultToObj(result: any) {
         user_id: result.user_id._id,
         team_name: result.team_id.team_name,
         role: result.role,
+        customer: "",
     };
 }
 

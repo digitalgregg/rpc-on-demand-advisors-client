@@ -11,9 +11,9 @@ import Pagination, { IsArray } from "../../../components/Shared/Pagination";
 import { useWindowDimensions } from "../../../components/Shared/DimentionHook/index";
 import { useAtom } from "jotai";
 import {
-    RetrieveLimit,
     signupState,
     team_state,
+    UpgradeModalState,
     UserPlanState,
 } from "../../../state/index";
 import {
@@ -26,10 +26,11 @@ import DataNotFound from "../../../components/Shared/DataNotFound";
 import SortedSelect, {
     SelectOption,
 } from "../../../components/Shared/SortedSelect";
+import { GetGlobalContext } from "../../../components/Context/GlobalContextProvider";
 import { toast } from "react-toastify";
 import { getLocal } from "../../../utils/localStorage";
-import ContactIcon from './../../../components/CustomIcons/ContactIcon';
-import CollectionIcon from './../../../components/CustomIcons/CollectionIcon';
+import ContactIcon from "./../../../components/CustomIcons/ContactIcon";
+import CollectionIcon from "./../../../components/CustomIcons/CollectionIcon";
 const options = [
     { value: "newest", label: "Newest" },
     { value: "oldest", label: "Oldest" },
@@ -40,10 +41,12 @@ const options = [
 function Contents() {
     const [teamData] = useAtom(team_state);
     const [userData] = useAtom(signupState);
-    const [isHover,setIsHover] = useState(false)
-    const [isCollectionHover,setCollectionHover] = useState(false)
+    const [userPlan] = useAtom(UserPlanState);
+    const [, setUpgradeModal] = useAtom(UpgradeModalState);
 
-    const [retrieveLimit, setRetrieveLimit] = useAtom(RetrieveLimit);
+    const { refetchPlanData } = GetGlobalContext();
+    const [isHover, setIsHover] = useState(false);
+    const [isCollectionHover, setCollectionHover] = useState(false);
 
     const { width } = useWindowDimensions();
     const [collectionModal, setCollectionModal] = useState(false);
@@ -52,31 +55,30 @@ function Contents() {
         setCollectionModal(!collectionModal);
     };
 
+    const handleContentValidate = () => {
+        if (!userPlan) return;
+        if (userPlan.storage_limit) {
+            toast.error(
+                "Storage limit exceeded, Please upgrade plan to further process"
+            );
+        }
+        if (userPlan.asset_limit) {
+            toast.error(
+                "Storage limit exceeded, Please upgrade plan to further process"
+            );
+        }
+        if (userPlan.asset_limit || userPlan.storage_limit) {
+            abortFileUpload();
+            setUpgradeModal("Content");
+        }
+    };
+
     async function handleSingleUpload(response: any) {
         handleContentValidate();
         await createContent(responseToObject(response, teamData));
-        setRetrieveLimit(`${Math.random() * 100}`);
         refetch();
+        refetchPlanData();
     }
-
-    const handleContentValidate = () => {
-        const planData = getLocal("plan-limit");
-        if (!planData) return;
-        if (planData.storage_limit) {
-            toast.error(
-                "Storage limit exceeded, Please upgrade plan to further process"
-            );
-        }
-        if (planData.asset_limit) {
-            toast.error(
-                "Storage limit exceeded, Please upgrade plan to further process"
-            );
-        }
-        if (planData.asset_limit || planData.storage_limit) {
-            abortFileUpload();
-        }
-        console.log(planData);
-    };
 
     // filter section
     const [sortedFilter, setSortedFilter] = useState<SelectOption>({
@@ -102,33 +104,45 @@ function Contents() {
                         </h3>
                         <div className="flex gap-[3%] sm:gap-[25px] ">
                             <button
-                            onMouseOver={() => {
-                                setIsHover(true);
-                              }}
-                              onMouseLeave={() => {
-                                setIsHover(false)
-                              }}
+                                onMouseOver={() => {
+                                    setIsHover(true);
+                                }}
+                                onMouseLeave={() => {
+                                    setIsHover(false);
+                                }}
                                 onClick={handleUppyModal}
                                 className="w-[48.5%] sm:w-[143px] h-[48px] lg:w-[190px] lg:h-[54px] hover:bg-primary hover:text-white transition duration-600 border-[1.5px] border-primary rounded-[4px] text-[12px] lg:text-[14px] font-semibold flex items-center justify-center gap-[5px]	lg:gap-[11px] text-primary"
                             >
                                 <span>
-                                    <ContactIcon color={isHover === true ? "#FFFFFF" : "#E51937"}/>
+                                    <ContactIcon
+                                        color={
+                                            isHover === true
+                                                ? "#FFFFFF"
+                                                : "#E51937"
+                                        }
+                                    />
                                 </span>{" "}
                                 Add new content
                             </button>
 
                             <button
-                            onMouseOver={() => {
-                                setCollectionHover(true);
-                              }}
-                              onMouseLeave={() => {
-                                setCollectionHover(false)
-                              }}
+                                onMouseOver={() => {
+                                    setCollectionHover(true);
+                                }}
+                                onMouseLeave={() => {
+                                    setCollectionHover(false);
+                                }}
                                 onClick={handleCollection}
                                 className="w-[48.5%] sm:w-[168px] lg:w-[206px] h-[48px] lg:h-[54px] border-[1.5px] border-primary hover:bg-primary hover:text-white transition duration-600 rounded-[4px] text-[12px] lg:text-[14px] font-semibold	flex items-center justify-center gap-[5px]	lg:gap-[11px] text-primary"
                             >
                                 <span>
-                                    <CollectionIcon color={isCollectionHover === true ? "#FFFFFF" : "#E51937"}/>
+                                    <CollectionIcon
+                                        color={
+                                            isCollectionHover === true
+                                                ? "#FFFFFF"
+                                                : "#E51937"
+                                        }
+                                    />
                                 </span>{" "}
                                 Create new collection
                             </button>

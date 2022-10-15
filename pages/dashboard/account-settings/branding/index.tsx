@@ -23,7 +23,7 @@ import { useAtom } from "jotai";
 import { team_state } from "../../../../state/index";
 import LodingAnimation from "../../../../components/Shared/LodingAnimation";
 import { toast } from "react-toastify";
-import { defaultBrandingData } from "../../../../utils/defaultBrandingData";
+import { defaultBrandingData } from "../../../../utils/defaultData";
 
 function Branding() {
     const [teamData] = useAtom(team_state);

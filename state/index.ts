@@ -1,6 +1,8 @@
 // jotai will be used here for global state management
-import { atom } from "jotai";
-import { atomWithStorage } from "jotai/utils";
+import { atom, SetStateAction, WritableAtom } from "jotai";
+import { atomWithStorage, RESET } from "jotai/utils";
+import { PMDTYPE } from "../utils/interfaces";
+import secureLocalStorage from "react-secure-storage";
 
 export const signupState = atomWithStorage("user-info", {
     name: "",
@@ -18,6 +20,7 @@ export const team_state = atomWithStorage("team", {
     user_id: "",
     team_name: "",
     role: "",
+    customer: "",
 });
 
 export const AppSettingToggle = atomWithStorage("app-setting-toggle", {
@@ -85,16 +88,60 @@ export const DefaultFilter = atomWithStorage<DefaultFilterType>(
     }
 );
 
-type UserPlanType = {
-    storage_limit: boolean;
-    user_limit: boolean;
-    asset_limit: boolean;
+const atomWithLocalStorage: <Value>(
+    key: string,
+    initialValue: Value
+) => WritableAtom<Value, SetStateAction<Value> | typeof RESET> = (
+    key,
+    initialValue
+) => {
+    const getInitialValue = () => {
+        const item: any = secureLocalStorage.getItem(key);
+        if (item) {
+            return item;
+        }
+        return initialValue;
+    };
+    const baseAtom = atom(getInitialValue());
+    const derivedAtom = atom(
+        (get) => get(baseAtom),
+        (get, set, update) => {
+            const nextValue =
+                typeof update === "function" ? update(get(baseAtom)) : update;
+            set(baseAtom, nextValue);
+            secureLocalStorage.setItem(key, nextValue);
+        }
+    );
+    return derivedAtom;
 };
 
-export const UserPlanState = atomWithStorage<UserPlanType>("plan-limit", {
-    storage_limit: false,
-    user_limit: false,
-    asset_limit: false,
-});
+type PaymentMethodType = {
+    customer: string;
+    id: string;
+};
+
+type UserPlanType = {
+    storage_limit?: boolean;
+    user_limit?: boolean;
+    asset_limit?: boolean;
+    wishlist?: boolean;
+    analytics?: boolean;
+    weekly_email?: boolean;
+};
+
+export const PaymentMethod = atomWithLocalStorage<PaymentMethodType>(
+    "payment-method",
+    {
+        customer: "",
+        id: "",
+    }
+);
+
+export const UserPlanState = atomWithLocalStorage<UserPlanType>(
+    "user-plan-limit",
+    {}
+);
 
 export const RetrieveLimit = atom("abc");
+
+export const UpgradeModalState = atom("");
