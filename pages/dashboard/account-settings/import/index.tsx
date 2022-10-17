@@ -22,6 +22,7 @@ import ImportHistoryCard, {
     ImportHistoryType,
 } from "../../../../components/Dashboard/ImportPage/ImportHistoryCard";
 import { useRouter } from "next/router";
+import Meta from "../../../../components/Meta";
 
 function Import() {
     const router = useRouter();
@@ -116,6 +117,8 @@ function Import() {
     return (
         <>
             <DashboardLayout>
+                <Meta title="Import CSV | Account Settings" />
+
                 <Layout>
                     <div className="flex justify-between">
                         <div className="text-xl leading-[27.24px] sm:text-[24px] sm:leading-[32.68px] font-semibold text-[#000]">

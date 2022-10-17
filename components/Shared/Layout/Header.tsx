@@ -58,66 +58,81 @@ const NavMenuItem = () => {
     const SubMenuHandlear = () => {
         setSubMenuState(!subMenuState);
     };
+    const [iconHover, setIconHover] = useState(false);
     return (
         <nav className="flex flex-col items-start lg:items-center lg:flex-row">
             <ul className=" lg:w-fit w-full flex lg:items-center items-start lg:flex-row flex-col xl:gap-10 gap-[10px]">
                 <NavList title={"Home"} url={"/"} />
                 <NavList title={"Tour"} url={"/tour"} />
                 <li className=" group lg:p-0 p-[10px] lg:w-fit w-full relative">
-                    <a onClick={SubMenuHandlear} className="cursor-pointer">
-                        <div className=" flex items-center gap-[15.52px]">
-                            <span
-                                className={`
+                    <OutSideClick onOutSideClick={() => setSubMenuState(false)}>
+                        <a onClick={SubMenuHandlear} className="cursor-pointer">
+                            <div
+                                onMouseEnter={() => setIconHover(true)}
+                                onMouseLeave={() => setIconHover(false)}
+                                className=" flex items-center gap-[13.52px]"
+                            >
+                                <span
+                                    className={`
                         ${
                             router.asPath === "/resources/demo" ||
                             router.asPath === "/contact-us"
                                 ? "!text-primary !font-bold"
                                 : ""
-                        } group-hover:text-primary text-[#ffffff] lg:p-[10px] pr-3 font-semibold text-[18px] leading-[25px]
+                        } hover:text-primary text-[#ffffff] lg:p-[10px] pr-3 font-semibold text-[18px] leading-[25px]
                         `}
-                            >
-                                Resources
-                            </span>
-                            <div
-                                className={`${
-                                    subMenuState === true
-                                        ? "transform rotate-[180deg] w-3"
-                                        : "transform rotate-[0deg] w-3"
-                                } `}
-                            >
-                                <Image
-                                    layout="responsive"
-                                    width={18}
-                                    height={10}
-                                    src="/assets/resurces-demo/darrow.svg"
-                                    alt="icon"
-                                />
+                                >
+                                    Resources
+                                </span>
+                                <div
+                                    className={`${
+                                        subMenuState === true
+                                            ? "transform rotate-[180deg] w-3"
+                                            : "transform rotate-[0deg] w-3"
+                                    } `}
+                                >
+                                    {iconHover ? (
+                                        <Image
+                                            layout="responsive"
+                                            width={18}
+                                            height={10}
+                                            src="/assets/resurces-demo/redArrow.svg"
+                                            alt="icon"
+                                        />
+                                    ) : (
+                                        <Image
+                                            layout="responsive"
+                                            width={18}
+                                            height={10}
+                                            src="/assets/resurces-demo/darrow.svg"
+                                            alt="icon"
+                                        />
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                    <OutSideClick onOutSideClick={() => setSubMenuState(false)}>
-                    <ul
-                        className={`${
-                            subMenuState === false
-                                ? "hidden"
-                                : " lg:absolute lg:top-10 lg:right-0"
-                        } lg:w-[272px] w-full lg:p-[30px] lg:mt-0 mt-3 rounded shadow-sm lg:bg-[#ffffff] z-50 flex flex-col gap-[5px]`}
-                    >
-                        <SubNavList
-                            title={"Demo"}
-                            pera={
-                                "Watch a quick demo or schedule time with us."
-                            }
-                            url={"/resources/demo"}
-                        />
-                        <SubNavList
-                            title={"Contact Us"}
-                            pera={
-                                "Watch a quick demo or schedule time with us."
-                            }
-                            url={"/contact-Us"}
-                        />
-                    </ul>
+                        </a>
+                        <ul
+                            className={`${
+                                subMenuState === false
+                                    ? "hidden"
+                                    : " lg:absolute lg:top-10 lg:right-0"
+                            } lg:w-[272px] w-full lg:p-[30px] lg:mt-0 mt-3 rounded shadow-sm lg:bg-[#ffffff] z-50 flex flex-col gap-[5px]`}
+                        >
+                            <SubNavList
+                                title={"Demo"}
+                                pera={
+                                    "Watch a quick demo or schedule time with us."
+                                }
+                                url={"/resources/demo"}
+                            />
+                            <SubNavList
+                                title={"Contact Us"}
+                                pera={
+                                    "Watch a quick demo or schedule time with us."
+                                }
+                                url={"/contact-Us"}
+                            />
+                        </ul>
                     </OutSideClick>
                 </li>
                 <NavList title={"Pricing"} url={"/pricing"} />
@@ -198,7 +213,7 @@ const Header = () => {
                     <div
                         className={`${
                             dropDownMenu === true ? "block" : "hidden"
-                        } z-50 shadow w-full sm:py-[40px] py-5 sm:px-[50px] px-[30px] rounded bg-[#242424] absolute md:top-[100px] top-[68px] right-0 h-fit`}
+                        } z-50 lg:hidden shadow w-full sm:py-[40px] py-5 sm:px-[50px] px-[30px] rounded bg-[#242424] absolute md:top-[100px] top-[68px] right-0 h-fit`}
                     >
                         <NavMenuItem />
                     </div>

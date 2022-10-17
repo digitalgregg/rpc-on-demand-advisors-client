@@ -10,6 +10,7 @@ import {
 } from "../../../api-call/CollectionApi";
 import { useState } from "react";
 import { SelectOption } from "../../../components/Shared/SortedSelect";
+import Meta from "../../../components/Meta";
 
 function SharedCollection() {
     const [teamData] = useAtom(team_state);
@@ -27,6 +28,7 @@ function SharedCollection() {
 
     return (
         <DashboardLayout>
+            <Meta title="Shared Collections | Dashboard" />
             <ViewCollection
                 isSuccess={isSuccess}
                 isError={isError}

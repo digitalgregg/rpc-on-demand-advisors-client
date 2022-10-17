@@ -8,6 +8,7 @@ import { team_state } from "../../../../state";
 import { fetchAppSettings } from "../../../../api-call/AppSettingsApi";
 import AppSettingComponents from "../../../../components/accountSettings/AppSettingComponents";
 import ComponentApplicationSettings from "../../../../components/accountSettings/ApplicationSettings";
+import Meta from "../../../../components/Meta";
 const ApplicationSettings = () => {
     const [teamData] = useAtom(team_state);
 
@@ -32,6 +33,7 @@ const ApplicationSettings = () => {
     return (
         <DashboardLayout>
             <Layout>
+                <Meta title="Application Settings | Account Settings" />
                 <SettingsDataProvider
                     status={{ isLoading, isSuccess, isError }}
                     settingsData={data}

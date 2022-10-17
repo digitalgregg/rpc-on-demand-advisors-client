@@ -31,8 +31,13 @@ import {
     responseToObject,
 } from "../../../../api-call/ContentApi";
 import { useAtom } from "jotai";
-import { RetrieveLimit, team_state } from "../../../../state";
-import { getLocal } from "../../../../utils/localStorage";
+import {
+    team_state,
+    UpgradeModalState,
+    UserPlanState,
+} from "../../../../state";
+import { GetGlobalContext } from "../../../Context/GlobalContextProvider";
+import Meta from "../../../Meta";
 
 function EditCollection() {
     const [removeModal, setRemoveModal] = useState(false);
@@ -40,9 +45,13 @@ function EditCollection() {
     const data = context.collectionData || initialCollection;
     const contentsData = context.contents || [];
 
+    const [, setUpgradeModal] = useAtom(UpgradeModalState);
     const [selectLoading, setSelectLoading] = useState(false);
 
     const [teamData] = useAtom(team_state);
+
+    const [userPlan] = useAtom(UserPlanState);
+    const { refetchPlanData } = GetGlobalContext();
 
     const { width } = useWindowDimensions();
 
@@ -60,6 +69,24 @@ function EditCollection() {
             return 10;
         }
     }
+
+    const handleContentValidate = () => {
+        if (!userPlan) return;
+        if (userPlan.storage_limit) {
+            toast.error(
+                "Storage limit exceeded, Please upgrade plan to further process"
+            );
+        }
+        if (userPlan.asset_limit) {
+            toast.error(
+                "Storage limit exceeded, Please upgrade plan to further process"
+            );
+        }
+        if (userPlan.asset_limit || userPlan.storage_limit) {
+            abortFileUpload();
+            setUpgradeModal("Content");
+        }
+    };
 
     const handleRemoveAll = async (_: any, setLoading: any) => {
         setLoading(true);
@@ -86,35 +113,16 @@ function EditCollection() {
             console.log(error);
         }
     };
-    const [retrieveLimit, setRetrieveLimit] = useAtom(RetrieveLimit);
     async function handleSingleUpload(response: any) {
         handleContentValidate();
         await createContent(responseToObject(response, teamData));
-        setRetrieveLimit(`${Math.random() * 100}`);
         context.refetch();
+        refetchPlanData();
     }
-
-    const handleContentValidate = () => {
-        const planData = getLocal("plan-limit");
-        if (!planData) return;
-
-        if (planData.storage_limit) {
-            toast.error(
-                "Storage limit exceeded, Please upgrade plan to further process"
-            );
-        }
-        if (planData.asset_limit) {
-            toast.error(
-                "Storage limit exceeded, Please upgrade plan to further process"
-            );
-        }
-        if (planData.asset_limit || planData.storage_limit) {
-            abortFileUpload();
-        }
-    };
 
     return (
         <>
+            <Meta title={data.title} />
             <div className="min-h-screen">
                 <div>
                     <TopForm />
@@ -248,8 +256,8 @@ function EditCollection() {
                 </div>
             </div>
             <FileUploadModal
-                onFileUpload={handleContentValidate}
                 onSingleUpload={handleSingleUpload}
+                onFileUpload={handleContentValidate}
             />
         </>
     );

@@ -9,7 +9,7 @@ import {
     updateInviteUser,
 } from "../../../api-call/InviteUserApi";
 import { useAtom } from "jotai";
-import { team_state, UserPlanState } from "../../../state";
+import { team_state, UpgradeModalState, UserPlanState } from "../../../state";
 import { useState } from "react";
 import LodingAnimation from "../../Shared/LodingAnimation";
 import {
@@ -17,6 +17,8 @@ import {
     UserManageType,
 } from "../../Context/UserManageProvider";
 import SelectField from "../../Shared/SelectField";
+import { GetGlobalContext } from "../../Context/GlobalContextProvider";
+import { toast } from "react-toastify";
 
 type ModalProps = {
     isOpen: boolean;
@@ -46,8 +48,9 @@ const validateSchema = Yup.object({
 function UserManageModal({ isOpen, onClose, type, prevData }: ModalProps) {
     const [teamData] = useAtom(team_state);
     const { refetch } = GetUserManageContext();
-
+    const { refetchPlanData } = GetGlobalContext();
     const [buttonLoading, setButtonLoading] = useState(false);
+    const [, setUpgradeModal] = useAtom(UpgradeModalState);
 
     const labelStyle =
         "font-semibold text-[16px] leading-[22px] text-[#000000]";
@@ -60,6 +63,14 @@ function UserManageModal({ isOpen, onClose, type, prevData }: ModalProps) {
 
     const handleSubmit = async (value: UserInitialType) => {
         if (type === "invite") {
+            if (planData.user_limit) {
+                toast.error(
+                    "User limit exceeded, Please update plan to further process"
+                );
+                onClose();
+                setUpgradeModal("Invited User");
+                return;
+            }
             setButtonLoading(true);
             const reqData = {
                 ...value,
@@ -68,6 +79,7 @@ function UserManageModal({ isOpen, onClose, type, prevData }: ModalProps) {
             await inviteUserApi(reqData);
             refetch();
             setButtonLoading(false);
+            refetchPlanData();
             onClose();
         }
         if (type === "update") {
@@ -146,7 +158,7 @@ function UserManageModal({ isOpen, onClose, type, prevData }: ModalProps) {
                                 options={userTypeOptions}
                                 label="Enter user type"
                             />
-                            {type === "invite" &&
+                            {/* {type === "invite" &&
                             planData &&
                             planData.user_limit ? (
                                 <div className="text-primary pt-1 pb-5 font-semibold text-sm">
@@ -155,7 +167,9 @@ function UserManageModal({ isOpen, onClose, type, prevData }: ModalProps) {
                                 </div>
                             ) : (
                                 <div className="pt-[30px]"></div>
-                            )}
+                            )} */}
+                            <div className="pt-[30px]"></div>
+
                             <div className="flex gap-[15px]">
                                 <button
                                     className="h-[45px] border-primary border w-full text-primary rounded hover:bg-primary hover:text-white transition-all duration-200"
@@ -168,11 +182,11 @@ function UserManageModal({ isOpen, onClose, type, prevData }: ModalProps) {
                                     <button
                                         type="submit"
                                         className="h-[45px] border-primary border w-full text-white rounded bg-primary hover:bg-primary_dark transition-all duration-200 disabled:opacity-30 disabled:hover:bg-primary"
-                                        disabled={
-                                            type === "invite" &&
-                                            planData &&
-                                            planData.user_limit
-                                        }
+                                        // disabled={
+                                        //     type === "invite" &&
+                                        //     planData &&
+                                        //     planData.user_limit
+                                        // }
                                     >
                                         {buttonLoading ? (
                                             <span className="flex items-center gap-[10px] justify-center">

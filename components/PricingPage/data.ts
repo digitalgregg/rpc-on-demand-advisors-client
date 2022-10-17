@@ -1,4 +1,5 @@
 export type PricingCardType = {
+    id: string;
     name: string;
     description: string;
     monthPrice?: number;
@@ -9,6 +10,7 @@ export type PricingCardType = {
 
 export const pricingCardData: PricingCardType[] = [
     {
+        id: "MlGmlkmzUA",
         name: "Lite",
         description: "For productive solo sellers and marketers",
         monthPrice: 0,
@@ -29,6 +31,7 @@ export const pricingCardData: PricingCardType[] = [
         },
     },
     {
+        id: "wekQZeYvhL",
         name: "Basic",
         description: "For productive solo sellers and marketers",
         monthPrice: 15,
@@ -53,6 +56,7 @@ export const pricingCardData: PricingCardType[] = [
         },
     },
     {
+        id: "OmxlAwoFSa",
         name: "Plus",
         description: "Custom plans to support the largest organizations.",
         featuresList: [

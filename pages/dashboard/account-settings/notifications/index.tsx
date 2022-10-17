@@ -9,6 +9,7 @@ import { getLocal } from "../../../../utils/localStorage";
 import { useQuery } from "react-query";
 import { useAtom } from "jotai";
 import { team_state } from "../../../../state";
+import Meta from "../../../../components/Meta";
 
 const options = [
     { value: "All Users", label: "All Users" },
@@ -61,7 +62,12 @@ const Notifications = () => {
             enabled: !!team.id,
             onSuccess: (data) => {
                 setIsToggle(data?.data.isToggle);
-                setSelectUser({value:data?.data?.role_type, label:data?.data?.role_type.charAt(0).toUpperCase() + data?.data?.role_type.slice(1)})
+                setSelectUser({
+                    value: data?.data?.role_type,
+                    label:
+                        data?.data?.role_type.charAt(0).toUpperCase() +
+                        data?.data?.role_type.slice(1),
+                });
             },
         }
     );
@@ -106,6 +112,8 @@ const Notifications = () => {
 
     return (
         <DashboardLayout>
+            <Meta title="Notifications | Account Settings" />
+
             <Layout>
                 <div className="w-[100%] pb-[20px]">
                     <h2 className="font-semibold text-[24px] leading-[33px] xs:mb-[14px] sm:mb-[30px] text-[#000000]">
