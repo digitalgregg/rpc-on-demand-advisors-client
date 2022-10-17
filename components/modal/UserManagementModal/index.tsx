@@ -158,7 +158,7 @@ function UserManageModal({ isOpen, onClose, type, prevData }: ModalProps) {
                                 options={userTypeOptions}
                                 label="Enter user type"
                             />
-                            {type === "invite" &&
+                            {/* {type === "invite" &&
                             planData &&
                             planData.user_limit ? (
                                 <div className="text-primary pt-1 pb-5 font-semibold text-sm">
@@ -167,7 +167,9 @@ function UserManageModal({ isOpen, onClose, type, prevData }: ModalProps) {
                                 </div>
                             ) : (
                                 <div className="pt-[30px]"></div>
-                            )}
+                            )} */}
+                            <div className="pt-[30px]"></div>
+
                             <div className="flex gap-[15px]">
                                 <button
                                     className="h-[45px] border-primary border w-full text-primary rounded hover:bg-primary hover:text-white transition-all duration-200"
@@ -180,11 +182,11 @@ function UserManageModal({ isOpen, onClose, type, prevData }: ModalProps) {
                                     <button
                                         type="submit"
                                         className="h-[45px] border-primary border w-full text-white rounded bg-primary hover:bg-primary_dark transition-all duration-200 disabled:opacity-30 disabled:hover:bg-primary"
-                                        disabled={
-                                            type === "invite" &&
-                                            planData &&
-                                            planData.user_limit
-                                        }
+                                        // disabled={
+                                        //     type === "invite" &&
+                                        //     planData &&
+                                        //     planData.user_limit
+                                        // }
                                     >
                                         {buttonLoading ? (
                                             <span className="flex items-center gap-[10px] justify-center">

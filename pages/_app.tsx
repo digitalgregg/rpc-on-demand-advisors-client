@@ -16,6 +16,9 @@ import { useAtom } from "jotai";
 import { team_state, UpgradeModalState } from "../state";
 import GlobalContextProvider from "../components/Context/GlobalContextProvider";
 import UpgradeModal from "../components/modal/UpgradeModal";
+import checkRemember from "../utils/checkRemember";
+import { useRouter } from "next/router";
+import { removeLocal } from "../utils/localStorage";
 
 const queryClient = new QueryClient();
 
@@ -25,15 +28,28 @@ const queryClient = new QueryClient();
 function MyApp({ Component, pageProps }: AppProps) {
     const [teamData, setTeamObj] = useAtom(team_state);
     const [upgradeModal, setUpgradeModal] = useAtom(UpgradeModalState);
+    const router = useRouter();
 
     useEffect(() => {
+        if (checkRemember()) {
+            removeLocal("user");
+            removeLocal("user-info");
+            removeLocal("team");
+            removeLocal("token");
+            removeLocal("payment-method");
+            removeLocal("user-plan-limit");
+            removeLocal("remember");
+            router.replace("/");
+        }
         (async function () {
             try {
-                const teamResponse = await api.get(
-                    `/api/team/user/${teamData.user_id}`
-                );
-                const teamObj = resultToObj(teamResponse.data);
-                setTeamObj(teamObj);
+                if (teamData.user_id) {
+                    const teamResponse = await api.get(
+                        `/api/team/user/${teamData.user_id}`
+                    );
+                    const teamObj = resultToObj(teamResponse.data);
+                    setTeamObj(teamObj);
+                }
             } catch (error) {
                 console.log(error);
             }

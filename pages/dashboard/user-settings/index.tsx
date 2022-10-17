@@ -6,10 +6,12 @@ import ProfilePhoto from "../../../components/UserSettings/ProfilePhoto";
 import ChangePassword from "../../../components/UserSettings/ChangePassword";
 import NotificationSettings from "../../../components/UserSettings/NotificationSettings";
 import DefaultSearchFilter from "../../../components/DefaultSearchFilter";
+import Meta from "../../../components/Meta";
 
 const Index = () => {
     return (
         <DashboardLayout>
+            <Meta title="User Setting" />
             <div className="w-[100%]">
                 <h2 className="hidden lg:flex font-semibold text-[24px] leading-[33px] text-[#000805] mb-[30px]">
                     User Settings

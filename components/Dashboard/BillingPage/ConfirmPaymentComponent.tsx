@@ -93,7 +93,7 @@ function ConfirmPaymentCom() {
         plan_price:
             priceData &&
             `${priceData.unit_amount != 0 ? priceData.unit_amount / 100 : 0}`,
-        address: billingData,
+        address: billingData || {},
     };
 
     const handleConfirmPayment = async () => {

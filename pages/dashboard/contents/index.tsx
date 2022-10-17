@@ -31,6 +31,7 @@ import { toast } from "react-toastify";
 import { getLocal } from "../../../utils/localStorage";
 import ContactIcon from "./../../../components/CustomIcons/ContactIcon";
 import CollectionIcon from "./../../../components/CustomIcons/CollectionIcon";
+import Meta from "../../../components/Meta";
 const options = [
     { value: "newest", label: "Newest" },
     { value: "oldest", label: "Oldest" },
@@ -97,6 +98,7 @@ function Contents() {
     return (
         <>
             <DashboardLayout>
+                <Meta title="Contents | Dashboard" />
                 <div className="w-full">
                     <div className="flex flex-col sm:items-center justify-between sm:flex-row pb-[30px] w-full mx-auto">
                         <h3 className="text-[16px] md:text-[18px] lg:text-[24px] 2xl:text-[32px] mb-[30px] sm:mb-0 font-bold text-[#000]">

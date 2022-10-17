@@ -11,6 +11,7 @@ import { team_state } from "../../../../state/index";
 import UserManageProvider from "../../../../components/Context/UserManageProvider";
 import { useState } from "react";
 import { UserManageType } from "../../../../components/Context/UserManageProvider";
+import Meta from "../../../../components/Meta";
 
 const UserManagementPage = () => {
     const [teamData] = useAtom(team_state);
@@ -42,6 +43,8 @@ const UserManagementPage = () => {
 
     return (
         <DashboardLayout>
+            <Meta title="User Management | Account Settings" />
+
             <Layout>
                 <UserManageProvider data={data} refetch={refetch}>
                     <div className="w-full sm:bg-[#FFFFFF] sm:px-[10px] md:px-[20px] 2xl:px-[30px] py-[30px] mb-[30px] sm:flex sm:flex-col">

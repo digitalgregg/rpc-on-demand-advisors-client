@@ -15,6 +15,7 @@ import PaymentDetailsProvider from "../../../components/Context/PaymentDetailsPr
 import { PaymentMethod, team_state } from "../../../state";
 import Skeleton from "react-loading-skeleton";
 import LoadingAnimation from "../../../components/Shared/LoadingAnimation";
+import Meta from "../../../components/Meta";
 
 function PaymentDetails() {
     const [teamData] = useAtom(team_state);
@@ -49,6 +50,8 @@ function PaymentDetails() {
 
     return (
         <>
+            <Meta title="Payment Details" />
+
             <PricingLayout>
                 <div className="">
                     <div className="">
@@ -197,7 +200,7 @@ function PaymentDetails() {
                                             </div>
                                         )}
                                         {isError && (
-                                            <div className="">
+                                            <div className="py-4">
                                                 You haven{"'"}t purchased any
                                                 plan yet
                                             </div>

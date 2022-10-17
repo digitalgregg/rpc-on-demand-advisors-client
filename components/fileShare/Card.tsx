@@ -23,7 +23,7 @@ const Card = ({ content }: CardItemType) => {
                                         : "/assets/no_preview.jpg"
                                 }
                                 alt=""
-                                className="object-cover h-full"
+                                className="object-cover h-full w-full"
                             />
                         </div>
 
@@ -32,7 +32,7 @@ const Card = ({ content }: CardItemType) => {
                         </p>
                     </div>
                     <Link href={`/f/${content.short_url}`}>
-                        <button className="hover-transition bg-primary border border-solid border-primary hover:bg-transparent hover:text-primary w-full h-[40px] rounded text-White font-semibold text-base leading-4">
+                        <button className="hover-transition  border border-solid border-primary hover:bg-transparent text-primary w-full h-[40px] rounded hover:bg-primary hover:text-white transition-all duration-300 font-semibold text-base leading-4">
                             View content
                         </button>
                     </Link>

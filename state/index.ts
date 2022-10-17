@@ -1,8 +1,8 @@
 // jotai will be used here for global state management
 import { atom, SetStateAction, WritableAtom } from "jotai";
 import { atomWithStorage, RESET } from "jotai/utils";
-import { PMDTYPE } from "../utils/interfaces";
-import secureLocalStorage from "react-secure-storage";
+import { decryptData, encryptData } from "../utils/hashdata";
+import { getLocal, setLocal } from "../utils/localStorage";
 
 export const signupState = atomWithStorage("user-info", {
     name: "",
@@ -96,9 +96,9 @@ const atomWithLocalStorage: <Value>(
     initialValue
 ) => {
     const getInitialValue = () => {
-        const item: any = secureLocalStorage.getItem(key);
+        const item: any = getLocal(key);
         if (item) {
-            return item;
+            return decryptData(item);
         }
         return initialValue;
     };
@@ -109,7 +109,7 @@ const atomWithLocalStorage: <Value>(
             const nextValue =
                 typeof update === "function" ? update(get(baseAtom)) : update;
             set(baseAtom, nextValue);
-            secureLocalStorage.setItem(key, nextValue);
+            setLocal(key, encryptData(nextValue));
         }
     );
     return derivedAtom;

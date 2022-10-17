@@ -9,6 +9,7 @@ import { setLocal } from "../../utils/localStorage";
 import { useAtom } from "jotai";
 import LodingAnimation from "../../components/Shared/LodingAnimation";
 import { PaymentMethod, signupState, team_state } from "../../state";
+import Meta from "../../components/Meta";
 
 const items = [
     {
@@ -43,6 +44,7 @@ const Signin = () => {
     const [_1, setTeamObj] = useAtom(team_state);
     const [_2, setSignupData] = useAtom(signupState);
     const [paymentMethod, setPaymentMethod] = useAtom(PaymentMethod);
+    const [remember, setRemember] = useState(true);
 
     const {
         register,
@@ -90,7 +92,10 @@ const Signin = () => {
             if (resCustomer.data) {
                 setPaymentMethod(resCustomer.data);
             }
-
+            setLocal("remember", remember);
+            if (!remember) {
+                document.cookie = "remember=false; SameSite=None; Secure";
+            }
             setButtonLoading(false);
             toast.success("User signin successfully");
             setTimeout(() => {
@@ -121,10 +126,11 @@ const Signin = () => {
     const label =
         "text-[#101010] font-semibold xs:text-[14px] xs:leading-[19.07px] lg:text-[16px] lg:leading-[21.79px]";
     const input =
-        "w-[100%] text-[#6D6D6D] bg-[#FFFFFF] text-[14px] font-normal border border-[#E0E0E0] h-[55px] mb-[10px] mt-[10px] px-[20px] py-[18px]";
+        "w-[100%] text-[#6D6D6D] bg-[#FFFFFF] focus:outline-none text-[14px] font-normal border border-[#E0E0E0] h-[55px] mb-[10px] mt-[10px] px-[20px] py-[18px]";
     return (
         <div className="w-[100%] flex bg-[#FFFFFF]">
-            <div className="w-[100%] xl:w-[50%] h-[1080px]">
+            <Meta title="Login" />
+            <div className="w-[100%] xl:w-[50%] xl:h-[1080px]">
                 <div className="4xl:ml-[180px] 4xl:mr-[117px]  3xl:ml-[120px] 3xl:mr-[110px] 2xl:ml-[120px] 2xl:mr-[88px] xl:ml-[60px] xl:mr-[60px] lg:mr-[202px] lg:ml-[202px] md:mr-[100px] md:ml-[100px] sm:mr-[90px] sm:ml-[90px] xs:mr-[20px] xs:ml-[20px]">
                     <Link href="/">
                         <img
@@ -203,7 +209,12 @@ const Signin = () => {
                                 {error}
                             </h3>
                         )}
-                        <div className="mt-[10px] mb-[20px] text-right">
+
+                        <div className="mt-[15px] mb-[20px] flex justify-between items-center">
+                            <RememberCheckbox
+                                remember={remember}
+                                setRemember={setRemember}
+                            />
                             <Link href="/forgot-password ">
                                 <h3 className="text-[#E51937] font-normal text-[14px] leading-[19px] cursor-pointer">
                                     Forgot Password?
@@ -275,3 +286,26 @@ const Signin = () => {
 };
 
 export default Signin;
+
+type RCTYPE = {
+    remember: boolean;
+    setRemember: React.Dispatch<React.SetStateAction<boolean>>;
+};
+const RememberCheckbox = ({ remember, setRemember }: RCTYPE) => {
+    console.log(remember);
+    return (
+        <div
+            onClick={() => setRemember(!remember)}
+            className="flex items-center gap-[10px] cursor-pointer"
+        >
+            <div
+                className={`w-[14px] h-[14px] border rounded-sm border-[#333] flex justify-center items-center ${
+                    remember && "!border-primary bg-primary"
+                }`}
+            >
+                {remember && <div className="text-[10px] text-white">✓</div>}
+            </div>
+            <div className="text-[#333] text-sm">Remember me</div>
+        </div>
+    );
+};

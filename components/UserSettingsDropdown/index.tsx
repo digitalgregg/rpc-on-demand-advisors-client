@@ -83,7 +83,9 @@ const UserSettingsDropdown = () => {
             removeLocal("user-info");
             removeLocal("team");
             removeLocal("token");
-            secureLocalStorage.removeItem("payment-method");
+            removeLocal("payment-method");
+            removeLocal("user-plan-limit");
+            removeLocal("remember");
             router.push("/");
         } else {
             router.push(url);

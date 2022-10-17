@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect } from "react";
-import { getLocal } from "../../utils/localStorage";
+import { getLocal, removeLocal } from "../../utils/localStorage";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import LodingAnimation from "../Shared/LodingAnimation/index";
@@ -8,6 +8,7 @@ import { useQuery } from "react-query";
 import api from "../../api";
 import { useAtom } from "jotai";
 import { signupState, team_state, UserPlanState } from "../../state";
+import checkRemember from "../../utils/checkRemember";
 
 type ProtectedRouteProps = {
     children: ReactNode;

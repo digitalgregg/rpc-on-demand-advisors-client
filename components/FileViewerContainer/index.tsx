@@ -140,7 +140,7 @@ const FileViewerContainer = () => {
                 <div className="flex gap-[19px] items-center text-[#000805]">
                     <div className="flex gap-[5px] items-center">
                         <img
-                            src="/img/viewIcon.svg"
+                            src="/img/view-icon-black.svg"
                             alt="view icon"
                             className="w-[24px]"
                         />
@@ -175,7 +175,7 @@ const FileViewerContainer = () => {
                     </div>
                     <div className="flex gap-[5px] items-center">
                         <img
-                            src="/img/shareIconRed.svg"
+                            src="/img/share-icon-black.svg"
                             alt="view icon"
                             className={iconStyle}
                         />

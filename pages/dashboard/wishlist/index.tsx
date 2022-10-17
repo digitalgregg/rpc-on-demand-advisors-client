@@ -15,6 +15,7 @@ import DataNotFound from "./../../../components/Shared/DataNotFound/index";
 import { useAtom } from "jotai";
 import { UserPlanState } from "../../../state";
 import UpgradePlan from "../../../components/UpgradePlan";
+import Meta from "../../../components/Meta";
 
 // flex flex-col gap-5 sm:flex-row sm:flex-wrap sm:[&>div]:basis-[calc(50%-10px)] lg:[&>div]:basis-[calc((100%/3)-(40px/3))]
 function WishList() {
@@ -53,6 +54,7 @@ function WishList() {
 
     return (
         <DashboardLayout>
+            <Meta title="Wishlist" />
             {planData.wishlist ? (
                 <UpgradePlan topic="Wishlist" />
             ) : (

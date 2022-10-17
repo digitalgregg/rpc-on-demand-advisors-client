@@ -9,6 +9,7 @@ import {
 } from "../../../api-call/CollectionApi";
 import { useState } from "react";
 import { SelectOption } from "../../../components/Shared/SortedSelect";
+import Meta from "../../../components/Meta";
 
 function Collections() {
     const [userData] = useAtom(signupState);
@@ -22,6 +23,7 @@ function Collections() {
         useFilterCollections(userData._id, filter);
     return (
         <DashboardLayout>
+            <Meta title="Collections | Dashboard" />
             <ViewCollection
                 data={data}
                 isSuccess={isSuccess}

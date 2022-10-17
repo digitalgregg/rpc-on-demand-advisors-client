@@ -29,6 +29,7 @@ import {
     isImage,
     isVideo,
 } from "../../../../components/Library/FileType";
+import Meta from "../../../../components/Meta";
 
 const ContentDetails = ({ query }: { query: any }) => {
     const id = query.id;
@@ -67,6 +68,7 @@ const ContentDetails = ({ query }: { query: any }) => {
 
     return (
         <>
+            <Meta title={data.title} />
             <ContentDataProvider refetch={refetch} contentData={data}>
                 <div className="w-[100%] bg-[#F8F8F8] pb-[20px] h-auto]">
                     <div className="px-[20px] sm:px-[40px] md:px-[50px] lg:px-[47px] xl:px-[60px] 2xl:px-[40px] 3xl:px-[120px] 4xl:px-[180px]">
@@ -148,7 +150,7 @@ const ButtonGroup = () => {
                         <div>Loading...</div>
                     </span>
                 ) : (
-                    "Publish content"
+                    "Update content"
                 )}
             </button>
         </div>

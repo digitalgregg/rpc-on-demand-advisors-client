@@ -18,6 +18,7 @@ import { removeEmpty } from "./../../../../utils/removeEmpty";
 import { toast } from "react-toastify";
 import { getLocal } from "../../../../utils/localStorage";
 import classNames from "classnames";
+import Meta from "../../../../components/Meta";
 
 const updateWish = {
     status: "",
@@ -62,6 +63,7 @@ function ViewWish() {
 
     return (
         <>
+            <Meta title={wishData.wish_title} />
             <DashboardLayout>
                 <div className="min-h-screen ">
                     {isLoading ? (

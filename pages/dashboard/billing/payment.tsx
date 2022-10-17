@@ -12,6 +12,7 @@ import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import CheckoutForm from "../CheckoutForm";
+import Meta from "../../../components/Meta";
 
 const billingInfoSchema = Yup.object({
     email: Yup.string().required("Email is required"),
@@ -147,6 +148,7 @@ function Payment() {
 
     return (
         <DashboardLayout>
+            <Meta title="Confirm Payment" />
             <div className="">
                 <div className="">
                     <div className="text-[24px] sm:text-left sm:px-0 leading-[32.68px] text-[#101010] text-center px-[45px] font-bold">

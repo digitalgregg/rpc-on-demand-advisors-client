@@ -13,6 +13,7 @@ import { useWindowDimensions } from "../../../Shared/DimentionHook";
 import LodingAnimation from "../../../Shared/LodingAnimation";
 import SortedSelect, { SelectOption } from "../../../Shared/SortedSelect";
 import { sortedContentFilter } from "../../../../utils/filter";
+import Meta from "../../../Meta";
 
 const options = [
     { value: "newest", label: "Newest" },
@@ -66,6 +67,7 @@ function ViewCollectionContent() {
 
     return (
         <div className="w-full">
+            <Meta title={data && data.title} />
             <div className="xs:w-[335px] sm:w-[263px] h-[44px] rounded-[4px] flex justify-between items-center bg-[#FFFFFF] shadow-[3px_3px_6px_rgba(0,0,0,0.07)] pl-[20px] py-[10px] pr-[10px] mb-[20px] 4xl:mb-[20px]">
                 <h3 className="text-[#000805] ">{data && data.title}</h3>
                 <Link

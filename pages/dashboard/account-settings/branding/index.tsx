@@ -24,6 +24,7 @@ import { team_state } from "../../../../state/index";
 import LodingAnimation from "../../../../components/Shared/LodingAnimation";
 import { toast } from "react-toastify";
 import { defaultBrandingData } from "../../../../utils/defaultData";
+import Meta from "../../../../components/Meta";
 
 function Branding() {
     const [teamData] = useAtom(team_state);
@@ -130,6 +131,8 @@ function Branding() {
 
     return (
         <DashboardLayout>
+            <Meta title="Branding | Account Settings" />
+
             <Layout>
                 <div className="text-xl leading-[27.24px] sm:text-[24px] sm:leading-[32.68px] font-semibold text-[#000]">
                     Styling & Preview

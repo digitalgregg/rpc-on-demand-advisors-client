@@ -37,6 +37,7 @@ import {
     UserPlanState,
 } from "../../../../state";
 import { GetGlobalContext } from "../../../Context/GlobalContextProvider";
+import Meta from "../../../Meta";
 
 function EditCollection() {
     const [removeModal, setRemoveModal] = useState(false);
@@ -121,6 +122,7 @@ function EditCollection() {
 
     return (
         <>
+            <Meta title={data.title} />
             <div className="min-h-screen">
                 <div>
                     <TopForm />

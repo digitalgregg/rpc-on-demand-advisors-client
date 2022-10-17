@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import { fetchRecycleBin } from "../../../api-call/ContentApi";
 import DashboardLayout from "../../../components/Dashboard/DashboardLayout";
 import { applicationsettingsFakeData } from "../../../components/fake";
+import Meta from "../../../components/Meta";
 import RecycleCard from "../../../components/RecycleBin/Card";
 import DataNotFound from "../../../components/Shared/DataNotFound";
 import LodingAnimation from "../../../components/Shared/LodingAnimation";
@@ -35,6 +36,7 @@ const RecycleBinPage = () => {
 
     return (
         <DashboardLayout>
+            <Meta title="Recycle Bin" />
             <div className="bg-white_secondary h-full w-full pb-[35px]">
                 <h2 className=" font-bold text-2xl leading-[33px] text-[#101010] mb-[20px]">
                     Recycle Bin

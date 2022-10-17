@@ -7,11 +7,13 @@ import {
 } from "../../../components/PricingPage/data";
 import { useState } from "react";
 import PricingCard from "../../../components/Shared/PricingCard";
+import Meta from "../../../components/Meta";
 
 function SubscriptionPlan() {
     const [isAnnual, setToggle] = useState<boolean>(false);
     return (
         <PricingLayout>
+            <Meta title="Subscription Plan" />
             <div className="">
                 <div className="">
                     <div className="pt-[50px]"></div>

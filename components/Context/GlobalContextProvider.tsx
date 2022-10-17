@@ -3,6 +3,7 @@ import { createContext, ReactNode, useContext } from "react";
 import { useQuery } from "react-query";
 import api from "../../api";
 import { team_state, UserPlanState } from "../../state";
+import checkRemember from "../../utils/checkRemember";
 
 type GlobalContextType = {
     refetchPlanData: () => any;
@@ -22,7 +23,9 @@ function GlobalContextProvider({ children }: { children: ReactNode }) {
         {
             select: (res) => res.data,
             onSuccess: (data) => {
-                setPlanData(data);
+                if (!checkRemember()) {
+                    setPlanData(data);
+                }
             },
             enabled: !!teamData.id,
         }
