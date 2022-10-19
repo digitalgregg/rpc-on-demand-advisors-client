@@ -46,7 +46,23 @@ function PaymentDetails() {
             select: (res) => res.data,
         }
     );
-    console.log(billingData);
+    const [downloadAllLoading, setDownloadAllLoading] = useState(false);
+    const handleDownloadAll = () => {
+        setDownloadAllLoading(true);
+        if (billingData && billingData.length > 0) {
+            billingData.forEach(async (v: any, i: number) => {
+                try {
+                    if (v._id) {
+                        await api.get("/api/billing/download/" + v._id);
+                    }
+                } catch (err) {
+                    setDownloadAllLoading(false);
+
+                    console.log(err);
+                }
+            });
+        }
+    };
 
     return (
         <>
@@ -169,9 +185,17 @@ function PaymentDetails() {
                                         style={{
                                             display: "block",
                                         }}
-                                        className="text-xs font-bold leading-[16.34px] p-[8px_24px] bg-primary rounded-[4px] text-[#FFFFFF] transition-all duration-200 hover:bg-primary_dark"
+                                        onClick={handleDownloadAll}
+                                        className="text-xs font-bold leading-[16.34px] h-[36px] w-[120px] flex items-center justify-center bg-primary rounded-[4px] text-[#FFFFFF] transition-all duration-200 hover:bg-primary_dark"
                                     >
-                                        Download all
+                                        {downloadAllLoading ? (
+                                            <div className="flex items-center justify-center gap-1">
+                                                <LoadingAnimation color="#fff" />
+                                                <div>Loading</div>
+                                            </div>
+                                        ) : (
+                                            "Download all"
+                                        )}
                                     </button>
                                 </div>
                                 {isLoading ? (

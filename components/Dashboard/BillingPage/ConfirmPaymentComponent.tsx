@@ -17,6 +17,7 @@ import api from "../../../api";
 import { PaymentMethod, signupState } from "../../../state";
 import { GetGlobalContext } from "../../Context/GlobalContextProvider";
 import { GetPaymentDetails } from "../../Context/PaymentDetailsProvider";
+import Meta from "../../Meta";
 import InputField from "../../Shared/InputField";
 import LoadingAnimation from "../../Shared/LoadingAnimation";
 import { LoadingSkeleton, NewCardDetails } from "../PaymentMethodComponent";
@@ -148,6 +149,7 @@ function ConfirmPaymentCom() {
 
     return (
         <div>
+            <Meta title="Confirm Payment" />
             <div className="">
                 <div className="">
                     <div className="text-[24px] sm:text-left sm:px-0 leading-[32.68px] text-[#101010] text-center px-[45px] font-bold">

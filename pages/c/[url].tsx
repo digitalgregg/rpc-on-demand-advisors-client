@@ -31,9 +31,28 @@ function CollectionViewer() {
 
     if (isSuccess)
         return (
-            <div>
-                <FileShare branding={data.branding} contents={data.contents} />
-            </div>
+            <>
+                {data.trackers && data.trackers.header_html && (
+                    <div
+                        dangerouslySetInnerHTML={{
+                            __html: data.trackers.header_html,
+                        }}
+                    ></div>
+                )}
+                <div>
+                    <FileShare
+                        branding={data.branding}
+                        contents={data.contents}
+                    />
+                </div>
+                {data.trackers && data.trackers.footer_html && (
+                    <div
+                        dangerouslySetInnerHTML={{
+                            __html: data.trackers.footer_html,
+                        }}
+                    ></div>
+                )}
+            </>
         );
 }
 

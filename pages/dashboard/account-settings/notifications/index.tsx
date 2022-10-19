@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DashboardLayout from "../../../../components/Dashboard/DashboardLayout";
 import { notifications } from "../../../../components/fake";
 import Select from "react-select";
@@ -8,7 +8,7 @@ import api from "../../../../api";
 import { getLocal } from "../../../../utils/localStorage";
 import { useQuery } from "react-query";
 import { useAtom } from "jotai";
-import { team_state } from "../../../../state";
+import { team_state, UserPlanState } from "../../../../state";
 import Meta from "../../../../components/Meta";
 
 const options = [
@@ -110,6 +110,26 @@ const Notifications = () => {
 
     const [teamData] = useAtom(team_state);
 
+    const [planData] = useAtom(UserPlanState);
+
+    useEffect(() => {
+        if (planData.weekly_email && toggle) {
+            if (teamData.id) {
+                api.put(`/api/weekly-digests-notification/${teamData.id}`, {
+                    isToggle: false,
+                })
+                    .then((v) => {
+                        console.log(v);
+                        refetch();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            }
+        }
+    }, [teamData, planData]);
+
+    console.log();
     return (
         <DashboardLayout>
             <Meta title="Notifications | Account Settings" />
@@ -174,7 +194,8 @@ const Notifications = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    {teamData.role !== "admin" && (
+                                    {(teamData.role !== "admin" ||
+                                        planData.weekly_email) && (
                                         <div className="absolute top-0 left-0 h-full w-full bg-[rgba(255,255,255,.1)]"></div>
                                     )}
                                 </div>

@@ -44,7 +44,6 @@ const FileShare = ({ branding, contents }: FSType) => {
                     className=" absolute w-full h-[99.84px] sm:h-[105px] md:h-[125px] lg:h-[120.23px] 3xl:h-[162px] top-[368px] sm:top-[397px] md:top-[436px] lg:top-[482px] 2xl:top-[553px] 3xl:top-[693px] -skew-y-[8deg] overflow-hidden opacity-50 "
                 ></div>
             </div>
-
             <div className=" relative">
                 <div className="container mx-auto ">
                     <div className="gap-[30px] z-50">

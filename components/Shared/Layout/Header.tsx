@@ -140,7 +140,7 @@ const NavMenuItem = () => {
             <div className="lg:w-fit w-full lg:mt-0 mt-[20vh] lg:flex-none flex gap-5 lg:gap-0 flex-col lg:flex-row">
                 <Link href="/signin">
                     <a>
-                        <button className=" hover:text-primary lg:w-fit lg:mx-5 w-full py-[11px] px-[19.5px] lg:border-none border-[#F8F8F8] border-solid border-[1px] text-base font-semibold rounded text-[#fff]">
+                        <button className=" hover:text-primary hover:border-primary lg:w-fit lg:mx-5 w-full py-[11px] px-[19.5px] lg:border-none border-[#F8F8F8] border-solid border-[1px] text-base font-semibold rounded text-[#fff]">
                             Login
                         </button>
                     </a>
