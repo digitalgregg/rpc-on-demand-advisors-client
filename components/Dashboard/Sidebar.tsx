@@ -58,7 +58,8 @@ function Sidebar() {
             storage_limit ||
             user_limit ||
             weekly_email ||
-            wishlist
+            wishlist ||
+            (userPlan.plan_name && userPlan.plan_name === "Trial")
         );
     };
 

@@ -1,11 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import React from "react";
+import Meta from "../../../components/Meta";
 import LoadingAnimation from "../../../components/Shared/LoadingAnimation";
 
 function PaymentSuccess() {
     return (
         <div className="w-[100%] h-[100%]">
+            <Meta title="Payment Successful" />
             <div className="bg-[#202020] w-[100%] h-[70px] flex items-center">
                 <img
                     src="/img/ODA-logo.png"
