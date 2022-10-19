@@ -29,7 +29,15 @@ function TrackersEditor({ data, type, refetch }: TE) {
 
     const [editedCode, setEditedCode] = useState();
     const handleSubmit = async () => {
-        if (!editedCode) return;
+        if (type === "header" && data && !data.header_html && !editedCode) {
+            console.log("Check Head");
+            return;
+        }
+        if (type === "footer" && data && !data.footer_html && !editedCode) {
+            console.log("Check Foo");
+            return;
+        }
+
         setButtonLoading(true);
         const apiObj: any = {
             team_id: teamData.id,
@@ -87,7 +95,6 @@ function TrackersEditor({ data, type, refetch }: TE) {
                 <div className="border w-full h-[192px]  border-[#9E9E9E] rounded-[4px] p-5 overflow-visible">
                     <CodeEditor
                         isEditable={isEditable}
-                        defaultValue="<h1>Please input html code</h1>"
                         onChange={(v: any) => setEditedCode(v)}
                         value={editedCode}
                     />

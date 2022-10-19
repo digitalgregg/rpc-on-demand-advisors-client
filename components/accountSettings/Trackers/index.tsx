@@ -14,7 +14,7 @@ const Trackers = () => {
             enabled: teamData.id ? true : false,
             select: (response) => response.data,
             retry(failureCount, error: any) {
-                if (error?.response?.data?.message === "Trackers not found") {
+                if (error.message === "Trackers not found") {
                     return false;
                 } else {
                     return true;

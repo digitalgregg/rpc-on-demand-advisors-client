@@ -121,6 +121,7 @@ type PaymentMethodType = {
 };
 
 type UserPlanType = {
+    plan_name?: string;
     storage_limit?: boolean;
     user_limit?: boolean;
     asset_limit?: boolean;

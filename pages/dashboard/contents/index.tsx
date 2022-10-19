@@ -229,7 +229,12 @@ function Contents() {
 }
 
 export const getFirstName = (name: string) => {
-    return name.split(" ")[0];
+    const splitName = name.split(" ");
+    if (splitName.length > 2) {
+        return splitName[0] + " " + splitName[1];
+    } else {
+        return splitName[0];
+    }
 };
 
 const getGreetings = () => {
