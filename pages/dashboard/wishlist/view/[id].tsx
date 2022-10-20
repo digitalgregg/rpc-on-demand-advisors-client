@@ -52,6 +52,7 @@ function ViewWish() {
         { enabled: !!wishListId }
     );
     const wishData = data?.data;
+    console.log(wishData, "wishData..........");
 
     const handleEditIcon = () => {
         if (team?.role === "user" && wishData?.user_id !== _id) {
@@ -63,7 +64,7 @@ function ViewWish() {
 
     return (
         <>
-            <Meta title={wishData.wish_title} />
+            <Meta title={wishData?.wish_title} />
             <DashboardLayout>
                 <div className="min-h-screen ">
                     {isLoading ? (
