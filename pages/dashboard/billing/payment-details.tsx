@@ -5,9 +5,6 @@ import { ReactNode } from "react";
 import { useState } from "react";
 import { useQuery } from "react-query";
 import api from "../../../api";
-import { saveAs } from "file-saver";
-import LodingAnimation from "../../../components/Shared/LodingAnimation";
-import { toast } from "react-toastify";
 import { useAtom } from "jotai";
 import { PMDTYPE } from "../../../utils/interfaces";
 import PaymentMethodComponent from "../../../components/Dashboard/PaymentMethodComponent";
@@ -31,9 +28,6 @@ function PaymentDetails() {
             },
         }
     );
-
-    const [paymentMethod, setPaymentMethod] = useAtom(PaymentMethod);
-
     const {
         isLoading,
         isSuccess,
@@ -282,7 +276,9 @@ function HistoryItem({ billingItem }: { billingItem: BillingType }) {
             </div>
             <button
                 onClick={handleDownload}
-                className="w-[109px] justify-center h-[32px] flex items-center transition ease-in-out duration-200 hover:bg-primary hover:text-White text-xs leading-[16.34px] font-bold text-primary p-[7px_23px] border-primary border rounded-[4px]"
+                className={`w-[109px] justify-center h-[32px] flex items-center transition ease-in-out duration-200 ${
+                    !loadingBtn && "hover:bg-primary"
+                }  hover:text-White text-xs leading-[16.34px] font-bold text-primary p-[7px_23px] border-primary border rounded-[4px]`}
             >
                 {loadingBtn === true ? (
                     <span>
