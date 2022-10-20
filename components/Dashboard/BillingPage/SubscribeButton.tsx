@@ -6,7 +6,7 @@ import api from "../../../api";
 import { PaymentMethod } from "../../../state";
 
 const PUBLISHER_KEY =
-    "pk_test_51LpbnJLpSmU6gOZ7D4ARj7x0qx27TiEswjs0pgt1UtH5P3lhkfBtcJcDUufn0ONqbsu7UwIF8FSd78o7q6uK7IUU0048KjfyYa";
+    "pk_test_51Luz60LJ75iuFTpXb4AceV7GsCeMjGAE1fOY52W6FU2dFceMe7wN99jiwbehnct2cX323WiBDZ2yVEj78QPNqXNi00gkXozZYS";
 
 function SubscribeButton() {
     const [paymentMethod] = useAtom(PaymentMethod);
@@ -27,16 +27,16 @@ function SubscribeButton() {
         //         apiObj
         //     );
 
-            // const clientSecret =
-            //     res.data.latest_invoice.payment_intent.client_secret;
-            // const stripe = await loadStripe(PUBLISHER_KEY);
-            // if (stripe) {
-            //     const { error, paymentIntent } =
-            //         await stripe?.confirmCardPayment(clientSecret, {
-            //             payment_method: paymentMethod.id,
-            //         });
-            //     console.log(error, paymentIntent);
-            // }
+        // const clientSecret =
+        //     res.data.latest_invoice.payment_intent.client_secret;
+        // const stripe = await loadStripe(PUBLISHER_KEY);
+        // if (stripe) {
+        //     const { error, paymentIntent } =
+        //         await stripe?.confirmCardPayment(clientSecret, {
+        //             payment_method: paymentMethod.id,
+        //         });
+        //     console.log(error, paymentIntent);
+        // }
         // } catch (error) {
         //     console.log(error);
         // }

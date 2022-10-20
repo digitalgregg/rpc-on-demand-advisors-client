@@ -26,8 +26,8 @@ import AddUpdateMethodModal from "./AddUpdateMethodModal";
 import BillingInformation from "./BillingInformation";
 import PaymentInfoDialog from "./PaymentInfoDialog";
 
-const STRIPE_PUBLISHER_KEY: string = process.env
-    .NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string;
+const STRIPE_PUBLISHER_KEY: string =
+    "pk_test_51Luz60LJ75iuFTpXb4AceV7GsCeMjGAE1fOY52W6FU2dFceMe7wN99jiwbehnct2cX323WiBDZ2yVEj78QPNqXNi00gkXozZYS";
 
 const stripePromise = loadStripe(STRIPE_PUBLISHER_KEY);
 
