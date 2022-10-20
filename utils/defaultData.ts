@@ -8,7 +8,7 @@ export const defaultBrandingData: ReducerBranding = {
 };
 
 export const subscriptionPlanId = {
-    lite: "price_1Ls8QeLpSmU6gOZ7OWAWSv3G",
-    basicMonth: "price_1Ls8UdLpSmU6gOZ76oyUGY9d",
-    basicYear: "price_1Ls8fDLpSmU6gOZ7NiBm6i8p",
+    lite: "price_1LuzAyLJ75iuFTpXzwm6Fwhb",
+    basicMonth: "price_1Luz7BLJ75iuFTpXP9PN44Va",
+    basicYear: "price_1Luz8iLJ75iuFTpX6btmxRFM",
 };

@@ -18,6 +18,7 @@ import { PaymentMethod, signupState } from "../../../state";
 import { GetGlobalContext } from "../../Context/GlobalContextProvider";
 import { GetPaymentDetails } from "../../Context/PaymentDetailsProvider";
 import Meta from "../../Meta";
+import YesNoModal from "../../modal/YesNoModal";
 import InputField from "../../Shared/InputField";
 import LoadingAnimation from "../../Shared/LoadingAnimation";
 import { LoadingSkeleton, NewCardDetails } from "../PaymentMethodComponent";
@@ -25,9 +26,8 @@ import AddUpdateMethodModal from "./AddUpdateMethodModal";
 import BillingInformation from "./BillingInformation";
 import PaymentInfoDialog from "./PaymentInfoDialog";
 
-const STRIPE_PUBLISHER_KEY: string =
-    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ||
-    "pk_test_51LpbnJLpSmU6gOZ7D4ARj7x0qx27TiEswjs0pgt1UtH5P3lhkfBtcJcDUufn0ONqbsu7UwIF8FSd78o7q6uK7IUU0048KjfyYa";
+const STRIPE_PUBLISHER_KEY: string = process.env
+    .NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string;
 
 const stripePromise = loadStripe(STRIPE_PUBLISHER_KEY);
 
@@ -97,7 +97,10 @@ function ConfirmPaymentCom() {
         address: billingData || {},
     };
 
-    const handleConfirmPayment = async () => {
+    const handleConfirmPayment = async (d: any, setLoading: any) => {
+        if (setLoading) {
+            setLoading((state: any) => !state);
+        }
         setLoadingButton(true);
         try {
             const stripe = await loadStripe(STRIPE_PUBLISHER_KEY);
@@ -145,6 +148,11 @@ function ConfirmPaymentCom() {
             setLoadingButton(false);
             console.log(error);
         }
+    };
+
+    const [yesNoModal, setYesNoModal] = useState(false);
+    const handleYesNoModal = () => {
+        setYesNoModal(!yesNoModal);
     };
 
     return (
@@ -337,9 +345,7 @@ function ConfirmPaymentCom() {
                                                 <div className="pt-[30px]"></div>
                                                 <button
                                                     type="submit"
-                                                    onClick={
-                                                        handleConfirmPayment
-                                                    }
+                                                    onClick={handleYesNoModal}
                                                     className={`h-[58px] hover:bg-primary_dark bg-primary font-bold w-full rounded-[4px] text-[16px] leading-[58px] text-[#FFFFFF]`}
                                                 >
                                                     {loadingButton ? (
@@ -432,6 +438,13 @@ function ConfirmPaymentCom() {
                     type="update"
                 />
             </div>
+            <YesNoModal
+                onYesClick={handleConfirmPayment}
+                header="Confirm Payment"
+                description="Are you sure? you want to confirm payment?. This action cannot be undone"
+                isOpen={yesNoModal}
+                handleModal={handleYesNoModal}
+            />
         </div>
     );
 }
@@ -497,11 +510,22 @@ function SubmitPayment({
     const price_id = router.query.price_id;
     const [paymentMethod, setPaymentMethod] = useAtom(PaymentMethod);
 
+    const [isOpen, setOpen] = useState(false);
+
+    const handleOpen = () => {
+        setOpen(!isOpen);
+    };
+
+    const [saveMethod, setSaveMethod] = useState(true);
+
     const { refetchPlanData } = GetGlobalContext();
 
-    const handleSubmit = async (e: any) => {
+    const handleSubmit = async (d: any, setLoading: any) => {
+        if (setLoading) {
+            setLoading((state: any) => !state);
+        }
         setLoadingButton(true);
-        e.preventDefault();
+
         try {
             if (!stripe || !elements) {
                 throw new Error("Stripe or elements not found");
@@ -566,31 +590,62 @@ function SubmitPayment({
     };
 
     return (
-        <form className="pt-4">
-            <PaymentElement
-                options={{ defaultValues: { billingDetails: { address: {} } } }}
-            />
-            {errorMessage && (
-                <div className="text-sm text-red-600 pt-[5px]">
-                    {errorMessage}
-                </div>
-            )}
-            <div className="pt-5"></div>
-            <button
-                onClick={handleSubmit}
-                type="submit"
-                className={`h-[55px] hover:bg-primary_dark bg-primary font-bold w-full rounded-[4px] text-[16px] leading-[55px] text-[#FFFFFF]`}
-            >
-                {loadingButton ? (
-                    <div className="flex justify-center items-center gap-2">
-                        <LoadingAnimation color="#fff" />
-                        <div>Loading...</div>
+        <>
+            <form className="pt-4">
+                <PaymentElement
+                    options={{
+                        defaultValues: { billingDetails: { address: {} } },
+                    }}
+                />
+                {errorMessage && (
+                    <div className="text-sm text-red-600 pt-[5px]">
+                        {errorMessage}
                     </div>
-                ) : (
-                    "Confirm Payment"
                 )}
-            </button>
-        </form>
+                {/* <div className="pt-5"></div>
+
+                <div
+                    onClick={() => setSaveMethod(!saveMethod)}
+                    className="flex items-center gap-[10px] cursor-pointer"
+                >
+                    <div
+                        className={`w-[16px] h-[16px] border rounded-sm border-[#333] flex justify-center items-center ${
+                            saveMethod && "!border-primary bg-primary"
+                        }`}
+                    >
+                        {saveMethod && (
+                            <div className="text-[12px] text-white">✓</div>
+                        )}
+                    </div>
+                    <div className="text-[#333] text-sm font-medium">
+                        Save Payment Method
+                    </div>
+                </div> */}
+
+                <div className="pt-5"></div>
+                <button
+                    onClick={handleOpen}
+                    type="button"
+                    className={`h-[55px] hover:bg-primary_dark bg-primary font-bold w-full rounded-[4px] text-[16px] leading-[55px] text-[#FFFFFF]`}
+                >
+                    {loadingButton ? (
+                        <div className="flex justify-center items-center gap-2">
+                            <LoadingAnimation color="#fff" />
+                            <div>Loading...</div>
+                        </div>
+                    ) : (
+                        "Confirm Payment"
+                    )}
+                </button>
+            </form>
+            <YesNoModal
+                onYesClick={handleSubmit}
+                header="Confirm Payment"
+                description="Are you sure? you want to confirm payment?. This action cannot be undone"
+                isOpen={isOpen}
+                handleModal={handleOpen}
+            />
+        </>
     );
 }
 
