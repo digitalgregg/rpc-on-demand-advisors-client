@@ -148,7 +148,7 @@ function WishListItem({ wishes }: CardProps) {
                             {wish.user_name}
                         </div>
                     </div>
-                    <div className="p-[15px]">
+                    <div className="p-[15px] bg-white">
                         <div className="text-[#101010] table">
                             <div className="table-row">
                                 <div className="table-cell text-xs leading-[16px] font-normal">
