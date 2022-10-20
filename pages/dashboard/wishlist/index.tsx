@@ -60,46 +60,49 @@ function WishList() {
             ) : (
                 <>
                     <div className="">
-                        <div className="min-h-screen ">
-                            <div className="flex items-center justify-between">
-                                <div className="text-[24px] leading-[32.68px] text-[#000] font-semibold">
-                                    Wishlist
-                                </div>
-                                <button
-                                    onClick={handleModal}
-                                    className="bg-primary hover:bg-[#890F21] transition-all duration-200 p-[15px_18px] rounded-[4px] flex items-center justify-center"
-                                >
-                                    <img
-                                        src="/assets/dashboard-wishlist/plus.svg"
-                                        alt=""
-                                        width={14}
-                                        height={14}
-                                    />
-                                    <span className="text-sm w-[146px] font-semibold leading-[19.07px] text-[#fff]">
-                                        Add new wishlist
-                                    </span>
-                                </button>
+                        <div className="flex items-center justify-between">
+                            <div className="text-[24px] leading-[32.68px] text-[#000] font-semibold">
+                                Wishlist
                             </div>
-                            <div className="pt-[30px]"></div>
-                            {isLoading ? (
-                                <div className="flex items-center justify-center w-[100%] h-screen ">
-                                    <LodingAnimation
-                                        color="#E51937"
-                                        height={50}
-                                        width={50}
-                                    />
-                                </div>
-                            ) : (
-                                <>
-                                    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 ">
-                                        <WishListItem wishes={data} />
-                                    </div>
-                                    <div className="w-[100%] h-full place-items-center text-center">
-                                        {!data && <DataNotFound />}
-                                    </div>
-                                </>
-                            )}
+                            <button
+                                onClick={handleModal}
+                                className="bg-primary hover:bg-[#890F21] transition-all duration-200 p-[15px_18px] rounded-[4px] flex items-center justify-center"
+                            >
+                                <img
+                                    src="/assets/dashboard-wishlist/plus.svg"
+                                    alt=""
+                                    width={14}
+                                    height={14}
+                                />
+                                <span className="text-sm w-[146px] font-semibold leading-[19.07px] text-[#fff]">
+                                    Add new wishlist
+                                </span>
+                            </button>
                         </div>
+                        <div className="pt-[30px]"></div>
+
+                        {isLoading ? (
+                            <div className="flex  justify-center w-[100%] items-center h-[70vh]">
+                                <LodingAnimation
+                                    color="#E51937"
+                                    height={50}
+                                    width={50}
+                                />
+                            </div>
+                        ) : (
+                            <>
+                                <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 ">
+                                    <WishListItem wishes={data} />
+                                </div>
+                                <div className="w-[100%] h-full place-items-center text-center">
+                                    {!data && (
+                                        <div className="flex  justify-center w-[100%] items-center h-[70vh]">
+                                            <DataNotFound />
+                                        </div>
+                                    )}
+                                </div>
+                            </>
+                        )}
                     </div>
                     <WishlistModal
                         modalOpen={modalOpen}
