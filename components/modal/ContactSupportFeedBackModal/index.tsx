@@ -62,7 +62,7 @@ type MyFormValues = {
 export const Modals = ({ modalIsOpen, closeModal, modalCloseFuncton }: any) => {
   const [activeIcon, setActiveIcon] = useState(3);
   const [isLoading, setIsLoading] = useState(false);
-  const [activeIconFill, setActiveIconFill] = useState<string>("");
+  const [activeIconFill, setActiveIconFill] = useState("Smile");
   const teamId = getLocal("user");
   const initialValues: MyFormValues = {
     user_id: teamId?._id,
