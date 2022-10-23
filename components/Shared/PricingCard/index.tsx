@@ -25,6 +25,8 @@ const PricingCard = ({
     const getPath = pathName.split("/")[1];
     console.log(getPath, "______");
     const handleSubscription = (value: any) => {
+        if (getPath !== "dashboard") return router.push("/signup");
+
         if (value.name === "Plus")
             return router.push("/dashboard/schedule-demo");
         if (value.id === "MlGmlkmzUA") {
