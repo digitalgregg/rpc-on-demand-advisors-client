@@ -1,4 +1,6 @@
+import { useAtom } from "jotai";
 import React, { ReactElement, useState } from "react";
+import { team_state } from "../../state";
 import DeleteIcon from "../CustomIcons/DeleteIcon";
 import DownloadIcon from "../CustomIcons/DownloadIcon";
 import EditIcon from "../CustomIcons/EditIcon";
@@ -6,14 +8,21 @@ import TagIcon from "../CustomIcons/TagIcon";
 import UpdateIcon from "../CustomIcons/UpdateIcon";
 
 type DropdownEditType = {
-    dropdownList: DropdownItemType[];
     onDropdownClick?: (v: DropdownItemType) => any;
 };
 
-function DropdownEdit({ dropdownList, onDropdownClick }: DropdownEditType) {
+function DropdownEdit({ onDropdownClick }: DropdownEditType) {
+    const [teamData] = useAtom(team_state);
+
+    const myDropdown =
+        teamData.role === "admin" ? dropdownList : userDropdownList;
+
     return (
-        <div className="w-[156px] h-[210px] bg-[#FFFFFF] rounded-[4px]  px-[10px] flex flex-col justify-center shadow-[4px_4px_8px_rgba(0,0,0,0.25)]">
-            {dropdownList.map((v, i) => (
+        <div
+            className="w-[156px]  bg-[#FFFFFF] rounded-[4px]  px-[10px] flex flex-col justify-center shadow-[4px_4px_8px_rgba(0,0,0,0.25)]"
+            style={{ height: teamData.role === "admin" ? 210 : 100 }}
+        >
+            {myDropdown.map((v, i) => (
                 <div
                     key={i}
                     onClick={() => onDropdownClick && onDropdownClick(v)}
@@ -52,7 +61,22 @@ const DropdownList = ({ data }: { data: DropdownItemType }) => {
     );
 };
 
-const dropdownList = [
+const userDropdownList: DropdownItemType[] = [
+    {
+        id: 1,
+        title: "View",
+        img: (stroke = "#222222") => (
+            <EditIcon stroke={stroke} width="12px" height="12px" />
+        ),
+    },
+    {
+        id: 2,
+        title: "Download",
+        img: (stroke = "#222222") => <DownloadIcon stroke={stroke} />,
+    },
+];
+
+const dropdownList: DropdownItemType[] = [
     {
         id: 0,
         title: "Tag",

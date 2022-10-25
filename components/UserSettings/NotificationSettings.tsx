@@ -45,6 +45,15 @@ const NotificationSettings = () => {
     const handleWebToggle = async () => {
         setToogleBtnWeb(!toggleBtnWeb);
 
+        if (!toggleBtnWeb) {
+            if (!("Notification" in window)) {
+                console.log(
+                    "This browser does not support desktop notification"
+                );
+            } else if (Notification.permission !== "granted") {
+                Notification.requestPermission();
+            }
+        }
         const apiObj = {
             team_id: teamData.id,
             user_id: teamData.user_id,

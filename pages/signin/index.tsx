@@ -103,6 +103,16 @@ const Signin = () => {
             }, 1000);
         } catch (err: any) {
             if (err.response) {
+                if (
+                    err.response.data.message ===
+                    "An Email sent to your account please check your email"
+                ) {
+                    router.push(
+                        "/signup/verification/" +
+                            signinData.email +
+                            "?auto=true"
+                    );
+                }
                 setError(err?.response?.data?.message);
             }
             setButtonLoading(false);

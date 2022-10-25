@@ -142,6 +142,12 @@ function ConfirmPaymentCom() {
             );
 
             await api.post("/api/billing", billingObj);
+            await api.post("/api/billing/send-email", {
+                email: userData.email,
+                price: `${
+                    priceData.unit_amount != 0 ? priceData.unit_amount / 100 : 0
+                }`,
+            });
             refetchPlanData();
             router.push("/dashboard/billing/payment-success");
         } catch (error) {
@@ -576,10 +582,20 @@ function SubmitPayment({
                 updatePlanObj
             );
             await api.post("/api/billing", billingObj);
-            setPaymentMethod({
-                ...paymentMethod,
-                id: setupIntent.payment_method,
+            await api.post("/api/billing/send-email", {
+                email: userData.email,
+                price: `${planPrice != 0 ? planPrice / 100 : 0}`,
             });
+            if (saveMethod) {
+                setPaymentMethod({
+                    ...paymentMethod,
+                    id: setupIntent.payment_method,
+                });
+            } else {
+                await api.post("/api/payment/detach", {
+                    pm_id: setupIntent.payment_method,
+                });
+            }
             refetchPlanData();
             router.push("/dashboard/billing/payment-success");
         } catch (err: any) {
@@ -602,7 +618,7 @@ function SubmitPayment({
                         {errorMessage}
                     </div>
                 )}
-                {/* <div className="pt-5"></div>
+                <div className="pt-5"></div>
 
                 <div
                     onClick={() => setSaveMethod(!saveMethod)}
@@ -620,7 +636,7 @@ function SubmitPayment({
                     <div className="text-[#333] text-sm font-medium">
                         Save Payment Method
                     </div>
-                </div> */}
+                </div>
 
                 <div className="pt-5"></div>
                 <button

@@ -62,8 +62,9 @@ const Signup = () => {
                 if (res.status === 201) {
                     setButtonLoading(false);
                     toast.success(res.data.message);
+                    console.log(data);
                     setTimeout(() => {
-                        router.push("/");
+                        router.push("/signup/verification/" + data.email);
                     }, 100);
                 }
             })

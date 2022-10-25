@@ -44,7 +44,7 @@ function EditSettingItem({
         setButtonLoading(true);
         const apiObj = {
             ...v,
-            index: v.index + 1,
+            index: v.index - 1,
         };
         await updateAppSetting(data._id, apiObj);
         setButtonLoading(false);
