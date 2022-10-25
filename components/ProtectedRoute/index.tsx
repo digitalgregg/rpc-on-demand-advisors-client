@@ -29,15 +29,25 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
     useEffect(() => {
         if (data && getLeftDay(data.plan_end)) {
-            if (
-                router.asPath.includes("billing") ||
-                router.asPath.includes("schedule-demo")
-            ) {
-                return setLoading(true);
+            if (teamData.role === "user") {
+                if (router.asPath.includes("billing/protected")) {
+                    return setLoading(true);
+                } else {
+                    router.replace("/dashboard/billing/protected");
+                    return;
+                }
             } else {
-                router.replace("/dashboard/billing/subscription-plan");
-                return;
+                if (
+                    router.asPath.includes("billing") ||
+                    router.asPath.includes("schedule-demo")
+                ) {
+                    return setLoading(true);
+                } else {
+                    router.replace("/dashboard/billing/subscription-plan");
+                    return;
+                }
             }
+            return;
         }
         if (
             teamData.role === "user" &&

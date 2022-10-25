@@ -1,10 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import Meta from "../../../components/Meta";
 import LoadingAnimation from "../../../components/Shared/LoadingAnimation";
 
 function PaymentSuccess() {
+    const router = useRouter();
     return (
         <div className="w-[100%] h-[100%]">
             <Meta title="Payment Successful" />
@@ -29,7 +31,7 @@ function PaymentSuccess() {
                     </h2>
                     <p className="text-[#4F4F4F] font-normal xs:text-[14px] xs:leading-[150%] lg:text-[16px] lg:leading-[22px] xl:text-[18px] xl:leading-[25px] text-center xs:mb-[30px] lg:mb-[40px]">
                         Your payment at{" "}
-                        <Link href="/dashboard/billing/payment-details">
+                        <Link href="/">
                             <span className="text-[#E51937] cursor-pointer">
                                 ODA center
                             </span>
@@ -38,11 +40,11 @@ function PaymentSuccess() {
                         your email.
                     </p>
                     <div className="text-center">
-                        <Link href={"/dashboard/contents"}>
+                        <a href={"/dashboard/contents"}>
                             <button className="bg-[#E51937] mb-[5px] text-[#FFFFFF] xs:w-[190px] xs:h-[44px] lg:w-[220px] lg:h-[48px] xl:w-[230px] rounded-[4px] xs:text-[14px] lg:text-[18px] font-semibold cursor-pointer">
                                 Go Back to Home
                             </button>
-                        </Link>
+                        </a>
                     </div>
                 </div>
             </div>
