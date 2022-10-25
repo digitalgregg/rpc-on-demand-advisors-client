@@ -5,5 +5,6 @@ declare global {
         myOnFileUpload: (v: any) => any;
         myUppy: any;
         onSingleFileUpload: (v: any) => any;
+        onUploadCompleted: (v: any) => any;
     }
 }

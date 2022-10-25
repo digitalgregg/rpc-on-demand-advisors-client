@@ -41,6 +41,7 @@ var uppy = new Uppy.Uppy()
     .on("complete", (result) => {
         this.uppy.getState().files = {};
         this.uppy.getState().totalProgress = null;
+        window.onUploadCompleted(result);
     })
     .on("upload-success", (_, response) => {
         window.onSingleFileUpload(response);

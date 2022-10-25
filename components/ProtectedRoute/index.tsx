@@ -9,6 +9,7 @@ import api from "../../api";
 import { useAtom } from "jotai";
 import { signupState, team_state, UserPlanState } from "../../state";
 import checkRemember from "../../utils/checkRemember";
+import { roleUserBlockPath } from "../../utils/pathAuthorize";
 
 type ProtectedRouteProps = {
     children: ReactNode;
@@ -37,6 +38,13 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
                 router.replace("/dashboard/billing/subscription-plan");
                 return;
             }
+        }
+        if (
+            teamData.role === "user" &&
+            roleUserBlockPath.includes(router.asPath)
+        ) {
+            router.replace("/dashboard/contents");
+            return;
         }
         if (
             router.asPath.includes("/f/") ||

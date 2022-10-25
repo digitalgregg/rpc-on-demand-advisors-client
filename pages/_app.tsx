@@ -19,6 +19,7 @@ import UpgradeModal from "../components/modal/UpgradeModal";
 import checkRemember from "../utils/checkRemember";
 import { useRouter } from "next/router";
 import { removeLocal } from "../utils/localStorage";
+import useNotification from "../components/Dashboard/useNotification";
 
 const queryClient = new QueryClient();
 
@@ -57,6 +58,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 
         return () => {};
     }, []);
+
+    useNotification();
 
     return (
         <>

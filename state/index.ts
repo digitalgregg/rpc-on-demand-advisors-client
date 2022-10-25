@@ -146,3 +146,10 @@ export const UserPlanState = atomWithLocalStorage<UserPlanType>(
 export const RetrieveLimit = atom("abc");
 
 export const UpgradeModalState = atom("");
+
+export const TimerState = atomWithStorage<number | undefined>(
+    "timer",
+    undefined
+);
+
+export const EmailSentState = atomWithStorage<boolean>("email-sent", false);

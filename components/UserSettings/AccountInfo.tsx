@@ -19,7 +19,7 @@ const AccountInfo = () => {
     const [_1, setTeamObj] = useAtom(team_state);
     const [_2, setSignupData] = useAtom(signupState);
     const [buttonLoading, setButtonLoading] = useState(false);
-
+    const [teamData] = useAtom(team_state);
     const {
         register,
         formState: { errors },
@@ -104,6 +104,7 @@ const AccountInfo = () => {
                             className={inputStyle}
                             placeholder="Company Name"
                             defaultValue={user?.companyName}
+                            readOnly={teamData.role !== "admin"}
                             style={{
                                 boxShadow:
                                     " inset 1px 3px 3px rgba(0, 0, 0, 0.03)",
@@ -124,6 +125,7 @@ const AccountInfo = () => {
                             {...register("team_name")}
                             className={inputStyle}
                             defaultValue={team?.team_name}
+                            readOnly={teamData.role !== "admin"}
                             placeholder="Team name"
                             style={{
                                 boxShadow:

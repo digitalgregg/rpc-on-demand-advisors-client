@@ -100,8 +100,9 @@ function ContentViewCard({
             case "Update":
                 return handleViewContent();
             case "Download":
-                // return saveAs(data.file_url, data.additional_info.file_name);
                 return router.push(data.file_url);
+            case "View":
+                return handleViewContent();
             default:
                 break;
         }
@@ -297,6 +298,7 @@ const SharingDetails = ({
     const [recipient, setRecipient] = useState<string>("");
     const [isLoading, setLoading] = useState(false);
     const [error, setError] = useState(false);
+    const [userData] = useAtom(signupState);
 
     const [copyText, setCopyText] = useCopyToClipboard();
 
@@ -310,6 +312,7 @@ const SharingDetails = ({
             const res = await api.post("/api/content/sharing", {
                 content_id: content_id,
                 recipient,
+                user_id: userData._id,
             });
             handleShare();
             setLoading(false);

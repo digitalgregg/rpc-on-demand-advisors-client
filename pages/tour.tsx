@@ -380,7 +380,7 @@ function TourPage() {
                 </div>
 
                 {/* Section No 4 */}
-                <div className="bg-[#F8F8F8]">
+                <div className="bg-[#F8F8F8] hidden">
                     <div className="container mx-auto">
                         <div className="pt-[20px] sm:pt-[90px]  md:pt-[60px] lg:pt-[80px] "></div>
 

@@ -74,6 +74,10 @@ function Contents() {
         }
     };
 
+    const handleUploadCompleted = () => {
+        toast.success("Content uploaded successfully");
+    };
+
     async function handleSingleUpload(response: any) {
         handleContentValidate();
         await createContent(responseToObject(response, teamData));
@@ -105,27 +109,29 @@ function Contents() {
                             {getGreetings()} {getFirstName(userData.name)}!
                         </h3>
                         <div className="flex gap-[3%] sm:gap-[25px] ">
-                            <button
-                                onMouseOver={() => {
-                                    setIsHover(true);
-                                }}
-                                onMouseLeave={() => {
-                                    setIsHover(false);
-                                }}
-                                onClick={handleUppyModal}
-                                className="w-[48.5%] sm:w-[143px] h-[48px] lg:w-[190px] lg:h-[54px] hover:bg-primary hover:text-white transition duration-600 border-[1.5px] border-primary rounded-[4px] text-[12px] lg:text-[14px] font-semibold flex items-center justify-center gap-[5px]	lg:gap-[11px] text-primary"
-                            >
-                                <span>
-                                    <ContactIcon
-                                        color={
-                                            isHover === true
-                                                ? "#FFFFFF"
-                                                : "#E51937"
-                                        }
-                                    />
-                                </span>{" "}
-                                Add new content
-                            </button>
+                            {teamData.role === "admin" && (
+                                <button
+                                    onMouseOver={() => {
+                                        setIsHover(true);
+                                    }}
+                                    onMouseLeave={() => {
+                                        setIsHover(false);
+                                    }}
+                                    onClick={handleUppyModal}
+                                    className="w-[48.5%] sm:w-[143px] h-[48px] lg:w-[190px] lg:h-[54px] hover:bg-primary hover:text-white transition duration-600 border-[1.5px] border-primary rounded-[4px] text-[12px] lg:text-[14px] font-semibold flex items-center justify-center gap-[5px]	lg:gap-[11px] text-primary"
+                                >
+                                    <span>
+                                        <ContactIcon
+                                            color={
+                                                isHover === true
+                                                    ? "#FFFFFF"
+                                                    : "#E51937"
+                                            }
+                                        />
+                                    </span>{" "}
+                                    Add new content
+                                </button>
+                            )}
 
                             <button
                                 onMouseOver={() => {
@@ -219,6 +225,7 @@ function Contents() {
             <FileUploadModal
                 onSingleUpload={handleSingleUpload}
                 onFileUpload={handleContentValidate}
+                onUploadCompleted={handleUploadCompleted}
             />
             <NewCollectionModal
                 isOpen={collectionModal}

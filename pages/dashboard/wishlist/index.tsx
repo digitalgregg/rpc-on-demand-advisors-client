@@ -154,7 +154,7 @@ function WishListItem({ wishes }: CardProps) {
                                 <div className="table-cell text-xs leading-[16px] font-normal">
                                     Title
                                 </div>
-                                <div className="table-cell text-sm leading-[19px] font-semibold p-0 pl-4 w-[90%] truncate">
+                                <div className="table-cell text-sm leading-[19px] font-semibold p-0 pl-4 w-[60%] truncate">
                                     {wish.wish_title}
                                 </div>
                             </div>
@@ -163,7 +163,7 @@ function WishListItem({ wishes }: CardProps) {
                                 <div className="table-cell text-xs leading-[16px] font-normal">
                                     Content Type
                                 </div>
-                                <div className="table-cell text-sm leading-[19px] font-semibold p-0 pl-4  w-[90%] truncate">
+                                <div className="table-cell text-sm leading-[19px] font-semibold p-0 pl-4  w-[60%] truncate">
                                     {wish.content_type}
                                 </div>
                             </div>
@@ -172,7 +172,7 @@ function WishListItem({ wishes }: CardProps) {
                                 <div className="table-cell text-xs leading-[16px] font-normal">
                                     Status
                                 </div>
-                                <div className="table-cell text-sm leading-[19px] font-semibold p-0 pl-4 w-[90%] truncate">
+                                <div className="table-cell text-sm leading-[19px] font-semibold p-0 pl-4 w-[60%] truncate">
                                     {wish.status}
                                 </div>
                             </div>

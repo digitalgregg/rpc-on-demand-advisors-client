@@ -19,6 +19,8 @@ import { toast } from "react-toastify";
 import { getLocal } from "../../../../utils/localStorage";
 import classNames from "classnames";
 import Meta from "../../../../components/Meta";
+import { useAtom } from "jotai";
+import { team_state } from "../../../../state";
 
 const updateWish = {
     status: "",
@@ -61,6 +63,8 @@ function ViewWish() {
             return setOpen(!isOpen);
         }
     };
+
+    const [teamData] = useAtom(team_state);
 
     return (
         <>
@@ -220,34 +224,23 @@ function ViewWish() {
                                                             labelClass="!text-sm !leading-[19.07px]"
                                                         />
                                                         <div className="flex justify-end pt-4 sm:pt-5">
-                                                            <button
-                                                                className={classNames(
-                                                                    "h-[45px] leading-[45px] rounded-[4px] bg-primary text-base text-[#fff] hover:bg-[#890F21] transition-all duration-200 w-full sm:w-[129px]",
-                                                                    team?.role ===
-                                                                        "user" &&
-                                                                        wishData?.user_id !==
-                                                                            _id
-                                                                        ? " cursor-not-allowed"
-                                                                        : "cursor-pointer"
-                                                                )}
-                                                                type={`${
-                                                                    team?.role ===
-                                                                        "user" &&
-                                                                    wishData?.user_id !==
-                                                                        _id
-                                                                        ? "button"
-                                                                        : "submit"
-                                                                }`}
-                                                            >
-                                                                {loadingButton ===
-                                                                true ? (
-                                                                    <div>
-                                                                        <LodingAnimation color="white" />
-                                                                    </div>
-                                                                ) : (
-                                                                    "Update"
-                                                                )}
-                                                            </button>
+                                                            {teamData.role ===
+                                                                "admin" && (
+                                                                <button
+                                                                    className={classNames(
+                                                                        "h-[45px] leading-[45px] rounded-[4px] bg-primary text-base text-[#fff] hover:bg-[#890F21] transition-all duration-200 w-full sm:w-[129px]"
+                                                                    )}
+                                                                >
+                                                                    {loadingButton ===
+                                                                    true ? (
+                                                                        <div>
+                                                                            <LodingAnimation color="white" />
+                                                                        </div>
+                                                                    ) : (
+                                                                        "Update"
+                                                                    )}
+                                                                </button>
+                                                            )}
                                                         </div>
                                                     </Form>
                                                 )}

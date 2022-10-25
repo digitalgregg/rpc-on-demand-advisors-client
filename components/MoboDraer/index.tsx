@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
-import { signupState } from "../../state";
+import { signupState, team_state } from "../../state";
 import { removeLocal, getLocal } from "../../utils/localStorage";
 import { useQuery } from "react-query";
 import api from "../../api";
@@ -80,10 +80,71 @@ const menuItems = [
     },
 ];
 
+const userMenuItems = [
+    {
+        id: 0,
+        title: "My Content",
+        img: "/img/contentIcon.svg",
+        url: "/dashboard/contents",
+    },
+    {
+        id: 1,
+        title: "My Collections",
+        img: "/img/collectionIconWh.svg",
+        url: "/dashboard/collections",
+    },
+    {
+        id: 2,
+        title: "Shared Collections",
+        img: "/img/shareIcon.svg",
+        url: "/dashboard/shared-collections",
+    },
+    {
+        id: 3,
+        title: "My Analytics",
+        img: "/img/analyticIcon.svg",
+        url: "/dashboard/analytics",
+    },
+    {
+        id: 4,
+        title: "User Settings",
+        img: "/img/settingsIcon.svg",
+        url: "/dashboard/user-settings",
+    },
+    {
+        id: 5,
+        title: "Wishlist",
+        img: "/img/wishlistIcon.svg",
+        url: "/dashboard/wishlist",
+    },
+    {
+        id: 7,
+        title: "Support",
+        img: "/img/support1.svg",
+        url: "/dashboard/support",
+    },
+    {
+        id: 9,
+        title: "Account Settings",
+        img: "/img/accountSettingWh.svg",
+        url: "/dashboard/account-settings/application-settings",
+        baseUrl: "/dashboard/account-settings/application-settings",
+    },
+    {
+        id: 10,
+        title: "Logout",
+        img: "/img/logout.svg",
+        url: "/logout",
+    },
+];
+
 const MoboDraer = ({ toggleDrawer, isOpen }: any) => {
     const userInfo = getLocal("user-info");
     const router = useRouter();
     const [userData] = useAtom(signupState);
+    const [teamData] = useAtom(team_state);
+
+    const myMenuItems = teamData.role === "admin" ? menuItems : userMenuItems;
 
     const checkActive = (v: any) => {
         if (v.baseUrl) {
@@ -151,7 +212,7 @@ const MoboDraer = ({ toggleDrawer, isOpen }: any) => {
                                 {userData.name}
                             </p>
                         </div>
-                        {menuItems.map((item: any) => (
+                        {myMenuItems.map((item: any) => (
                             <div key={item.id}>
                                 <ul className="py-[10px]">
                                     <li
