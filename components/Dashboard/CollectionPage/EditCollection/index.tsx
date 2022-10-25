@@ -229,7 +229,11 @@ function EditCollection() {
                     <div className="pt-5"></div>
                     <Pagination
                         dataArr={contentsData}
-                        itemsPerPage={getItemPerPageBottom()}
+                        itemsPerPage={
+                            teamData.role === "admin"
+                                ? getItemPerPageBottom()
+                                : getItemPerPageTop()
+                        }
                         className="pt-[30px]"
                     >
                         {(currentItems) => (
@@ -241,14 +245,16 @@ function EditCollection() {
                                         data={v}
                                     />
                                 ))}
-                                <div>
-                                    <button
-                                        className="h-[80px] sm:h-[84.45px] lg:h-[100px] font-semibold rounded-[4px] text-[#000] w-full leading-[84px] text-center bg-[#fff] border border-dashed border-[#9D9D9D] "
-                                        onClick={handleUppyModal}
-                                    >
-                                        Add New Content
-                                    </button>
-                                </div>
+                                {teamData.role === "admin" && (
+                                    <div>
+                                        <button
+                                            className="h-[80px] sm:h-[84.45px] lg:h-[100px] font-semibold rounded-[4px] text-[#000] w-full leading-[84px] text-center bg-[#fff] border border-dashed border-[#9D9D9D] "
+                                            onClick={handleUppyModal}
+                                        >
+                                            Add New Content
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         )}
                     </Pagination>

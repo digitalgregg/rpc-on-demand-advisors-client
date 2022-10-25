@@ -48,7 +48,7 @@ function ViewCollection({
             {/* Filter section  */}
             <div className="flex items-center justify-between pb-[30px]">
                 <h3 className="text-[16px] font-semibold text-[#222222]">
-                    Your Content
+                    Your Collections
                 </h3>
                 <div className="flex items-center gap-[10px] text-[#000]">
                     <h3 className="text-[14px]">Sorted by</h3>

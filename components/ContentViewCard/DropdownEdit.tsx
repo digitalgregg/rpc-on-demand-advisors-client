@@ -20,7 +20,7 @@ function DropdownEdit({ onDropdownClick }: DropdownEditType) {
     return (
         <div
             className="w-[156px]  bg-[#FFFFFF] rounded-[4px]  px-[10px] flex flex-col justify-center shadow-[4px_4px_8px_rgba(0,0,0,0.25)]"
-            style={{ height: teamData.role === "admin" ? 210 : 100 }}
+            style={{ height: teamData.role === "admin" ? 170 : 100 }}
         >
             {myDropdown.map((v, i) => (
                 <div
@@ -93,11 +93,6 @@ const dropdownList: DropdownItemType[] = [
         id: 2,
         title: "Download",
         img: (stroke = "#222222") => <DownloadIcon stroke={stroke} />,
-    },
-    {
-        id: 3,
-        title: "Update",
-        img: (stroke = "#222222") => <UpdateIcon stroke={stroke} />,
     },
     {
         id: 4,
