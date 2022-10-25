@@ -14,7 +14,9 @@ function useNotification() {
     useEffect(() => {
         socket.on("notification", (json) => {
             const data = JSON.parse(json);
-            notifyUser(data, userData._id);
+            if (data.user_id === userData._id) {
+                notifyUser(data, userData._id);
+            }
         });
     }, []);
 }

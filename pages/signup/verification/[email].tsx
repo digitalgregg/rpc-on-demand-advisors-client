@@ -33,6 +33,12 @@ function EmailVerification() {
         <div>
             <div className="w-full ">
                 <div className="w-full h-screen bg-[rgba(0,0,0,.5)]"></div>
+                <img
+                    src="/assets/resend-email.svg"
+                    className="w-full h-screen fixed left-0 top-0 -z-[1]"
+                    alt=""
+                />
+                <div className=" "></div>
                 <div className="fixed bg-white top-1/2 left-1/2 -translate-x-1/2 w-[calc(100%-40px)] max-w-[642px]  -translate-y-1/2">
                     <div className="bg-[#101010] h-[52px] flex justify-center items-center">
                         <img
