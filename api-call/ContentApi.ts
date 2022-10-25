@@ -46,7 +46,6 @@ export async function getContent(id: string) {
 export async function createContent(contentData: CreateContentType) {
     try {
         const response = await api.post(BASE_URL + "/api/content", contentData);
-        toast.success("Content created successfully");
     } catch (err: any) {
         console.log(err);
         toast.error(err?.response.data.message);

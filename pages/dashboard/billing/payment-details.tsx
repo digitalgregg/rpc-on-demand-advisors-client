@@ -253,8 +253,18 @@ function HistoryItem({ billingItem }: { billingItem: BillingType }) {
         setLoadingBtn(true);
         try {
             const response = await api.get(
-                "/api/billing/download/" + billingItem._id
+                "/api/billing/download/" + billingItem._id,
+                { responseType: "blob" }
             );
+            const fileName = response.headers["content-disposition"];
+            const href = URL.createObjectURL(response.data);
+            const link = document.createElement("a");
+            link.href = href;
+            link.setAttribute("download", fileName);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(href);
             setLoadingBtn(false);
             console.log(response);
         } catch (err) {

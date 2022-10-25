@@ -1,3 +1,4 @@
+import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import React from "react";
 import { use100vh } from "react-div-100vh";
@@ -6,11 +7,14 @@ import api from "../../api";
 import { fetchFile, fetchSharedFile } from "../../api-call/FileViewApi";
 import { isAudio, isImage, isVideo } from "../../components/Library/FileType";
 import FileViewer from "../../components/Library/FileViewer";
+import { EmailSentState, signupState } from "../../state";
 import { LoadingBox } from "../dashboard/contents/view-details/[id]";
 
 function ViewShareFile() {
+    const [userData] = useAtom(signupState);
     const router = useRouter();
     const url = router.query.url;
+    const [emailSent, setEmailSent] = useAtom(EmailSentState);
     const { data, isLoading, isSuccess, isError } = useQuery(
         ["view-shared-file", url],
         () => fetchSharedFile(`${url}`),
@@ -25,7 +29,26 @@ function ViewShareFile() {
             },
             select: (response) => response.data,
             onSuccess: async (res) => {
-                await api.put("api/content/sharing/" + res.link);
+                if (userData && userData._id && userData._id == res.user_id) {
+                } else {
+                    await api.put("api/content/sharing/" + res.link);
+                    const apiObj = {
+                        user_id: res.user_id,
+                        content_id: res.content_id,
+                        recipient: res.recipient,
+                        views: `${parseInt(res.views) + 1}`,
+                        isEmail: !emailSent,
+                    };
+                    console.log(res);
+                    if (!emailSent) {
+                        setEmailSent(true);
+                    }
+                    try {
+                        await api.post("/notification-email", apiObj);
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }
                 console.log("Views updated");
             },
             refetchOnWindowFocus: false,

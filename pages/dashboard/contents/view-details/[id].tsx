@@ -38,7 +38,7 @@ const ContentDetails = ({ query }: { query: any }) => {
         async () => await getContent(id),
         { enabled: id ? true : false }
     );
-
+    const [teamData] = useAtom(team_state);
     useEffect(() => {
         if (window.myUppy) {
             window.myUppy.setOptions({
@@ -84,7 +84,7 @@ const ContentDetails = ({ query }: { query: any }) => {
                                 </div>
                                 {/* <div>{data && data.title}</div> */}
                                 {/* Group buttons start */}
-                                <ButtonGroup />
+                                {teamData.role === "admin" && <ButtonGroup />}
                                 {/* Group buttons end */}
                                 {/* info section start */}
                                 <div className="mt-[25px] sm:shadow-[2px_2px_16px_rgba(0,0,0,0.08)]">

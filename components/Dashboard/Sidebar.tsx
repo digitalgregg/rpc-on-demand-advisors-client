@@ -2,7 +2,7 @@
 import { useAtom } from "jotai";
 import Link from "next/link";
 import React, { ReactNode } from "react";
-import { UserPlanState } from "../../state";
+import { team_state, UserPlanState } from "../../state";
 import NavLink from "./NavLink";
 
 type SidebarDataType = {
@@ -63,6 +63,8 @@ function Sidebar() {
         );
     };
 
+    const [teamData] = useAtom(team_state);
+
     return (
         <div className="bg-[#222222] hidden sm:block sm:w-[90px] md:w-[100px] lg:w-[230px] xl:w-[250px] 2xl:w-[270px] 3xl:w-[280px] 4xl:w-[280px] h-full fixed top-0 left-0">
             <div className="p-[35px_20px] flex flex-col h-full justify-between">
@@ -91,9 +93,9 @@ function Sidebar() {
                         </div>
                     </div>
                 </div>
-                {isUpgrade() && (
+                {isUpgrade() && teamData.role === "admin" && (
                     <div className="">
-                        <SidebarTab data={upgradeBtn} />
+                        <SidebarTab data={upgradeBtn} isUpdate />
                     </div>
                 )}
             </div>
@@ -101,11 +103,19 @@ function Sidebar() {
     );
 }
 
-const SidebarTab = ({ data }: { data: SidebarDataType }) => {
+const SidebarTab = ({
+    data,
+    isUpdate,
+}: {
+    data: SidebarDataType;
+    isUpdate?: boolean;
+}) => {
     return (
         <NavLink
             href={data.link}
-            className="flex items-center transition ease-in-out duration-200 hover:bg-primary justify-center lg:pl-5 lg:justify-start py-[10px] rounded-[4px]"
+            className={`flex items-center transition ease-in-out duration-200 ${
+                isUpdate ? "bg-primary" : "hover:bg-primary"
+            } justify-center lg:pl-5 lg:justify-start py-[10px] rounded-[4px]`}
             activeClassName="bg-primary"
         >
             <div className=" flex items-center">

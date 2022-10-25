@@ -1,7 +1,9 @@
+import { useAtom } from "jotai";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
+import { team_state } from "../../state";
 import { removeLocal } from "../../utils/localStorage";
 import {
     AccountSetting,
@@ -65,10 +67,52 @@ const menuItems = [
     },
 ];
 
+const userMenuItems = [
+    {
+        id: 1,
+        title: "User Settings",
+        Icon: UserSetting,
+        url: "/dashboard/user-settings",
+        baseUrl: "/dashboard/user-settings",
+    },
+    {
+        id: 2,
+        title: "Account setting",
+        Icon: AccountSetting,
+        url: "/dashboard/account-settings/application-settings",
+        baseUrl: "/dashboard/account-settings/",
+    },
+    {
+        id: 3,
+        title: "Wishlist",
+        Icon: WishlistIcon,
+        url: "/dashboard/wishlist",
+        baseUrl: "/dashboard/wishlist",
+    },
+    {
+        id: 5,
+        title: "Support",
+        Icon: Support,
+        url: "/dashboard/support",
+        baseUrl: "/dashboard/support",
+    },
+
+    {
+        id: 7,
+        title: "Logout",
+        Icon: Logout,
+        url: "/logout",
+        baseUrl: "/logout",
+    },
+];
+
 const UserSettingsDropdown = () => {
     const router = useRouter();
+    const [teamData] = useAtom(team_state);
     const [iconColor, setIconColor] = useState(false);
     const [itemCount, setItemCount] = useState<any>({});
+
+    const myMenuItems = teamData.role === "admin" ? menuItems : userMenuItems;
 
     const onOver = (e: any) => {
         if (e) setIconColor(true);
@@ -97,7 +141,7 @@ const UserSettingsDropdown = () => {
             className="w-[190px] rounded-[4px] bg-[#FFFFFF]"
         >
             <div className="p-[8px] ">
-                {menuItems.map(({ id, Icon, title, url, baseUrl }: any) => (
+                {myMenuItems.map(({ id, Icon, title, url, baseUrl }: any) => (
                     <div
                         onMouseOver={() => {
                             onOver(id), setItemCount(id);
