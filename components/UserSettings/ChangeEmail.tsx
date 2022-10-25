@@ -6,6 +6,7 @@ import { getLocal, setLocal } from "./../../utils/localStorage";
 import { toast } from "react-toastify";
 import api from "../../api";
 import LodingAnimation from "./../Shared/LodingAnimation/index";
+import { useQuery } from 'react-query';
 
 const ChangeEmail = () => {
   const inputStyle = "w-[100%] border border-[#676767] text-normal text-[14px]";
@@ -15,7 +16,7 @@ const ChangeEmail = () => {
   const team = getLocal("team");
   const userInfo = getLocal("user-info");
   const [buttonLoading, setButtonLoading] = useState(false);
-
+  
   const changeEmailInfo = {
     current_email: user?.email,
     new_email: "",
@@ -36,7 +37,7 @@ const ChangeEmail = () => {
       <Formik
         initialValues={changeEmailInfo}
         validationSchema={changeEmailInfoSchema}
-        onSubmit={(values) => {
+        onSubmit={(values,{resetForm}) => {
           setButtonLoading(true);
           setError("");
           api
@@ -53,6 +54,7 @@ const ChangeEmail = () => {
                 setLocal("user-info", userInfo);
                 toast.success(res.data.message);
                 setButtonLoading(false);
+                resetForm()
               }
             })
             .catch((err) => {

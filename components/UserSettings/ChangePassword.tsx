@@ -33,7 +33,7 @@ const ChangePassword = () => {
       <Formik
         initialValues={changePasswordInfo}
         validationSchema={changePasswordInfoSchema}
-        onSubmit={(values) => {
+        onSubmit={(values,{resetForm}) => {
           setButtonLoading(true);
           setError("");
           api
@@ -43,6 +43,7 @@ const ChangePassword = () => {
                 toast.success(res.data.message);
                 setButtonLoading(false);
               }
+              resetForm()
             })
             .catch((err) => {
               setError(err?.response.data.message);
