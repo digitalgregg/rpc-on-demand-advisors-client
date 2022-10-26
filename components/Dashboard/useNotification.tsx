@@ -7,14 +7,16 @@ import { signupState } from "../../state";
 const SOCKET_SERVER =
     process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8080";
 
-const socket = io(SOCKET_SERVER, { transports: ["polling"] });
+const socket = io(SOCKET_SERVER, { transports: ["websocket"] });
 
 function useNotification() {
     const [userData] = useAtom(signupState);
     useEffect(() => {
         socket.on("notification", (json) => {
             const data = JSON.parse(json);
-            notifyUser(data, userData._id);
+            if (data.user_id === userData._id) {
+                notifyUser(data, userData._id);
+            }
         });
     }, []);
 }
