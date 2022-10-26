@@ -82,3 +82,6 @@ if (closeUploadModalBtn) {
 }
 
 window.myUppy = uppy;
+uppy.on("some-event", () => {
+    console.log("Test Some Event");
+});
