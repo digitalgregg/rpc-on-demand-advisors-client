@@ -7,7 +7,7 @@ import { signupState } from "../../state";
 const SOCKET_SERVER =
     process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8080";
 
-const socket = io(SOCKET_SERVER, { transports: ["websocket"] });
+const socket = io(SOCKET_SERVER, { transports: ["polling"] });
 
 function useNotification() {
     const [userData] = useAtom(signupState);
