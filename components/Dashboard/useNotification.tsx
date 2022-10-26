@@ -1,30 +1,20 @@
 import { useAtom } from "jotai";
 import React, { useEffect } from "react";
 import { toast } from "react-toastify";
+import { io } from "socket.io-client";
 import { signupState } from "../../state";
 
-// const SOCKET_SERVER =
-//     process.env.NEXT_PUBLIC_SOCKET_URL || ;
+const SOCKET_SERVER =
+    process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8080";
+
+const socket = io(SOCKET_SERVER, { transports: ["polling"] });
 
 function useNotification() {
     const [userData] = useAtom(signupState);
     useEffect(() => {
-        const websocket = new WebSocket("wss://oda-center.herokuapp.com");
-        websocket.addEventListener("open", () => {
-            console.log("Connected");
-        });
-        websocket.addEventListener("error", (err) => {
-            console.log("Connected Error", err);
-        });
-        websocket.addEventListener("close", () => {
-            console.log("Connected close");
-        });
-        websocket.addEventListener("message", (event) => {
-            const data = JSON.parse(event.data);
-            console.log(data);
-            if (data.user_id === userData._id) {
-                notifyUser(data, userData._id);
-            }
+        socket.on("notification", (json) => {
+            const data = JSON.parse(json);
+            notifyUser(data, userData._id);
         });
     }, []);
 }
@@ -61,7 +51,7 @@ const notify = (data: NotifyType) => {
     );
     notification.addEventListener("click", () => {
         window.open(
-            `${window.location.origin}/dashboard/contents/view-details/${data.content_id}`
+            `http://localhost:3000/dashboard/contents/view-details/${data.content_id}`
         );
     });
 };
