@@ -15,6 +15,7 @@ function useNotification() {
         });
         websocket.addEventListener("message", (event) => {
             const data = JSON.parse(event.data);
+            console.log(data);
             if (data.user_id === userData._id) {
                 notifyUser(data, userData._id);
             }
@@ -54,7 +55,7 @@ const notify = (data: NotifyType) => {
     );
     notification.addEventListener("click", () => {
         window.open(
-            `http://localhost:3000/dashboard/contents/view-details/${data.content_id}`
+            `${window.location.origin}/dashboard/contents/view-details/${data.content_id}`
         );
     });
 };
