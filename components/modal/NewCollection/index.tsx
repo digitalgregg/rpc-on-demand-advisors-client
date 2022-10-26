@@ -20,6 +20,7 @@ import LodingAnimation from "../../Shared/LodingAnimation";
 import api from "../../../api";
 import { toast } from "react-toastify";
 import { createActivity } from "../../../api-call/RecentActivityApi";
+import { useRouter } from "next/router";
 
 type ModalType = {
     isOpen: boolean;
@@ -39,6 +40,7 @@ const validationSchema = Yup.object({
 function NewCollectionModal({ isOpen, handleClose }: ModalType) {
     const [teamData] = useAtom(team_state);
     const [userData] = useAtom(signupState);
+    const router = useRouter();
 
     const [buttonLoading, setButtonLoading] = useState(false);
 
@@ -62,10 +64,16 @@ function NewCollectionModal({ isOpen, handleClose }: ModalType) {
                 ...shareWith,
             };
 
-            await api.post("/api/collection", apiObj);
+            const collerctionPost = await api.post("/api/collection", apiObj);
+            const collectionId = collerctionPost?.data.collection._id;
             setButtonLoading(false);
             toast.success("New collection created");
             handleClose();
+            router.push(
+                collerctionPost?.data.collection.shareWith === "no"
+                    ? `/dashboard/collections/edit/${collectionId}`
+                    : `/dashboard/shared-collections/edit/${collectionId}`
+            );
         } catch (error) {
             setButtonLoading(false);
             console.log(error);
