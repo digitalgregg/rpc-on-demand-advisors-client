@@ -14,6 +14,7 @@ function useNotification() {
     useEffect(() => {
         socket.on("notification", (json) => {
             const data = JSON.parse(json);
+            console.log(data);
             if (data.user_id === userData._id) {
                 notifyUser(data, userData._id);
             }
