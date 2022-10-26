@@ -3,15 +3,21 @@ import React, { useEffect } from "react";
 import { toast } from "react-toastify";
 import { signupState } from "../../state";
 
-const SOCKET_SERVER =
-    process.env.NEXT_PUBLIC_SOCKET_URL || "wss://oda-center.herokuapp.com";
+// const SOCKET_SERVER =
+//     process.env.NEXT_PUBLIC_SOCKET_URL || ;
 
 function useNotification() {
     const [userData] = useAtom(signupState);
     useEffect(() => {
-        const websocket = new WebSocket(SOCKET_SERVER);
+        const websocket = new WebSocket("wss://oda-center.herokuapp.com");
         websocket.addEventListener("open", () => {
-            console.log("Connected", SOCKET_SERVER);
+            console.log("Connected");
+        });
+        websocket.addEventListener("error", (err) => {
+            console.log("Connected Error", err);
+        });
+        websocket.addEventListener("close", () => {
+            console.log("Connected close");
         });
         websocket.addEventListener("message", (event) => {
             const data = JSON.parse(event.data);
