@@ -1,16 +1,18 @@
 import { useAtom } from "jotai";
 import React, { useEffect } from "react";
 import { toast } from "react-toastify";
-import { io } from "socket.io-client";
 import { signupState } from "../../state";
 
 const SOCKET_SERVER =
-    process.env.NEXT_PUBLIC_SOCKET_URL || "ws://localhost:8080";
+    process.env.NEXT_PUBLIC_SOCKET_URL || "wss://oda-center.herokuapp.com";
 
 function useNotification() {
     const [userData] = useAtom(signupState);
     useEffect(() => {
         const websocket = new WebSocket(SOCKET_SERVER);
+        websocket.addEventListener("open", () => {
+            console.log("Connected", SOCKET_SERVER);
+        });
         websocket.addEventListener("message", (event) => {
             const data = JSON.parse(event.data);
             if (data.user_id === userData._id) {
