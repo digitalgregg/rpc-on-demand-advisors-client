@@ -5,15 +5,14 @@ import { io } from "socket.io-client";
 import { signupState } from "../../state";
 
 const SOCKET_SERVER =
-    process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8080";
-
-const socket = io(SOCKET_SERVER, { transports: ["websocket"] });
+    process.env.NEXT_PUBLIC_SOCKET_URL || "ws://localhost:8080";
 
 function useNotification() {
     const [userData] = useAtom(signupState);
     useEffect(() => {
-        socket.on("notification", (json) => {
-            const data = JSON.parse(json);
+        const websocket = new WebSocket(SOCKET_SERVER);
+        websocket.addEventListener("message", (event) => {
+            const data = JSON.parse(event.data);
             if (data.user_id === userData._id) {
                 notifyUser(data, userData._id);
             }
