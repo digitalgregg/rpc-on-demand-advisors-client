@@ -175,12 +175,12 @@ function PaymentDetails() {
                                     <div className="text-lg sm:text-[24px] sm:leading-[32.68px] font-bold leading-[24.51px] text-[#101010] ">
                                         Billing History
                                     </div>
-                                    <button
+                                    {/* <button
                                         style={{
                                             display: "block",
                                         }}
                                         onClick={handleDownloadAll}
-                                        className="text-xs font-bold leading-[16.34px] h-[36px] w-[120px] flex items-center justify-center bg-primary rounded-[4px] text-[#FFFFFF] transition-all duration-200 hover:bg-primary_dark"
+                                        className=" text-xs font-bold leading-[16.34px] h-[36px] w-[120px] flex items-center justify-center bg-primary rounded-[4px] text-[#FFFFFF] transition-all duration-200 hover:bg-primary_dark"
                                     >
                                         {downloadAllLoading ? (
                                             <div className="flex items-center justify-center gap-1">
@@ -190,10 +190,10 @@ function PaymentDetails() {
                                         ) : (
                                             "Download all"
                                         )}
-                                    </button>
+                                    </button> */}
                                 </div>
                                 {isLoading ? (
-                                    <div className="flex items-center py-4 gap-2">
+                                    <div className="flex items-center gap-2 py-4">
                                         <LoadingAnimation />
                                         <div>Loading billing history...</div>
                                     </div>
@@ -334,7 +334,7 @@ const OldCardDetails = ({ data }: { data: PMDTYPE }) => {
         <div className="">
             <div className="pt-[63px]"></div>
 
-            <div className="justify-between flex ">
+            <div className="flex justify-between ">
                 <div className="flex gap-4">
                     <div>
                         <div className="text-primary text-base leading-[21.79px] font-bold border-primary border rounded-[4px] p-[6px_12.5px] uppercase">
