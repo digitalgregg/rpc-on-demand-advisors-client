@@ -155,7 +155,7 @@ function Sidebar() {
                 )}
             </div>
 
-            {filterOpen && <SidebarFilter data={appSettingData} />}
+            {filterOpen && <SidebarFilter data={appSettingData  || []} />}
         </div>
     );
 }
