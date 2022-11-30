@@ -14,6 +14,8 @@ import LodingAnimation from "../../../Shared/LodingAnimation";
 import SortedSelect, { SelectOption } from "../../../Shared/SortedSelect";
 import { sortedContentFilter } from "../../../../utils/filter";
 import Meta from "../../../Meta";
+import { useAtom } from "jotai";
+import { team_state } from "../../../../state";
 
 const options = [
     { value: "newest", label: "Newest" },
@@ -25,7 +27,7 @@ const options = [
 function ViewCollectionContent() {
     const router = useRouter();
     const id = router.query.id;
-
+    const [teamData] = useAtom(team_state);
     // filter section
     const [sortedFilter, setSortedFilter] = useState<SelectOption>({
         value: "newest",
@@ -75,20 +77,42 @@ function ViewCollectionContent() {
                         data && data.shareWith !== "no" ? "shared-" : ""
                     }collections/edit/${data && data._id}`}
                 >
-                    <motion.button
-                        whileHover={{
-                            scale: 1.2,
-                            transition: { duration: 0.1 },
-                        }}
-                        whileTap={{ scale: 0.9 }}
-                        className="p-[10px] cursor-pointer"
-                    >
-                        <img
-                            src="/img/editIcon.svg"
-                            alt="Edit icon"
-                            className="w-[14px] h-[14px]"
-                        />
-                    </motion.button>
+                    <>
+                        {teamData.role === "admin" ? (
+                            <motion.button
+                                whileHover={{
+                                    scale: 1.2,
+                                    transition: { duration: 0.1 },
+                                }}
+                                whileTap={{ scale: 0.9 }}
+                                className="p-[10px] cursor-pointer"
+                            >
+                                <img
+                                    src="/img/editIcon.svg"
+                                    alt="Edit icon"
+                                    className="w-[14px] h-[14px]"
+                                />
+                            </motion.button>
+                        ) : (
+                            data &&
+                            teamData.user_id === data.user_id && (
+                                <motion.button
+                                    whileHover={{
+                                        scale: 1.2,
+                                        transition: { duration: 0.1 },
+                                    }}
+                                    whileTap={{ scale: 0.9 }}
+                                    className="p-[10px] cursor-pointer"
+                                >
+                                    <img
+                                        src="/img/editIcon.svg"
+                                        alt="Edit icon"
+                                        className="w-[14px] h-[14px]"
+                                    />
+                                </motion.button>
+                            )
+                        )}
+                    </>
                 </Link>
             </div>
 

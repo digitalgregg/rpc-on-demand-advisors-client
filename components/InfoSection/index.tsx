@@ -38,7 +38,11 @@ const InfoSection = () => {
                             <div className="grid grid-cols-3 items-center py-[10px] px-[11px]">
                                 <div className={pStyle}>{item.recipient}</div>
                                 <div className={pStyle}>
-                                    <Moment date={item.updatedAt} fromNow />
+                                    {item.views != 0 ? (
+                                        <Moment date={item.updatedAt} fromNow />
+                                    ) : (
+                                        "Not viewed yet"
+                                    )}
                                 </div>
                                 <div
                                     className={`${pStyle} !flex justify-between items-center`}

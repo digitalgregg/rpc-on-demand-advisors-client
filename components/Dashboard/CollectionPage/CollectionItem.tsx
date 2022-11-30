@@ -16,6 +16,8 @@ import { deleteCollection } from "../../../api-call/CollectionApi";
 import { toast } from "react-toastify";
 import Moment from "react-moment";
 import useCopyToClipboard from "../../Library/useCopyToClipboard";
+import { team_state } from "../../../state";
+import { useAtom } from "jotai";
 
 export interface CollectionData {
     _id: string;
@@ -39,6 +41,7 @@ function CollectionItem({
     data: CollectionData;
     refetch: () => any;
 }) {
+    const [teamData] = useAtom(team_state);
     const router = useRouter();
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const handleDropdown = () => {
@@ -107,27 +110,53 @@ function CollectionItem({
                         </p>
                     </div>
                 </Link>
-                <OutSider onOutSideClick={() => setDropdownOpen(false)}>
-                    <div
-                        className="absolute top-[12px] right-[12px] cursor-pointer w-[40px] h-[40px]  "
-                        onClick={handleDropdown}
-                    >
-                        <motion.div whileTap={{ scale: 0.8 }}>
-                            <img
-                                src="/img/editIcon.svg"
-                                alt="edit"
-                                className="w-[40px] h-[40px] p-2  "
-                            />
-                        </motion.div>
-                    </div>
+                {teamData.role == "admin" ? (
+                    <OutSider onOutSideClick={() => setDropdownOpen(false)}>
+                        <div
+                            className="absolute top-[12px] right-[12px] cursor-pointer w-[40px] h-[40px]  "
+                            onClick={handleDropdown}
+                        >
+                            <motion.div whileTap={{ scale: 0.8 }}>
+                                <img
+                                    src="/img/editIcon.svg"
+                                    alt="edit"
+                                    className="w-[40px] h-[40px] p-2  "
+                                />
+                            </motion.div>
+                        </div>
 
-                    {dropdownOpen && (
-                        <EditColDropdown
-                            onDropdownClick={dropdownClickHandle}
-                            data={data}
-                        />
-                    )}
-                </OutSider>
+                        {dropdownOpen && (
+                            <EditColDropdown
+                                onDropdownClick={dropdownClickHandle}
+                                data={data}
+                            />
+                        )}
+                    </OutSider>
+                ) : (
+                    teamData.user_id === data.user_id && (
+                        <OutSider onOutSideClick={() => setDropdownOpen(false)}>
+                            <div
+                                className="absolute top-[12px] right-[12px] cursor-pointer w-[40px] h-[40px]  "
+                                onClick={handleDropdown}
+                            >
+                                <motion.div whileTap={{ scale: 0.8 }}>
+                                    <img
+                                        src="/img/editIcon.svg"
+                                        alt="edit"
+                                        className="w-[40px] h-[40px] p-2  "
+                                    />
+                                </motion.div>
+                            </div>
+
+                            {dropdownOpen && (
+                                <EditColDropdown
+                                    onDropdownClick={dropdownClickHandle}
+                                    data={data}
+                                />
+                            )}
+                        </OutSider>
+                    )
+                )}
             </div>
             <YesNoModal
                 isOpen={deleteModal}

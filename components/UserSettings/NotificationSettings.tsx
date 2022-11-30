@@ -39,6 +39,9 @@ const NotificationSettings = () => {
                 setToogleBtnWeb(data.web_notification);
                 setToggleBtnEmail(data.email_notification);
             },
+            onError(err) {
+                console.log(err);
+            },
         }
     );
 

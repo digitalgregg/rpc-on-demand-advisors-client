@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CheckBox from "../../../../components/CustomIcons/CheckBox";
 import Pagination from "../../../../components/Shared/Pagination";
 import YesNoModal from "../../../../components/modal/YesNoModal";
@@ -54,6 +54,16 @@ function EditCollection() {
     const { refetchPlanData } = GetGlobalContext();
 
     const { width } = useWindowDimensions();
+    const router = useRouter();
+    useEffect(() => {
+        if (teamData.role == "user") {
+            if (data && teamData.user_id != data.user_id) {
+                router.push("/dashboard/collections");
+            }
+        }
+
+        return () => {};
+    }, []);
 
     function getItemPerPageBottom(): number {
         if (width < 680) {

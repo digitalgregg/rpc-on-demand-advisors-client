@@ -58,7 +58,7 @@ module.exports = {
         },
     },
     plugins: [
-        require('@tailwindcss/line-clamp'),
+        require("@tailwindcss/line-clamp"),
         function ({ addUtilities }) {
             const newUtilities = {
                 ".shape-auto": {
@@ -168,6 +168,20 @@ module.exports = {
                         },
                         "&::-webkit-scrollbar-thumb": {
                             background: "#adadad",
+                            "border-radius": "1px",
+                        },
+                    },
+                    ".sidebar-scrollbar": {
+                        "&::-webkit-scrollbar": {
+                            width: "2px",
+                        },
+                        "&::-webkit-scrollbar-track": {
+                            // "box-shadow": "inset 0 0 5px grey",
+                            // "border-radius": "10px",
+                            // background: "rgba(0,0,0,.1)",
+                        },
+                        "&::-webkit-scrollbar-thumb": {
+                            background: "#ddd",
                             "border-radius": "1px",
                         },
                     },

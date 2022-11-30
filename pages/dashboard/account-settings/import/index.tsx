@@ -23,6 +23,7 @@ import ImportHistoryCard, {
 } from "../../../../components/Dashboard/ImportPage/ImportHistoryCard";
 import { useRouter } from "next/router";
 import Meta from "../../../../components/Meta";
+import api from "../../../../api";
 
 function Import() {
     const router = useRouter();
@@ -297,22 +298,18 @@ const handleImportApi = (
     closeImport: () => void,
     refetch: () => void
 ) =>
-    new Promise((resolve, reject) => {
-        const worker = new Worker("/check-script.js", { type: "module" });
-        worker.postMessage({ type: "import", importData });
-        worker.onerror = (err) => {
+    new Promise(async (resolve, reject) => {
+        try {
+            await api.post(
+                `/api/importcsv/import`,
+                importData
+            );
+            resolve(true);
+            closeImport();
+            refetch();
+        } catch (err) {
             reject();
-        };
-        worker.onmessage = (e) => {
-            const { success } = e.data;
-            if (success) {
-                resolve(success);
-                closeImport();
-                refetch();
-            } else {
-                reject();
-            }
-        };
+        }
     });
 
 export default Import;

@@ -599,9 +599,11 @@ function SubmitPayment({
             refetchPlanData();
             router.push("/dashboard/billing/payment-success");
         } catch (err: any) {
-            console.log(err);
             setErrorMessage(err.message);
             setLoadingButton(false);
+            setLoading((state: any) => !state);
+            setLoadingButton(false);
+            handleOpen();
         }
     };
 

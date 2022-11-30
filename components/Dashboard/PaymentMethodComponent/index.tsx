@@ -3,14 +3,20 @@ import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { ShadowCard } from "../../../pages/dashboard/billing/payment-details";
 import { PMDTYPE } from "../../../utils/interfaces";
+import { motion } from "framer-motion";
 
 import AddUpdateMethodModal from "../BillingPage/AddUpdateMethodModal";
 import Skeleton from "react-loading-skeleton";
 import { GetPaymentDetails } from "../../Context/PaymentDetailsProvider";
+import YesNoModal from "../../modal/YesNoModal";
+import api from "../../../api";
+import { useAtom } from "jotai";
+import { PaymentMethod } from "../../../state";
+import { toast } from "react-toastify";
 
 function PaymentMethodComponent() {
     const { data, isLoading, isSuccess } = GetPaymentDetails();
-
+    const [paymentMethod, setPaymentMethod] = useAtom(PaymentMethod);
     const [modalType, setModalType] = useState<"add" | "update">("add");
 
     const [modalOpen, setModalOpen] = useState(false);
@@ -22,62 +28,121 @@ function PaymentMethodComponent() {
         setModalType("update");
         setModalOpen(!modalOpen);
     };
-    
+
+    const [deleteMethod, setDeleteMethod] = useState(false);
+
+    const handleDeleteModal = () => {
+        setDeleteMethod(!deleteMethod);
+    };
+
+    const paymentMethodDelete = async (d: any, setLoading: any) => {
+        try {
+            setLoading(true);
+            await api.post("/api/payment/detach", {
+                pm_id: data.id,
+            });
+            setPaymentMethod({
+                ...paymentMethod,
+                id: "",
+            });
+            setLoading(false);
+            handleDeleteModal();
+            toast.success("Payment method deleted successfully");
+        } catch (err) {
+            setLoading(false);
+        }
+    };
 
     return (
-        <ShadowCard className="h-[270px]">
-            <div className="pt-[26px]"></div>
-            <div className="flex justify-between">
-                <div className="font-bold text-[24px] leading-[32.68px] text-[#101010]">
-                    Payment Method
-                </div>
-                {data && (
-                    <button
-                        onClick={handleUpdateModal}
-                        className="p-[7px_15px] text-base font-bold leading-[21.79px] text-primary border border-primary rounded-[4px]"
-                    >
-                        Edit
-                    </button>
-                )}
-            </div>
-            {!data && <div className="pt-[5px]"></div>}
-            <div className="text-xs font-semibold leading-[16.34px] text-[#676767]">
-                {data
-                    ? "Change how you pay for your plan."
-                    : "No payment method added yet."}
-            </div>
-            <div className="pt-2"></div>
-            {isLoading && (
-                <div>
-                    <LoadingSkeleton />
-                </div>
-            )}
-            {!isLoading && isSuccess && data ? (
-                <div>
-                    <NewCardDetails data={data} />
-                </div>
-            ) : (
-                <>
-                    <div className="pt-[63px]"></div>
-                    <div>
-                        <div className="pt-[29px]"></div>
-                        <button
-                            className="text-base leading-[58px] font-bold bg-primary w-full h-[58px] rounded-[4px] transition-all duration-200 text-white hover:bg-primary_dark"
-                            onClick={handleModal}
-                        >
-                            + Add Payment Method
-                        </button>
+        <>
+            <ShadowCard className="h-[270px]">
+                <div className="pt-[26px]"></div>
+                <div className="flex justify-between">
+                    <div className="font-bold text-[24px] leading-[32.68px] text-[#101010]">
+                        Payment Method
                     </div>
-                </>
-            )}
-            <div>
-                <AddUpdateMethodModal
-                    handleModal={handleModal}
-                    modalOpen={modalOpen}
-                    type={modalType}
-                />
-            </div>
-        </ShadowCard>
+                    {data && (
+                        // <button
+                        //     onClick={handleUpdateModal}
+                        //     className="p-[7px_15px] text-base font-bold leading-[21.79px] text-primary border border-primary rounded-[4px]"
+                        // >
+                        //     Edit
+                        // </button>
+                        <div className="flex items-center">
+                            <motion.img
+                                className="cursor-pointer"
+                                src="/edit.svg"
+                                width={22}
+                                onClick={handleUpdateModal}
+                                alt="image"
+                                style={{
+                                    filter: `invert(19%) sepia(94%) saturate(3079%) hue-rotate(340deg) brightness(89%) contrast(101%)`,
+                                }}
+                                whileTap={{ scale: 0.9 }}
+                                whileHover={{ scale: 1.1 }}
+                            ></motion.img>
+                            <div className="pl-[15px]"></div>
+                            <motion.img
+                                className="cursor-pointer"
+                                width={28}
+                                src="/bin.svg"
+                                alt="image"
+                                onClick={handleDeleteModal}
+                                whileTap={{ scale: 0.9 }}
+                                whileHover={{ scale: 1.1 }}
+                                style={{
+                                    filter: `invert(19%) sepia(94%) saturate(3079%) hue-rotate(340deg) brightness(89%) contrast(101%)`,
+                                }}
+                            ></motion.img>
+                        </div>
+                    )}
+                </div>
+                {!data && <div className="pt-[5px]"></div>}
+                <div className="text-xs font-semibold leading-[16.34px] text-[#676767]">
+                    {data
+                        ? "Change how you pay for your plan."
+                        : "No payment method added yet."}
+                </div>
+                <div className="pt-2"></div>
+                {isLoading && (
+                    <div>
+                        <LoadingSkeleton />
+                    </div>
+                )}
+                {!isLoading && isSuccess && data ? (
+                    <div>
+                        <NewCardDetails data={data} />
+                    </div>
+                ) : (
+                    <>
+                        <div className="pt-[63px]"></div>
+                        <div>
+                            <div className="pt-[29px]"></div>
+                            <button
+                                className="text-base leading-[58px] font-bold bg-primary w-full h-[58px] rounded-[4px] transition-all duration-200 text-white hover:bg-primary_dark"
+                                onClick={handleModal}
+                            >
+                                + Add Payment Method
+                            </button>
+                        </div>
+                    </>
+                )}
+                <div>
+                    <AddUpdateMethodModal
+                        handleModal={handleModal}
+                        modalOpen={modalOpen}
+                        type={modalType}
+                    />
+                </div>
+            </ShadowCard>
+            <YesNoModal
+                isOpen={deleteMethod}
+                handleModal={handleDeleteModal}
+                header="Delete Payment Method"
+                description="Are you sure you want to delete payment method? This action cannot be undone."
+                onYesClick={paymentMethodDelete}
+            />
+        </>
     );
 }
 
