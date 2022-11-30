@@ -13,13 +13,7 @@ const SearchFilter = () => {
     const [searchText, setSearchText] = useAtom(SearchTextFilter);
 
     const [teamData] = useAtom(team_state);
-    const {
-        data: appSettingData,
-        refetch,
-        isLoading,
-        isSuccess,
-        isError,
-    } = useQuery(
+    const { data: appSettingData } = useQuery(
         "application-settings-query",
         () => fetchAppSettings(teamData.id),
         {
@@ -68,11 +62,12 @@ const SearchFilter = () => {
                 />
             </div>
             {/* filter icon  */}
+
             <OutSideClick onOutSideClick={handleClickOutside}>
                 <img
                     onClick={() => setFilterBoxOpen(!filterBoxOpen)}
                     src="/img/filterIcon.svg"
-                    className="w-[20px] h-[20px] cursor-pointer"
+                    className="w-[20px] h-[20px] cursor-pointer lg:hidden" // @TODO:
                     alt="filter icon"
                 />
                 <AnimatePresence initial={false}>

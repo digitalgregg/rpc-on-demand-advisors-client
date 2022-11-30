@@ -39,6 +39,9 @@ export const planLocalData = atom({
     userLimit: "",
 });
 
+export const SidebarState = atom(false)
+export const FilterState = atom(false)
+
 export const TrackersStateHeaderAtom = atom<any>("");
 export const TrackersStateFooterAtom = atom<any>("");
 export const NotificationWebAtom = atom<boolean>(false);

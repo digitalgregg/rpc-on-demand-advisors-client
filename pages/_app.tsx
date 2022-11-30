@@ -40,7 +40,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             removeLocal("payment-method");
             removeLocal("user-plan-limit");
             removeLocal("remember");
-            router.replace("/");
+            router.replace("/signin");
         }
         (async function () {
             try {
@@ -51,8 +51,20 @@ function MyApp({ Component, pageProps }: AppProps) {
                     const teamObj = resultToObj(teamResponse.data);
                     setTeamObj(teamObj);
                 }
-            } catch (error) {
-                console.log(error);
+            } catch (error: any) {
+                if (
+                    error.response &&
+                    error.response.data.message === "User not found"
+                ) {
+                    removeLocal("user");
+                    removeLocal("user-info");
+                    removeLocal("team");
+                    removeLocal("token");
+                    removeLocal("payment-method");
+                    removeLocal("user-plan-limit");
+                    removeLocal("remember");
+                    router.replace("/signin");
+                }
             }
         })();
 

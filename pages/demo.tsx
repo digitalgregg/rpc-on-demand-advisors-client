@@ -1,10 +1,12 @@
-import React from 'react'
-import Layout from '../components/Shared/Layout/Layout'
+import React from "react";
+import Layout from "../components/Shared/Layout/Layout";
 
-const demo = () =>  {
-  return (
-    <Layout><h1>demo</h1></Layout>
-  )
-}
+const demo = () => {
+    return (
+        <Layout>
+            <h1 className="upload-button:bg-red">demo</h1>
+        </Layout>
+    );
+};
 
-export default demo
+export default demo;

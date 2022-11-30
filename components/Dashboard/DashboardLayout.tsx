@@ -4,9 +4,18 @@ import TopNav from "./TopNav";
 import { Modals } from "./../modal/ContactSupportFeedBackModal";
 import { FeedbackIdeaIcon } from "../CustomIcons";
 import { motion } from "framer-motion";
+import { useAtom } from "jotai";
+import { FilterState, SidebarState } from "../../state";
+
 function DashboardLayout({ children }: { children: ReactNode }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [toltip, setToltip] = useState(false);
+
+    // for sidebar
+    const [collapse] = useAtom(SidebarState);
+
+    const [filterOpen] = useAtom(FilterState);
+
     return (
         <>
             <Modals
@@ -15,8 +24,28 @@ function DashboardLayout({ children }: { children: ReactNode }) {
                 modalCloseFuncton={setModalIsOpen}
             />
             <div className="bg-white_secondary relative min-h-screen w-full xs:px-[20px] sm:px-[30px] lg:px-[35px] 2xl:px-[35px] xs:pt-[30px] sm:pt-[20px]">
-                <Sidebar />
-                <div className="h-full	sm:pl-[90px] md:pl-[100px] lg:pl-[230px] xl:pl-[250px] 2xl:pl-[270px] 3xl:pl-[280px] 4xl:pl-[280px] w-full">
+                {/* sidebar  */}
+                <div
+                    className={`bg-[#222222]  hidden sm:flex  sm:w-[90px] ${
+                        !collapse && "lg:w-[250px]  3xl:w-[280px]"
+                    } ${
+                        filterOpen && collapse && "lg:w-[310px]"
+                    }  h-full fixed top-0 left-0 ${
+                        filterOpen && !collapse && "lg:w-[470px] 3xl:w-[500px]"
+                    } `}
+                >
+                    <Sidebar />
+                </div>
+                {/* sidebar  */}
+                <div
+                    className={`h-full sm:pl-[90px] ${
+                        !collapse && "lg:pl-[250px] 3xl:pl-[280px]"
+                    } ${filterOpen && collapse && "lg:pl-[310px] "} ${
+                        filterOpen &&
+                        !collapse &&
+                        "lg:pl-[470px] 3xl:pl-[500px]"
+                    } w-full`}
+                >
                     <div className="mb-[20px] sm:mb-[30px]">
                         <TopNav />
                     </div>

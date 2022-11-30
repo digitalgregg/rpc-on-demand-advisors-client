@@ -143,16 +143,17 @@ const AnalyticsCard = ({ name, value, chartArr }: AnalyticsCardType) => {
 const tooltip = <Tooltip>From yesterday</Tooltip>;
 
 const getPercentage = (dataArr: any[]) => {
-    const lastValue = dataArr[dataArr.length - 1];
-    const secondLast = dataArr[dataArr.length - 2];
-    if (!lastValue && !secondLast) {
+    const today = dataArr[dataArr.length - 1];
+    const prevDay = dataArr[dataArr.length - 2];
+    if (!today && !prevDay) {
         return 0;
-    } else if (!lastValue) {
+    } else if (!today) {
         return -100;
-    } else if (!secondLast) {
+    } else if (!prevDay) {
         return 100;
     } else {
-        return ((lastValue - secondLast) / lastValue) * 100;
+        const bigValue = today > prevDay ? today : prevDay;
+        return ((today - prevDay) * 100) / bigValue;
     }
 };
 

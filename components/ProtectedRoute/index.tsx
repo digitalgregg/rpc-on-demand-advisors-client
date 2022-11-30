@@ -71,7 +71,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
         }
 
         router.asPath.includes("dashboard")
-            ? !token && router.push("/")
+            ? !token && router.push("/signin")
             : token && router.replace("/dashboard/contents");
         router.events.on("routeChangeComplete", () => {
             return setLoading(true);

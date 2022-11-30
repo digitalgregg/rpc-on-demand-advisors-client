@@ -1,7 +1,7 @@
 import CryptoJS from "crypto-js";
 
 const salt =
-    process.env.NEXT_PUBLIC_SALT || "6d090796-ecdf-11ea-adc1-0242ac112345";
+    process.env.NEXT_PUBLIC_AUTH_SALT as string;
 
 export const encryptData = (data: any) =>
     CryptoJS.AES.encrypt(JSON.stringify(data), salt).toString();

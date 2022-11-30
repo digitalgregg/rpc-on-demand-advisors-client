@@ -41,20 +41,31 @@ function PaymentDetails() {
         }
     );
     const [downloadAllLoading, setDownloadAllLoading] = useState(false);
-    const handleDownloadAll = () => {
-        setDownloadAllLoading(true);
+    const handleDownloadAll = async () => {
         if (billingData && billingData.length > 0) {
-            billingData.forEach(async (v: any, i: number) => {
-                try {
-                    if (v._id) {
-                        await api.get("/api/billing/download/" + v._id);
-                    }
-                } catch (err) {
-                    setDownloadAllLoading(false);
+            setDownloadAllLoading(true);
+            try {
+                const res = await api.get(
+                    `/api/billing/download/all/${teamData.user_id}`,
+                    { responseType: "blob" }
+                );
+                const fileName = res.headers["content-disposition"];
 
-                    console.log(err);
-                }
-            });
+                const href = URL.createObjectURL(res.data);
+                const link = document.createElement("a");
+                link.href = href;
+                console.log(fileName);
+                link.setAttribute("download", fileName);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(href);
+
+                setDownloadAllLoading(false);
+            } catch (err: any) {
+                setDownloadAllLoading(false);
+                console.log(err);
+            }
         }
     };
 
@@ -260,6 +271,7 @@ function HistoryItem({ billingItem }: { billingItem: BillingType }) {
             const href = URL.createObjectURL(response.data);
             const link = document.createElement("a");
             link.href = href;
+            console.log(fileName);
             link.setAttribute("download", fileName);
             document.body.appendChild(link);
             link.click();

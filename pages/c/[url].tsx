@@ -45,6 +45,7 @@ function CollectionViewer() {
                         contents={data.contents}
                     />
                 </div>
+                <div className="mt-[403px]"></div>
                 {data.trackers && data.trackers.footer_html && (
                     <div
                         dangerouslySetInnerHTML={{
