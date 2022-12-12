@@ -4,7 +4,7 @@ import Script from "next/script";
 
 type FileUploadModalType = {
     onFileUpload?: (v: any) => any;
-    onSingleUpload?: (v: any) => any;
+    onSingleUpload?: (f:any,v: any) => any;
     onUploadCompleted?: (v: any) => any;
 };
 
@@ -19,9 +19,9 @@ function FileUploadModal({
                 onFileUpload(v);
             }
         };
-        window.onSingleFileUpload = (v) => {
+        window.onSingleFileUpload = (f,v) => {
             if (onSingleUpload) {
-                onSingleUpload(v);
+                onSingleUpload(f,v);
             }
         };
 

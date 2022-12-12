@@ -123,7 +123,7 @@ function EditCollection() {
             console.log(error);
         }
     };
-    async function handleSingleUpload(response: any) {
+    async function handleSingleUpload(file:any,response: any) {
         handleContentValidate();
         await createContent(responseToObject(response, teamData));
         context.refetch();
