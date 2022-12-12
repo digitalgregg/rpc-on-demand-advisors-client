@@ -127,11 +127,13 @@ export function responseToObject(
     response: any,
     teamData: any
 ): CreateContentType {
-    const { size, key, location, mimetype, originalname } = response.body;
+    const { size, key, location, thumbnail, mimetype, originalname } =
+        response.body;
+
     return {
         team_id: teamData.id,
         user_id: teamData.user_id,
-        thumbnail: location,
+        thumbnail: thumbnail,
         title: originalname,
         additional_info: {
             file_type: mimetype,

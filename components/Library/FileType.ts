@@ -11,6 +11,7 @@ export function isImage(filename: string) {
         case "gif":
         case "bmp":
         case "png":
+        case "webp":
             // case "svg":
             return true;
     }
