@@ -59,7 +59,7 @@ const ContentDetails = ({ query }: { query: any }) => {
         };
     }, []);
 
-    async function handleUpdateUpload(response: any) {
+    async function handleUpdateUpload(f:any,response: any) {
         data && (await updateContent(updateFileObj(response), data._id));
         refetch();
     }

@@ -50,6 +50,22 @@ function isPdf(filename: string) {
         case "xls":
         case "csv":
         case "doc":
+        case "docx":
+        case "xlsx":
+        case "pptx":
+        case "xml":
+
+        case "ppt":
+        case "pps":
+        case "pot":
+
+        case "dot":
+        case "psd":
+        case "pdf":
+        case "txt":
+        case "wps":
+        case "wpd":
+        case "csv":
             return true;
     }
     return false;

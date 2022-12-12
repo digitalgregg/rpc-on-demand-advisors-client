@@ -32,12 +32,40 @@ import { getLocal } from "../../../utils/localStorage";
 import ContactIcon from "./../../../components/CustomIcons/ContactIcon";
 import CollectionIcon from "./../../../components/CustomIcons/CollectionIcon";
 import Meta from "../../../components/Meta";
+import {
+    getExtension,
+    isOfficeDocument,
+} from "../../../components/Library/FileType";
+import axios from "axios";
 const options = [
     { value: "newest", label: "Newest" },
     { value: "oldest", label: "Oldest" },
     { value: "favorites", label: "Favorites" },
     { value: "voted", label: "Voted" },
 ];
+
+function isThumbnailDocument(filePath: string) {
+    const documentType = [
+        "docx",
+        "xlsx",
+        "pptx",
+        "xml",
+        "xls",
+        "ppt",
+        "pps",
+        "pot",
+        "doc",
+        "dot",
+        "psd",
+        "pdf",
+        "txt",
+        "wps",
+        "wpd",
+        "csv",
+    ];
+    const fileExt = getExtension(filePath);
+    return documentType.includes(fileExt);
+}
 
 function Contents() {
     const [teamData] = useAtom(team_state);
@@ -78,11 +106,41 @@ function Contents() {
         toast.success("Content uploaded successfully");
     };
 
-    async function handleSingleUpload(response: any) {
-        handleContentValidate();
-        await createContent(responseToObject(response, teamData));
-        refetch();
-        refetchPlanData();
+    async function handleSingleUpload(f: any, response: any) {
+        const toastId = toast.loading("Generation thumbnail...", {
+            closeButton: true,
+        });
+        try {
+            if (isThumbnailDocument(response.body.thumbnail)) {
+                const { data } = await axios.post(
+                    "https://doc-to-thumbnail.herokuapp.com/api/thumbnail",
+                    {
+                        url: response.body.thumbnail,
+                    }
+                );
+                toast.update(toastId, {
+                    render: "Thumbnail generated successfully",
+                    isLoading: false,
+                    type: "success",
+                    autoClose: 3000,
+                });
+                toast.dismiss(toastId);
+                response.body.thumbnail = data;
+            }
+            handleContentValidate();
+            await createContent(responseToObject(response, teamData));
+            refetch();
+            refetchPlanData();
+        } catch (err) {
+            toast.update(toastId, {
+                render: "Something went wrong",
+                isLoading: false,
+                type: "error",
+            });
+            toast.dismiss(toastId);
+
+            toast.error("Something went wrong, Please try again");
+        }
     }
 
     // filter section
