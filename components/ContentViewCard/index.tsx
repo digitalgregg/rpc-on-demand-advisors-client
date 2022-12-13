@@ -130,6 +130,9 @@ function ContentViewCard({
             >
                 <div className="flex gap-[4%] justify-between items-center relative">
                     <img
+                        onDoubleClick={async () => {
+                            await router.push(`/f/${data.short_url}`);
+                        }}
                         src={
                             isImage(data.thumbnail)
                                 ? data.thumbnail
