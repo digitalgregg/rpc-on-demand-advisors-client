@@ -38,6 +38,8 @@ import {
 } from "../../../../state";
 import { GetGlobalContext } from "../../../Context/GlobalContextProvider";
 import Meta from "../../../Meta";
+import { isThumbnailDocument } from "../../../../pages/dashboard/contents";
+import axios from "axios";
 
 function EditCollection() {
     const [removeModal, setRemoveModal] = useState(false);
@@ -123,11 +125,42 @@ function EditCollection() {
             console.log(error);
         }
     };
-    async function handleSingleUpload(file:any,response: any) {
+    async function handleSingleUpload(file: any, response: any) {
+        const toastId = toast.loading("Generation thumbnail...", {
+            closeButton: true,
+        });
+
         handleContentValidate();
-        await createContent(responseToObject(response, teamData));
-        context.refetch();
-        refetchPlanData();
+
+        try {
+            if (isThumbnailDocument(response.body.thumbnail)) {
+                const { data } = await axios.post(
+                    "https://doc-to-thumbnail.herokuapp.com/api/thumbnail",
+                    {
+                        url: response.body.thumbnail,
+                    }
+                );
+                toast.update(toastId, {
+                    render: "Thumbnail generated successfully",
+                    isLoading: false,
+                    type: "success",
+                    autoClose: 3000,
+                });
+                toast.dismiss(toastId);
+                response.body.thumbnail = data;
+            }
+            await createContent(responseToObject(response, teamData));
+            context.refetch();
+            refetchPlanData();
+        } catch (err) {
+            toast.error("Something went wrong, Please try again");
+            toast.update(toastId, {
+                render: "Something went wrong",
+                isLoading: false,
+                type: "error",
+                autoClose: 3000,
+            });
+        }
     }
 
     return (

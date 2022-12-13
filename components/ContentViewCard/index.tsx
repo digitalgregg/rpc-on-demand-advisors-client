@@ -135,7 +135,7 @@ function ContentViewCard({
                                 ? data.thumbnail
                                 : "/assets/no_preview.jpg"
                         }
-                        className="h-[155px] w-[48%] rounded-[4px] object-cover"
+                        className="h-[155px] w-[48%] rounded-[4px] object-top object-cover"
                         alt="content"
                     />
 
